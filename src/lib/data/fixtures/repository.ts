@@ -104,7 +104,7 @@ function filterGroups(products: Product[]): FilterGroup[] {
 }
 
 function searchText(p: Product): string {
-  return [p.title, "matcha", p.taste?.tier, p.taste?.word, ...p.tastingNotes, p.kind === "gift" ? "gift" : "", p.kind === "accessory" ? "tool accessory" : ""]
+  return [p.title, "matcha", p.taste?.tier, p.taste?.word, ...p.tastingNotes, ...p.bestFor, p.kind === "gift" ? "gift" : "", p.kind === "accessory" ? "tool accessory" : ""]
     .filter(Boolean)
     .join(" ")
     .toLowerCase();

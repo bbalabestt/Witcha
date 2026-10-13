@@ -99,3 +99,23 @@ svg {
     scroll-behavior: auto !important;
   }
 }
+
+.skip-link {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 100;
+  padding: var(--space-2) var(--space-3);
+  background: var(--action-primary);
+  color: var(--action-primary-text);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+  color: var(--action-primary-text);
+}
+
+main:focus {
+  outline: none;
+}

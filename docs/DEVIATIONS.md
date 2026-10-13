@@ -24,3 +24,10 @@ Each entry: what, why, where.
 | D-17 | Free-shipping threshold precedence: `FREE_SHIPPING_THRESHOLD_AUD` env > `site_settings` metaobject > placeholder fallback (`$[80.00]`). | Spec names both sources without an order; env is the explicit deploy-time override. | `mapSiteSettings`, `getRepository` |
 | D-18 | Fixture money is flagged `placeholder` and renders bracketed (`$[48.00]`); the flag survives arithmetic, so cart totals are bracketed too. | Spec §3: fixture prices must stay visibly placeholder. | `src/lib/data/money.ts` |
 | D-19 | Low-stock threshold is ≤ 5 (prototype `qty <= 5`), configurable via `site_settings.low_stock_threshold`. `quantityAvailable` of 0 on an available variant (continue selling) reads as in stock. | Prototype; avoids "Only 0 left". | `stockState` |
+| D-20 | Header is not sticky and has no "compact" state; the floating arch MENU / TOP buttons take over after 160 px of scroll. | Prototype header is `position: relative`, so its compact state is never seen; shrinking it while scrolled only shifts the layout (CLS). | `Header`, `FloatingNav` |
+| D-21 | The "P2" chip next to Accessories in the mega menu is dropped; `/collections/accessories` is built on the collection template. | Spec §4 lists the route; the chip only marked a prototype gap. | `HeaderBar` |
+| D-22 | Route curtain (arch sheet between pages) deferred to M7 with the rest of the scroll motion, and skipped under reduced motion. | It delays every navigation; build it with the home motion work so it can be measured. | — |
+| D-23 | Header cart icon links to `/cart` until the drawer lands in M6; the link stays as the no-JS fallback. | Milestone order. | `CartButton` |
+| D-24 | Newsletter arches hidden below 768 px. | At 390 px they sit behind the heading and form. | `NewsletterBand.module.css` |
+| D-25 | Footer labels 9–11 px in the prototype (MENU/TOP, payment pills) render at 12 px. | D-04 type mapping. | `FloatingNav`, `PaymentBadges` |
+| D-26 | Sign-in goes to `/account`, which redirects to `https://{store}/account` (Shopify-hosted). In fixtures mode it answers 503 with a short note. | Spec: do not build account pages. | `src/app/account/route.ts` |

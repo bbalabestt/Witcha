@@ -101,3 +101,8 @@ export function stockState(v: Pick<Variant, "availableForSale" | "quantityAvaila
 export function isMultiVariant(p: Pick<Product, "variants">): boolean {
   return p.variants.length > 1;
 }
+
+/** Card price: "From $48.00" when there is more than one size (prototype rule), else the single price. */
+export function cardPriceLabel(p: Pick<Product, "priceRange" | "variants">, format: (m: Product["priceRange"]["min"]) => string): string {
+  return `${isMultiVariant(p) ? "From " : ""}${format(p.priceRange.min)}`;
+}

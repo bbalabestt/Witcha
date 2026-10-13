@@ -1,0 +1,86 @@
+.wrap {
+  /* The PDP sticky buy bar raises these via --float-bottom. */
+  --offset: var(--float-bottom, 16px);
+}
+
+.arch {
+  position: fixed;
+  bottom: var(--offset);
+  z-index: 75;
+  width: 56px;
+  height: 68px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2px;
+  padding-bottom: 10px;
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity var(--duration-drawer) var(--ease-out),
+    transform 0.3s var(--ease-out),
+    bottom 0.3s var(--ease-out);
+}
+
+.wrap[data-visible] .arch {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.menu {
+  left: var(--space-3);
+  background: var(--brand-deep-blue);
+  color: var(--text-on-dark);
+  transform: translateX(-24px);
+}
+
+.menu:focus-visible {
+  outline-color: var(--brand-deep-blue);
+  outline-offset: 3px;
+}
+
+.top {
+  right: var(--space-3);
+  overflow: hidden;
+  background: var(--surface-page);
+  border: 1.5px solid var(--line-control);
+  color: var(--text-primary);
+  transform: translateX(24px);
+}
+
+.wrap[data-visible] .menu,
+.wrap[data-visible] .top {
+  transform: none;
+}
+
+.wrap[data-visible] .arch:hover {
+  transform: translateY(-4px);
+}
+
+.fill {
+  position: absolute;
+  inset: 0;
+  background: var(--surface-brand);
+  transform: scaleY(0);
+  transform-origin: bottom;
+}
+
+.topInner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arch {
+    transition: opacity 0.01ms;
+  }
+}
