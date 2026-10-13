@@ -31,3 +31,9 @@ Each entry: what, why, where.
 | D-24 | Newsletter arches hidden below 768 px. | At 390 px they sit behind the heading and form. | `NewsletterBand.module.css` |
 | D-25 | Footer labels 9–11 px in the prototype (MENU/TOP, payment pills) render at 12 px. | D-04 type mapping. | `FloatingNav`, `PaymentBadges` |
 | D-26 | Sign-in goes to `/account`, which redirects to `https://{store}/account` (Shopify-hosted). In fixtures mode it answers 503 with a short note. | Spec: do not build account pages. | `src/app/account/route.ts` |
+| D-27 | `ProductCard` is built from the inventory description (badge, eyebrow, name, mini TasteScale, two note chips, price, one action) because `ProductCard.dc.html` was not exported into `design/`. **Needs a visual check against the prototype card.** | Source file unavailable in this session. | `ProductCard` |
+| D-28 | The toolbar note "filters appear once there are 6 or more" is not shown to shoppers; the rule is enforced in code (`showFilters`). | It is a designer annotation in the prototype, not storefront copy. | collection page |
+| D-29 | Product grid uses the prototype's `auto-fit, minmax(240px, 310px)` (one column at 390 px) rather than the brief's two-column mobile grid. | Prototype wins on layout. | `Collection.module.css` |
+| D-30 | Gifts collection lists Sets then Single tins with no sort or paging; other collections get sort, filters (6+ products), cursor "Load more". | Prototype gifts page has no toolbar. | collection page |
+| D-31 | Card "Add to cart" is a server action with Adding… → Added (2 s) feedback; it does not open a drawer until M6. | Milestone order. | `QuickAdd`, `src/lib/cart/actions.ts` |
+| D-32 | `/search` is a full results page (products as ProductCards, guides as cards) beyond the overlay. | Spec §4 route; the prototype only drew the overlay. | `src/app/(shop)/search` |

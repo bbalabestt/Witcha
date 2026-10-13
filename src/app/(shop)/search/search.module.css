@@ -1,0 +1,93 @@
+.page {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-6) var(--gutter);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  max-width: 720px;
+}
+
+.field {
+  flex: 1 1 260px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 var(--space-3);
+  background: var(--white);
+  border: 1px solid var(--line-control);
+  border-radius: var(--radius-sm);
+}
+
+.field:focus-within {
+  outline: 2px solid var(--line-control);
+  outline-offset: 2px;
+}
+
+.field input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-size: 17px;
+}
+
+.count {
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.grid,
+.guides {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+  gap: var(--space-5) var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.guide:hover {
+  color: var(--text-primary);
+}
+
+.guide:hover .heading-3,
+.guide:hover :global(.heading-3) {
+  text-decoration: underline;
+}
+
+.none {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 620px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
