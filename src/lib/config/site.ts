@@ -6,14 +6,15 @@ import type { SiteSettings } from "@/lib/data/types";
  * The threshold here is a placeholder too: FREE_SHIPPING_THRESHOLD_AUD sets the real one.
  */
 export const SITE_SETTINGS_FALLBACK: SiteSettings = {
-  announcement: "Free shipping over {threshold} · Dispatched from [city] within [x] business days",
+  announcement: "Free shipping over {threshold} · Dispatched from {city} within {days} business days",
   freeShippingThreshold: { amount: 8000, currencyCode: "AUD", placeholder: true },
+  standardShipping: { amount: 995, currencyCode: "AUD", placeholder: true },
   dispatchCity: "[city]",
   dispatchDays: "[x]",
   deliveryDays: "[x–y]",
   returnsDays: "[30]",
   lowStockThreshold: 5,
-  giftCutoff: "Order by [date] for [occasion] delivery to metro Australia.",
+  giftCutoff: "Order by [date] for [occasion] delivery in metro Australia.",
   currencyCode: "AUD",
 };
 

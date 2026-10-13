@@ -14,11 +14,10 @@
   font-weight: 500;
 }
 
+/* Prototype: Jost 500 22/30 on the PDP. */
 .pdp .price {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: 30px;
-  line-height: 38px;
+  font-size: 22px;
+  line-height: 30px;
 }
 
 .was {

@@ -67,8 +67,6 @@ export const PREP_METHODS: PrepMethod[] = [
   },
 ];
 
-const TEA_STORAGE = "Cool, away from the stove and sunlight. Dry: use a dry scoop, every time. Closed tight: best within [opened shelf-life, to be confirmed].";
-
 const NO_FACTS: ProductFacts = {
   originRegion: null,
   cultivar: null,
@@ -142,7 +140,7 @@ export const PRODUCTS: Product[] = [
       netWeight: "30 g",
       ingredients: "100% green tea (matcha)",
     },
-    storageNote: TEA_STORAGE,
+    storageNote: null,
     servings: 15,
     prepMethods: PREP_METHODS,
     character: {
@@ -181,7 +179,7 @@ export const PRODUCTS: Product[] = [
       netWeight: "30 g",
       ingredients: "100% green tea (matcha)",
     },
-    storageNote: TEA_STORAGE,
+    storageNote: null,
     servings: 15,
     prepMethods: PREP_METHODS,
     character: {

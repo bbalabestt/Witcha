@@ -204,6 +204,8 @@ export type FaqEntry = { id: string; question: string; answer: string; topic: st
 export type SiteSettings = {
   announcement: string;
   freeShippingThreshold: Money;
+  /** Flat rate below the threshold (metro Australia). */
+  standardShipping: Money;
   dispatchCity: string;
   dispatchDays: string;
   deliveryDays: string;

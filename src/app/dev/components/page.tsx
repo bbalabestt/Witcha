@@ -14,6 +14,7 @@ import { PriceBlock } from "@/components/commerce/PriceBlock";
 import { TasteScale } from "@/components/commerce/TasteScale";
 import { PRODUCTS } from "@/lib/data/fixtures/data";
 import { money } from "@/lib/data/money";
+import { CartProvider } from "@/components/cart/CartProvider";
 import { DevDemos } from "./DevDemos";
 import styles from "./page.module.css";
 
@@ -47,6 +48,7 @@ export default function ComponentSheet() {
   const icons = Object.keys(iconMarkup) as IconName[];
 
   return (
+    <CartProvider>
     <main className={styles.page}>
       <header className={styles.stack}>
         <p className="label">Dev only · not built in production</p>
@@ -284,5 +286,6 @@ export default function ComponentSheet() {
         </div>
       </section>
     </main>
+    </CartProvider>
   );
 }

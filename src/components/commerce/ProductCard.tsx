@@ -3,6 +3,7 @@ import { Badge, Chip } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { MediaFrame } from "@/components/ui/MediaThumb";
 import { BADGE_LABEL, defaultVariant, isMultiVariant, productEyebrow, tasteText } from "@/lib/data/product";
+import { merchandiseFor } from "@/lib/cart/optimistic";
 import type { Product } from "@/lib/data/types";
 import { PriceBlock } from "./PriceBlock";
 import { QuickAdd } from "./QuickAdd";
@@ -77,7 +78,7 @@ export function ProductCard({ product: p, priority, headingLevel: H = "h3", size
             Choose size
           </Button>
         ) : (
-          <QuickAdd variantId={v.id} productTitle={p.title} />
+          <QuickAdd merchandise={merchandiseFor(p, v)} />
         )}
       </div>
     </article>

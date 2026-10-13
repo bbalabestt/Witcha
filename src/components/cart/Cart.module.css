@@ -1,0 +1,385 @@
+.drawer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: calc(100dvh - 72px);
+}
+
+.drawerScroll {
+  flex: 1;
+  overflow: auto;
+  padding: 20px var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.drawerFooter {
+  flex: none;
+  position: sticky;
+  bottom: 0;
+  padding: var(--space-3) var(--space-4) 20px;
+  border-top: 1px solid var(--line-hairline);
+  background: var(--surface-page);
+  display: flex;
+  flex-direction: column;
+}
+
+.keepShopping {
+  align-self: center;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.small {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.eyebrow {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+}
+
+.warn {
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--feedback-error);
+}
+
+/* ---------- Meter ---------- */
+
+.meter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.track {
+  height: 4px;
+  background: var(--surface-soft);
+  overflow: hidden;
+}
+
+.fill {
+  display: block;
+  height: 100%;
+  background: var(--action-primary);
+  transform-origin: left;
+  transition: transform 0.5s var(--ease-out);
+}
+
+/* ---------- Lines ---------- */
+
+.lines {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line-hairline);
+}
+
+.line {
+  display: flex;
+  gap: 14px;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--line-hairline);
+  transition: opacity 0.2s var(--ease-out);
+}
+
+.line[data-settling] {
+  opacity: 0.7;
+}
+
+.lineBody {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.lineTop {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.linePrice {
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+}
+
+.lineName {
+  color: var(--text-primary);
+  font-size: 17px;
+  line-height: 26px;
+  text-decoration: none;
+}
+
+.lineName:hover {
+  color: var(--text-primary);
+  text-decoration: underline;
+}
+
+.lineActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+}
+
+.remove {
+  min-height: var(--touch-target);
+  font-size: 14px;
+  line-height: 22px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.remove:disabled {
+  opacity: var(--opacity-disabled);
+}
+
+/* ---------- Upsell ---------- */
+
+.upsell {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.upsell ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.upsell li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.upsellRoomy {
+  gap: var(--space-3) !important;
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--line-hairline);
+}
+
+.upsellText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-size: 17px;
+  line-height: 26px;
+}
+
+/* ---------- Gift ---------- */
+
+.gift {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--line-hairline);
+}
+
+.giftLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* ---------- Status ---------- */
+
+.statusError,
+.statusInfo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) 12px;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.statusError {
+  border: 1px solid var(--feedback-error);
+  color: var(--feedback-error);
+}
+
+.statusInfo {
+  background: var(--surface-soft);
+}
+
+.statusActions {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.statusError .statusActions button {
+  color: var(--feedback-error);
+}
+
+/* ---------- Summary ---------- */
+
+.summary {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.subtotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-weight: 500;
+}
+
+.subtotalValue {
+  font-size: 22px;
+  line-height: 30px;
+}
+
+.checkout {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  background: var(--action-primary);
+  color: var(--action-primary-text);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+a.checkout:hover {
+  background: var(--action-primary-hover);
+  color: var(--action-primary-text);
+}
+
+a.checkout:active {
+  background: var(--action-primary-active);
+}
+
+.checkout[aria-disabled="true"] {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+}
+
+.walletSlot {
+  height: var(--touch-target);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--line-control);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* ---------- Empty ---------- */
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 12px;
+}
+
+.suggestions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.suggestion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  color: var(--text-primary);
+  font-size: 17px;
+  line-height: 24px;
+  text-decoration: none;
+}
+
+.suggestion:hover {
+  color: var(--text-primary);
+  text-decoration: underline;
+}
+
+/* ---------- Cart page ---------- */
+
+.page {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-5) var(--gutter) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.pageGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(300px, 4fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.pageMain {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.pageAside {
+  position: sticky;
+  top: var(--space-4);
+  padding: var(--space-4);
+  background: var(--surface-soft);
+}
+
+.pageEmpty {
+  max-width: 560px;
+}
+
+@media (max-width: 899px) {
+  .pageGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+  .pageAside {
+    position: static;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fill {
+    transition: none;
+  }
+}

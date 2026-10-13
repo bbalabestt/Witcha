@@ -376,9 +376,11 @@ export function mapSiteSettings(
         ? money(toMinorUnits(thresholdFromCms.replace(/[^\d.]/g, "")), currency)
         : fallback.freeShippingThreshold;
   const low = parseIntOrNull(get("low_stock_threshold"));
+  const standard = get("standard_shipping");
   return {
     announcement: get("announcement") ?? fallback.announcement,
     freeShippingThreshold: threshold,
+    standardShipping: standard ? money(toMinorUnits(standard.replace(/[^\d.]/g, "")), currency) : fallback.standardShipping,
     dispatchCity: get("dispatch_city") ?? fallback.dispatchCity,
     dispatchDays: get("dispatch_days") ?? fallback.dispatchDays,
     deliveryDays: get("delivery_days") ?? fallback.deliveryDays,

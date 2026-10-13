@@ -6,9 +6,15 @@ import { money } from "@/lib/data/money";
 import { cardPriceLabel } from "@/lib/data/product";
 import type { Product } from "@/lib/data/types";
 
-vi.mock("@/lib/cart/actions", () => ({ addToCartForm: vi.fn(async () => null) }));
+vi.mock("@/lib/cart/actions", () => ({ addToCart: vi.fn(), fetchCart: vi.fn(async () => null), updateCartLine: vi.fn(), removeCartLine: vi.fn(), updateGift: vi.fn() }));
 
-const { ProductCard } = await import("@/components/commerce/ProductCard");
+const { ProductCard: Card } = await import("@/components/commerce/ProductCard");
+const { CartProvider } = await import("@/components/cart/CartProvider");
+const ProductCard = (props: Parameters<typeof Card>[0]) => (
+  <CartProvider>
+    <Card {...props} />
+  </CartProvider>
+);
 const { PriceBlock } = await import("@/components/commerce/PriceBlock");
 const { shortName, collectionVariant } = await import("@/components/commerce/CollectionHeader");
 
