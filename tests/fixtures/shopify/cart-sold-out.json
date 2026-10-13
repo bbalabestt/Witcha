@@ -1,0 +1,9 @@
+{
+  "data": {
+    "cartLinesAdd": {
+      "cart": null,
+      "userErrors": [{ "field": ["lines", "0", "merchandiseId"], "message": "The product 'Yame no Mukashi' is already sold out.", "code": "MERCHANDISE_OUT_OF_STOCK" }],
+      "warnings": []
+    }
+  }
+}

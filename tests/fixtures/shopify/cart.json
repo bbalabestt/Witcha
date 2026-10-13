@@ -1,0 +1,71 @@
+{
+  "data": {
+    "cartLinesAdd": {
+      "cart": {
+        "id": "gid://shopify/Cart/c1-abc123?key=k1",
+        "checkoutUrl": "https://witcha-matcha.myshopify.com/cart/c/c1-abc123?key=k1",
+        "totalQuantity": 3,
+        "note": null,
+        "attributes": [{ "key": "gift", "value": "true" }, { "key": "gift_note", "value": "Happy birthday, Mai." }],
+        "cost": {
+          "subtotalAmount": { "amount": "128.0", "currencyCode": "AUD" },
+          "totalAmount": { "amount": "128.0", "currencyCode": "AUD" }
+        },
+        "lines": {
+          "nodes": [
+            {
+              "id": "gid://shopify/CartLine/1?cart=c1-abc123",
+              "quantity": 2,
+              "cost": { "totalAmount": { "amount": "96.0", "currencyCode": "AUD" } },
+              "merchandise": {
+                "id": "gid://shopify/ProductVariant/4400001",
+                "title": "30 g",
+                "availableForSale": true,
+                "quantityAvailable": 4,
+                "selectedOptions": [{ "name": "Size", "value": "30 g" }],
+                "price": { "amount": "48.0", "currencyCode": "AUD" },
+                "compareAtPrice": null,
+                "image": null,
+                "product": {
+                  "handle": "yame-no-mukashi",
+                  "title": "Yame no Mukashi",
+                  "productType": "Matcha",
+                  "tags": ["new"],
+                  "featuredImage": { "url": "https://cdn.shopify.com/s/files/1/0000/0001/files/yame-tin.jpg", "altText": "Yame tin", "width": 1600, "height": 2000 },
+                  "taste": { "value": "4" },
+                  "tier": { "value": "Reserve" }
+                }
+              }
+            },
+            {
+              "id": "gid://shopify/CartLine/2?cart=c1-abc123",
+              "quantity": 1,
+              "cost": { "totalAmount": { "amount": "32.0", "currencyCode": "AUD" } },
+              "merchandise": {
+                "id": "gid://shopify/ProductVariant/4400100",
+                "title": "Default Title",
+                "availableForSale": true,
+                "quantityAvailable": null,
+                "selectedOptions": [{ "name": "Title", "value": "Default Title" }],
+                "price": { "amount": "32.0", "currencyCode": "AUD" },
+                "compareAtPrice": { "amount": "40.0", "currencyCode": "AUD" },
+                "image": null,
+                "product": {
+                  "handle": "two-tin-set",
+                  "title": "Two-tin discovery set",
+                  "productType": "Gift set",
+                  "tags": [],
+                  "featuredImage": null,
+                  "taste": null,
+                  "tier": null
+                }
+              }
+            }
+          ]
+        }
+      },
+      "userErrors": [],
+      "warnings": []
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "data": {
+    "collection": {
+      "id": "gid://shopify/Collection/501",
+      "handle": "matcha",
+      "title": "Which Matcha Today?",
+      "description": "Pick by taste.",
+      "descriptionHtml": "<p>Pick by taste.</p>",
+      "image": null,
+      "seo": { "title": null, "description": null },
+      "products": {
+        "nodes": [],
+        "pageInfo": { "hasNextPage": true, "endCursor": "eyJsYXN0X2lkIjo4ODF9" },
+        "filters": [
+          {
+            "id": "filter.v.availability",
+            "label": "Availability",
+            "type": "LIST",
+            "values": [
+              { "id": "filter.v.availability.1", "label": "In stock", "count": 2, "input": "{\"available\":true}" },
+              { "id": "filter.v.availability.0", "label": "Out of stock", "count": 0, "input": "{\"available\":false}" }
+            ]
+          },
+          {
+            "id": "filter.v.option.size",
+            "label": "Size",
+            "type": "LIST",
+            "values": [{ "id": "filter.v.option.size.30-g", "label": "30 g", "count": 2, "input": "{\"variantOption\":{\"name\":\"size\",\"value\":\"30 g\"}}" }]
+          },
+          {
+            "id": "filter.p.m.custom.tasting_notes",
+            "label": "Tasting note",
+            "type": "LIST",
+            "values": [{ "id": "filter.p.m.custom.tasting_notes.nutty", "label": "Nutty", "count": 1, "input": "{\"productMetafield\":{\"namespace\":\"custom\",\"key\":\"tasting_notes\",\"value\":\"Nutty\"}}" }]
+          },
+          {
+            "id": "filter.v.price",
+            "label": "Price",
+            "type": "PRICE_RANGE",
+            "values": [{ "id": "filter.v.price", "label": "Price", "count": 0, "input": "{\"price\":{\"min\":0,\"max\":140.0}}" }]
+          }
+        ]
+      }
+    }
+  }
+}
