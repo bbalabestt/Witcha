@@ -1,0 +1,96 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 0 28px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-none);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color 0.2s var(--ease-out),
+    color 0.2s var(--ease-out),
+    letter-spacing 0.3s var(--ease-out);
+}
+
+.button:disabled,
+.button[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: var(--opacity-disabled);
+}
+
+.sm { height: 40px; padding: 0 14px; }
+.md { height: var(--touch-target); padding: 0 var(--space-4); }
+.lg { height: 48px; }
+.xl { height: 52px; }
+
+.full { width: 100%; }
+
+.primary {
+  background: var(--action-primary);
+  color: var(--action-primary-text);
+}
+.primary:hover:not(:disabled) { background: var(--action-primary-hover); color: var(--action-primary-text); }
+.primary:active:not(:disabled) { background: var(--action-primary-active); }
+
+.secondary {
+  background: transparent;
+  border-color: var(--line-control);
+  color: var(--text-primary);
+}
+.secondary:hover:not(:disabled) { background: var(--surface-soft); color: var(--text-primary); }
+.secondary:active:not(:disabled) { background: var(--surface-brand); }
+
+/* Labelled slot for things rendered by Shopify (wallet buttons); never a fake button. */
+.placeholder {
+  background: transparent;
+  border: 1px dashed var(--line-control);
+  color: var(--text-primary);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+}
+
+.link {
+  height: auto;
+  min-height: var(--touch-target);
+  padding: 0;
+  background: none;
+  color: var(--text-primary);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.link:hover { color: var(--action-primary-hover); }
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid color-mix(in srgb, currentColor 35%, transparent);
+  border-top-color: currentColor;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-target);
+  height: var(--touch-target);
+  position: relative;
+  color: inherit;
+  transition: background-color 0.2s var(--ease-out);
+}
+.iconButton:hover { background: var(--surface-soft); }
+.onDark:hover { background: transparent; opacity: 0.8; }
+.onDark:focus-visible { outline-color: var(--brand-ivory); }

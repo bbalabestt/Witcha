@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face{font-family:"Libre Caslon Display";src:url(fonts/LibreCaslonDisplay-Regular.ttf) format("truetype");font-weight:400;font-display:swap}
+@font-face{font-family:"Libre Caslon Text";src:url(fonts/LibreCaslonText-Regular.ttf) format("truetype");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Libre Caslon Text";src:url(fonts/LibreCaslonText-Italic.ttf) format("truetype");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:"Jost";src:url(fonts/Jost-Regular.ttf) format("truetype");font-weight:400;font-display:swap}
+@font-face{font-family:"Jost";src:url(fonts/Jost-Medium.ttf) format("truetype");font-weight:500;font-display:swap}
+html,body{margin:0;background:#FAF6EE;color:#2A5674;font-family:Jost,"Avenir Next","Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#2A5674;text-decoration:underline;text-underline-offset:3px}
+a:hover{color:#1F4560}
+p,h1,h2,h3,h4,ul,ol,dl,dd,figure{margin:0}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+input,textarea,select{font:inherit;color:#2A5674}
+:focus-visible{outline:2px solid #2A5674;outline-offset:2px}
+@keyframes wmspin{to{transform:rotate(360deg)}}
+</style>
+</helmet>
+
+
+<sc-if value="{{ isSite }}" hint-placeholder-val="{{ true }}">
+<div data-site-root="1" style="position:relative;">
+  <sc-if value="{{ notCheckout }}" hint-placeholder-val="{{ true }}">
+    <header style="position:relative;z-index:50;background:#FAF6EE;">
+      <sc-if value="{{ notCompact }}" hint-placeholder-val="{{ true }}">
+        <div style="min-height:36px;background:#2A5674;color:#FAF6EE;display:flex;align-items:center;justify-content:center;gap:10px;font-size:14px;line-height:22px;padding:7px 16px;text-align:center;"><img src="icons/ivory/truck.svg" width="18" height="18" alt="">Free shipping over $[80.00] · Dispatched from [city] within [x] business days<a href="Witcha Matcha Prototype.dc.html" style="margin-left:16px;color:#FAF6EE;font:500 10px/14px Jost;letter-spacing:.16em;border:1px solid rgba(250,246,238,0.5);padding:3px 8px;text-decoration:none;white-space:nowrap;">V2 · SEE V1</a></div>
+      </sc-if>
+      <div style="padding:{{ headerPad }} clamp(16px,4.4vw,64px);display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:24px;border-bottom:1px solid rgba(42,86,116,0.25);transition:padding .3s;">
+        <div style="display:flex;align-items:center;gap:clamp(18px,2.2vw,32px);">
+          <sc-if value="{{ narrow }}" hint-placeholder-val="{{ false }}"><button onClick="{{ openMenu }}" aria-label="Open menu" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;"><img src="icons/menu.svg" width="24" height="24" alt=""></button></sc-if>
+          <sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}">
+            <sc-for list="{{ navLeft }}" as="n" hint-placeholder-count="3"><button onClick="{{ n.go }}" style="position:relative;display:flex;align-items:center;gap:4px;font:500 12px/16px Jost;letter-spacing:.18em;padding:14px 0;white-space:nowrap;" style-hover="letter-spacing:.22em;"><span style="position:absolute;left:0;right:0;bottom:8px;height:1px;background:{{ n.line }};"></span>{{ n.label }}<sc-if value="{{ n.chevron }}" hint-placeholder-val="{{ false }}"><img src="icons/chevron-down.svg" width="16" height="16" alt=""></sc-if></button></sc-for>
+          </sc-if>
+        </div>
+        <button onClick="{{ goHome }}" aria-label="WITCHA MATCHA home" style="display:block;"><sc-if value="{{ smallLogo }}" hint-placeholder-val="{{ false }}"><img src="assets/logos/witcha-matcha_small_blue.svg" alt="WITCHA MATCHA" style="width:112px;display:block;"></sc-if><sc-if value="{{ largeLogo }}" hint-placeholder-val="{{ true }}"><img src="assets/logos/witcha-matcha_large_blue.svg" alt="WITCHA MATCHA" style="width:{{ logoW }};display:block;transition:width .3s;"></sc-if></button>
+        <div style="display:flex;align-items:center;justify-content:flex-end;gap:clamp(18px,2.2vw,32px);">
+          <sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}">
+            <sc-for list="{{ navRight }}" as="n" hint-placeholder-count="2"><button onClick="{{ n.go }}" style="position:relative;font:500 12px/16px Jost;letter-spacing:.18em;padding:14px 0;white-space:nowrap;" style-hover="letter-spacing:.22em;"><span style="position:absolute;left:0;right:0;bottom:8px;height:1px;background:{{ n.line }};"></span>{{ n.label }}</button></sc-for>
+          </sc-if>
+          <div style="display:flex;gap:2px;">
+            <button onClick="{{ openSearch }}" aria-label="Search" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;" style-hover="background:#D1EEEA;"><img src="icons/search.svg" width="24" height="24" alt=""></button>
+            <button onClick="{{ openCart }}" aria-label="Cart" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;position:relative;" style-hover="background:#D1EEEA;"><img src="icons/cart.svg" width="24" height="24" alt=""><sc-if value="{{ hasCount }}" hint-placeholder-val="{{ false }}"><span data-reveal="drop" style="position:absolute;top:4px;right:2px;min-width:18px;height:18px;padding:0 4px;background:#2A5674;color:#FFFFFF;font:500 11px/18px Jost;text-align:center;border-radius:4px;">{{ count }}</span></sc-if></button>
+          </div>
+        </div>
+      </div>
+      <sc-if value="{{ megaOpen }}" hint-placeholder-val="{{ false }}">
+        <div data-reveal="drop" style="position:absolute;left:0;right:0;top:100%;background:#FAF6EE;border-bottom:1px solid rgba(42,86,116,0.25);padding:40px clamp(16px,4.4vw,64px) 48px;display:grid;grid-template-columns:minmax(0,4fr) minmax(0,5fr) minmax(0,3fr);gap:24px;">
+          <div style="display:flex;flex-direction:column;gap:2px;">
+            <span style="font:500 12px/16px Jost;letter-spacing:.18em;margin-bottom:12px;">SHOP MATCHA</span>
+            <button onClick="{{ goShop }}" style="text-align:left;font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;padding:7px 0;" style-hover="text-decoration:underline;">All matcha</button>
+            <button onClick="{{ goShop }}" style="text-align:left;font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;padding:7px 0;" style-hover="text-decoration:underline;">Which Matcha Today?</button>
+            <button onClick="{{ goGifts }}" style="text-align:left;font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;padding:7px 0;" style-hover="text-decoration:underline;">Gifts &amp; sets</button>
+            <button onClick="{{ goNotFound }}" style="text-align:left;font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;padding:7px 0;display:flex;gap:10px;align-items:center;" style-hover="text-decoration:underline;">Accessories <span style="font:500 10px/14px Jost;letter-spacing:.14em;border:1px dashed #2A5674;padding:1px 5px;">P2</span></button>
+          </div>
+          <div style="background:#A1D7D6;padding:32px;display:flex;flex-direction:column;gap:18px;justify-content:center;">
+            <span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">Bright or deep? Pick by taste.</span>
+            <div style="position:relative;height:28px;"><div style="position:absolute;left:0;right:0;bottom:0;height:1px;background:#2A5674;"></div><button onClick="{{ goDaily }}" aria-label="[Daily tea name], Bright 2 of 5" style="position:absolute;left:{{ dailyMarkerS }};bottom:0;width:17px;height:24px;background:#2A5674;border-radius:999px 999px 0 0;"></button><button onClick="{{ goYame }}" aria-label="Yame no Mukashi, Deep 4 of 5" style="position:absolute;left:{{ yameMarkerS }};bottom:0;width:17px;height:24px;background:#2A5674;border-radius:999px 999px 0 0;"></button></div>
+            <div style="display:flex;justify-content:space-between;"><span style="font:500 12px/16px Jost;letter-spacing:.18em;">BRIGHT</span><span style="font:500 12px/16px Jost;letter-spacing:.18em;">DEEP</span></div>
+            <button onClick="{{ goShop }}" style="align-self:flex-start;font:500 12px/16px Jost;letter-spacing:.18em;text-decoration:underline;text-underline-offset:4px;padding:6px 0;">COMPARE THE TEAS</button>
+          </div>
+          <div style="aspect-ratio:3/4;background:#D1EEEA;border:1px solid rgba(42,86,116,0.25);border-radius:999px 999px 0 0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;font:500 12px/16px Jost;letter-spacing:.18em;">CHARACTER ART · PENDING ARTIST</div>
+        </div>
+        <div onClick="{{ closeMega }}" style="position:fixed;left:0;right:0;bottom:0;height:40vh;"></div>
+      </sc-if>
+    </header>
+  </sc-if>
+
+  <sc-if value="{{ isCheckoutFamily }}" hint-placeholder-val="{{ false }}">
+    <div style="background:#2A5674;color:#FAF6EE;text-align:center;font:500 11px/16px Jost;letter-spacing:.16em;padding:8px 16px;">SHOPIFY-HOSTED · LAYOUT NOT CUSTOM · BRAND SETTINGS ONLY</div>
+    <div style="padding:20px clamp(16px,4.4vw,64px);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(42,86,116,0.25);background:#FAF6EE;">
+      <button onClick="{{ goHome }}" aria-label="WITCHA MATCHA home"><img src="assets/logos/witcha-matcha_small_blue.svg" alt="WITCHA MATCHA" style="width:120px;display:block;"></button>
+      <button onClick="{{ openCart }}" aria-label="Back to cart" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;"><img src="icons/cart.svg" width="24" height="24" alt=""></button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ searchOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:85;background:rgba(42,86,116,0.40);" onClick="{{ closeSearch }}"></div>
+    <div data-reveal="drop" role="dialog" aria-label="Search" style="position:fixed;top:0;left:0;right:0;z-index:86;background:#FAF6EE;border-bottom:1px solid rgba(42,86,116,0.25);max-height:100vh;overflow:auto;">
+      <div style="padding:24px clamp(16px,4.4vw,64px);display:flex;align-items:center;gap:16px;border-bottom:1px solid rgba(42,86,116,0.25);">
+        <label style="flex:1;height:56px;background:#FFFFFF;border:1px solid #2A5674;border-radius:4px;display:flex;align-items:center;gap:12px;padding:0 16px;"><img src="icons/search.svg" width="24" height="24" alt=""><input autoFocus="{{ true }}" value="{{ q }}" onChange="{{ setQ }}" placeholder="Search teas and guides" aria-label="Search teas and guides" style="flex:1;border:0;outline:none;background:transparent;font-size:17px;height:100%;"></label>
+        <button onClick="{{ closeSearch }}" aria-label="Close search" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;"><img src="icons/close.svg" width="24" height="24" alt=""></button>
+      </div>
+      <div style="padding:28px clamp(16px,4.4vw,64px) 40px;">
+        <sc-if value="{{ qEmpty }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <span style="font:500 12px/16px Jost;letter-spacing:.18em;">POPULAR SEARCHES</span>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;"><sc-for list="{{ popular }}" as="pp" hint-placeholder-count="4"><button onClick="{{ pp.go }}" style="height:40px;font-size:14px;border:1px solid #2A5674;border-radius:4px;padding:0 14px;" style-hover="background:#D1EEEA;">{{ pp.t }}</button></sc-for></div>
+            <span style="font-size:17px;line-height:28px;">Not sure where to start? <button onClick="{{ goShop }}" style="text-decoration:underline;text-underline-offset:3px;">Which Matcha Today?</button></span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ qHas }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:32px;">
+            <div style="display:flex;flex-direction:column;gap:14px;">
+              <span style="font:500 12px/16px Jost;letter-spacing:.18em;">TEAS</span>
+              <sc-for list="{{ searchProducts }}" as="sp" hint-placeholder-count="2">
+                <button onClick="{{ sp.open }}" style="display:flex;gap:16px;align-items:center;text-align:left;padding:6px;margin:-6px;" style-hover="background:#D1EEEA;"><span style="width:56px;aspect-ratio:4/5;background:#D1EEEA;border:1px solid rgba(42,86,116,0.25);flex:none;"></span><span style="display:flex;flex-direction:column;"><span style="font:500 11px/16px Jost;letter-spacing:.16em;">{{ sp.eyebrow }}</span><span style="font-size:17px;line-height:28px;">{{ sp.name }}</span><span style="font-size:14px;line-height:22px;">{{ sp.price }}</span></span></button>
+              </sc-for>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px;">
+              <span style="font:500 12px/16px Jost;letter-spacing:.18em;">GUIDES</span>
+              <sc-for list="{{ searchGuides }}" as="sg" hint-placeholder-count="2">
+                <button onClick="{{ sg.open }}" style="display:flex;gap:16px;align-items:center;text-align:left;padding:6px;margin:-6px;" style-hover="background:#D1EEEA;"><span style="width:84px;aspect-ratio:3/2;background:#D1EEEA;border:1px solid rgba(42,86,116,0.25);flex:none;"></span><span style="font-size:17px;line-height:28px;">{{ sg.title }}</span></button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ qNone }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:12px;max-width:620px;">
+            <span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">Nothing for “{{ qText }}” yet.</span>
+            <span style="font-size:17px;line-height:28px;">Try a taste instead: compare our teas from bright to deep, or ask us and we’ll point you to the right tin.</span>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:6px;"><button onClick="{{ goShop }}" style="height:44px;padding:0 24px;background:#2A5674;color:#FFFFFF;font:500 12px/16px Jost;letter-spacing:.18em;">WHICH MATCHA TODAY?</button><button onClick="{{ goHelp }}" style="height:44px;padding:0 24px;border:1px solid #2A5674;font:500 12px/16px Jost;letter-spacing:.18em;">CONTACT US</button></div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:85;background:rgba(42,86,116,0.40);" onClick="{{ closeMenu }}"></div>
+    <div data-reveal="drawer-left" role="dialog" aria-label="Menu" style="position:fixed;top:0;bottom:0;left:0;width:min(100%,420px);z-index:86;background:#FAF6EE;display:flex;flex-direction:column;overflow:auto;">
+      <div style="height:64px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(42,86,116,0.25);"><img src="assets/logos/witcha-matcha_small_blue.svg" alt="WITCHA MATCHA" style="width:112px;display:block;"><button onClick="{{ closeMenu }}" aria-label="Close menu" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;"><img src="icons/close.svg" width="24" height="24" alt=""></button></div>
+      <div style="padding:16px;display:flex;flex-direction:column;gap:20px;flex:1;">
+        <button onClick="{{ menuSearch }}" style="height:48px;background:#FFFFFF;border:1px solid #2A5674;border-radius:4px;display:flex;align-items:center;gap:10px;padding:0 12px;font-size:17px;text-align:left;"><img src="icons/search.svg" width="22" height="22" alt="">Search teas and guides</button>
+        <div style="display:flex;flex-direction:column;">
+          <sc-for list="{{ mobileLinks }}" as="ml" hint-placeholder-count="6">
+            <button onClick="{{ ml.go }}" style="display:flex;justify-content:space-between;align-items:center;min-height:56px;border-bottom:1px solid rgba(42,86,116,0.25);text-align:left;"><span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">{{ ml.t }}</span><img src="icons/chevron-right.svg" width="22" height="22" alt=""></button>
+          </sc-for>
+        </div>
+        <span style="display:flex;gap:10px;align-items:center;min-height:44px;font-size:17px;"><img src="icons/account.svg" width="22" height="22" alt="">Sign in <span style="font-size:14px;">(Shopify-hosted)</span></span>
+        <div style="flex:1;"></div>
+        <span style="font-family:'Libre Caslon Text',serif;font-style:italic;font-size:18px;line-height:26px;border-top:1px solid rgba(42,86,116,0.25);padding-top:16px;">Matcha, With Taste.</span>
+      </div>
+    </div>
+  </sc-if>
+
+  <main data-page="site">
+    <sc-if value="{{ rHome }}" hint-placeholder-val="{{ true }}">
+      <section data-scrub="hero" style="height:240vh;position:relative;background:#A1D7D6;">
+        <div data-hero-stage="1" style="position:sticky;top:0;height:calc(100vh - 124px);min-height:420px;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+          
+          <div data-hero-bg="1" style="position:absolute;right:7vw;bottom:0;width:clamp(56px,7vw,110px);height:62vh;background:#FAF6EE;border-radius:999px 999px 0 0;"></div>
+          <div style="position:absolute;inset:0;pointer-events:none;">
+            <span data-float="1" style="position:absolute;left:12%;top:70%;width:4px;height:4px;border-radius:50%;background:#B39A62;"></span><span data-float="1" style="position:absolute;left:22%;top:80%;width:3px;height:3px;border-radius:50%;background:#FAF6EE;"></span><span data-float="1" style="position:absolute;left:34%;top:66%;width:5px;height:5px;border-radius:50%;background:#B39A62;"></span><span data-float="1" style="position:absolute;left:46%;top:84%;width:3px;height:3px;border-radius:50%;background:#FAF6EE;"></span><span data-float="1" style="position:absolute;left:55%;top:72%;width:4px;height:4px;border-radius:50%;background:#B39A62;"></span><span data-float="1" style="position:absolute;left:63%;top:88%;width:3px;height:3px;border-radius:50%;background:#FAF6EE;"></span><span data-float="1" style="position:absolute;left:72%;top:68%;width:5px;height:5px;border-radius:50%;background:#B39A62;"></span><span data-float="1" style="position:absolute;left:81%;top:78%;width:3px;height:3px;border-radius:50%;background:#FAF6EE;"></span><span data-float="1" style="position:absolute;left:90%;top:62%;width:4px;height:4px;border-radius:50%;background:#B39A62;"></span><span data-float="1" style="position:absolute;left:6%;top:90%;width:3px;height:3px;border-radius:50%;background:#FAF6EE;"></span>
+          </div>
+          
+          <div data-hero-arch="1" style="position:relative;width:min(34vw,420px,44vh);aspect-ratio:3/4;transform-origin:50% 55%;will-change:transform;margin-top:6vh;"><div data-hero-ring="1" style="position:absolute;left:-18px;right:-18px;top:-18px;bottom:0;pointer-events:none;"><svg viewBox="0 0 100 133" preserveAspectRatio="none" style="width:100%;height:100%;overflow:visible;"><path data-reveal="draw" pathLength="1" d="M0 133 V50 A50 50 0 0 1 100 50 V133" fill="none" stroke="#B39A62" stroke-width="1.5" vector-effect="non-scaling-stroke"></path></svg></div>
+            <div data-reveal="arch-open" style="width:100%;height:100%;background:#FAF6EE;border-radius:999px 999px 0 0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:22%;"><div data-hero-fade="1" style="width:62%;aspect-ratio:4/5;background:#D1EEEA;border:1px solid rgba(42,86,116,0.25);display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;font:500 11px/16px Jost;letter-spacing:.16em;">TIN + CHARACTER · PENDING ARTIST</div></div>
+          </div>
+          <div data-spin="1" data-hero-fade="1" style="position:absolute;top:16vh;right:calc(50% - min(34vw,420px,44vh) / 2 - 70px);width:130px;height:130px;">
+            <svg viewBox="0 0 130 130" style="width:100%;height:100%;"><defs><path id="wmcirc" d="M65 65 m-52 0 a52 52 0 1 1 104 0 a52 52 0 1 1 -104 0"></path></defs><circle cx="65" cy="65" r="64" fill="#2A5674"></circle><text style="font:500 11.5px Jost;letter-spacing:3.2px;fill:#FAF6EE;"><textPath href="#wmcirc">MATCHA, WITH TASTE · WHICH MATCHA TODAY · </textPath></text></svg>
+          </div>
+          <div data-hero-l1="1" style="position:absolute;left:clamp(16px,5vw,80px);top:clamp(70px,13vh,140px);max-width:46vw;">
+            <div style="overflow:hidden;"><h1 data-reveal="mask" style="font-family:'Libre Caslon Display',serif;font-weight:400;font-size:clamp(40px,min(7vw,11vh),112px);line-height:1;letter-spacing:.005em;">A Little Magic</h1></div>
+          </div>
+          <div data-hero-l2="1" style="position:absolute;right:clamp(16px,5vw,80px);bottom:clamp(64px,13vh,150px);text-align:right;max-width:52vw;">
+            <div style="overflow:hidden;"><span data-reveal="mask" data-delay="160" style="display:block;font-family:'Libre Caslon Text',serif;font-style:italic;font-size:clamp(28px,min(5vw,8vh),80px);line-height:1.05;">in every</span></div>
+            <div style="overflow:hidden;"><span data-reveal="mask" data-delay="300" style="display:block;font-family:'Libre Caslon Display',serif;font-size:clamp(40px,min(7vw,11vh),112px);line-height:1;">Matcha Moment.</span></div>
+          </div>
+          <div data-hero-fade="1" data-hero-copy="1" style="position:absolute;left:clamp(16px,5vw,80px);bottom:clamp(16px,4vh,64px);display:flex;flex-direction:column;gap:12px;max-width:min(400px, calc(50vw - min(34vw,420px,44vh) / 2 - clamp(16px,5vw,80px) - 24px));min-width:220px;z-index:2;">
+            <p data-reveal="left" data-delay="500" style="font-size:17px;line-height:28px;">Japanese matcha, chosen for taste and brought to life by the cats of Witcha Academy.</p>
+            <div data-reveal="left" data-delay="650" style="display:flex;gap:10px;flex-wrap:wrap;"><button onClick="{{ goShop }}" style="height:52px;padding:0 28px;background:#2A5674;color:#FFFFFF;font:500 12px/16px Jost;letter-spacing:.18em;" style-hover="background:#1F4560;letter-spacing:.22em;">SHOP THE MATCHA</button><button onClick="{{ goAcademy }}" style="height:52px;padding:0 28px;border:1px solid #2A5674;font:500 12px/16px Jost;letter-spacing:.18em;" style-hover="background:#D1EEEA;">MEET THE ACADEMY</button></div>
+          </div>
+          <div data-hero-fade="1" style="position:absolute;right:clamp(16px,5vw,80px);top:clamp(20px,5vh,48px);display:flex;align-items:center;gap:10px;font:500 11px/16px Jost;letter-spacing:.18em;"><span style="width:1px;height:40px;background:#2A5674;"></span>SCROLL TO STEP INSIDE</div>
+          <div data-hero-inside="1" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;text-align:center;padding:0 16px;opacity:0;pointer-events:none;">
+            <span style="font:500 12px/16px Jost;letter-spacing:.18em;">WELCOME TO WITCHA ACADEMY</span>
+            <span style="font-family:'Libre Caslon Display',serif;font-size:clamp(40px,6vw,96px);line-height:1.02;max-width:900px;">Which matcha today?</span>
+            <span style="font-size:17px;line-height:28px;max-width:520px;">Two teas on one scale, from bright to deep. Pick by taste, not jargon.</span>
+          </div>
+        </div>
+      </section>
+
+      <section aria-hidden="true" style="background:#2A5674;color:#FAF6EE;overflow:hidden;padding:26px 0;">
+        <div data-marquee="1" style="display:flex;width:max-content;white-space:nowrap;align-items:center;will-change:transform;">
+          <span style="display:flex;align-items:center;gap:40px;padding-right:40px;font-family:'Libre Caslon Text',serif;font-style:italic;font-size:clamp(32px,4.5vw,64px);line-height:1.1;">Matcha, With Taste.<span style="width:20px;height:28px;border:1.5px solid #B39A62;border-bottom:none;border-radius:999px 999px 0 0;"></span>Which Matcha Today?<span style="width:20px;height:28px;background:#A1D7D6;border-radius:999px 999px 0 0;"></span>Bright to deep<span style="width:20px;height:28px;border:1.5px solid #B39A62;border-bottom:none;border-radius:999px 999px 0 0;"></span>Whisked, frothed, shaken, iced<span style="width:20px;height:28px;background:#A1D7D6;border-radius:999px 999px 0 0;"></span></span>
+          <span style="display:flex;align-items:center;gap:40px;padding-right:40px;font-family:'Libre Caslon Text',serif;font-style:italic;font-size:clamp(32px,4.5vw,64px);line-height:1.1;">Matcha, With Taste.<span style="width:20px;height:28px;border:1.5px solid #B39A62;border-bottom:none;border-radius:999px 999px 0 0;"></span>Which Matcha Today?<span style="width:20px;height:28px;background:#A1D7D6;border-radius:999px 999px 0 0;"></span>Bright to deep<span style="width:20px;height:28px;border:1.5px solid #B39A62;border-bottom:none;border-radius:999px 999px 0 0;"></span>Whisked, frothed, shaken, iced<span style="width:20px;height:28px;background:#A1D7D6;border-radius:999px 999px 0 0;"></span></span>
+        </div>
+      </section>
+      <section aria-hidden="true" style="background:#D1EEEA;overflow:hidden;padding:14px 0;border-bottom:1px solid rgba(42,86,116,0.25);">
+        <div data-marquee="-1" style="display:flex;width:max-content;white-space:nowrap;will-change:transform;font:500 13px/20px Jost;letter-spacing:.22em;">
+          <span style="padding-right:24px;">YAME, FUKUOKA · OKUMIDORI · FIRST HARVEST · 2 G A CUP · 80°C · FREE SHIPPING OVER $[80.00] · GIFT NOTES IN THE CART · </span><span style="padding-right:24px;">YAME, FUKUOKA · OKUMIDORI · FIRST HARVEST · 2 G A CUP · 80°C · FREE SHIPPING OVER $[80.00] · GIFT NOTES IN THE CART · </span>
+        </div>
+      </section>
+
+      <section style="max-width:1440px;margin:0 auto;padding:96px clamp(16px,4.4vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:56px;align-items:center;">
+        <div style="display:flex;flex-direction:column;gap:28px;">
+          <span data-reveal="left" style="font:500 12px/16px Jost;letter-spacing:.18em;">THE TASTE SCALE · DRAG ANYWHERE ALONG IT</span>
+          <h2 data-reveal="left" data-delay="80" style="font-family:'Libre Caslon Display',serif;font-weight:400;font-size:clamp(34px,4vw,56px);line-height:1.08;">How do you like it today? <span style="font-family:'Libre Caslon Text',serif;font-style:italic;">{{ tasteWord }}.</span></h2>
+          <div data-reveal="left" data-delay="160" style="display:flex;flex-direction:column;gap:14px;">
+            <div onPointerDown="{{ dialDown }}" onPointerMove="{{ dialMove }}" onPointerUp="{{ dialUp }}" style="position:relative;height:84px;cursor:grab;touch-action:none;">
+              <div style="position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(42,86,116,0.25);"></div>
+              <div style="position:absolute;left:0;bottom:0;height:2px;width:{{ tasteFill }};background:#2A5674;transition:{{ fillTrans }};"></div>
+              <div style="position:absolute;left:{{ tasteMarker }};bottom:0;width:44px;height:64px;background:#2A5674;border-radius:999px 999px 0 0;transition:{{ tasteTrans }};display:flex;align-items:flex-end;justify-content:center;padding-bottom:10px;color:#FAF6EE;font:500 12px Jost;cursor:grab;touch-action:none;box-shadow:none;">{{ tastePos }}</div>
+            </div>
+            <div style="display:flex;justify-content:space-between;"><sc-for list="{{ dialStops }}" as="ds" hint-placeholder-count="5"><button onClick="{{ ds.go }}" aria-pressed="{{ ds.sel }}" aria-label="Taste {{ ds.label }} of 5" style="width:44px;height:44px;font:{{ ds.w }} 14px Jost;">{{ ds.label }}</button></sc-for></div>
+            <div style="display:flex;justify-content:space-between;"><span style="font:500 12px/16px Jost;letter-spacing:.18em;">BRIGHT</span><span style="font:500 12px/16px Jost;letter-spacing:.18em;">DEEP</span></div>
+          </div>
+        </div>
+        <div style="min-height:520px;display:flex;justify-content:center;">
+          <sc-if value="{{ dialBright }}" hint-placeholder-val="{{ false }}"><div data-reveal="left" style="width:min(100%,340px);"><dc-import name="ProductCard" c="{{ dailyCard }}" hint-size="100%,560px"></dc-import></div></sc-if>
+          <sc-if value="{{ dialDeep }}" hint-placeholder-val="{{ true }}"><div data-reveal="right" style="width:min(100%,340px);"><dc-import name="ProductCard" c="{{ yameCard }}" hint-size="100%,560px"></dc-import></div></sc-if>
+          <sc-if value="{{ dialBal }}" hint-placeholder-val="{{ false }}"><div data-reveal="zoom" style="width:min(100%,380px);display:flex;flex-direction:column;gap:16px;"><div style="aspect-ratio:3/4;background:#D1EEEA;border:1px solid rgba(42,86,116,0.25);border-radius:999px 999px 0 0;display:flex;align-items:center;justify-content:center;font:500 12px/16px Jost;letter-spacing:.18em;text-align:center;padding:24px;">BOTH TINS · DISCOVERY SET</div><span style="font:500 12px/16px Jost;letter-spacing:.18em;">RIGHT IN THE MIDDLE</span><span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">Can’t decide? Try both.</span><span style="font-size:17px;line-height:28px;">The [Two-tin discovery set] sits bright and deep side by side · $[76.00]</span><button onClick="{{ addSet }}" style="height:48px;background:#2A5674;color:#FFFFFF;font:500 12px/16px Jost;letter-spacing:.18em;">ADD THE SET</button></div></sc-if>
+        </div>
+      </section>
+
+      <sc-if value="{{ shelfH }}" hint-placeholder-val="{{ false }}"><section data-scrub="shelf" style="height:320vh;position:relative;background:#A1D7D6;">
+        <div style="position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:40px;">
+          <div style="padding:0 clamp(16px,4.4vw,64px);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;">
+            <div style="display:flex;flex-direction:column;gap:8px;"><span style="font:500 12px/16px Jost;letter-spacing:.18em;">THE ACADEMY SHELF</span><h2 style="font-family:'Libre Caslon Display',serif;font-weight:400;font-size:clamp(34px,4vw,56px);line-height:1.08;">Take one down.</h2></div>
+            <div style="width:min(40vw,320px);height:2px;background:rgba(42,86,116,0.25);"><div data-shelf-bar="1" style="height:2px;background:#2A5674;transform-origin:left;transform:scaleX(0);"></div></div>
+          </div>
+          <div data-shelf-track="1" style="display:flex;gap:40px;padding:0 clamp(16px,4.4vw,64px);width:max-content;will-change:transform;">
+            <sc-for list="{{ shelf }}" as="sh" hint-placeholder-count="5">
+              <div data-shelf-card="1" style="width:clamp(260px,28vw,380px);display:flex;flex-direction:column;gap:12px;flex:none;">
+                <button onClick="{{ sh.view }}" style="aspect-ratio:3/4;width:100%;background:{{ sh.tint }};border:1px solid #2A5674;border-radius:999px 999px 0 0;display:flex;align-items:flex-end;justify-content:center;padding:0 0 18%;transition:transform .5s cubic-bezier(.2,.7,.2,1);" style-hover="transform:translateY(-10px);"><span style="width:56%;aspect-ratio:4/5;background:#FAF6EE;border:1px solid rgba(42,86,116,0.25);display:flex;align-items:center;justify-content:center;font:500 10px/14px Jost;letter-spacing:.14em;text-align:center;">PRODUCT · 4:5</span></button>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;"><span style="font:500 12px/16px Jost;letter-spacing:.18em;">{{ sh.eyebrow }}</span><span style="font-family:'Libre Caslon Display',serif;font-size:22px;">{{ sh.n }}</span></div>
+                <span style="font-family:'Libre Caslon Text',serif;font-size:26px;line-height:32px;">{{ sh.name }}</span>
+                <span style="font-size:15px;line-height:24px;">{{ sh.line }}</span>
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;"><span style="font:500 17px Jost;">{{ sh.price }}</span><button onClick="{{ sh.act }}" style="height:44px;padding:0 18px;border:1px solid #2A5674;background:#FAF6EE;font:500 11px/16px Jost;letter-spacing:.16em;" style-hover="background:#2A5674;color:#FFFFFF;">{{ sh.btn }}</button></div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </section></sc-if>
+      <sc-if value="{{ shelfWheel }}" hint-placeholder-val="{{ true }}">
+      <section data-scrub="wheel" style="height:420vh;position:relative;background:#A1D7D6;">
+        <div style="position:sticky;top:0;height:100vh;overflow:hidden;">
+          <div style="position:absolute;left:0;right:0;top:0;padding:clamp(88px,14vh,140px) clamp(16px,4.4vw,64px) 0;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;z-index:2;">
+            <div style="display:flex;flex-direction:column;gap:8px;"><span style="font:500 12px/16px Jost;letter-spacing:.18em;">THE ACADEMY SHELF · SPIN TO CHOOSE</span><h2 style="font-family:'Libre Caslon Display',serif;font-weight:400;font-size:clamp(34px,4vw,56px);line-height:1.08;">Take one down.</h2></div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;"><span data-wheel-count="1" style="font-family:'Libre Caslon Display',serif;font-size:28px;">01 / 05</span><div style="width:min(40vw,240px);height:2px;background:rgba(42,86,116,0.25);"><div data-wheel-bar="1" style="height:2px;background:#2A5674;transform-origin:left;transform:scaleX(0);"></div></div></div>
+          </div>
+          <div style="position:absolute;left:50%;top:calc(30vh - 12px);width:28px;height:36px;margin-left:-14px;border:1.5px solid #B39A62;border-bottom:none;border-radius:999px 999px 0 0;z-index:2;"></div>
+          <div data-wheel-rot="1" style="position:absolute;left:50%;top:calc(62vh + 120vh);width:0;height:0;will-change:transform;">
+            <div style="position:absolute;left:-120vh;top:-120vh;width:240vh;height:240vh;border:1px solid rgba(42,86,116,0.35);border-radius:50%;pointer-events:none;"></div>
+            <div style="position:absolute;left:-104vh;top:-104vh;width:208vh;height:208vh;border:1px dashed rgba(179,154,98,0.7);border-radius:50%;pointer-events:none;"></div>
+            <sc-for list="{{ shelf }}" as="sh" hint-placeholder-count="5">
+              <div data-wheel-card="1" style="position:absolute;left:0;top:0;width:clamp(240px,24vw,320px);transform:translate(-50%,-50%) rotate({{ sh.deg }}deg) translateY(-120vh);">
+                <div style="display:flex;flex-direction:column;gap:10px;background:#FAF6EE;padding:16px;border:1px solid #2A5674;transition:transform .2s;">
+                  <button onClick="{{ sh.view }}" style="aspect-ratio:3/4;width:100%;max-height:34vh;background:{{ sh.tint }};border:1px solid rgba(42,86,116,0.4);border-radius:999px 999px 0 0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:14%;"><span style="width:52%;aspect-ratio:4/5;background:#FAF6EE;border:1px solid rgba(42,86,116,0.25);display:flex;align-items:center;justify-content:center;font:500 9px/12px Jost;letter-spacing:.12em;text-align:center;">PRODUCT · 4:5</span></button>
+                  <div style="display:flex;justify-content:space-between;align-items:baseline;"><span style="font:500 11px/16px Jost;letter-spacing:.16em;">{{ sh.eyebrow }}</span><span style="font-family:'Libre Caslon Display',serif;font-size:20px;">{{ sh.n }}</span></div>
+                  <span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:28px;">{{ sh.name }}</span>
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;"><span style="font:500 16px Jost;">{{ sh.price }}</span><button onClick="{{ sh.act }}" style="height:40px;padding:0 14px;background:#2A5674;color:#FFFFFF;font:500 11px/16px Jost;letter-spacing:.16em;" style-hover="background:#1F4560;">{{ sh.btn }}</button></div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+      </sc-if>
+
+      <section data-scrub="words" style="height:200vh;position:relative;">
+        <div style="position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;padding:0 clamp(16px,6vw,120px);">
+          <div style="max-width:1100px;display:flex;flex-direction:column;gap:32px;">
+            <span style="font:500 12px/16px Jost;letter-spacing:.18em;">WHY IT TASTES GOOD</span>
+            <p style="font-family:'Libre Caslon Text',serif;font-size:clamp(28px,3.6vw,54px);line-height:1.22;display:flex;flex-wrap:wrap;gap:0 .28em;"><sc-for list="{{ manifesto }}" as="mw" hint-placeholder-count="40"><span data-w="1" style="opacity:.14;transition:opacity .2s;">{{ mw.w }}</span></sc-for></p>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;"><span data-reveal="right" style="border:1px solid #2A5674;padding:8px 14px;font-size:14px;">Origin · Yame, Fukuoka</span><span data-reveal="right" data-delay="100" style="border:1px solid #2A5674;padding:8px 14px;font-size:14px;">Cultivar · 100% Okumidori</span><span data-reveal="right" data-delay="200" style="border:1px solid #2A5674;padding:8px 14px;font-size:14px;">Harvest · First</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section style="background:#D1EEEA;">
+        <div style="max-width:1440px;margin:0 auto;padding:96px clamp(16px,4.4vw,64px);display:flex;flex-direction:column;gap:64px;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;"><h2 data-reveal="wipe-l" style="font-family:'Libre Caslon Display',serif;font-weight:400;font-size:clamp(34px,4vw,56px);line-height:1.08;">A little magic, <i style="font-family:'Libre Caslon Text',serif;">made at home</i></h2><button data-reveal="right" onClick="{{ goGuides }}" style="font:500 12px/16px Jost;letter-spacing:.18em;text-decoration:underline;text-underline-offset:4px;padding:12px 0;">ALL BREWING GUIDES</button></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:24px;">
+            <button data-reveal="left" onClick="{{ goGuides }}" style="text-align:left;background:#FAF6EE;padding:28px;display:flex;flex-direction:column;gap:16px;min-height:300px;transition:transform .4s cubic-bezier(.2,.7,.2,1),background .3s;" style-hover="transform:translateY(-8px);background:#FFFFFF;"><span style="font-family:'Libre Caslon Display',serif;font-size:64px;line-height:1;">01</span><img src="icons/whisk.svg" width="36" height="36" alt=""><span style="font-family:'Libre Caslon Text',serif;font-size:26px;line-height:32px;">Whisk</span><span style="font-size:14px;line-height:22px;margin-top:auto;">2 g · 70 ml at 80°C · 2 min</span></button>
+            <button data-reveal="left" data-delay="120" onClick="{{ goGuides }}" style="text-align:left;background:#FAF6EE;padding:28px;display:flex;flex-direction:column;gap:16px;min-height:300px;transition:transform .4s cubic-bezier(.2,.7,.2,1),background .3s;" style-hover="transform:translateY(-8px);background:#FFFFFF;"><span style="font-family:'Libre Caslon Display',serif;font-size:64px;line-height:1;">02</span><img src="icons/frother.svg" width="36" height="36" alt=""><span style="font-family:'Libre Caslon Text',serif;font-size:26px;line-height:32px;">Frother</span><span style="font-size:14px;line-height:22px;margin-top:auto;">2 g · 30 ml · 180 ml milk</span></button>
+            <button data-reveal="right" data-delay="120" onClick="{{ goGuides }}" style="text-align:left;background:#FAF6EE;padding:28px;display:flex;flex-direction:column;gap:16px;min-height:300px;transition:transform .4s cubic-bezier(.2,.7,.2,1),background .3s;" style-hover="transform:translateY(-8px);background:#FFFFFF;"><span style="font-family:'Libre Caslon Display',serif;font-size:64px;line-height:1;">03</span><img src="icons/shaker.svg" width="36" height="36" alt=""><span style="font-family:'Libre Caslon Text',serif;font-size:26px;line-height:32px;">Shaker</span><span style="font-size:14px;line-height:22px;margin-top:auto;">2 g · 60 ml cold · 20 s</span></button>
+            <button data-reveal="right" onClick="{{ goGuides }}" style="text-align:left;background:#FAF6EE;padding:28px;display:flex;flex-direction:column;gap:16px;min-height:300px;transition:transform .4s cubic-bezier(.2,.7,.2,1),background .3s;" style-hover="transform:translateY(-8px);background:#FFFFFF;"><span style="font-family:'Libre Caslon Display',serif;font-size:64px;line-height:1;">04</span><img src="icons/iced.svg" width="36" height="36" alt=""><span style="font-family:'Libre Caslon Text',serif;font-size:26px;line-height:32px;">Iced latte</span><span style="font-size:14px;line-height:22px;margin-top:auto;">2 g · 40 ml · over ice</span></button>
+          </div>
+        </div>
+      </section>
+
+      <section style="max-width:1440px;margin:0 auto;padding:96px clamp(16px,4.4vw,64px);">
+        <span data-reveal="up" style="display:block;font:500 12px/16px Jost;letter-spacing:.18em;margin-bottom:24px;">WITCHA ACADEMY</span>
+        <div data-reveal="arch-open" style="float:left;width:min(42vw,360px);aspect-ratio:3/4;margin:0 48px 24px 0;background:#A1D7D6;border-radius:999px 999px 0 0;shape-outside:inset(0 round 180px 180px 0 0);shape-margin:24px;display:flex;align-items:center;justify-content:center;text-align:center;padding:32px;font:500 12px/16px Jost;letter-spacing:.18em;">CHARACTER ART · PENDING ARTIST</div>
+        <h2 data-reveal="right" style="font-family:'Libre Caslon Display',serif;font-weight:400;font-size:clamp(34px,4vw,56px);line-height:1.08;margin-bottom:24px;">Every tea has a keeper.</h2>
+        <p data-reveal="up" style="font-family:'Libre Caslon Text',serif;font-size:clamp(20px,1.8vw,26px);line-height:1.6;text-wrap:pretty;">At the Academy, the deep tea is kept by one cat and the bright tea by another, each with a single treasured object and a favourite corner of the grounds. There is a conservatory where the plants winter, a library window where recipes collect in the margins, a garden bridge for slow morning cups and a tea room where every tin is tasted before it is shelved. The words wrap around the window on purpose: the world is soft and painted, but the shop stays clear, so you always know what is in the tin, what it tastes like and when it will reach your door. <span style="font:500 10px/14px Jost;letter-spacing:.14em;border:1px dashed #2A5674;padding:1px 5px;">COPY PENDING BRAND BIBLE</span></p>
+        <button data-reveal="up" onClick="{{ goAcademy }}" style="margin-top:28px;height:52px;padding:0 28px;border:1px solid #2A5674;font:500 12px/16px Jost;letter-spacing:.18em;" style-hover="background:#D1EEEA;">MEET THE CLASS</button>
+        <div style="clear:both;"></div>
+      </section>
+
+      <section style="padding:0 clamp(16px,4.4vw,64px) 96px;max-width:1440px;margin:0 auto;">
+        <div style="position:relative;border:1px solid #B39A62;padding:clamp(32px,5vw,72px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:48px;align-items:center;background:#FAF6EE;outline:1px solid #B39A62;outline-offset:-10px;">
+          <div style="display:flex;flex-direction:column;gap:20px;">
+            <span data-reveal="left" style="font:500 12px/16px Jost;letter-spacing:.18em;">GIFTS</span>
+            <h2 data-reveal="left" data-delay="80" style="font-family:'Libre Caslon Display',serif;font-weight:400;font-size:clamp(34px,4vw,56px);line-height:1.08;">A tin to give, <i style="font-family:'Libre Caslon Text',serif;">a note in your words.</i></h2>
+            <p data-reveal="left" data-delay="160" style="font-size:17px;line-height:28px;">Tick “This is a gift” in your cart. Up to 150 characters, and no prices on the packing slip.</p>
+            <div data-reveal="left" data-delay="240" style="display:flex;gap:10px;align-items:center;font-size:14px;line-height:22px;"><img src="icons/gift.svg" width="22" height="22" alt="">Order by [date] for [occasion].</div>
+            <button data-reveal="left" data-delay="320" onClick="{{ goGifts }}" style="align-self:flex-start;height:52px;padding:0 28px;background:#2A5674;color:#FFFFFF;font:500 12px/16px Jost;letter-spacing:.18em;" style-hover="background:#1F4560;letter-spacing:.22em;">SHOP GIFTS</button>
+          </div>
+          <div data-reveal="right" style="aspect-ratio:4/5;max-height:520px;background:#D1EEEA;border-radius:999px 999px 0 0;display:flex;align-items:center;justify-content:center;font:500 12px/16px Jost;letter-spacing:.18em;text-align:center;padding:24px;">GIFT SET · TINS + LINEN · 4:5</div>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ rShop }}" hint-placeholder-val="{{ false }}">
+      <section style="background:#A1D7D6;">
+        <div style="max-width:1440px;margin:0 auto;padding:64px clamp(16px,4.4vw,64px) 56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:40px;align-items:end;">
+          <div style="display:flex;flex-direction:column;gap:16px;">
+            <span data-reveal="up" style="font-size:14px;line-height:22px;"><button onClick="{{ goHome }}" style="text-decoration:underline;text-underline-offset:3px;">Home</button> / Shop Matcha</span>
+            <h1 data-reveal="up" style="font-family:'Libre Caslon Display',serif;font-weight:400;font-size:clamp(34px,4vw,44px);line-height:1.14;">Which Matcha Today?</h1>
+            <p data-reveal="up" style="font-size:17px;line-height:28px;max-width:520px;">Choose by taste. Bright teas are fresh and lively; deep teas are rounder and richer, and hold up beautifully in milk.</p>
+          </div>
+          <div data-reveal="up" style="display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;justify-content:space-between;"><span style="font:500 12px/16px Jost;letter-spacing:.18em;">BRIGHT</span><span style="font:500 12px/16px Jost;letter-spacing:.18em;">DEEP</span></div>
+            <div style="position:relative;height:40px;"><div style="position:absolute;left:0;right:0;bottom:0;height:1px;background:#2A5674;"></div><span style="position:absolute;left:0;bottom:0;width:1px;height:10px;background:#2A5674;"></span><span style="position:absolute;left:25%;bottom:0;width:1px;height:10px;background:#2A5674;"></span><span style="position:absolute;left:50%;bottom:0;width:1px;height:10px;background:#2A5674;"></span><span style="position:absolute;left:75%;bottom:0;width:1px;height:10px;background:#2A5674;"></span><span style="position:absolute;right:0;bottom:0;width:1px;height:10px;background:#2A5674;"></span><button onClick="{{ goDaily }}" aria-label="[Daily tea name], Bright 2 of 5" style="position:absolute;left:{{ dailyMarker }};bottom:0;width:27px;height:38px;background:#2A5674;border-radius:999px 999px 0 0;" style-hover="transform:translateY(-4px);"></button><button onClick="{{ goYame }}" aria-label="Yame no Mukashi, Deep 4 of 5" style="position:absolute;left:{{ yameMarker }};bottom:0;width:27px;height:38px;background:#2A5674;border-radius:999px 999px 0 0;" style-hover="transform:translateY(-4px);"></button></div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);font-size:14px;line-height:22px;"><span></span><span style="transform:translateX(-50%);text-align:center;">[Daily] · 2 of 5</span><span></span><span style="transform:translateX(-50%);text-align:center;">Yame · 4 of 5</span></div>
+          </div>
+        </div>
+      </section>
+      <section style="max-width:1440px;margin:0 auto;padding:32px clamp(16px,4.4vw,64px) 64px;display:flex;flex-direction:column;gap:32px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;border-bottom:1px solid rgba(42,86,116,0.25);padding-bottom:16px;">
+          <span style="font-size:14px;line-height:22px;">{{ resultCount }} · filters appear once there are 6 or more</span>
+          <label style="display:flex;align-items:center;gap:10px;font:500 12px/16px Jost;letter-spacing:.18em;">SORT
+            <select value="{{ sortVal }}" onChange="{{ setSort }}" style="height:44px;border:1px solid #2A5674;border-radius:4px;background:#FFFFFF;padding:0 12px;font:400 15px Jost;letter-spacing:0;">
+              <option value="featured">Featured</option><option value="best">Best selling</option><option value="low">Price, low to high</option><option value="high">Price, high to low</option><option value="new">Newest</option>
+            </select>
+          </label>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),310px));justify-content:center;gap:40px 24px;">
+          <sc-for list="{{ cards }}" as="c" hint-placeholder-count="2">
+            <div data-reveal="up"><dc-import name="ProductCard" c="{{ c }}" hint-size="100%,560px"></dc-import></div>
+          </sc-for>
+          <div data-reveal="up" style="display:flex;flex-direction:column;gap:12px;">
+            <div style="aspect-ratio:4/5;border:1px dashed #2A5674;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:32px;text-align:center;"><div style="width:96px;height:128px;background:#D1EEEA;border:1px solid rgba(42,86,116,0.25);border-radius:999px 999px 0 0;"></div><span style="font:500 12px/16px Jost;letter-spacing:.18em;">TEA IN PREPARATION</span></div>
+            <span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">Coming to the Academy</span>
+            <span style="font-size:14px;line-height:22px;">A new tea is being tasted. Letters from the Academy will hear first.</span>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ rGifts }}" hint-placeholder-val="{{ false }}">
+      <section style="background:#D1EEEA;">
+        <div style="max-width:1440px;margin:0 auto;padding:64px clamp(16px,4.4vw,64px) 48px;display:flex;flex-direction:column;gap:16px;">
+          <span data-reveal="up" style="font-size:14px;line-height:22px;"><button onClick="{{ goHome }}" style="text-decoration:underline;text-underline-offset:3px;">Home</button> / Gifts</span>
+          <h1 data-reveal="up" style="font-family:'Libre Caslon Display',serif;font-weight:400;font-size:clamp(34px,4vw,44px);line-height:1.14;">Gifts with a little magic</h1>
+          <p data-reveal="up" style="font-size:17px;line-height:28px;max-width:600px;">Tick “This is a gift” in your cart and write a note of up to 150 characters. Prices stay off the packing slip.</p>
+        </div>
+      </section>
+      <div data-reveal="fade" style="background:#2A5674;color:#FAF6EE;display:flex;justify-content:center;align-items:center;gap:10px;padding:12px 16px;font-size:14px;line-height:22px;text-align:center;"><img src="icons/ivory/gift.svg" width="20" height="20" alt="">Order by [date] for [occasion] delivery in metro Australia.</div>
+      <section style="max-width:1440px;margin:0 auto;padding:56px clamp(16px,4.4vw,64px) 64px;display:flex;flex-direction:column;gap:32px;">
+        <h2 data-reveal="up" style="font-family:'Libre Caslon Text',serif;font-weight:400;font-size:30px;line-height:38px;">Sets</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:24px;">
+          <sc-for list="{{ gifts }}" as="g" hint-placeholder-count="2">
+            <div data-reveal="up" style="display:flex;flex-direction:column;gap:12px;">
+              <div style="aspect-ratio:4/5;background:#D1EEEA;border:1px solid rgba(42,86,116,0.25);display:flex;align-items:center;justify-content:center;font:500 12px/16px Jost;letter-spacing:.18em;text-align:center;padding:16px;position:relative;">GIFT SET · 4:5<span style="position:absolute;top:12px;right:12px;font:500 10px/14px Jost;letter-spacing:.14em;border:1px dashed #2A5674;background:#FAF6EE;padding:2px 6px;">PENDING</span></div>
+              <span style="font:500 12px/16px Jost;letter-spacing:.18em;">GIFT SET</span>
+              <span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">{{ g.name }}</span>
+              <span style="font-size:14px;line-height:22px;">{{ g.note }}</span>
+              <span style="font:500 17px/28px Jost;">{{ g.price }}</span>
+              <button onClick="{{ g.add }}" style="height:44px;border:1px solid #2A5674;font:500 12px/16px Jost;letter-spacing:.18em;" style-hover="background:#D1EEEA;">ADD TO CART</button>
+            </div>
+          </sc-for>
+        </div>
+        <h2 data-reveal="up" style="font-family:'Libre Caslon Text',serif;font-weight:400;font-size:30px;line-height:38px;margin-top:24px;">Single tins</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),310px));gap:24px;">
+          <sc-for list="{{ cards }}" as="c" hint-placeholder-count="2">
+            <div data-reveal="up"><dc-import name="ProductCard" c="{{ c }}" hint-size="100%,560px"></dc-import></div>
+          </sc-for>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ rPdp }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:1440px;margin:0 auto;padding:20px clamp(16px,4.4vw,64px) 0;font-size:14px;line-height:22px;display:flex;gap:8px;flex-wrap:wrap;"><button onClick="{{ goHome }}" style="text-decoration:underline;text-underline-offset:3px;">Home</button>/<button onClick="{{ goShop }}" style="text-decoration:underline;text-underline-offset:3px;">Shop Matcha</button>/<span aria-current="page">{{ p.name }}</span></div>
+      <section style="max-width:1440px;margin:0 auto;padding:20px clamp(16px,4.4vw,64px) 64px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:clamp(24px,4vw,64px);align-items:start;">
+        <div data-reveal="fade" style="display:flex;flex-direction:column;gap:12px;">
+          <div style="position:relative;aspect-ratio:4/5;background:#D1EEEA;border:1px solid rgba(42,86,116,0.25);display:flex;align-items:center;justify-content:center;font:500 12px/16px Jost;letter-spacing:.18em;text-align:center;padding:24px;">
+            {{ mainImg }}
+            <button onClick="{{ imgPrev }}" aria-label="Previous image" style="position:absolute;left:12px;top:50%;margin-top:-22px;width:44px;height:44px;background:#FAF6EE;display:flex;align-items:center;justify-content:center;" style-hover="background:#FFFFFF;"><img src="icons/chevron-left.svg" width="22" height="22" alt=""></button>
+            <button onClick="{{ imgNext }}" aria-label="Next image" style="position:absolute;right:12px;top:50%;margin-top:-22px;width:44px;height:44px;background:#FAF6EE;display:flex;align-items:center;justify-content:center;" style-hover="background:#FFFFFF;"><img src="icons/chevron-right.svg" width="22" height="22" alt=""></button>
+            <span style="position:absolute;bottom:12px;right:12px;background:#FAF6EE;padding:4px 10px;font:500 12px/16px Jost;letter-spacing:.12em;">{{ imgCounter }}</span>
+            <span style="position:absolute;bottom:12px;left:12px;width:44px;height:44px;background:#FAF6EE;display:flex;align-items:center;justify-content:center;"><img src="icons/zoom.svg" width="22" height="22" alt=""></span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;">
+            <sc-for list="{{ gallery }}" as="gi" hint-placeholder-count="6"><button onClick="{{ gi.pick }}" aria-label="{{ gi.t }}" style="aspect-ratio:4/5;background:#D1EEEA;border:{{ gi.border }};"></button></sc-for>
+          </div>
+        </div>
+
+        <div style="position:sticky;top:24px;display:flex;flex-direction:column;gap:20px;">
+          <div data-reveal="up" style="display:flex;gap:12px;align-items:center;"><span style="font:500 12px/16px Jost;letter-spacing:.18em;">{{ p.eyebrow }}</span><sc-if value="{{ p.hasBadge }}" hint-placeholder-val="{{ false }}"><span style="font:500 12px/16px Jost;letter-spacing:.18em;background:#2A5674;color:#FAF6EE;padding:4px 8px;">{{ p.badge }}</span></sc-if><sc-if value="{{ p.pending }}" hint-placeholder-val="{{ false }}"><span style="font:500 10px/14px Jost;letter-spacing:.14em;border:1px dashed #2A5674;padding:2px 6px;">PENDING FOUNDER DECISION</span></sc-if></div>
+          <div data-reveal="up" style="display:flex;flex-direction:column;gap:6px;"><h1 style="font-family:'Libre Caslon Display',serif;font-weight:400;font-size:clamp(34px,3.4vw,44px);line-height:1.14;">{{ p.name }}</h1><span style="font-size:14px;line-height:22px;">Kept at the Academy by {{ p.character }}</span></div>
+          <div data-reveal="up" style="display:flex;flex-direction:column;gap:2px;"><span style="font:500 22px/30px Jost;">{{ price }}</span><span style="font-size:14px;line-height:22px;">{{ perCup }} · incl. GST</span></div>
+          <div data-reveal="up" style="background:#D1EEEA;padding:20px;display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;"><span style="font:500 12px/16px Jost;letter-spacing:.18em;">TASTE</span><span style="font-size:14px;line-height:22px;font-weight:500;">{{ p.tasteText }}</span></div>
+            <div style="position:relative;height:28px;"><div style="position:absolute;left:0;right:0;bottom:0;height:1px;background:#2A5674;"></div><span style="position:absolute;left:0;bottom:0;width:1px;height:7px;background:#2A5674;"></span><span style="position:absolute;left:25%;bottom:0;width:1px;height:7px;background:#2A5674;"></span><span style="position:absolute;left:50%;bottom:0;width:1px;height:7px;background:#2A5674;"></span><span style="position:absolute;left:75%;bottom:0;width:1px;height:7px;background:#2A5674;"></span><span style="position:absolute;right:0;bottom:0;width:1px;height:7px;background:#2A5674;"></span><span style="position:absolute;left:{{ p.otherMarker }};bottom:0;width:17px;height:24px;border:1.5px solid #2A5674;border-bottom:none;border-radius:999px 999px 0 0;"></span><span style="position:absolute;left:{{ p.marker }};bottom:0;width:17px;height:24px;background:#2A5674;border-radius:999px 999px 0 0;transition:left .5s cubic-bezier(.2,.7,.2,1);"></span></div>
+            <div style="display:flex;justify-content:space-between;"><span style="font:500 12px/16px Jost;letter-spacing:.18em;">BRIGHT</span><span style="font:500 12px/16px Jost;letter-spacing:.18em;">DEEP</span></div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;"><sc-for list="{{ p.notes }}" as="n" hint-placeholder-count="3"><span style="font-size:14px;line-height:22px;background:#FAF6EE;border-radius:4px;padding:2px 10px;">{{ n }}</span></sc-for></div>
+            <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;font-size:14px;line-height:22px;border-top:1px solid rgba(42,86,116,0.25);padding-top:12px;"><span style="font:500 12px/16px Jost;letter-spacing:.18em;">BEST FOR</span><sc-for list="{{ bestFor }}" as="bf" hint-placeholder-count="3"><span style="display:flex;gap:4px;align-items:center;"><sc-if value="{{ bf.isLatte }}" hint-placeholder-val="{{ false }}"><img src="icons/cup.svg" width="20" height="20" alt=""></sc-if><sc-if value="{{ bf.isIced }}" hint-placeholder-val="{{ false }}"><img src="icons/iced.svg" width="20" height="20" alt=""></sc-if><sc-if value="{{ bf.isStraight }}" hint-placeholder-val="{{ false }}"><img src="icons/whisk.svg" width="20" height="20" alt=""></sc-if>{{ bf.b }}</span></sc-for></div>
+          </div>
+          <div data-reveal="up" style="display:flex;flex-direction:column;gap:10px;">
+            <span style="font:500 12px/16px Jost;letter-spacing:.18em;">SIZE</span>
+            <div role="radiogroup" aria-label="Size" style="display:flex;gap:10px;flex-wrap:wrap;">
+              <sc-for list="{{ options }}" as="o" hint-placeholder-count="2"><button role="radio" aria-checked="{{ o.sel }}" onClick="{{ o.pick }}" style="min-width:120px;height:56px;border:{{ o.border }};background:{{ o.bg }};border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 16px;transition:background .2s;" style-hover="background:#D1EEEA;"><span style="font:500 17px/22px Jost;text-decoration:{{ o.deco }};">{{ o.size }}</span><span style="font-size:14px;line-height:18px;">{{ o.sub }}</span></button></sc-for>
+            </div>
+          </div>
+          <div data-reveal="up" style="display:flex;flex-direction:column;gap:12px;">
+            <sc-if value="{{ inStock }}" hint-placeholder-val="{{ true }}"><div style="display:flex;gap:8px;align-items:center;font-size:14px;line-height:22px;"><img src="icons/check.svg" width="20" height="20" alt=""><span><b style="font-weight:500;">In stock.</b> Ready to dispatch.</span></div></sc-if>
+            <sc-if value="{{ lowStock }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:8px;align-items:center;font-size:14px;line-height:22px;"><img src="icons/info.svg" width="20" height="20" alt=""><span><b style="font-weight:500;">{{ lowText }}</b></span></div></sc-if>
+            <sc-if value="{{ soldOut }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:8px;align-items:center;font-size:14px;line-height:22px;"><img src="icons/info.svg" width="20" height="20" alt=""><span><b style="font-weight:500;">{{ soldText }}</b> Leave your email and we’ll tell you when it’s back.</span></div></sc-if>
+            <sc-if value="{{ avail }}" hint-placeholder-val="{{ true }}">
+              <div data-atc-main="1" style="display:flex;gap:10px;">
+                <div style="width:132px;height:52px;border:1px solid #2A5674;border-radius:4px;display:grid;grid-template-columns:44px 44px 44px;align-items:center;justify-items:center;background:#FFFFFF;flex:none;"><button onClick="{{ qMinus }}" aria-label="Decrease quantity" style="width:44px;height:50px;display:flex;align-items:center;justify-content:center;opacity:{{ qMinusOp }};"><img src="icons/minus.svg" width="20" height="20" alt=""></button><span style="font:500 17px Jost;">{{ qty }}</span><button onClick="{{ qPlus }}" aria-label="Increase quantity" style="width:44px;height:50px;display:flex;align-items:center;justify-content:center;opacity:{{ qPlusOp }};"><img src="icons/plus.svg" width="20" height="20" alt=""></button></div>
+                <button onClick="{{ pdpAdd }}" aria-live="polite" style="flex:1;height:52px;background:#2A5674;color:#FFFFFF;display:flex;align-items:center;justify-content:center;gap:10px;font:500 12px/16px Jost;letter-spacing:.18em;transition:background .2s;" style-hover="background:#1F4560;" style-active="background:#183850;">
+                  <sc-if value="{{ atcLoading }}" hint-placeholder-val="{{ false }}"><span style="width:16px;height:16px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.35);border-top-color:#FFFFFF;animation:wmspin .8s linear infinite;"></span></sc-if>
+                  <sc-if value="{{ atcAdded }}" hint-placeholder-val="{{ false }}"><img src="icons/white/check.svg" width="18" height="18" alt=""></sc-if>
+                  {{ atcLabel }}
+                </button>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;font-size:14px;"><span style="flex:1;height:1px;background:rgba(42,86,116,0.25);"></span>or<span style="flex:1;height:1px;background:rgba(42,86,116,0.25);"></span></div>
+              <button onClick="{{ checkout }}" style="height:52px;border:1px dashed #2A5674;font:500 11px/16px Jost;letter-spacing:.16em;" style-hover="background:#D1EEEA;">SHOP PAY · RENDERED BY SHOPIFY</button>
+            </sc-if>
+            <sc-if value="{{ soldOut }}" hint-placeholder-val="{{ false }}">
+              <sc-if value="{{ notNotified }}" hint-placeholder-val="{{ true }}"><div style="display:flex;gap:8px;"><input aria-label="Email for restock alert" placeholder="Email" style="flex:1;min-width:0;height:52px;background:#FFFFFF;border:1px solid #2A5674;border-radius:4px;padding:0 14px;font-size:17px;"><button onClick="{{ notify }}" style="height:52px;padding:0 20px;background:#2A5674;color:#FFFFFF;font:500 12px/16px Jost;letter-spacing:.18em;">NOTIFY ME</button></div></sc-if>
+              <sc-if value="{{ notified }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:8px;align-items:center;font-size:14px;line-height:22px;background:#D1EEEA;padding:14px;"><img src="icons/check.svg" width="20" height="20" alt="">We’ll email you when this size is back.</div></sc-if>
+            </sc-if>
+          </div>
+          <div data-reveal="up" style="background:#D1EEEA;padding:20px;display:flex;flex-direction:column;gap:12px;font-size:14px;line-height:22px;">
+            <div style="display:flex;gap:10px;"><img src="icons/truck.svg" width="20" height="20" alt="" style="flex:none;"><span><b style="font-weight:500;">Dispatched within [x] business days</b> from [city].</span></div>
+            <div style="display:flex;gap:10px;"><img src="icons/clock.svg" width="20" height="20" alt="" style="flex:none;"><span>Arrives in about [x–y] business days in metro Australia.</span></div>
+            <div style="display:flex;gap:10px;"><img src="icons/gift.svg" width="20" height="20" alt="" style="flex:none;"><span>Free shipping over $[80.00]. Otherwise $[9.95].</span></div>
+            <div style="display:flex;gap:10px;"><img src="icons/return.svg" width="20" height="20" alt="" style="flex:none;"><span>Unopened tins can be returned within [30] days. <button onClick="{{ goHelp }}" style="text-decoration:underline;text-underline-offset:3px;">Shipping &amp; Returns</button></span></div>
+          </div>
+        </div>
+      </section>
+
+      <sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}">
+        <nav style="position:sticky;top:0;z-index:40;background:#FAF6EE;border-top:1px solid rgba(42,86,116,0.25);border-bottom:1px solid rgba(42,86,116,0.25);">
+          <div style="max-width:1440px;margin:0 auto;padding:0 clamp(16px,4.4vw,64px);display:flex;gap:32px;overflow-x:auto;">
+            <sc-for list="{{ anchors }}" as="an" hint-placeholder-count="6"><button onClick="{{ an.go }}" style="font:500 12px/16px Jost;letter-spacing:.18em;padding:16px 0;white-space:nowrap;text-transform:uppercase;" style-hover="text-decoration:underline;text-underline-offset:4px;">{{ an.t }}</button></sc-for>
+          </div>
+        </nav>
+      </sc-if>
+
+      <section id="pdp-tea" style="max-width:1440px;margin:0 auto;padding:64px clamp(16px,4.4vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:40px;align-items:start;">
+        <div style="display:flex;flex-direction:column;gap:16px;max-width:560px;"><span data-reveal="up" style="font:500 12px/16px Jost;letter-spacing:.18em;">THE TEA</span><h2 data-reveal="up" style="font-family:'Libre Caslon Text',serif;font-weight:400;font-size:30px;line-height:38px;">{{ p.word }}, and honest about it</h2><p data-reveal="up" style="font-size:17px;line-height:28px;">{{ p.desc }}</p></div>
+        <dl data-reveal="up" style="background:#D1EEEA;padding:24px;display:grid;grid-template-columns:auto 1fr;gap:12px 24px;font-size:14px;line-height:22px;">
+          <dt style="font-weight:500;">Origin</dt><dd>{{ p.region }}</dd><dt style="font-weight:500;">Cultivar</dt><dd>{{ p.cultivar }}</dd><dt style="font-weight:500;">Harvest</dt><dd>{{ p.harvest }}</dd><dt style="font-weight:500;">Grade</dt><dd>{{ p.grade }}</dd><dt style="font-weight:500;">Net weight</dt><dd>{{ p.weight }}</dd><dt style="font-weight:500;">Pack date</dt><dd>{{ p.pack }}</dd><dt style="font-weight:500;">Ingredients</dt><dd>100% green tea (matcha)</dd>
+        </dl>
+        <div data-reveal="up" style="aspect-ratio:4/5;background:#D1EEEA;border:1px solid rgba(42,86,116,0.25);display:flex;align-items:center;justify-content:center;font:500 12px/16px Jost;letter-spacing:.18em;text-align:center;padding:16px;">POWDER COLOUR · FACT SHOT · 4:5</div>
+      </section>
+
+      <section id="pdp-make" style="background:#A1D7D6;">
+        <div style="max-width:1440px;margin:0 auto;padding:64px clamp(16px,4.4vw,64px);display:flex;flex-direction:column;gap:28px;">
+          <div data-reveal="up" style="display:flex;flex-direction:column;gap:8px;"><span style="font:500 12px/16px Jost;letter-spacing:.18em;">MAKE IT</span><h2 style="font-family:'Libre Caslon Text',serif;font-weight:400;font-size:30px;line-height:38px;">Four ways, all measured</h2></div>
+          <div role="tablist" style="display:flex;gap:32px;border-bottom:1px solid rgba(42,86,116,0.4);overflow-x:auto;">
+            <sc-for list="{{ prepTabs }}" as="pt" hint-placeholder-count="4"><button role="tab" onClick="{{ pt.go }}" style="font:500 12px/16px Jost;letter-spacing:.18em;padding:14px 0 12px;border-bottom:2px solid {{ pt.line }};margin-bottom:-1px;white-space:nowrap;">{{ pt.m }}</button></sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:40px;">
+            <div style="display:flex;flex-direction:column;gap:20px;">
+              <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;background:#FAF6EE;padding:16px;font-size:14px;line-height:22px;">
+                <div style="display:flex;flex-direction:column;gap:2px;"><img src="icons/scale.svg" width="22" height="22" alt=""><b style="font-weight:500;">Matcha</b>{{ prep.g }}</div>
+                <div style="display:flex;flex-direction:column;gap:2px;"><img src="icons/thermometer.svg" width="22" height="22" alt=""><b style="font-weight:500;">Water</b>{{ prep.water }}</div>
+                <div style="display:flex;flex-direction:column;gap:2px;"><img src="icons/cup.svg" width="22" height="22" alt=""><b style="font-weight:500;">Milk</b>{{ prep.milk }}</div>
+                <div style="display:flex;flex-direction:column;gap:2px;"><img src="icons/clock.svg" width="22" height="22" alt=""><b style="font-weight:500;">Time</b>{{ prep.time }}</div>
+              </div>
+              <ol style="padding:0;list-style:none;display:flex;flex-direction:column;gap:14px;">
+                <sc-for list="{{ prep.steps }}" as="st" hint-placeholder-count="4"><li style="display:flex;gap:16px;font-size:17px;line-height:28px;"><span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:28px;width:24px;flex:none;">{{ st.n }}</span>{{ st.t }}</li></sc-for>
+              </ol>
+              <button onClick="{{ goTroubleshoot }}" style="align-self:flex-start;font-size:17px;line-height:28px;text-decoration:underline;text-underline-offset:3px;text-align:left;">Clumps, bitterness or dull colour? Here’s the gentle fix.</button>
+            </div>
+            <div style="aspect-ratio:16/9;background:#D1EEEA;border:1px solid rgba(42,86,116,0.25);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;font:500 12px/16px Jost;letter-spacing:.18em;text-align:center;padding:16px;"><span style="width:56px;height:56px;background:#FAF6EE;display:flex;align-items:center;justify-content:center;"><img src="icons/play.svg" width="26" height="26" alt=""></span>60-SECOND VIDEO · {{ prep.m }}</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="pdp-store" style="max-width:1440px;margin:0 auto;padding:64px clamp(16px,4.4vw,64px);display:flex;flex-direction:column;gap:24px;">
+        <h2 data-reveal="up" style="font-family:'Libre Caslon Text',serif;font-weight:400;font-size:30px;line-height:38px;">Storage and freshness</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:24px;">
+          <div data-reveal="up" style="display:flex;gap:14px;align-items:flex-start;"><img src="icons/cool.svg" width="28" height="28" alt=""><span style="font-size:17px;line-height:28px;"><b style="font-weight:500;">Cool.</b> Away from the stove and sunlight.</span></div>
+          <div data-reveal="up" data-delay="80" style="display:flex;gap:14px;align-items:flex-start;"><img src="icons/dry.svg" width="28" height="28" alt=""><span style="font-size:17px;line-height:28px;"><b style="font-weight:500;">Dry.</b> Use a dry scoop, every time.</span></div>
+          <div data-reveal="up" data-delay="160" style="display:flex;gap:14px;align-items:flex-start;"><img src="icons/sealed.svg" width="28" height="28" alt=""><span style="font-size:17px;line-height:28px;"><b style="font-weight:500;">Closed tight.</b> Best within [opened shelf-life, to be confirmed].</span></div>
+        </div>
+      </section>
+
+      <section id="pdp-char" style="background:#D1EEEA;">
+        <div style="max-width:1440px;margin:0 auto;padding:64px clamp(16px,4.4vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:40px;align-items:center;">
+          <div data-reveal="rise" style="max-width:300px;width:100%;aspect-ratio:3/4;background:#FAF6EE;border:1px solid rgba(42,86,116,0.25);border-radius:999px 999px 0 0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;font:500 12px/16px Jost;letter-spacing:.18em;justify-self:center;">CHARACTER ART · PENDING ARTIST</div>
+          <div style="display:flex;flex-direction:column;gap:16px;max-width:560px;"><span data-reveal="up" style="font:500 12px/16px Jost;letter-spacing:.18em;">KEEPER OF THE {{ p.eyebrow }} TEA</span><h2 data-reveal="up" style="font-family:'Libre Caslon Text',serif;font-weight:400;font-size:30px;line-height:38px;">Meet {{ p.character }}</h2><p data-reveal="up" style="font-size:17px;line-height:28px;">[Two-sentence character story, from the character metaobject.] [Accessory: one object.]</p><button data-reveal="up" onClick="{{ goAcademy }}" style="align-self:flex-start;font:500 12px/16px Jost;letter-spacing:.18em;text-decoration:underline;text-underline-offset:4px;padding:10px 0;">VISIT THE ACADEMY</button></div>
+        </div>
+      </section>
+
+      <section id="pdp-reviews" style="max-width:1440px;margin:0 auto;padding:64px clamp(16px,4.4vw,64px);display:flex;flex-direction:column;gap:16px;">
+        <h2 data-reveal="up" style="font-family:'Libre Caslon Text',serif;font-weight:400;font-size:30px;line-height:38px;">Reviews</h2>
+        <div data-reveal="up" style="border:1px solid rgba(42,86,116,0.25);padding:32px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px;"><div style="display:flex;flex-direction:column;gap:6px;"><span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">No reviews yet.</span><span style="font-size:17px;line-height:28px;">Be the first to share how you made it.</span></div><button style="height:44px;padding:0 24px;border:1px solid #2A5674;font:500 12px/16px Jost;letter-spacing:.18em;" style-hover="background:#D1EEEA;">WRITE A REVIEW</button></div>
+      </section>
+
+      <section id="pdp-faq" style="max-width:1440px;margin:0 auto;padding:0 clamp(16px,4.4vw,64px) 64px;display:flex;flex-direction:column;gap:16px;">
+        <h2 data-reveal="up" style="font-family:'Libre Caslon Text',serif;font-weight:400;font-size:30px;line-height:38px;">Questions</h2>
+        <div style="border-top:1px solid rgba(42,86,116,0.25);max-width:880px;">
+          <sc-for list="{{ faq }}" as="fq" hint-placeholder-count="5">
+            <div data-reveal="up" style="border-bottom:1px solid rgba(42,86,116,0.25);">
+              <button onClick="{{ fq.toggle }}" aria-expanded="{{ fq.open }}" style="width:100%;display:flex;justify-content:space-between;align-items:center;min-height:64px;text-align:left;gap:16px;"><span style="font:500 17px/28px Jost;">{{ fq.q }}</span><sc-if value="{{ fq.open }}" hint-placeholder-val="{{ false }}"><img src="icons/minus.svg" width="24" height="24" alt=""></sc-if><sc-if value="{{ fq.closed }}" hint-placeholder-val="{{ true }}"><img src="icons/plus.svg" width="24" height="24" alt=""></sc-if></button>
+              <sc-if value="{{ fq.open }}" hint-placeholder-val="{{ false }}"><p data-reveal="fade" style="font-size:17px;line-height:28px;max-width:640px;padding-bottom:20px;">{{ fq.a }}</p></sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="background:#D1EEEA;">
+        <div style="max-width:1440px;margin:0 auto;padding:48px clamp(16px,4.4vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:24px;font-size:14px;line-height:22px;">
+          <div data-reveal="up" style="display:flex;flex-direction:column;gap:6px;"><img src="icons/truck.svg" width="24" height="24" alt=""><b style="font:500 12px/16px Jost;letter-spacing:.18em;">DISPATCH</b>Within [x] business days from [city].</div>
+          <div data-reveal="up" data-delay="80" style="display:flex;flex-direction:column;gap:6px;"><img src="icons/clock.svg" width="24" height="24" alt=""><b style="font:500 12px/16px Jost;letter-spacing:.18em;">DELIVERY</b>About [x–y] business days, metro Australia. Free over $[80.00].</div>
+          <div data-reveal="up" data-delay="160" style="display:flex;flex-direction:column;gap:6px;"><img src="icons/return.svg" width="24" height="24" alt=""><b style="font:500 12px/16px Jost;letter-spacing:.18em;">RETURNS</b>Unopened tins within [30] days.</div>
+        </div>
+      </section>
+
+      <section style="max-width:1440px;margin:0 auto;padding:64px clamp(16px,4.4vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:48px;">
+        <div style="display:flex;flex-direction:column;gap:24px;"><h2 data-reveal="up" style="font-family:'Libre Caslon Text',serif;font-weight:400;font-size:30px;line-height:38px;">You might also like</h2><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),300px));gap:24px;"><sc-for list="{{ related }}" as="c" hint-placeholder-count="1"><div data-reveal="up"><dc-import name="ProductCard" c="{{ c }}" hint-size="100%,560px"></dc-import></div></sc-for></div></div>
+        <div style="display:flex;flex-direction:column;gap:24px;"><h2 data-reveal="up" style="font-family:'Libre Caslon Text',serif;font-weight:400;font-size:30px;line-height:38px;">Pair with</h2>
+          <sc-for list="{{ tools }}" as="t" hint-placeholder-count="2"><div data-reveal="up" style="display:flex;gap:16px;align-items:center;border-bottom:1px solid rgba(42,86,116,0.25);padding-bottom:16px;"><span style="width:80px;aspect-ratio:4/5;background:#D1EEEA;border:1px solid rgba(42,86,116,0.25);flex:none;"></span><span style="flex:1;display:flex;flex-direction:column;"><span style="font:500 11px/16px Jost;letter-spacing:.16em;">TOOL · P2</span><span style="font-size:17px;line-height:28px;">{{ t.name }}</span><span style="font-size:14px;line-height:22px;">{{ t.price }}</span></span><button onClick="{{ t.add }}" style="height:44px;padding:0 16px;border:1px solid #2A5674;font:500 12px/16px Jost;letter-spacing:.18em;" style-hover="background:#D1EEEA;">ADD</button></div></sc-for>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ rGuides }}" hint-placeholder-val="{{ false }}">
+      <section style="background:#A1D7D6;">
+        <div style="max-width:1440px;margin:0 auto;padding:64px clamp(16px,4.4vw,64px) 48px;display:flex;flex-direction:column;gap:16px;">
+          <span data-reveal="up" style="font:500 12px/16px Jost;letter-spacing:.18em;">BREWING GUIDES</span>
+          <h1 data-reveal="up" style="font-family:'Libre Caslon Display',serif;font-weight:400;font-size:clamp(34px,4vw,44px);line-height:1.14;">A Little Magic, Made at Home</h1>
+          <p data-reveal="up" style="font-size:17px;line-height:28px;max-width:560px;">Measured recipes for whisk, frother, shaker and ice. No special skills, just two grams and a little patience.</p>
+        </div>
+      </section>
+      <section style="max-width:1440px;margin:0 auto;padding:32px clamp(16px,4.4vw,64px) 64px;display:flex;flex-direction:column;gap:32px;">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;"><sc-for list="{{ guideChips }}" as="gc" hint-placeholder-count="5"><button onClick="{{ gc.go }}" style="height:40px;font-size:14px;border:1px solid #2A5674;border-radius:4px;padding:0 16px;background:{{ gc.bg }};color:{{ gc.fg }};transition:background .2s;">{{ gc.m }}</button></sc-for></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:40px 24px;">
+          <sc-for list="{{ guideCards }}" as="gd" hint-placeholder-count="6">
+            <button data-reveal="up" onClick="{{ gd.open }}" style="text-align:left;display:flex;flex-direction:column;gap:12px;">
+              <span style="aspect-ratio:3/2;width:100%;background:#D1EEEA;border:1px solid rgba(42,86,116,0.25);display:flex;align-items:center;justify-content:center;font:500 12px/16px Jost;letter-spacing:.18em;transition:background .3s;" style-hover="background:#A1D7D6;">GUIDE PHOTO · 3:2</span>
+              <span style="font:500 12px/16px Jost;letter-spacing:.18em;">{{ gd.method }} · {{ gd.time }}</span>
+              <span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">{{ gd.title }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ rGuide }}" hint-placeholder-val="{{ false }}">
+      <article style="max-width:1440px;margin:0 auto;padding:40px clamp(16px,4.4vw,64px) 64px;display:flex;flex-direction:column;gap:40px;">
+        <span style="font-size:14px;line-height:22px;"><button onClick="{{ goHome }}" style="text-decoration:underline;text-underline-offset:3px;">Home</button> / <button onClick="{{ goGuides }}" style="text-decoration:underline;text-underline-offset:3px;">Brewing Guides</button> / {{ guide.title }}</span>
+        <div style="display:flex;flex-direction:column;gap:16px;max-width:760px;">
+          <h1 data-reveal="up" style="font-family:'Libre Caslon Display',serif;font-weight:400;font-size:clamp(34px,4vw,44px);line-height:1.14;">{{ guide.title }}</h1>
+          <div data-reveal="up" style="display:flex;gap:24px;flex-wrap:wrap;font-size:14px;line-height:22px;"><span style="display:flex;gap:6px;align-items:center;"><img src="icons/whisk.svg" width="20" height="20" alt="">{{ guide.method }}</span><span style="display:flex;gap:6px;align-items:center;"><img src="icons/clock.svg" width="20" height="20" alt="">{{ guide.time }}</span><span style="display:flex;gap:6px;align-items:center;"><img src="icons/cup.svg" width="20" height="20" alt="">Serves {{ guide.serves }}</span></div>
+        </div>
+        <div data-reveal="up" style="aspect-ratio:16/9;max-height:560px;background:#D1EEEA;border:1px solid rgba(42,86,116,0.25);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;font:500 12px/16px Jost;letter-spacing:.18em;"><span style="width:56px;height:56px;background:#FAF6EE;display:flex;align-items:center;justify-content:center;"><img src="icons/play.svg" width="26" height="26" alt=""></span>60-SECOND VIDEO · 16:9</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:48px;align-items:start;">
+          <div style="display:flex;flex-direction:column;gap:16px;">
+            <h2 data-reveal="up" style="font-family:'Libre Caslon Text',serif;font-weight:400;font-size:22px;line-height:30px;">You’ll need</h2>
+            <ul data-reveal="up" style="padding:0;list-style:none;background:#D1EEEA;display:flex;flex-direction:column;">
+              <li style="display:flex;justify-content:space-between;padding:14px 20px;border-bottom:1px solid rgba(42,86,116,0.25);font-size:17px;line-height:28px;"><span>Matcha</span><b style="font-weight:500;">{{ guide.g }}</b></li>
+              <li style="display:flex;justify-content:space-between;padding:14px 20px;border-bottom:1px solid rgba(42,86,116,0.25);font-size:17px;line-height:28px;"><span>Water</span><b style="font-weight:500;">{{ guide.water }}</b></li>
+              <li style="display:flex;justify-content:space-between;padding:14px 20px;font-size:17px;line-height:28px;"><span>Milk</span><b style="font-weight:500;">{{ guide.milk }}</b></li>
+            </ul>
+            <div data-reveal="up" style="border:1px solid #2A5674;padding:20px;display:flex;flex-direction:column;gap:8px;"><span style="font:500 12px/16px Jost;letter-spacing:.18em;">IF IT GOES WRONG</span><span style="font-size:17px;line-height:28px;">Clumps: sift first. Bitter: cooler water, 80°C not boiling. Dull colour: the tin may be open too long.</span></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:16px;">
+            <h2 data-reveal="up" style="font-family:'Libre Caslon Text',serif;font-weight:400;font-size:22px;line-height:30px;">Method</h2>
+            <ol style="padding:0;list-style:none;display:flex;flex-direction:column;gap:18px;">
+              <sc-for list="{{ guide.steps }}" as="st" hint-placeholder-count="4"><li data-reveal="up" style="display:flex;gap:16px;font-size:17px;line-height:28px;"><span style="font-family:'Libre Caslon Display',serif;font-size:34px;line-height:34px;width:32px;flex:none;">{{ st.n }}</span>{{ st.t }}</li></sc-for>
+            </ol>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:16px;">
+            <h2 data-reveal="up" style="font-family:'Libre Caslon Text',serif;font-weight:400;font-size:22px;line-height:30px;">Tea used</h2>
+            <div data-reveal="up" style="max-width:300px;"><dc-import name="ProductCard" c="{{ firstCard }}" hint-size="100%,560px"></dc-import></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:24px;border-top:1px solid rgba(42,86,116,0.25);padding-top:40px;">
+          <h2 data-reveal="up" style="font-family:'Libre Caslon Text',serif;font-weight:400;font-size:30px;line-height:38px;">More guides</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:24px;">
+            <sc-for list="{{ relatedGuides }}" as="rg" hint-placeholder-count="3"><button data-reveal="up" onClick="{{ rg.open }}" style="text-align:left;display:flex;flex-direction:column;gap:10px;"><span style="aspect-ratio:3/2;width:100%;background:#D1EEEA;border:1px solid rgba(42,86,116,0.25);"></span><span style="font:500 12px/16px Jost;letter-spacing:.18em;">{{ rg.method }}</span><span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">{{ rg.title }}</span></button></sc-for>
+          </div>
+        </div>
+      </article>
+    </sc-if>
+
+    <sc-if value="{{ rAcademy }}" hint-placeholder-val="{{ false }}">
+      <section style="background:#A1D7D6;position:relative;overflow:hidden;">
+        <div style="max-width:1440px;margin:0 auto;padding:clamp(56px,7vw,96px) clamp(16px,4.4vw,64px);display:flex;flex-direction:column;gap:20px;align-items:center;text-align:center;">
+          <span data-reveal="up" style="font:500 12px/16px Jost;letter-spacing:.18em;">THE WORLD</span>
+          <h1 data-reveal="up" style="font-family:'Libre Caslon Display',serif;font-weight:400;font-size:clamp(44px,5vw,64px);line-height:1.07;">Witcha Academy</h1>
+          <p data-reveal="up" style="font-size:17px;line-height:28px;max-width:600px;">[Two-sentence world intro from the Brand Bible.] A painted school where every tea has a keeper, and every keeper is a cat. <span style="font:500 10px/14px Jost;letter-spacing:.14em;border:1px dashed #2A5674;padding:1px 5px;">PENDING</span></p>
+        </div>
+      </section>
+      <section style="max-width:1440px;margin:0 auto;padding:64px clamp(16px,4.4vw,64px);display:flex;flex-direction:column;gap:32px;">
+        <h2 data-reveal="up" style="font-family:'Libre Caslon Text',serif;font-weight:400;font-size:30px;line-height:38px;">Meet the class</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:32px;">
+          <div style="display:flex;flex-direction:column;gap:14px;"><div data-reveal="rise" style="aspect-ratio:3/4;background:#D1EEEA;border:1px solid rgba(42,86,116,0.25);border-radius:999px 999px 0 0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;font:500 12px/16px Jost;letter-spacing:.18em;">CHARACTER ART · PENDING ARTIST</div><span style="font:500 12px/16px Jost;letter-spacing:.18em;">KEEPER OF THE DEEP TEA</span><span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">[Character name]</span><button onClick="{{ goYame }}" style="align-self:flex-start;font-size:17px;line-height:28px;text-decoration:underline;text-underline-offset:3px;">Yame no Mukashi</button></div>
+          <div style="display:flex;flex-direction:column;gap:14px;"><div data-reveal="rise" data-delay="120" style="aspect-ratio:3/4;background:#D1EEEA;border:1px solid rgba(42,86,116,0.25);border-radius:999px 999px 0 0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;font:500 12px/16px Jost;letter-spacing:.18em;">CHARACTER ART · PENDING ARTIST</div><span style="font:500 12px/16px Jost;letter-spacing:.18em;">KEEPER OF THE BRIGHT TEA</span><span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">[Character name]</span><button onClick="{{ goDaily }}" style="align-self:flex-start;font-size:17px;line-height:28px;text-decoration:underline;text-underline-offset:3px;">[Daily tea name]</button></div>
+          <div style="display:flex;flex-direction:column;gap:14px;"><div data-reveal="rise" data-delay="240" style="aspect-ratio:3/4;border:1px dashed #2A5674;border-radius:999px 999px 0 0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;font:500 12px/16px Jost;letter-spacing:.18em;">A NEW STUDENT · COMING</div><span style="font:500 12px/16px Jost;letter-spacing:.18em;">TO BE ANNOUNCED</span><span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">[Character name]</span></div>
+        </div>
+      </section>
+      <section style="background:#D1EEEA;">
+        <div style="max-width:1440px;margin:0 auto;padding:64px clamp(16px,4.4vw,64px);display:flex;flex-direction:column;gap:24px;">
+          <h2 data-reveal="up" style="font-family:'Libre Caslon Text',serif;font-weight:400;font-size:30px;line-height:38px;">Around the grounds</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:24px;">
+            <div data-reveal="up" style="background:#FAF6EE;padding:28px;min-height:160px;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;"><span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">The conservatory</span><span style="font-size:14px;line-height:22px;">Where the tea plants winter.</span></div>
+            <div data-reveal="up" data-delay="80" style="background:#FAF6EE;padding:28px;min-height:160px;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;"><span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">The library window</span><span style="font-size:14px;line-height:22px;">Recipes, written in the margins.</span></div>
+            <div data-reveal="up" data-delay="160" style="background:#FAF6EE;padding:28px;min-height:160px;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;"><span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">The garden bridge</span><span style="font-size:14px;line-height:22px;">A morning walk with a cup.</span></div>
+            <div data-reveal="up" data-delay="240" style="background:#FAF6EE;padding:28px;min-height:160px;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;"><span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">The tea room</span><span style="font-size:14px;line-height:22px;">Where every tin is tasted.</span></div>
+          </div>
+          <button data-reveal="up" onClick="{{ goShop }}" style="align-self:flex-start;height:52px;padding:0 32px;background:#2A5674;color:#FFFFFF;font:500 12px/16px Jost;letter-spacing:.18em;margin-top:16px;" style-hover="background:#1F4560;">SHOP THE MATCHA</button>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ rStory }}" hint-placeholder-val="{{ false }}">
+      <section style="max-width:1440px;margin:0 auto;padding:64px clamp(16px,4.4vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:48px;align-items:center;">
+        <div style="display:flex;flex-direction:column;gap:20px;max-width:560px;">
+          <span data-reveal="up" style="font:500 12px/16px Jost;letter-spacing:.18em;">OUR STORY</span>
+          <h1 data-reveal="up" style="font-family:'Libre Caslon Display',serif;font-weight:400;font-size:clamp(34px,4vw,44px);line-height:1.14;">Two founders, one very particular palate</h1>
+          <p data-reveal="up" style="font-size:17px;line-height:28px;">[Founder story, 60–80 words.] We started WITCHA MATCHA to make good matcha feel easy and a little enchanting at home. <span style="font:500 10px/14px Jost;letter-spacing:.14em;border:1px dashed #2A5674;padding:1px 5px;">CONFIRM DETAIL</span></p>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div data-reveal="up" style="aspect-ratio:4/5;background:#D1EEEA;border:1px solid rgba(42,86,116,0.25);display:flex;align-items:center;justify-content:center;font:500 12px/16px Jost;letter-spacing:.18em;text-align:center;padding:16px;">FOUNDER PHOTO · 4:5</div>
+          <div data-reveal="up" data-delay="120" style="aspect-ratio:4/5;background:#D1EEEA;border:1px solid rgba(42,86,116,0.25);display:flex;align-items:center;justify-content:center;font:500 12px/16px Jost;letter-spacing:.18em;text-align:center;padding:16px;margin-top:48px;">FOUNDER PHOTO · 4:5</div>
+        </div>
+      </section>
+      <section style="background:#A1D7D6;">
+        <div style="max-width:1440px;margin:0 auto;padding:64px clamp(16px,4.4vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:32px;">
+          <div data-reveal="up" style="display:flex;flex-direction:column;gap:12px;"><span style="font-family:'Libre Caslon Display',serif;font-size:44px;line-height:50px;">1</span><span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">Pop tastes everything</span><span style="font-size:17px;line-height:28px;">Each tea is whisked, frothed and iced before it earns a tin.</span></div>
+          <div data-reveal="up" data-delay="100" style="display:flex;flex-direction:column;gap:12px;"><span style="font-family:'Libre Caslon Display',serif;font-size:44px;line-height:50px;">2</span><span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">Sourced from Yame</span><span style="font-size:17px;line-height:28px;">[Sourcing facts: farm, relationship, harvest timing.] <span style="font:500 10px/14px Jost;letter-spacing:.14em;border:1px dashed #2A5674;padding:1px 5px;">PENDING</span></span></div>
+          <div data-reveal="up" data-delay="200" style="display:flex;flex-direction:column;gap:12px;"><span style="font-family:'Libre Caslon Display',serif;font-size:44px;line-height:50px;">3</span><span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">Placed on the scale</span><span style="font-size:17px;line-height:28px;">Bright or deep, so you can choose by taste rather than jargon.</span></div>
+        </div>
+      </section>
+      <section style="max-width:1440px;margin:0 auto;padding:64px clamp(16px,4.4vw,64px);display:flex;justify-content:center;"><button data-reveal="up" onClick="{{ goShop }}" style="height:52px;padding:0 32px;background:#2A5674;color:#FFFFFF;font:500 12px/16px Jost;letter-spacing:.18em;" style-hover="background:#1F4560;">SHOP THE MATCHA</button></section>
+    </sc-if>
+
+    <sc-if value="{{ rHelp }}" hint-placeholder-val="{{ false }}">
+      <section style="max-width:1440px;margin:0 auto;padding:56px clamp(16px,4.4vw,64px) 64px;display:flex;flex-direction:column;gap:32px;">
+        <h1 data-reveal="up" style="font-family:'Libre Caslon Display',serif;font-weight:400;font-size:clamp(34px,4vw,44px);line-height:1.14;">Help</h1>
+        <div role="tablist" style="display:flex;gap:32px;border-bottom:1px solid rgba(42,86,116,0.25);overflow-x:auto;"><sc-for list="{{ helpTabs }}" as="ht" hint-placeholder-count="3"><button role="tab" onClick="{{ ht.go }}" style="font:500 12px/16px Jost;letter-spacing:.18em;padding:14px 0 12px;border-bottom:2px solid {{ ht.line }};margin-bottom:-1px;white-space:nowrap;">{{ ht.t }}</button></sc-for></div>
+        <sc-if value="{{ h0 }}" hint-placeholder-val="{{ true }}">
+          <div data-reveal="fade" style="border-top:1px solid rgba(42,86,116,0.25);max-width:880px;">
+            <sc-for list="{{ faq }}" as="fq" hint-placeholder-count="5"><div style="border-bottom:1px solid rgba(42,86,116,0.25);"><button onClick="{{ fq.toggle }}" aria-expanded="{{ fq.open }}" style="width:100%;display:flex;justify-content:space-between;align-items:center;min-height:64px;text-align:left;gap:16px;"><span style="font:500 17px/28px Jost;">{{ fq.q }}</span><sc-if value="{{ fq.open }}" hint-placeholder-val="{{ false }}"><img src="icons/minus.svg" width="24" height="24" alt=""></sc-if><sc-if value="{{ fq.closed }}" hint-placeholder-val="{{ true }}"><img src="icons/plus.svg" width="24" height="24" alt=""></sc-if></button><sc-if value="{{ fq.open }}" hint-placeholder-val="{{ false }}"><p data-reveal="fade" style="font-size:17px;line-height:28px;max-width:640px;padding-bottom:20px;">{{ fq.a }}</p></sc-if></div></sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ h1 }}" hint-placeholder-val="{{ false }}">
+          <div data-reveal="fade" style="display:flex;flex-direction:column;gap:24px;max-width:880px;">
+            <p style="font-size:17px;line-height:28px;">This page is the single source for the shipping promise shown on product pages and in the cart.</p>
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr;font-size:14px;line-height:22px;border-top:1px solid #2A5674;">
+              <b style="font-weight:500;padding:12px 0;border-bottom:1px solid rgba(42,86,116,0.25);">Method</b><b style="font-weight:500;padding:12px 0;border-bottom:1px solid rgba(42,86,116,0.25);">Cost</b><b style="font-weight:500;padding:12px 0;border-bottom:1px solid rgba(42,86,116,0.25);">Arrives</b>
+              <span style="padding:12px 0;border-bottom:1px solid rgba(42,86,116,0.25);">Standard, metro</span><span style="padding:12px 0;border-bottom:1px solid rgba(42,86,116,0.25);">$[9.95] · free over $[80.00]</span><span style="padding:12px 0;border-bottom:1px solid rgba(42,86,116,0.25);">[x–y] business days</span>
+              <span style="padding:12px 0;border-bottom:1px solid rgba(42,86,116,0.25);">Express</span><span style="padding:12px 0;border-bottom:1px solid rgba(42,86,116,0.25);">$[14.95]</span><span style="padding:12px 0;border-bottom:1px solid rgba(42,86,116,0.25);">[x] business days</span>
+            </div>
+            <h2 style="font-family:'Libre Caslon Text',serif;font-weight:400;font-size:22px;line-height:30px;">Returns in three steps</h2>
+            <ol style="padding-left:20px;font-size:17px;line-height:28px;display:flex;flex-direction:column;gap:8px;"><li>Email us within [30] days with your order number.</li><li>Send the unopened tin back with the label we provide.</li><li>We refund to your original payment within [x] days.</li></ol>
+          </div>
+        </sc-if>
+        <sc-if value="{{ h2 }}" hint-placeholder-val="{{ false }}">
+          <div data-reveal="fade" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:48px;">
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <label style="display:flex;flex-direction:column;gap:6px;font:500 14px/22px Jost;">Name<input style="height:48px;background:#FFFFFF;border:1px solid #2A5674;border-radius:4px;padding:0 14px;font-size:17px;"></label>
+              <label style="display:flex;flex-direction:column;gap:6px;font:500 14px/22px Jost;">Email<input type="email" style="height:48px;background:#FFFFFF;border:1px solid #2A5674;border-radius:4px;padding:0 14px;font-size:17px;"></label>
+              <label style="display:flex;flex-direction:column;gap:6px;font:500 14px/22px Jost;">Order number (optional)<input style="height:48px;background:#FFFFFF;border:1px solid #2A5674;border-radius:4px;padding:0 14px;font-size:17px;"></label>
+              <label style="display:flex;flex-direction:column;gap:6px;font:500 14px/22px Jost;">Message<textarea rows="5" style="background:#FFFFFF;border:1px solid #2A5674;border-radius:4px;padding:12px 14px;font-size:17px;line-height:28px;resize:vertical;"></textarea></label>
+              <button style="align-self:flex-start;height:52px;padding:0 32px;background:#2A5674;color:#FFFFFF;font:500 12px/16px Jost;letter-spacing:.18em;" style-hover="background:#1F4560;">SEND MESSAGE</button>
+            </div>
+            <div style="background:#D1EEEA;padding:28px;display:flex;flex-direction:column;gap:12px;font-size:17px;line-height:28px;align-self:start;"><span style="font:500 12px/16px Jost;letter-spacing:.18em;">WE REPLY WITHIN [1] BUSINESS DAY</span><span>[support email pending]</span><span style="font-size:14px;line-height:22px;">WITCHA MATCHA · ABN [pending] · [city], Australia</span></div>
+          </div>
+        </sc-if>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ rCheckout }}" hint-placeholder-val="{{ false }}">
+      <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));min-height:calc(100vh - 160px);">
+        <div style="padding:40px clamp(16px,4.4vw,64px);display:flex;flex-direction:column;gap:28px;max-width:640px;justify-self:end;width:100%;">
+          <div data-reveal="up" style="display:flex;flex-direction:column;gap:10px;"><span style="font-size:14px;line-height:22px;text-align:center;">Express checkout</span><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;"><span style="height:48px;border:1px dashed #2A5674;border-radius:4px;display:flex;align-items:center;justify-content:center;font:500 11px/16px Jost;letter-spacing:.14em;">SHOP PAY</span><span style="height:48px;border:1px dashed #2A5674;border-radius:4px;display:flex;align-items:center;justify-content:center;font:500 11px/16px Jost;letter-spacing:.14em;">APPLE PAY</span><span style="height:48px;border:1px dashed #2A5674;border-radius:4px;display:flex;align-items:center;justify-content:center;font:500 11px/16px Jost;letter-spacing:.14em;">PAYPAL</span></div></div>
+          <div data-reveal="up" style="display:flex;flex-direction:column;gap:12px;"><span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">Contact</span><input placeholder="Email" aria-label="Email" style="height:48px;background:#FFFFFF;border:1px solid #2A5674;border-radius:4px;padding:0 14px;font-size:17px;"><label style="display:flex;gap:10px;align-items:center;font-size:14px;line-height:22px;min-height:44px;"><input type="checkbox" style="width:20px;height:20px;accent-color:#2A5674;">Email me with news and offers</label></div>
+          <div data-reveal="up" style="display:flex;flex-direction:column;gap:12px;"><span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">Delivery</span>
+            <select aria-label="Country" style="height:48px;background:#FFFFFF;border:1px solid #2A5674;border-radius:4px;padding:0 12px;font-size:17px;"><option>Australia</option></select>
+            <input placeholder="Address" aria-label="Address" style="height:48px;background:#FFFFFF;border:1px solid #2A5674;border-radius:4px;padding:0 14px;font-size:17px;">
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;"><input placeholder="Suburb" aria-label="Suburb" style="min-width:0;height:48px;background:#FFFFFF;border:1px solid #2A5674;border-radius:4px;padding:0 14px;font-size:17px;"><input placeholder="State" aria-label="State" style="min-width:0;height:48px;background:#FFFFFF;border:1px solid #2A5674;border-radius:4px;padding:0 14px;font-size:17px;"><input placeholder="Postcode" aria-label="Postcode" style="min-width:0;height:48px;background:#FFFFFF;border:1px solid #2A5674;border-radius:4px;padding:0 14px;font-size:17px;"></div>
+          </div>
+          <div data-reveal="up" style="display:flex;flex-direction:column;gap:12px;"><span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">Shipping method</span>
+            <div style="border:1px solid #2A5674;border-radius:4px;">
+              <button onClick="{{ pickStd }}" style="width:100%;display:flex;gap:12px;align-items:center;padding:14px;border-bottom:1px solid rgba(42,86,116,0.25);text-align:left;"><span style="width:20px;height:20px;border:1px solid #2A5674;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;background:#FFFFFF;"><sc-if value="{{ shipStd }}" hint-placeholder-val="{{ true }}"><span style="width:10px;height:10px;border-radius:50%;background:#2A5674;"></span></sc-if></span><span style="flex:1;font-size:17px;line-height:28px;">Standard · [x–y] business days</span><b style="font-weight:500;">{{ stdLabel }}</b></button>
+              <button onClick="{{ pickExp }}" style="width:100%;display:flex;gap:12px;align-items:center;padding:14px;text-align:left;"><span style="width:20px;height:20px;border:1px solid #2A5674;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;background:#FFFFFF;"><sc-if value="{{ shipExp }}" hint-placeholder-val="{{ false }}"><span style="width:10px;height:10px;border-radius:50%;background:#2A5674;"></span></sc-if></span><span style="flex:1;font-size:17px;line-height:28px;">Express · [x] business days</span><b style="font-weight:500;">$[14.95]</b></button>
+            </div>
+          </div>
+          <div data-reveal="up" style="display:flex;flex-direction:column;gap:12px;"><span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">Payment</span><span style="font-size:14px;line-height:22px;display:flex;gap:6px;align-items:center;"><img src="icons/lock.svg" width="18" height="18" alt="">All transactions are secure and encrypted.</span><input placeholder="Card number" aria-label="Card number" style="height:48px;background:#FFFFFF;border:1px solid #2A5674;border-radius:4px;padding:0 14px;font-size:17px;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><input placeholder="Expiry (MM / YY)" aria-label="Expiry" style="min-width:0;height:48px;background:#FFFFFF;border:1px solid #2A5674;border-radius:4px;padding:0 14px;font-size:17px;"><input placeholder="Security code" aria-label="Security code" style="min-width:0;height:48px;background:#FFFFFF;border:1px solid #2A5674;border-radius:4px;padding:0 14px;font-size:17px;"></div><span style="font-size:14px;line-height:22px;">Also: Apple Pay · Google Pay · Shop Pay · PayPal · Afterpay</span></div>
+          <button data-reveal="up" onClick="{{ pay }}" style="height:56px;background:#2A5674;color:#FFFFFF;border-radius:4px;font:500 12px/16px Jost;letter-spacing:.18em;" style-hover="background:#1F4560;">PAY NOW · {{ total }}</button>
+        </div>
+        <aside style="background:#D1EEEA;padding:40px clamp(16px,4.4vw,64px);display:flex;flex-direction:column;gap:16px;">
+          <div style="max-width:440px;width:100%;display:flex;flex-direction:column;gap:16px;">
+            <sc-for list="{{ lines }}" as="l" hint-placeholder-count="1"><div style="display:flex;gap:14px;align-items:center;"><span style="position:relative;width:64px;aspect-ratio:4/5;background:#FAF6EE;border:1px solid rgba(42,86,116,0.25);flex:none;"><span style="position:absolute;top:-8px;right:-8px;min-width:20px;height:20px;background:#2A5674;color:#FFFFFF;font:500 11px/20px Jost;text-align:center;border-radius:10px;">{{ l.qty }}</span></span><span style="flex:1;display:flex;flex-direction:column;"><span style="font-size:15px;line-height:22px;font-weight:500;">{{ l.name }}</span><span style="font-size:14px;line-height:22px;">{{ l.size }}</span></span><span style="font-size:15px;">{{ l.price }}</span></div></sc-for>
+            <sc-if value="{{ cartEmpty }}" hint-placeholder-val="{{ false }}"><span style="font-size:14px;line-height:22px;">Your cart is empty. <button onClick="{{ goShop }}" style="text-decoration:underline;">Shop matcha</button></span></sc-if>
+            <div style="display:flex;gap:8px;"><input placeholder="Discount code" aria-label="Discount code" style="flex:1;min-width:0;height:48px;background:#FFFFFF;border:1px solid #2A5674;border-radius:4px;padding:0 14px;font-size:17px;"><span style="height:48px;padding:0 18px;border:1px solid #2A5674;border-radius:4px;display:flex;align-items:center;font:500 12px/16px Jost;letter-spacing:.16em;">APPLY</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:15px;line-height:24px;"><span>Subtotal</span><span>{{ subtotal }}</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:15px;line-height:24px;"><span>Shipping</span><span>{{ shipCost }}</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid rgba(42,86,116,0.25);padding-top:14px;"><span style="font:500 17px Jost;">Total</span><span style="font:500 22px Jost;"><span style="font-size:13px;font-weight:400;margin-right:6px;">AUD</span>{{ total }}</span></div>
+            <span style="font-size:13px;line-height:20px;">Including GST. Reference frame: layout is Shopify’s; we set logo, colours, button style, 4 px radius and fonts where the plan allows.</span>
+          </div>
+        </aside>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ rConfirm }}" hint-placeholder-val="{{ false }}">
+      <section style="max-width:880px;margin:0 auto;padding:56px clamp(16px,4.4vw,64px) 80px;display:flex;flex-direction:column;gap:32px;">
+        <div data-reveal="up" style="display:flex;gap:16px;align-items:center;"><span style="width:56px;height:56px;border:1.5px solid #2A5674;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;"><img src="icons/check.svg" width="28" height="28" alt=""></span><div style="display:flex;flex-direction:column;"><span style="font-size:14px;line-height:22px;">Order {{ order.no }}</span><h1 style="font-family:'Libre Caslon Display',serif;font-weight:400;font-size:clamp(34px,4vw,44px);line-height:1.14;">Thank you. The Academy is packing your tea.</h1></div></div>
+        <div data-reveal="up" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:0;border:1px solid #2A5674;">
+          <div style="padding:20px;display:flex;flex-direction:column;gap:6px;border-right:1px solid rgba(42,86,116,0.25);"><img src="icons/sealed.svg" width="24" height="24" alt=""><b style="font:500 12px/16px Jost;letter-spacing:.18em;">1 · DISPATCH</b><span style="font-size:14px;line-height:22px;">Within [x] business days from [city].</span></div>
+          <div style="padding:20px;display:flex;flex-direction:column;gap:6px;border-right:1px solid rgba(42,86,116,0.25);"><img src="icons/mail.svg" width="24" height="24" alt=""><b style="font:500 12px/16px Jost;letter-spacing:.18em;">2 · TRACKING</b><span style="font-size:14px;line-height:22px;">We email a tracking link the day it leaves.</span></div>
+          <div style="padding:20px;display:flex;flex-direction:column;gap:6px;"><img src="icons/truck.svg" width="24" height="24" alt=""><b style="font:500 12px/16px Jost;letter-spacing:.18em;">3 · ARRIVES</b><span style="font-size:14px;line-height:22px;">About [x–y] business days, metro.</span></div>
+        </div>
+        <div data-reveal="up" style="background:#D1EEEA;padding:24px;display:flex;flex-direction:column;gap:12px;">
+          <span style="font:500 12px/16px Jost;letter-spacing:.18em;">ORDER SUMMARY</span>
+          <sc-for list="{{ order.lines }}" as="ol" hint-placeholder-count="1"><div style="display:flex;justify-content:space-between;font-size:15px;line-height:24px;"><span>{{ ol.qty }} × {{ ol.name }} · {{ ol.size }}</span></div></sc-for>
+          <div style="display:flex;justify-content:space-between;border-top:1px solid rgba(42,86,116,0.25);padding-top:10px;font:500 17px Jost;"><span>Total paid</span><span>{{ order.total }}</span></div>
+          <sc-if value="{{ orderGift }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:22px;border-top:1px solid rgba(42,86,116,0.25);padding-top:10px;"><img src="icons/gift.svg" width="20" height="20" alt="">Gift note: “{{ order.gift }}” · no prices on the slip</div></sc-if>
+        </div>
+        <div data-reveal="up" style="display:flex;gap:12px;flex-wrap:wrap;"><button onClick="{{ goGuides }}" style="height:52px;padding:0 32px;background:#2A5674;color:#FFFFFF;font:500 12px/16px Jost;letter-spacing:.18em;" style-hover="background:#1F4560;">MAKE IT AT HOME</button><button style="height:52px;padding:0 32px;border:1px solid #2A5674;font:500 12px/16px Jost;letter-spacing:.18em;" style-hover="background:#D1EEEA;">CREATE AN ACCOUNT (OPTIONAL)</button></div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ rNotFound }}" hint-placeholder-val="{{ false }}">
+      <section style="max-width:1440px;margin:0 auto;padding:80px clamp(16px,4.4vw,64px);display:flex;flex-direction:column;align-items:center;gap:24px;text-align:center;">
+        <div data-reveal="rise" style="width:200px;aspect-ratio:3/4;background:#D1EEEA;border:1px solid rgba(42,86,116,0.25);border-radius:999px 999px 0 0;"></div>
+        <h1 data-reveal="up" style="font-family:'Libre Caslon Display',serif;font-weight:400;font-size:clamp(34px,4vw,44px);line-height:1.14;">This page wandered off.</h1>
+        <p data-reveal="up" style="font-size:17px;line-height:28px;max-width:480px;">It may be still in preparation (P2), or the link has changed.</p>
+        <div data-reveal="up" style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;"><button onClick="{{ goShop }}" style="height:52px;padding:0 32px;background:#2A5674;color:#FFFFFF;font:500 12px/16px Jost;letter-spacing:.18em;">SHOP MATCHA</button><button onClick="{{ goHome }}" style="height:52px;padding:0 32px;border:1px solid #2A5674;font:500 12px/16px Jost;letter-spacing:.18em;">HOME</button></div>
+      </section>
+    </sc-if>
+  </main>
+
+  <sc-if value="{{ notCheckout }}" hint-placeholder-val="{{ true }}">
+    <section style="background:#A1D7D6;position:relative;overflow:hidden;">
+      <div data-reveal="rise" style="position:absolute;right:clamp(120px,16vw,240px);bottom:0;width:clamp(90px,11vw,168px);height:72%;background:#D1EEEA;border-radius:999px 999px 0 0;"></div>
+      <div data-reveal="rise" data-delay="150" style="position:absolute;right:clamp(24px,6vw,88px);bottom:0;width:clamp(56px,6.5vw,96px);height:88%;background:#FAF6EE;border-radius:999px 999px 0 0;outline:1.5px solid #B39A62;outline-offset:10px;"></div>
+      <div style="max-width:1440px;margin:0 auto;padding:clamp(48px,7vw,96px) clamp(16px,4.4vw,64px);position:relative;">
+        <div style="max-width:620px;display:flex;flex-direction:column;gap:20px;">
+          <span data-reveal="up" style="font:500 12px/16px Jost;letter-spacing:.18em;">LETTERS FROM THE ACADEMY</span>
+          <h2 data-reveal="up" style="font-family:'Libre Caslon Display',serif;font-weight:400;font-size:clamp(34px,4vw,44px);line-height:1.14;">New teas, artwork reveals and restock alerts.</h2>
+          <p data-reveal="up" style="font-size:17px;line-height:28px;">A few letters a season. No pop-ups, no countdowns.</p>
+          <sc-if value="{{ nlIdle }}" hint-placeholder-val="{{ true }}">
+            <form data-reveal="up" onSubmit="{{ subscribe }}" style="display:flex;flex-direction:column;gap:6px;max-width:560px;" noValidate="{{ true }}">
+              <label style="font:500 14px/22px Jost;" for="nl-email">Email</label>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;"><input id="nl-email" type="email" value="{{ email }}" onChange="{{ setEmail }}" style="flex:1 1 220px;min-width:0;height:52px;background:#FFFFFF;border:{{ nlBorder }};border-radius:4px;padding:0 14px;font-size:17px;"><button type="submit" style="height:52px;min-width:150px;padding:0 28px;background:#2A5674;color:#FFFFFF;font:500 12px/16px Jost;letter-spacing:.18em;display:flex;align-items:center;justify-content:center;" style-hover="background:#1F4560;"><sc-if value="{{ nlLoading }}" hint-placeholder-val="{{ false }}"><span style="width:16px;height:16px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.35);border-top-color:#FFFFFF;animation:wmspin .8s linear infinite;"></span></sc-if><sc-if value="{{ nlNotLoading }}" hint-placeholder-val="{{ true }}">SUBSCRIBE</sc-if></button></div>
+              <sc-if value="{{ nlErr }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:6px;align-items:flex-start;background:#FAF6EE;padding:6px 8px;align-self:flex-start;"><img src="icons/error/alert.svg" width="18" height="18" alt="" style="flex:none;margin-top:2px;"><span style="font-size:14px;line-height:22px;color:#9C3B2E;">Check the email address, e.g. name@example.com.</span></div></sc-if>
+              <span style="font-size:14px;line-height:22px;">Unsubscribe any time. Read our <button type="button" onClick="{{ fHelp }}" style="text-decoration:underline;text-underline-offset:3px;">Privacy Policy</button>.</span>
+            </form>
+          </sc-if>
+          <sc-if value="{{ nlOk }}" hint-placeholder-val="{{ false }}"><div data-reveal="fade" style="display:flex;gap:12px;align-items:flex-start;"><img src="icons/check.svg" width="28" height="28" alt=""><div style="display:flex;flex-direction:column;"><span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">You’re on the list.</span><span style="font-size:14px;line-height:22px;">Look out for a letter from the Academy.</span></div></div></sc-if>
+        </div>
+      </div>
+    </section>
+    <footer style="background:#2A5674;color:#FAF6EE;">
+      <div style="max-width:1440px;margin:0 auto;padding:64px clamp(16px,4.4vw,64px) 32px;display:flex;flex-direction:column;gap:40px;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:32px;">
+          <div style="display:flex;flex-direction:column;gap:14px;grid-column:span 1;min-width:200px;"><img src="assets/logos/witcha-matcha_large_reversed-ivory-gold.svg" alt="WITCHA MATCHA" style="width:180px;display:block;"><span style="font-family:'Libre Caslon Text',serif;font-style:italic;font-size:18px;line-height:26px;">Matcha, With Taste.</span><div style="display:flex;gap:4px;margin-left:-10px;"><span style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;"><img src="icons/ivory/instagram.svg" width="24" height="24" alt="Instagram"></span><span style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;" title="TikTok · official mark"><span style="width:22px;height:22px;border:1px dashed #FAF6EE;"></span></span><span style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;" title="Pinterest · official mark"><span style="width:22px;height:22px;border:1px dashed #FAF6EE;"></span></span></div></div>
+          <div style="display:flex;flex-direction:column;gap:6px;"><span style="font:500 12px/16px Jost;letter-spacing:.18em;margin-bottom:8px;">SHOP</span><button onClick="{{ fShop }}" style="text-align:left;font-size:17px;line-height:32px;color:#FAF6EE;" style-hover="text-decoration:underline;">Shop Matcha</button><button onClick="{{ fGifts }}" style="text-align:left;font-size:17px;line-height:32px;color:#FAF6EE;" style-hover="text-decoration:underline;">Gifts</button><button onClick="{{ fAcc }}" style="text-align:left;font-size:17px;line-height:32px;color:#FAF6EE;" style-hover="text-decoration:underline;">Accessories</button></div>
+          <div style="display:flex;flex-direction:column;gap:6px;"><span style="font:500 12px/16px Jost;letter-spacing:.18em;margin-bottom:8px;">LEARN</span><button onClick="{{ fGuides }}" style="text-align:left;font-size:17px;line-height:32px;color:#FAF6EE;" style-hover="text-decoration:underline;">Brewing Guides</button><button onClick="{{ fAcademy }}" style="text-align:left;font-size:17px;line-height:32px;color:#FAF6EE;" style-hover="text-decoration:underline;">Witcha Academy</button><button onClick="{{ fStory }}" style="text-align:left;font-size:17px;line-height:32px;color:#FAF6EE;" style-hover="text-decoration:underline;">Our Story</button></div>
+          <div style="display:flex;flex-direction:column;gap:6px;"><span style="font:500 12px/16px Jost;letter-spacing:.18em;margin-bottom:8px;">HELP</span><button onClick="{{ fHelp }}" style="text-align:left;font-size:17px;line-height:32px;color:#FAF6EE;" style-hover="text-decoration:underline;">FAQ</button><button onClick="{{ fHelp }}" style="text-align:left;font-size:17px;line-height:32px;color:#FAF6EE;" style-hover="text-decoration:underline;">Shipping &amp; Returns</button><button onClick="{{ fHelp }}" style="text-align:left;font-size:17px;line-height:32px;color:#FAF6EE;" style-hover="text-decoration:underline;">Contact</button><button onClick="{{ fHelp }}" style="text-align:left;font-size:17px;line-height:32px;color:#FAF6EE;" style-hover="text-decoration:underline;">Privacy · Terms · Refunds</button></div>
+        </div>
+        <div style="height:1px;background:#B39A62;"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-size:14px;line-height:22px;">
+          <span>© 2026 WITCHA MATCHA · ABN [pending] · Prices in AUD incl. GST</span>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;"><span style="border:1px solid rgba(250,246,238,0.5);padding:2px 8px;font-size:12px;">Visa</span><span style="border:1px solid rgba(250,246,238,0.5);padding:2px 8px;font-size:12px;">Mastercard</span><span style="border:1px solid rgba(250,246,238,0.5);padding:2px 8px;font-size:12px;">Amex</span><span style="border:1px solid rgba(250,246,238,0.5);padding:2px 8px;font-size:12px;">Apple Pay</span><span style="border:1px solid rgba(250,246,238,0.5);padding:2px 8px;font-size:12px;">Google Pay</span><span style="border:1px solid rgba(250,246,238,0.5);padding:2px 8px;font-size:12px;">Shop Pay</span><span style="border:1px solid rgba(250,246,238,0.5);padding:2px 8px;font-size:12px;">PayPal</span><span style="border:1px solid rgba(250,246,238,0.5);padding:2px 8px;font-size:12px;">Afterpay</span></div>
+        </div>
+      </div>
+    </footer>
+  </sc-if>
+
+  <sc-if value="{{ sticky }}" hint-placeholder-val="{{ false }}">
+    <div data-reveal="fade" style="position:fixed;left:0;right:0;bottom:0;z-index:60;background:#FAF6EE;border-top:1px solid #2A5674;padding:10px clamp(16px,4.4vw,64px);display:flex;align-items:center;gap:14px;">
+      <span style="width:40px;aspect-ratio:4/5;background:#D1EEEA;border:1px solid rgba(42,86,116,0.25);flex:none;"></span>
+      <span style="flex:1;display:flex;flex-direction:column;min-width:0;"><span style="font-family:'Libre Caslon Text',serif;font-size:18px;line-height:24px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ p.name }}</span><span style="font-size:14px;line-height:20px;">{{ stickyMeta }}</span></span>
+      <button onClick="{{ pdpAdd }}" style="height:48px;padding:0 24px;background:#2A5674;color:#FFFFFF;font:500 12px/16px Jost;letter-spacing:.18em;white-space:nowrap;" style-hover="background:#1F4560;">ADD TO CART</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ cartOpen }}" hint-placeholder-val="{{ false }}">
+    <div data-reveal="fade" onClick="{{ closeCart }}" style="position:fixed;inset:0;z-index:80;background:rgba(42,86,116,0.40);"></div>
+    <aside data-reveal="drawer-right" role="dialog" aria-label="Your cart" style="position:fixed;top:0;right:0;bottom:0;width:min(100%,480px);z-index:81;background:#FAF6EE;border-left:1px solid rgba(42,86,116,0.25);display:flex;flex-direction:column;">
+      <div style="height:72px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(42,86,116,0.25);flex:none;"><span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">Your cart ({{ count }})</span><button onClick="{{ closeCart }}" aria-label="Close cart" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;margin-right:-10px;"><img src="icons/close.svg" width="24" height="24" alt=""></button></div>
+      <sc-if value="{{ cartEmpty }}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1;overflow:auto;padding:32px 24px;display:flex;flex-direction:column;gap:20px;">
+          <span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">Your cart is empty. Which matcha today?</span>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <button onClick="{{ goYame }}" style="text-align:left;display:flex;flex-direction:column;gap:8px;"><span style="aspect-ratio:4/5;width:100%;background:#D1EEEA;border:1px solid rgba(42,86,116,0.25);"></span><span style="font:500 11px/16px Jost;letter-spacing:.16em;">RESERVE · DEEP</span><span style="font-size:15px;line-height:22px;">Yame no Mukashi</span></button>
+            <button onClick="{{ goDaily }}" style="text-align:left;display:flex;flex-direction:column;gap:8px;"><span style="aspect-ratio:4/5;width:100%;background:#D1EEEA;border:1px solid rgba(42,86,116,0.25);"></span><span style="font:500 11px/16px Jost;letter-spacing:.16em;">DAILY · BRIGHT</span><span style="font-size:15px;line-height:22px;">[Daily tea name]</span></button>
+          </div>
+          <button onClick="{{ goShop }}" style="height:52px;background:#2A5674;color:#FFFFFF;font:500 12px/16px Jost;letter-spacing:.18em;">SHOP MATCHA</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{ cartHas }}" hint-placeholder-val="{{ true }}">
+        <div style="flex:1;overflow:auto;padding:20px 24px;display:flex;flex-direction:column;gap:20px;">
+          <div style="display:flex;flex-direction:column;gap:8px;"><span style="font-size:14px;line-height:22px;display:flex;gap:6px;align-items:center;"><sc-if value="{{ meterDone }}" hint-placeholder-val="{{ false }}"><img src="icons/check.svg" width="18" height="18" alt=""></sc-if>{{ meterText }}</span><div style="height:4px;background:#D1EEEA;"><div style="height:4px;width:{{ meterPct }};background:#2A5674;transition:width .5s cubic-bezier(.2,.7,.2,1);"></div></div></div>
+          <div style="display:flex;flex-direction:column;border-top:1px solid rgba(42,86,116,0.25);">
+            <sc-for list="{{ lines }}" as="l" hint-placeholder-count="1">
+              <div data-reveal="fade" style="display:flex;gap:14px;padding:16px 0;border-bottom:1px solid rgba(42,86,116,0.25);">
+                <span style="width:80px;aspect-ratio:4/5;background:#D1EEEA;border:1px solid rgba(42,86,116,0.25);flex:none;"></span>
+                <div style="flex:1;display:flex;flex-direction:column;gap:4px;min-width:0;">
+                  <div style="display:flex;justify-content:space-between;gap:8px;"><span style="font:500 11px/16px Jost;letter-spacing:.16em;">{{ l.eyebrow }}</span><span style="font:500 15px/22px Jost;">{{ l.price }}</span></div>
+                  <span style="font-size:17px;line-height:26px;">{{ l.name }}</span>
+                  <span style="font-size:14px;line-height:22px;">{{ l.size }}</span>
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+                    <div style="width:120px;height:40px;border:1px solid #2A5674;border-radius:4px;display:grid;grid-template-columns:40px 40px 40px;align-items:center;justify-items:center;background:#FFFFFF;"><button onClick="{{ l.minus }}" aria-label="Decrease" style="width:40px;height:38px;display:flex;align-items:center;justify-content:center;opacity:{{ l.minusOp }};"><img src="icons/minus.svg" width="18" height="18" alt=""></button><span style="font:500 15px Jost;">{{ l.qty }}</span><button onClick="{{ l.plus }}" aria-label="Increase" style="width:40px;height:38px;display:flex;align-items:center;justify-content:center;opacity:{{ l.plusOp }};"><img src="icons/plus.svg" width="18" height="18" alt=""></button></div>
+                    <button onClick="{{ l.remove }}" style="font-size:14px;line-height:22px;text-decoration:underline;text-underline-offset:3px;padding:10px 0;">Remove</button>
+                  </div>
+                  <sc-if value="{{ l.capped }}" hint-placeholder-val="{{ false }}"><span style="font-size:14px;line-height:22px;">{{ l.capText }}</span></sc-if>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <span style="font:500 12px/16px Jost;letter-spacing:.18em;">PAIR WITH</span>
+            <sc-for list="{{ tools }}" as="t" hint-placeholder-count="2"><div style="display:flex;gap:12px;align-items:center;"><span style="width:48px;aspect-ratio:4/5;background:#D1EEEA;border:1px solid rgba(42,86,116,0.25);flex:none;"></span><span style="flex:1;display:flex;flex-direction:column;"><span style="font-size:15px;line-height:22px;">{{ t.name }}</span><span style="font-size:14px;line-height:22px;">{{ t.price }}</span></span><button onClick="{{ t.add }}" style="height:40px;padding:0 14px;border:1px solid #2A5674;font:500 11px/16px Jost;letter-spacing:.16em;" style-hover="background:#D1EEEA;">ADD</button></div></sc-for>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;border-top:1px solid rgba(42,86,116,0.25);padding-top:16px;">
+            <button onClick="{{ toggleGift }}" role="checkbox" aria-checked="{{ giftOn }}" style="display:flex;gap:12px;align-items:center;min-height:44px;text-align:left;"><span style="width:20px;height:20px;border:1px solid #2A5674;border-radius:4px;background:{{ giftBox }};display:flex;align-items:center;justify-content:center;flex:none;"><sc-if value="{{ giftOn }}" hint-placeholder-val="{{ false }}"><img src="icons/white/check.svg" width="14" height="14" alt=""></sc-if></span><span style="font-size:17px;line-height:28px;display:flex;gap:8px;align-items:center;"><img src="icons/gift.svg" width="20" height="20" alt="">This is a gift</span></button>
+            <sc-if value="{{ giftOn }}" hint-placeholder-val="{{ false }}">
+              <div data-reveal="drop" style="display:flex;flex-direction:column;gap:6px;"><div style="display:flex;justify-content:space-between;"><label for="gift-note" style="font:500 14px/22px Jost;">Gift note</label><span style="font-size:14px;line-height:22px;">{{ giftCount }}</span></div><textarea id="gift-note" value="{{ giftNote }}" onChange="{{ setGift }}" rows="3" style="background:#FFFFFF;border:1px solid #2A5674;border-radius:4px;padding:10px 14px;font-size:17px;line-height:28px;resize:none;"></textarea><span style="font-size:14px;line-height:22px;">No prices on the packing slip.</span></div>
+            </sc-if>
+          </div>
+        </div>
+        <div style="flex:none;border-top:1px solid rgba(42,86,116,0.25);padding:16px 24px 20px;display:flex;flex-direction:column;gap:10px;background:#FAF6EE;">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;"><span style="font:500 17px Jost;">Subtotal</span><span style="font:500 22px Jost;">{{ subtotal }}</span></div>
+          <span style="font-size:14px;line-height:22px;">AUD, incl. GST. Shipping and discount codes are calculated at checkout.</span>
+          <button onClick="{{ checkout }}" style="height:52px;background:#2A5674;color:#FFFFFF;font:500 12px/16px Jost;letter-spacing:.18em;display:flex;align-items:center;justify-content:center;gap:8px;" style-hover="background:#1F4560;"><img src="icons/ivory/lock.svg" width="18" height="18" alt="">CHECKOUT</button>
+          <button onClick="{{ checkout }}" style="height:44px;border:1px dashed #2A5674;font:500 11px/16px Jost;letter-spacing:.16em;" style-hover="background:#D1EEEA;">SHOP PAY · RENDERED BY SHOPIFY</button>
+          <button onClick="{{ closeCart }}" style="align-self:center;font:500 12px/16px Jost;letter-spacing:.18em;text-decoration:underline;text-underline-offset:4px;padding:8px;">KEEP SHOPPING</button>
+        </div>
+      </sc-if>
+    </aside>
+  </sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ showFloat }}" hint-placeholder-val="{{ false }}">
+  <button data-reveal="left" onClick="{{ floatMenu }}" aria-label="Open menu" style="position:fixed;left:16px;bottom:{{ floatBottom }};z-index:75;width:56px;height:68px;background:#2A5674;border-radius:999px 999px 0 0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:2px;padding-bottom:10px;transition:bottom .3s,transform .3s;" style-hover="transform:translateY(-4px);"><img src="icons/ivory/menu.svg" width="22" height="22" alt=""><span style="font:500 9px/12px Jost;letter-spacing:.16em;color:#FAF6EE;">MENU</span></button>
+  <button data-reveal="right" onClick="{{ toTop }}" aria-label="Back to top" style="position:fixed;right:16px;bottom:{{ floatBottom }};z-index:75;width:56px;height:68px;background:#FAF6EE;border:1.5px solid #2A5674;border-radius:999px 999px 0 0;overflow:hidden;display:flex;align-items:flex-end;justify-content:center;padding-bottom:10px;transition:bottom .3s,transform .3s;" style-hover="transform:translateY(-4px);"><span data-totop-fill="1" style="position:absolute;left:0;right:0;bottom:0;height:0;background:#A1D7D6;"></span><span style="position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;"><img src="icons/chevron-up.svg" width="22" height="22" alt=""><span style="font:500 9px/12px Jost;letter-spacing:.16em;">TOP</span></span></button>
+</sc-if>
+<div data-curtain="1" aria-hidden="true" style="position:fixed;left:0;right:0;top:0;height:125vh;z-index:95;background:#A1D7D6;border-radius:50% 50% 0 0 / 180px 180px 0 0;transform:translateY(110%);pointer-events:none;display:flex;align-items:center;justify-content:center;"><img src="assets/logos/witcha-matcha_large_blue.svg" alt="" style="width:200px;display:block;margin-top:-25vh;"></div>
+
+<sc-if value="{{ showCat }}" hint-placeholder-val="{{ false }}">
+  <div data-cat="1" style="position:fixed;left:0;top:0;z-index:90;width:64px;height:48px;pointer-events:none;will-change:transform;">
+    <sc-if value="{{ hasBubble }}" hint-placeholder-val="{{ false }}">
+      <div data-reveal="drop" style="position:absolute;bottom:56px;left:-12px;white-space:nowrap;background:#FAF6EE;border:2px solid #2A5674;padding:6px 10px;font:500 11px/16px Jost;letter-spacing:.14em;text-transform:uppercase;box-shadow:4px 4px 0 #2A5674;">{{ bubble }}<span style="position:absolute;left:24px;bottom:-8px;width:12px;height:8px;background:#2A5674;clip-path:polygon(0 0,100% 0,0 100%);"></span></div>
+    </sc-if>
+    <canvas data-cat-canvas="1" width="16" height="12" onClick="{{ catClick }}" title="A pixel familiar (prototype only, not commissioned character art)" style="width:64px;height:48px;image-rendering:pixelated;display:block;pointer-events:auto;cursor:pointer;"></canvas>
+  </div>
+</sc-if></x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;shelfStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;wheel&quot;,&quot;horizontal&quot;],&quot;default&quot;:&quot;wheel&quot;,&quot;tsType&quot;:&quot;'wheel'|'horizontal'&quot;,&quot;section&quot;:&quot;Home&quot;},&quot;showCat&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Prototype&quot;},&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Prototype&quot;}}">
+class Component extends DCLogic {
+  data = {
+    products: [
+      { handle: 'yame', name: 'Yame no Mukashi', tier: 'Reserve', taste: 4, word: 'Deep', notes: ['Nutty', 'Umami', 'Mellow'], best: ['Latte', 'Straight', 'Iced'], badge: 'NEW', character: '[Character name]', servings: 15, region: 'Yame, Fukuoka', cultivar: '100% Okumidori', harvest: 'First harvest', grade: '[Grade description]', weight: '30 g', pack: '[Pack date note]', desc: '[Character name] keeps the deep tea at the Academy. Expect nutty, umami and mellow notes. From Yame in Fukuoka, 100% Okumidori, first harvest. Lovely whisked or as a latte.', variants: [{ id: 'y30', size: '30 g', price: 48, avail: true, qty: 12 }, { id: 'y100', size: '100 g', price: 140, avail: false, qty: 0 }] },
+      { handle: 'daily', name: '[Daily tea name]', tier: 'Daily', taste: 2, word: 'Bright', notes: ['[Note]', '[Note]', '[Note]'], best: ['Latte', 'Iced'], badge: null, character: '[Character name]', servings: 15, region: '[Region]', cultivar: '[Cultivar]', harvest: '[Harvest]', grade: '[Grade description]', weight: '30 g', pack: '[Pack date note]', desc: '[Character name] keeps the bright tea at the Academy. Expect [2–3 notes]. From [region], [cultivar], [harvest]. Lovely as a latte or over ice.', variants: [{ id: 'd30', size: '30 g', price: 32, avail: true, qty: 3 }] }
+    ],
+    gifts: [
+      { id: 'g-set', name: '[Two-tin discovery set]', price: 76, note: 'Bright and deep, side by side. Gift note included.' },
+      { id: 'g-tool', name: '[Tin + bamboo whisk]', price: 70, note: 'Everything needed to start whisking.' }
+    ],
+    tools: [{ id: 't-whisk', name: 'Bamboo whisk (chasen)', price: 28 }, { id: 't-froth', name: 'Handheld frother', price: 22 }],
+    guides: [
+      { title: 'How to whisk matcha', method: 'Whisk', time: '3 min', serves: '1' },
+      { title: 'A frothed matcha latte', method: 'Frother', time: '4 min', serves: '1' },
+      { title: 'Shaken iced matcha', method: 'Shaker', time: '3 min', serves: '1' },
+      { title: 'Iced latte, poured over', method: 'Iced', time: '2 min', serves: '1' },
+      { title: 'Clumps, bitterness, dull colour: fixes', method: 'Whisk', time: '5 min read', serves: '—' },
+      { title: 'Oat, almond or dairy?', method: 'Frother', time: '4 min read', serves: '—' }
+    ],
+    prep: [
+      { m: 'Whisk', icon: 'whisk', g: '2 g', water: '70 ml · 80°C', milk: '—', time: '2 min', steps: ['Sift 2 g (one heaped scoop) into a warm bowl.', 'Add a splash of 80°C water and paste it smooth.', 'Top up to 70 ml. Whisk in a quick M shape for 15 seconds.', 'Drink while the foam is fine.'] },
+      { m: 'Frother', icon: 'frother', g: '2 g', water: '30 ml · 80°C', milk: '180 ml', time: '3 min', steps: ['Add 2 g to a mug with 30 ml of 80°C water.', 'Froth for 10 seconds until no lumps remain.', 'Froth 180 ml of warm milk separately.', 'Pour the milk over the matcha.'] },
+      { m: 'Shaker', icon: 'shaker', g: '2 g', water: '60 ml · cold', milk: '150 ml', time: '2 min', steps: ['Add 2 g and 60 ml cold water to a shaker.', 'Close tight. Shake hard for 20 seconds.', 'Pour over ice and milk.'] },
+      { m: 'Iced latte', icon: 'iced', g: '2 g', water: '40 ml · 80°C', milk: '180 ml', time: '3 min', steps: ['Whisk or froth 2 g with 40 ml of 80°C water.', 'Fill a glass with ice and 180 ml cold milk.', 'Pour the matcha over slowly for the layers.'] }
+    ],
+    faq: [
+      { q: 'Is it good for lattes?', a: 'Yes. The deep tea holds its flavour through milk; the bright tea is lighter and lovely over ice.' },
+      { q: 'How do I store it?', a: 'Keep the tin closed tight, somewhere cool and dry, away from sunlight. Once opened, enjoy it within [opened shelf-life].' },
+      { q: 'How much is it per serve?', a: 'A 30 g tin makes about 15 serves at 2 g each, so roughly $[3.20] a cup.' },
+      { q: 'When will it arrive?', a: 'We dispatch from [city] within [x] business days. Metro Australia usually arrives [x–y] business days after that.' },
+      { q: 'Can I send it as a gift?', a: 'Yes. Tick “This is a gift” in your cart, add a note of up to 150 characters, and we leave prices off the packing slip.' }
+    ],
+    flow: [
+      { n: '01', screen: 'Home', route: 'home', does: 'Arrives from Instagram, TikTok or search.', sees: 'Products in the first two sections; shipping promise in the announcement bar.', fixes: 'No pop-up, no discount trap.' },
+      { n: '02', screen: 'Shop Matcha', route: 'shop', does: 'Asks “Which matcha today?”', sees: 'TasteScale Bright ↔ Deep with each tea placed on it.', fixes: 'Taste shown visually, not hidden in filters.' },
+      { n: '03', screen: 'Product page', route: 'pdp', does: 'Reads for about 10 seconds.', sees: 'Name, price, per-cup cost, taste, size, Add to cart and shipping promise above the fold.', fixes: 'Stock, price and button always agree.' },
+      { n: '04', screen: 'Add to cart', route: 'pdp', does: 'Taps Add to cart.', sees: 'Adding… → Added. Drawer opens in place.', fixes: 'No page change, no layout jump.' },
+      { n: '05', screen: 'Cart drawer', route: 'cart', does: 'Checks the cart and adds a gift note.', sees: 'Free-shipping meter, Pair with, gift note, one Checkout button, Shop Pay.', fixes: 'One primary button; codes at checkout.' },
+      { n: '06', screen: 'Checkout', route: 'checkout', does: 'Pays as a guest.', sees: 'Same logo, colours and button style; express pay first.', fixes: 'Guest by default; no forced account.', shopify: true },
+      { n: '07', screen: 'Confirmation', route: 'confirm', does: 'Gets an order number.', sees: 'What happens next, gift note summary, Make it at home.', fixes: 'Clear next steps; account optional.', shopify: true }
+    ],
+    principles: [
+      ['Cart opens in place', '04 · 05'], ['One primary button per surface', '03 · 05 · 06'], ['Guest checkout by default', '06'], ['Express pay on PDP and cart', '03 · 05'], ['Shipping promise before checkout', '01 · 03 · 05'], ['Free-shipping progress visible', '05'], ['No pop-ups or discount traps', 'all'], ['Cart survives reloads', '05'], ['Same brand both sides of the handoff', '05 → 06'], ['Every error says what to do next', '03 · 05 · 06']
+    ],
+    map: [
+      { name: 'Home', path: '/', go: 'home', p: 'P1' },
+      { name: 'Shop Matcha', path: '/collections/matcha', go: 'shop', p: 'P1', sub: '“Which Matcha Today?”', kids: [{ name: 'Product page', path: '/products/[handle]', go: 'pdp', p: 'P1' }] },
+      { name: 'Gifts', path: '/collections/gifts', go: 'gifts', p: 'P1' },
+      { name: 'Accessories', path: '/collections/accessories', go: 'notfound', p: 'P2' },
+      { name: 'Brewing Guides', path: '/blogs/brewing-guides', go: 'guides', p: 'P1', sub: '“A Little Magic, Made at Home”', kids: [{ name: 'Guide article', path: '/blogs/…/[handle]', go: 'guide', p: 'P1' }] },
+      { name: 'Witcha Academy', path: '/pages/academy', go: 'academy', p: 'P1' },
+      { name: 'Our Story', path: '/pages/our-story', go: 'story', p: 'P1' },
+      { name: 'Help', path: '', go: 'help', p: 'P1', kids: [{ name: 'FAQ', path: '/pages/faq', go: 'help', p: 'P1' }, { name: 'Shipping & Returns', path: '/pages/shipping-returns', go: 'help', p: 'P1' }, { name: 'Contact', path: '/pages/contact', go: 'help', p: 'P1' }] },
+      { name: 'Policies', path: '/policies/[handle]', go: 'help', p: 'P1', sub: 'Privacy · Terms · Refund' },
+      { name: 'Utility', path: '', go: null, p: 'P1', kids: [{ name: 'Search', path: '/search', go: 'search', p: 'P1' }, { name: 'Cart', path: '/cart', go: 'cart', p: 'P1' }, { name: 'Checkout', path: 'Shopify-hosted', go: 'checkout', p: 'SH' }, { name: 'Account', path: 'Shopify-hosted', go: null, p: 'SH' }, { name: '404', path: '*', go: 'notfound', p: 'P1' }, { name: 'Coming soon', path: 'optional', go: null, p: 'P1' }] }
+    ],
+    later: ['Wholesale', 'Stockists', 'Subscriptions & refills', '“Find Your Familiar” quiz (3+ teas)', 'Artist editions', 'Reviews / UGC gallery', 'Locale & currency (Thailand)'],
+    cat: {
+      walkA: ['..........b...b.', '..........bb.bb.', '..........bbbbb.', '.b........bebeb.', 'b.........bbpbb.', 'b...bbbbbbbbbb..', '.b.bbbbbbbbbbb..', '..bbbbbbbbbbbb..', '..bbbbbbbbbbb...', '..bb.b....b.bb..', '..b..b....b..b..', '.bb.bb...bb.bb..'],
+      walkB: ['..........b...b.', '..........bb.bb.', '..........bbbbb.', 'b.........bebeb.', 'b.........bbpbb.', '.b..bbbbbbbbbb..', '..bbbbbbbbbbbb..', '..bbbbbbbbbbbb..', '..bbbbbbbbbbb...', '...bb.b..bb.b...', '...b..b..b..b...', '..bb.bb.bb.bb...'],
+      sit: ['..........b...b.', '..........bb.bb.', '..........bbbbb.', '..........bebeb.', '..........bbpbb.', '.........bbbbbb.', '........bbbbbbb.', '..b.....bbbbbbb.', '.b.....bbbbbbbb.', '.b....bbbbbbbbb.', '..bbbbbbbbbbbbb.', '....bbbb.bb.bb..'],
+      blink: ['..........b...b.', '..........bb.bb.', '..........bbbbb.', '..........bbbbb.', '..........bbpbb.', '.........bbbbbb.', '........bbbbbbb.', '..b.....bbbbbbb.', '.b.....bbbbbbbb.', '.b....bbbbbbbbb.', '..bbbbbbbbbbbbb.', '....bbbb.bb.bb..']
+    }
+  };
+
+  frameMode = new URLSearchParams(location.search).get('frame') === '1';
+  state = (() => {
+    const qp = new URLSearchParams(location.search);
+    let nav = {}, cart = [];
+    try { nav = JSON.parse(localStorage.getItem('wm-proto2-nav') || '{}'); } catch (e) {}
+    try { cart = JSON.parse(localStorage.getItem('wm-proto-cart') || '[]'); } catch (e) {}
+    return {
+      view: 'site', tastePos: 4, tasteX: 0.75, dragging: false, showFloat: false, route: qp.get('route') || (this.frameMode ? 'home' : nav.route) || 'home', handle: qp.get('handle') || nav.handle || 'yame', guide: nav.guide || 0,
+      variantIdx: 0, qty: 1, img: 0, cart: qp.get('cart') ? [{ id: 'y30', name: 'Yame no Mukashi', size: '30 g', price: 48, eyebrow: 'RESERVE · DEEP', max: 12, qty: 1 }] : cart, cartOpen: !!qp.get('cart'), atc: 'idle', prepTab: 0, faqOpen: { 1: true }, sec: { tea: true, make: true },
+      sort: 'featured', guideFilter: 'All', searchOpen: !!qp.get('search'), q: qp.get('search') && qp.get('search') !== '1' ? qp.get('search') : '', menuOpen: !!qp.get('menu'), megaOpen: false, giftOn: false, giftNote: '',
+      compact: false, vw: window.innerWidth, sticky: false, flowStep: 0, flowPlaying: false, bubble: '', ship: 'standard',
+      newsletter: 'idle', email: '', notified: false, lastOrder: null, mapHover: null, helpTab: 0
+    };
+  })();
+
+  fmt(n) { return '$[' + n.toLocaleString('en-AU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ']'; }
+  motionOn() { return !this.frameMode && (this.props.motion ?? true) && !window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+
+  componentDidMount() { try { this.mountInner(); } catch (e) { console.warn('wm mount', e && e.message); } }
+  mountInner() {
+    const sc = Number(new URLSearchParams(location.search).get('scroll') || 0);
+    if (sc) setTimeout(() => { window.scrollTo(0, sc); this.handleScroll(); }, 500);
+    this.lastY = window.scrollY;
+    this.cat = { x: 40, y: window.innerHeight - 60, tx: 40, ty: window.innerHeight - 60, dir: 1, t: 0, mode: 'sit', lastScroll: 0, lastWander: performance.now(), run: false, blinkAt: 0 };
+    this.onScroll = () => this.handleScroll();
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    this.onKey = (e) => { if (e.key === 'Escape') this.setState({ cartOpen: false, searchOpen: false, menuOpen: false, megaOpen: false }); };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    window.addEventListener('resize', this.onResize);
+    window.addEventListener('keydown', this.onKey);
+    this.io = new IntersectionObserver((ents) => ents.forEach((en) => { if (en.isIntersecting) { this.playReveal(en.target); this.io.unobserve(en.target); } }), { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    this.scan();
+    this.raf = requestAnimationFrame((t) => this.tick(t));
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll); window.removeEventListener('resize', this.onResize); window.removeEventListener('keydown', this.onKey);
+    cancelAnimationFrame(this.raf); clearInterval(this.flowTimer); this.io && this.io.disconnect();
+  }
+  componentDidUpdate(pp, ps) {
+    const s = this.state;
+    if (ps.view !== s.view || ps.route !== s.route || ps.handle !== s.handle || ps.guide !== s.guide) {
+      if (!this.frameMode) try { localStorage.setItem('wm-proto2-nav', JSON.stringify({ view: s.view, route: s.route, handle: s.handle, guide: s.guide })); } catch (e) {}
+      const el = document.querySelector('[data-page]');
+      if (el && this.motionOn()) el.animate([{ opacity: 0, transform: 'translateY(18px)' }, { opacity: 1, transform: 'none' }], { duration: 480, easing: 'cubic-bezier(.2,.7,.2,1)' });
+    }
+    if (ps.cart !== s.cart && !this.frameMode) { try { localStorage.setItem('wm-proto-cart', JSON.stringify(s.cart)); } catch (e) {} }
+    requestAnimationFrame(() => this.scan());
+  }
+  scan() { try { this.scanInner(); } catch (e) { console.warn('wm scan', e && e.message); } }
+  scanInner() {
+    const motion = this.motionOn();
+    if (motion) document.querySelectorAll('[data-float]:not([data-fl])').forEach((el, i) => {
+      el.setAttribute('data-fl', '1');
+      const dx = (Math.random() - 0.5) * 80, dy = 120 + Math.random() * 200;
+      try { el.animate([{ transform: 'translate(0,0)', opacity: 0 }, { opacity: 0.9, offset: 0.25 }, { opacity: 0.7, offset: 0.75 }, { transform: 'translate(' + dx + 'px,-' + dy + 'px)', opacity: 0 }], { duration: 5000 + Math.random() * 5000, delay: Math.random() * 4000, iterations: Infinity, easing: 'ease-in-out' }); } catch (e) {}
+    });
+    document.querySelectorAll('[data-reveal]:not([data-rv])').forEach((el) => {
+      el.setAttribute('data-rv', '1');
+      const kind = el.getAttribute('data-reveal');
+      if (!motion) return;
+      if (document.visibilityState !== 'visible') return;
+      const r = el.getBoundingClientRect();
+      const inView = r.top < window.innerHeight && r.bottom > 0;
+      if (inView || kind === 'drawer-right' || kind === 'drawer-left' || kind === 'drop' || kind === 'fade') { this.playReveal(el); return; }
+      el.style.opacity = '0';
+      el.setAttribute('data-rv-hidden', '1');
+      this.io.observe(el);
+    });
+    clearTimeout(this.safetyT);
+    this.safetyT = setTimeout(() => {
+      document.querySelectorAll('[data-rv-hidden]').forEach((el) => { const r = el.getBoundingClientRect(); if (r.top < window.innerHeight && r.bottom > 0) { el.style.opacity = ''; el.removeAttribute('data-rv-hidden'); this.io.unobserve(el); } });
+    }, 1200);
+  }
+  playReveal(el) {
+    const kind = el.getAttribute('data-reveal');
+    const d = Number(el.getAttribute('data-delay') || 0);
+    const K = {
+      up: [{ opacity: 0, transform: 'translateY(36px)', filter: 'blur(6px)' }, { opacity: 1, transform: 'none', filter: 'blur(0)' }],
+      left: [{ opacity: 0, transform: 'translateX(-90px)', filter: 'blur(4px)' }, { opacity: 1, transform: 'none', filter: 'blur(0)' }],
+      right: [{ opacity: 0, transform: 'translateX(90px)', filter: 'blur(4px)' }, { opacity: 1, transform: 'none', filter: 'blur(0)' }],
+      mask: [{ transform: 'translateY(110%)' }, { transform: 'none' }],
+      'wipe-l': [{ clipPath: 'inset(0 100% 0 0)', transform: 'translateX(-60px)' }, { clipPath: 'inset(0 0 0 0)', transform: 'none' }],
+      'wipe-r': [{ clipPath: 'inset(0 0 0 100%)', transform: 'translateX(60px)' }, { clipPath: 'inset(0 0 0 0)', transform: 'none' }],
+      'arch-open': [{ clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0 0 0 0)' }],
+      zoom: [{ opacity: 0, transform: 'scale(1.12)' }, { opacity: 1, transform: 'none' }],
+      rise: [{ opacity: 1, transform: 'scaleY(0)' }, { opacity: 1, transform: 'scaleY(1)' }],
+      fade: [{ opacity: 0 }, { opacity: 1 }],
+      drop: [{ opacity: 0, transform: 'translateY(-12px)' }, { opacity: 1, transform: 'none' }],
+      'drawer-right': [{ transform: 'translateX(100%)' }, { transform: 'none' }],
+      'drawer-left': [{ transform: 'translateX(-100%)' }, { transform: 'none' }]
+    }[kind] || [{ opacity: 0 }, { opacity: 1 }];
+    if (kind === 'draw') { try { el.style.strokeDasharray = '1'; const a = el.animate([{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], { duration: 2200, delay: d, easing: 'cubic-bezier(.6,0,.2,1)', fill: 'backwards' }); a.onfinish = () => { el.style.strokeDasharray = ''; }; } catch (e) {} el.removeAttribute('data-rv-hidden'); el.style.opacity = ''; return; }
+    const dur = kind && kind.startsWith('drawer') ? 220 : kind === 'rise' ? 1100 : kind === 'arch-open' ? 1400 : kind === 'mask' || kind.startsWith('wipe') ? 1100 : 820;
+    el.removeAttribute('data-rv-hidden');
+    el.style.opacity = '';
+    if (kind === 'rise') el.style.transformOrigin = 'bottom';
+    try { el.animate(K, { duration: dur, delay: d, easing: 'cubic-bezier(.2,.7,.2,1)', fill: 'backwards' }); } catch (e) {}
+  }
+
+  handleScroll() {
+    const y = window.scrollY, dy = y - this.lastY; this.lastY = y;
+    const compact = y > 120;
+    if (compact !== this.state.compact) this.setState({ compact });
+    const showFloat = y > 160;
+    if (showFloat !== this.state.showFloat) this.setState({ showFloat });
+    if (this.state.view === 'site' && this.cat && Math.abs(dy) > 0) {
+      const w = window.innerWidth;
+      this.cat.tx = Math.max(16, Math.min(w - 80, this.cat.tx + dy * 0.9));
+      this.cat.lastScroll = performance.now();
+    }
+    if (this.state.view === 'site' && this.state.route === 'pdp') {
+      const el = document.querySelector('[data-atc-main]');
+      const sticky = !!el && el.getBoundingClientRect().bottom < 60;
+      if (sticky !== this.state.sticky) this.setState({ sticky });
+    } else if (this.state.sticky) this.setState({ sticky: false });
+  }
+
+  drawCat(frame) {
+    const cv = document.querySelector('[data-cat-canvas]'); if (!cv) return;
+    if (cv !== this.cvEl) { this.cvEl = cv; this.lastFrame = null; }
+    if (this.lastFrame === frame) return; this.lastFrame = frame;
+    const ctx = cv.getContext('2d'); ctx.clearRect(0, 0, 16, 12);
+    const rows = this.data.cat[frame];
+    rows.forEach((r, yy) => { for (let xx = 0; xx < 16; xx++) { const c = r[xx]; if (c === '.') continue; ctx.fillStyle = c === 'e' ? '#FAF6EE' : c === 'p' ? '#E9C2B8' : '#2A5674'; ctx.fillRect(xx, yy, 1, 1); } });
+  }
+  tick(now) {
+    this.raf = requestAnimationFrame((t) => this.tick(t));
+    try { this.step(now); } catch (e) {}
+  }
+  step(now) {
+    this.scrub(now);
+    const box = document.querySelector('[data-cat]'); if (!box || !this.cat) return;
+    const c = this.cat, s = this.state, H = window.innerHeight, W = window.innerWidth;
+    const floor = H - 54 - (s.sticky ? 76 : 0);
+    let tx = c.tx, ty = floor;
+    if (s.view === 'flow') {
+      const el = document.querySelector('[data-flow-step="' + s.flowStep + '"]');
+      if (el) { const r = el.getBoundingClientRect(); tx = r.left + 12; ty = r.top - 46; }
+    } else if (s.view === 'map') {
+      const el = s.mapHover != null ? document.querySelector('[data-map-node="' + s.mapHover + '"]') : null;
+      if (el) { const r = el.getBoundingClientRect(); tx = r.left + 8; ty = r.top - 46; } else { tx = c.tx; }
+    } else {
+      if (!c.run && now - c.lastScroll > 7000 && now - c.lastWander > 7000) { c.tx = 40 + Math.random() * (W - 160); c.lastWander = now; }
+      tx = c.tx;
+      const hc = document.querySelector('[data-hero-copy]');
+      if (hc) { const r = hc.getBoundingClientRect(); if (r.bottom > H - 70 && r.top < H) { const minX = r.right + 16; if (tx < minX) { tx = minX; c.tx = minX; } } }
+    }
+    tx = Math.max(8, Math.min(W - 72, tx)); ty = Math.max(60, Math.min(H - 54, ty));
+    const dx = tx - c.x, dy = ty - c.y;
+    const speed = c.run ? 7 : 2.6;
+    const moving = Math.abs(dx) > 1.5 || Math.abs(dy) > 1.5;
+    if (moving) {
+      c.x += Math.sign(dx) * Math.min(Math.abs(dx), speed);
+      c.y += dy * 0.12;
+      if (Math.abs(dx) > 1.5) c.dir = Math.sign(dx);
+      c.t += 1;
+      this.drawCat(Math.floor(c.t / (c.run ? 4 : 8)) % 2 ? 'walkA' : 'walkB');
+    } else {
+      if (c.run) c.run = false;
+      if (now > c.blinkAt) { c.blinkAt = now + 2600 + Math.random() * 2000; c.blinkUntil = now + 140; }
+      this.drawCat(now < (c.blinkUntil || 0) ? 'blink' : 'sit');
+    }
+    const hop = moving && Math.abs(dx) > 1.5 ? -Math.abs(Math.sin(c.t / (c.run ? 4 : 8) * Math.PI)) * (c.run ? 5 : 2) : 0;
+    box.style.transform = 'translate(' + c.x.toFixed(1) + 'px,' + (c.y + hop).toFixed(1) + 'px)';
+    const cv = document.querySelector('[data-cat-canvas]'); if (cv) cv.style.transform = 'scaleX(' + (c.dir < 0 ? -1 : 1) + ')';
+  }
+  scrub(now) {
+    const H = window.innerHeight, W = window.innerWidth, y = window.scrollY;
+    const vel = y - (this.lastStepY ?? y); this.lastStepY = y;
+    this.vel = (this.vel || 0) * 0.85 + vel * 0.15;
+    const motion = this.motionOn();
+    const prog = (el, off) => { off = off || 0; const r = el.getBoundingClientRect(); return Math.max(0, Math.min(1, (off - r.top) / Math.max(1, r.height - H + off))); };
+    const ease = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    const hero = document.querySelector('[data-scrub="hero"]');
+    if (hero) {
+      const p = motion ? prog(hero, 0) : 0, e = ease(p);
+      const stg = hero.querySelector('[data-hero-stage]'), hdr = document.querySelector('header');
+      if (stg) { const hb = hdr ? Math.max(0, hdr.getBoundingClientRect().bottom) : 0; stg.style.height = Math.max(420, H - hb) + 'px'; }
+      const arch = hero.querySelector('[data-hero-arch]');
+      if (arch) { const cover = Math.max(W / arch.offsetWidth, H / arch.offsetHeight) * 1.25; arch.style.transform = 'translateY(' + (e * 6) + 'vh) scale(' + (1 + e * (cover - 1)).toFixed(3) + ')'; }
+      const ring = hero.querySelector('[data-hero-ring]'); if (ring) { ring.style.opacity = String(Math.max(0, 1 - p * 3));  }
+      hero.querySelectorAll('[data-hero-fade]').forEach((el) => { el.style.opacity = String(Math.max(0, 1 - p * 3.2)); });
+      const l1 = hero.querySelector('[data-hero-l1]'); if (l1) l1.style.transform = 'translateX(' + (-e * 60) + 'vw)';
+      const l2 = hero.querySelector('[data-hero-l2]'); if (l2) l2.style.transform = 'translateX(' + (e * 60) + 'vw)';
+      const ins = hero.querySelector('[data-hero-inside]'); if (ins) { const o = Math.max(0, Math.min(1, (p - 0.55) / 0.25)); ins.style.opacity = String(o); ins.style.transform = 'translateY(' + ((1 - o) * 40) + 'px) scale(' + (0.96 + o * 0.04) + ')'; ins.style.pointerEvents = o > 0.5 ? 'auto' : 'none'; }
+      const bg = hero.querySelectorAll('[data-hero-bg]'); bg.forEach((el, i) => { el.style.transform = 'translateY(' + (e * (i % 2 ? 40 : 70)) + 'vh)'; });
+    }
+    const shelf = document.querySelector('[data-scrub="shelf"]');
+    if (shelf) {
+      const p = prog(shelf), track = shelf.querySelector('[data-shelf-track]');
+      if (track) { const max = Math.max(0, track.scrollWidth - W + 64); track.style.transform = 'translateX(' + (-p * max).toFixed(1) + 'px)'; track.querySelectorAll('[data-shelf-card]').forEach((c, i) => { const r = c.getBoundingClientRect(); const mid = (r.left + r.width / 2 - W / 2) / W; c.style.transform = 'translateY(' + (Math.abs(mid) * 60).toFixed(1) + 'px) rotate(' + (mid * 4).toFixed(2) + 'deg)'; }); }
+      const bar = shelf.querySelector('[data-shelf-bar]'); if (bar) bar.style.transform = 'scaleX(' + p.toFixed(3) + ')';
+    }
+    const wheel = document.querySelector('[data-scrub="wheel"]');
+    if (wheel) {
+      const p = prog(wheel), rot = wheel.querySelector('[data-wheel-rot]'), cards = wheel.querySelectorAll('[data-wheel-card]'), n = cards.length || 1;
+      const ang = -p * (n - 1) * 20;
+      if (rot) rot.style.transform = 'rotate(' + ang.toFixed(2) + 'deg)';
+      let best = 0, bd = 1e9;
+      cards.forEach((c, i) => { const eff = i * 20 + ang; const d = Math.abs(eff); if (d < bd) { bd = d; best = i; } const k = Math.min(1, d / 30); c.style.opacity = String(1 - k * 0.65); c.style.filter = 'blur(' + (k * 2).toFixed(1) + 'px)'; const inner = c.firstElementChild; if (inner) inner.style.transform = 'scale(' + (1.06 - k * 0.18).toFixed(3) + ')'; });
+      const cnt = wheel.querySelector('[data-wheel-count]'); if (cnt) cnt.textContent = String(best + 1).padStart(2, '0') + ' / ' + String(n).padStart(2, '0');
+      const bar = wheel.querySelector('[data-wheel-bar]'); if (bar) bar.style.transform = 'scaleX(' + p.toFixed(3) + ')';
+    }
+    const tf = document.querySelector('[data-totop-fill]');
+    if (tf) { const max = Math.max(1, document.documentElement.scrollHeight - H); tf.style.height = Math.min(100, (y / max) * 100).toFixed(1) + '%'; }
+    const words = document.querySelector('[data-scrub="words"]');
+    if (words) { const p = motion ? prog(words) : 1; const ws = words.querySelectorAll('[data-w]'); const lit = p * ws.length * 1.15; ws.forEach((w, i) => { w.style.opacity = String(Math.max(0.14, Math.min(1, lit - i))); }); }
+    if (motion) {
+      this.mq = (this.mq || 0) + 0.7 + Math.min(14, Math.abs(this.vel) * 0.35);
+      document.querySelectorAll('[data-marquee]').forEach((el) => { const dir = Number(el.getAttribute('data-marquee')); const half = el.scrollWidth / 2 || 1; const o = (((this.mq * dir) % half) + half) % half; const sk = Math.max(-10, Math.min(10, this.vel * 0.4)); el.style.transform = 'translateX(' + (-o).toFixed(1) + 'px) skewX(' + (-sk * dir).toFixed(2) + 'deg)'; });
+      document.querySelectorAll('[data-spin]').forEach((el) => { el.style.transform = 'rotate(' + ((now * 0.012 + y * 0.2) % 360).toFixed(1) + 'deg)'; });
+    }
+  }
+  dialFrom(e) { const r = e.currentTarget.getBoundingClientRect(); const x = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)); const pos = Math.round(x * 4) + 1; this.setState({ tasteX: x, tastePos: pos }); }
+  say(text, ms) { this.setState({ bubble: text }); clearTimeout(this.bubbleT); this.bubbleT = setTimeout(() => this.setState({ bubble: '' }), ms || 2400); }
+  catRunRight() { if (!this.cat) return; this.cat.run = true; this.cat.tx = window.innerWidth - (this.state.vw > 700 ? 560 : 120); this.cat.lastScroll = performance.now(); }
+
+  go(route, extra) {
+    const cur = document.querySelector('[data-curtain]');
+    if (!cur || !this.motionOn() || route === 'cart' || route === 'search' || this.curtainBusy) return this.goNow(route, extra);
+    this.curtainBusy = true;
+    const ease = 'cubic-bezier(.7,0,.2,1)';
+    cur.animate([{ transform: 'translateY(110%)' }, { transform: 'translateY(-12%)' }], { duration: 520, easing: ease, fill: 'forwards' }).onfinish = () => {
+      this.goNow(route, extra);
+      setTimeout(() => {
+        const a = cur.animate([{ transform: 'translateY(-12%)' }, { transform: 'translateY(-130%)' }], { duration: 620, easing: ease, fill: 'forwards' });
+        a.onfinish = () => { cur.getAnimations().forEach((x) => x.cancel()); this.curtainBusy = false; };
+      }, 140);
+    };
+  }
+  goNow(route, extra) {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+    if (route === 'cart') { this.setState({ view: 'site', cartOpen: true, menuOpen: false, searchOpen: false }); return; }
+    if (route === 'search') { this.setState({ view: 'site', searchOpen: true, menuOpen: false }); return; }
+    this.setState(Object.assign({ view: 'site', route, megaOpen: false, menuOpen: false, searchOpen: false, cartOpen: false, sticky: false, atc: 'idle' }, extra || {}));
+  }
+  openPdp(handle) { this.go('pdp', { handle, variantIdx: 0, qty: 1, img: 0 }); }
+  addLine(line, qty) {
+    this.setState((s) => {
+      const cart = s.cart.slice(); const i = cart.findIndex((l) => l.id === line.id);
+      if (i >= 0) { const max = cart[i].max || 99; cart[i] = Object.assign({}, cart[i], { qty: Math.min(max, cart[i].qty + qty) }); }
+      else cart.push(Object.assign({}, line, { qty }));
+      return { cart, cartOpen: true };
+    });
+    this.catRunRight(); this.say('Into the cart it goes.', 2200);
+  }
+  setQty(id, d) {
+    this.setState((s) => ({ cart: s.cart.map((l) => l.id === id ? Object.assign({}, l, { qty: Math.max(1, Math.min(l.max || 99, l.qty + d)) }) : l) }));
+  }
+  remove(id) { this.setState((s) => ({ cart: s.cart.filter((l) => l.id !== id) })); }
+  productLine(p, v) { return { id: v.id, name: p.name, size: v.size, price: v.price, eyebrow: (p.tier + ' · ' + p.word).toUpperCase(), max: v.qty || 99 }; }
+  pdpAdd() {
+    const s = this.state, p = this.data.products.find((x) => x.handle === s.handle) || this.data.products[0], v = p.variants[s.variantIdx];
+    if (!v.avail || s.atc !== 'idle') return;
+    this.setState({ atc: 'loading' });
+    setTimeout(() => { this.addLine(this.productLine(p, v), s.qty); this.setState({ atc: 'added' }); setTimeout(() => this.setState({ atc: 'idle' }), 2000); }, 700);
+  }
+  playFlow() {
+    if (this.state.flowPlaying) { clearInterval(this.flowTimer); this.setState({ flowPlaying: false }); return; }
+    this.setState({ flowPlaying: true, flowStep: 0 });
+    this.flowTimer = setInterval(() => {
+      this.setState((s) => { const n = s.flowStep + 1; if (n >= this.data.flow.length) { clearInterval(this.flowTimer); return { flowPlaying: false }; } return { flowStep: n }; });
+    }, 2200);
+  }
+  setView(v) { clearInterval(this.flowTimer); window.scrollTo({ top: 0 }); this.setState({ view: v, flowPlaying: false, cartOpen: false, searchOpen: false, menuOpen: false }); }
+
+  renderVals() { try { return this.renderValsInner(); } catch (e) { console.warn('wm renderVals', e && e.message); throw e; } }
+  renderValsInner() {
+    const s = this.state, D = this.data, fmt = (n) => this.fmt(n);
+    const narrow = s.vw < 1200;
+    const tabs = [['map', 'SITE MAP'], ['flow', 'USER JOURNEY'], ['site', 'WEBSITE']].map(([id, label]) => ({ label, go: () => this.setView(id), bg: s.view === id ? '#FAF6EE' : 'transparent', fg: s.view === id ? '#2A5674' : '#FAF6EE' }));
+    const markerLeft = (pos, w) => 'calc(' + ((pos - 1) * 25) + '% - ' + w + 'px)';
+    const card = (p) => {
+      const v = p.variants.find((x) => x.avail) || p.variants[0];
+      const multi = p.variants.length > 1;
+      return {
+        name: p.name, eyebrow: (p.tier + ' · ' + p.word).toUpperCase(), notes: p.notes.slice(0, 2), price: (multi ? 'From ' : '') + fmt(Math.min(...p.variants.map((x) => x.price))), size: multi ? p.variants.map((x) => x.size).join(' · ') : v.size,
+        badge: p.badge, hasBadge: !!p.badge, marker: markerLeft(p.taste, 5), open: () => this.openPdp(p.handle), btn: multi ? 'CHOOSE SIZE' : 'ADD TO CART',
+        act: (e) => { e && e.stopPropagation && e.stopPropagation(); if (multi) this.openPdp(p.handle); else this.addLine(this.productLine(p, v), 1); },
+        pending: !!p.pending
+      };
+    };
+    let prods = D.products.slice();
+    if (s.sort === 'low') prods.sort((a, b) => a.variants[0].price - b.variants[0].price);
+    if (s.sort === 'high') prods.sort((a, b) => b.variants[0].price - a.variants[0].price);
+    const cards = prods.map(card);
+    const p = D.products.find((x) => x.handle === s.handle) || D.products[0];
+    const v = p.variants[s.variantIdx] || p.variants[0];
+    const low = v.avail && v.qty <= 5;
+    const subtotal = s.cart.reduce((a, l) => a + l.price * l.qty, 0);
+    const count = s.cart.reduce((a, l) => a + l.qty, 0);
+    const TH = 80, left = Math.max(0, TH - subtotal);
+    const shipCost = s.ship === 'express' ? 14.95 : subtotal >= TH ? 0 : 9.95;
+    const prep = D.prep[s.prepTab];
+    const q = s.q.trim().toLowerCase();
+    const searchProducts = q.length >= 2 ? D.products.filter((x) => (x.name + ' matcha ' + x.tier + ' ' + x.word + ' ' + x.notes.join(' ')).toLowerCase().includes(q)).map(card) : [];
+    const searchGuides = q.length >= 2 ? D.guides.map((g, i) => Object.assign({ i }, g)).filter((g) => (g.title + ' ' + g.method).toLowerCase().includes(q)).slice(0, 3).map((g) => ({ title: g.title, method: g.method, open: () => this.go('guide', { guide: g.i }) })) : [];
+    const guide = D.guides[s.guide] || D.guides[0];
+    const gPrep = D.prep.find((x) => guide.method.startsWith(x.m.split(' ')[0])) || D.prep[0];
+    const curFlow = D.flow[s.flowStep];
+    const navItems = [['shop', 'SHOP MATCHA'], ['gifts', 'GIFTS'], ['guides', 'BREWING GUIDES'], ['academy', 'WITCHA ACADEMY'], ['story', 'OUR STORY']].map(([r, label]) => ({ label, go: () => r === 'shop' ? this.setState({ megaOpen: !s.megaOpen }) : this.go(r), line: s.route === r || (r === 'shop' && (s.route === 'pdp' || s.megaOpen)) ? '#2A5674' : 'transparent', chevron: r === 'shop' }));
+    const footerCol = (r) => () => this.go(r);
+    const lines = s.cart.map((l) => ({ name: l.name, eyebrow: l.eyebrow, size: l.size, qty: l.qty, price: fmt(l.price * l.qty), minus: () => this.setQty(l.id, -1), plus: () => this.setQty(l.id, 1), remove: () => this.remove(l.id), minusOp: l.qty <= 1 ? 0.35 : 1, plusOp: l.qty >= (l.max || 99) ? 0.35 : 1, capped: l.qty >= (l.max || 99) && l.max < 99, capText: 'Only ' + l.max + ' available' }));
+    const atcLabel = !v.avail ? '' : s.atc === 'loading' ? 'ADDING…' : s.atc === 'added' ? 'ADDED' : 'ADD TO CART · ' + fmt(v.price * s.qty);
+
+    return {
+      tabs, isMap: s.view === 'map', isFlow: s.view === 'flow', isSite: s.view === 'site',
+      chromeNote: s.view === 'site' ? 'Click anything. Scroll to move the cat.' : s.view === 'flow' ? 'Press Play to walk the journey.' : 'Hover a page; click to open it.',
+      showCat: (this.props.showCat ?? true) && !this.frameMode, bubble: s.bubble, hasBubble: !!s.bubble, catClick: () => this.say(['Which matcha today?', 'Matcha, with taste.', 'Mrrp. Try the deep one.', 'Two grams. Whisk. Bliss.'][Math.floor(Math.random() * 4)]),
+      // map
+      mapNodes: D.map.map((m, i) => ({
+        name: m.name, path: m.path, sub: m.sub || '', hasSub: !!m.sub, p: m.p, isP2: m.p === 'P2', idx: 'n' + i,
+        border: m.p === 'P2' ? '1px dashed #2A5674' : '1px solid #2A5674', bg: m.p === 'P2' ? 'transparent' : '#FAF6EE',
+        go: () => m.go && this.go(m.go), enter: () => this.setState({ mapHover: 'n' + i }), leave: () => this.setState({ mapHover: null }),
+        kids: (m.kids || []).map((k, j) => ({ name: k.name, path: k.path, idx: 'n' + i + 'k' + j, sh: k.p === 'SH', bg: k.p === 'SH' ? '#D1EEEA' : '#FFFFFF', border: k.p === 'SH' ? '1px dashed #2A5674' : '1px solid rgba(42,86,116,0.45)', go: () => k.go && this.go(k.go), enter: () => this.setState({ mapHover: 'n' + i + 'k' + j }), leave: () => this.setState({ mapHover: null }) })),
+        hasKids: !!(m.kids && m.kids.length)
+      })),
+      later: D.later,
+      // flow
+      flow: D.flow.map((f, i) => ({ ...f, i, active: i === s.flowStep, bg: i === s.flowStep ? '#A1D7D6' : f.shopify ? '#D1EEEA' : '#FAF6EE', border: i === s.flowStep ? '2px solid #2A5674' : '1px solid #2A5674', select: () => this.setState({ flowStep: i }), open: () => f.route === 'pdp' ? this.openPdp('yame') : this.go(f.route), arrow: i < D.flow.length - 1, isHandoff: i === 5 })),
+      curFlow, playLabel: s.flowPlaying ? 'PAUSE' : 'PLAY JOURNEY', playFlow: () => this.playFlow(), principles: D.principles.map(([t, w]) => ({ t, w })),
+      prevStep: () => this.setState({ flowStep: Math.max(0, s.flowStep - 1) }), nextStep: () => this.setState({ flowStep: Math.min(D.flow.length - 1, s.flowStep + 1) }),
+      openCurFlow: () => curFlow.route === 'pdp' ? this.openPdp('yame') : this.go(curFlow.route),
+      // site chrome
+      narrow, wide: !narrow, compact: s.compact, notCompact: !s.compact, logoW: s.compact || narrow ? (narrow && s.compact ? '112px' : '160px') : '200px',
+      smallLogo: narrow && s.compact, largeLogo: !(narrow && s.compact),
+      headerPad: s.compact ? '16px' : narrow ? '22px' : '28px',
+      navItems, goHome: () => this.go('home'), megaOpen: s.megaOpen && !narrow, closeMega: () => this.setState({ megaOpen: false }),
+      count, hasCount: count > 0, openCart: () => this.setState({ cartOpen: true }), closeCart: () => this.setState({ cartOpen: false }), cartOpen: s.cartOpen,
+      openSearch: () => this.setState({ searchOpen: true, q: '' }), closeSearch: () => this.setState({ searchOpen: false }), searchOpen: s.searchOpen, q: s.q, setQ: (e) => this.setState({ q: e.target.value }),
+      qEmpty: q.length < 2, qHas: q.length >= 2 && (searchProducts.length + searchGuides.length) > 0, qNone: q.length >= 2 && searchProducts.length + searchGuides.length === 0, qText: s.q.trim(),
+      searchProducts, searchGuides, popular: ['Iced latte', 'Yame', 'Whisk', 'Gift'].map((t) => ({ t, go: () => this.setState({ q: t }) })),
+      menuOpen: s.menuOpen, openMenu: () => this.setState({ menuOpen: true }), closeMenu: () => this.setState({ menuOpen: false }),
+      mobileLinks: [['shop', 'Shop Matcha'], ['gifts', 'Gifts'], ['guides', 'Brewing Guides'], ['academy', 'Witcha Academy'], ['story', 'Our Story'], ['help', 'Help & FAQ']].map(([r, t]) => ({ t, go: () => this.go(r) })),
+      menuSearch: () => this.setState({ menuOpen: false, searchOpen: true, q: '' }),
+      goShop: () => this.go('shop'), goGifts: () => this.go('gifts'), goGuides: () => this.go('guides'), goAcademy: () => this.go('academy'), goStory: () => this.go('story'), goHelp: () => this.go('help'), goNotFound: () => this.go('notfound'), goYame: () => this.openPdp('yame'), goDaily: () => this.openPdp('daily'),
+      fShop: footerCol('shop'), fGifts: footerCol('gifts'), fAcc: footerCol('notfound'), fGuides: footerCol('guides'), fAcademy: footerCol('academy'), fStory: footerCol('story'), fHelp: footerCol('help'),
+      // routes
+      rHome: s.route === 'home', rShop: s.route === 'shop', rGifts: s.route === 'gifts', rPdp: s.route === 'pdp', rGuides: s.route === 'guides', rGuide: s.route === 'guide', rAcademy: s.route === 'academy', rStory: s.route === 'story', rHelp: s.route === 'help', rCheckout: s.route === 'checkout', rConfirm: s.route === 'confirm', rNotFound: s.route === 'notfound',
+      notCheckout: s.route !== 'checkout' && s.route !== 'confirm', isCheckoutFamily: s.route === 'checkout' || s.route === 'confirm',
+      cards, firstCard: card(D.products[0]), yameMarker: markerLeft(4, 13), dailyMarker: markerLeft(2, 13), yameMarkerS: markerLeft(4, 8), dailyMarkerS: markerLeft(2, 8),
+      sortVal: s.sort, setSort: (e) => this.setState({ sort: e.target.value }), resultCount: D.products.length + ' teas',
+      gifts: D.gifts.map((g) => ({ name: g.name, note: g.note, price: fmt(g.price), add: () => this.addLine({ id: g.id, name: g.name, size: 'Gift set', price: g.price, eyebrow: 'GIFT SET', max: 20 }, 1) })),
+      // guides
+      guideChips: ['All', 'Whisk', 'Frother', 'Shaker', 'Iced'].map((m) => ({ m, go: () => this.setState({ guideFilter: m }), bg: s.guideFilter === m ? '#2A5674' : 'transparent', fg: s.guideFilter === m ? '#FFFFFF' : '#2A5674' })),
+      guideCards: D.guides.map((g, i) => Object.assign({ i }, g)).filter((g) => s.guideFilter === 'All' || g.method === s.guideFilter).map((g) => ({ title: g.title, method: g.method.toUpperCase(), time: g.time, open: () => this.go('guide', { guide: g.i }) })),
+      guide: { title: guide.title, method: guide.method, time: guide.time, serves: guide.serves, g: gPrep.g, water: gPrep.water, milk: gPrep.milk, steps: gPrep.steps.map((t, i) => ({ t, n: i + 1 })) },
+      relatedGuides: D.guides.map((g, i) => Object.assign({ i }, g)).filter((g) => g.i !== s.guide).slice(0, 3).map((g) => ({ title: g.title, method: g.method.toUpperCase(), open: () => this.go('guide', { guide: g.i }) })),
+      // pdp
+      p: { name: p.name, eyebrow: (p.tier + ' · ' + p.word).toUpperCase(), character: p.character, notes: p.notes, desc: p.desc, word: p.word, taste: p.taste, region: p.region, cultivar: p.cultivar, harvest: p.harvest, grade: p.grade, weight: v.size, pack: p.pack, badge: p.badge, hasBadge: !!p.badge, marker: markerLeft(p.taste, 8), otherMarker: markerLeft(p.taste === 4 ? 2 : 4, 8), tasteText: p.word + ', ' + p.taste + ' of 5', pending: !!p.pending },
+      bestFor: p.best.map((b) => ({ b, isLatte: b === 'Latte', isIced: b === 'Iced', isStraight: b === 'Straight', icon: 'icons/' + (b === 'Latte' ? 'cup' : b === 'Iced' ? 'iced' : 'whisk') + '.svg' })),
+      price: fmt(v.price), perCup: '≈ ' + fmt(v.price / (p.servings * (v.size === '100 g' ? 100 / 30 : 1))) + ' per cup ([2] g serve)',
+      options: p.variants.map((x, i) => ({ size: x.size, sub: !x.avail ? 'Sold out' : i === 0 ? fmt(x.price) : '+' + fmt(x.price - p.variants[0].price), pick: () => this.setState({ variantIdx: i, qty: 1, notified: false }), border: i === s.variantIdx ? '2px solid #2A5674' : x.avail ? '1px solid #2A5674' : '1px dashed rgba(42,86,116,0.55)', bg: i === s.variantIdx ? '#D1EEEA' : 'transparent', deco: x.avail ? 'none' : 'line-through', sel: i === s.variantIdx })),
+      inStock: v.avail && !low, lowStock: low, soldOut: !v.avail, avail: v.avail, lowText: 'Only ' + v.qty + ' left in ' + v.size + '.', soldText: 'Sold out in ' + v.size + '.',
+      qty: s.qty, qMinus: () => this.setState({ qty: Math.max(1, s.qty - 1) }), qPlus: () => this.setState({ qty: Math.min(v.qty || 99, s.qty + 1) }), qMinusOp: s.qty <= 1 ? 0.35 : 1, qPlusOp: s.qty >= v.qty ? 0.35 : 1,
+      atcLabel, atcLoading: s.atc === 'loading', atcAdded: s.atc === 'added', atcIdle: s.atc === 'idle', pdpAdd: () => this.pdpAdd(), notified: s.notified, notNotified: !s.notified, notify: () => { this.setState({ notified: true }); this.say('I’ll keep watch.', 2000); },
+      gallery: ['TIN PACK SHOT', 'POWDER COLOUR (TRUE)', 'HANDS WHISKING', 'ICED LATTE', 'TIN + ARCH ART · PENDING', 'SIZE / SCALE SHOT'].map((t, i) => ({ t, pick: () => this.setState({ img: i }), border: i === s.img ? '2px solid #2A5674' : '1px solid rgba(42,86,116,0.25)' })),
+      mainImg: ['TIN PACK SHOT', 'POWDER COLOUR (TRUE)', 'HANDS WHISKING', 'ICED LATTE', 'TIN + ARCH ART · PENDING', 'SIZE / SCALE SHOT'][s.img] + ' · 4:5', imgCounter: (s.img + 1) + ' / 6',
+      imgPrev: () => this.setState({ img: (s.img + 5) % 6 }), imgNext: () => this.setState({ img: (s.img + 1) % 6 }),
+      prepTabs: D.prep.map((x, i) => ({ m: x.m.toUpperCase(), go: () => this.setState({ prepTab: i }), line: i === s.prepTab ? '#2A5674' : 'transparent' })),
+      prep: { g: prep.g, water: prep.water, milk: prep.milk, time: prep.time, steps: prep.steps.map((t, i) => ({ t, n: i + 1 })), icon: 'icons/' + prep.icon + '.svg', m: prep.m },
+      faq: D.faq.map((f, i) => ({ q: f.q, a: f.a, open: !!s.faqOpen[i], closed: !s.faqOpen[i], icon: s.faqOpen[i] ? 'icons/minus.svg' : 'icons/plus.svg', toggle: () => this.setState({ faqOpen: Object.assign({}, s.faqOpen, { [i]: !s.faqOpen[i] }) }) })),
+      sticky: s.sticky && s.route === 'pdp' && v.avail, stickyMeta: v.size + ' · ' + fmt(v.price),
+      related: cards.filter((c) => c.name !== p.name),
+      tools: D.tools.map((t) => ({ name: t.name, price: fmt(t.price), add: () => this.addLine({ id: t.id, name: t.name, size: 'Tool', price: t.price, eyebrow: 'TOOL · P2', max: 10 }, 1) })),
+      // cart
+      lines, cartEmpty: s.cart.length === 0, cartHas: s.cart.length > 0, subtotal: fmt(subtotal),
+      meterPct: Math.min(100, (subtotal / TH) * 100) + '%', meterText: left > 0 ? 'You’re ' + fmt(left) + ' away from free shipping.' : 'Free shipping unlocked.', meterDone: left <= 0,
+      giftOn: s.giftOn, toggleGift: () => this.setState({ giftOn: !s.giftOn }), giftBox: s.giftOn ? '#2A5674' : '#FFFFFF', giftNote: s.giftNote, setGift: (e) => this.setState({ giftNote: e.target.value.slice(0, 150) }), giftCount: s.giftNote.length + ' / 150',
+      checkout: () => { this.setState({ cartOpen: false }); this.go('checkout'); this.say('Over to Shopify checkout.', 2000); },
+      // checkout
+      shipStd: s.ship === 'standard', shipExp: s.ship === 'express', pickStd: () => this.setState({ ship: 'standard' }), pickExp: () => this.setState({ ship: 'express' }),
+      stdLabel: subtotal >= TH ? 'Free' : fmt(9.95), shipCost: shipCost === 0 ? 'Free' : fmt(shipCost), total: fmt(subtotal + shipCost),
+      pay: () => { const no = '#WM' + (1000 + Math.floor(Math.random() * 900)); this.setState({ lastOrder: { no, lines: lines.map((l) => ({ name: l.name, size: l.size, qty: l.qty, price: l.price })), total: fmt(subtotal + shipCost), gift: s.giftOn ? (s.giftNote || '(no message)') : '' }, cart: [], giftOn: false, giftNote: '' }); this.go('confirm'); this.say('Order placed. Mrrp!', 2400); },
+      order: s.lastOrder || { no: '#WM[0000]', lines: [], total: fmt(0), gift: '' }, orderGift: !!(s.lastOrder && s.lastOrder.gift),
+      // newsletter
+      email: s.email, setEmail: (e) => this.setState({ email: e.target.value, newsletter: 'idle' }),
+      subscribe: (e) => { e && e.preventDefault && e.preventDefault(); if (!/^\S+@\S+\.\S+$/.test(s.email)) { this.setState({ newsletter: 'error' }); return; } this.setState({ newsletter: 'loading' }); setTimeout(() => this.setState({ newsletter: 'ok' }), 800); },
+      nlIdle: s.newsletter !== 'ok', nlOk: s.newsletter === 'ok', nlErr: s.newsletter === 'error', nlLoading: s.newsletter === 'loading', nlNotLoading: s.newsletter !== 'loading', nlBorder: s.newsletter === 'error' ? '2px solid #9C3B2E' : '1px solid #2A5674',
+      anchors: [['pdp-tea', 'The tea'], ['pdp-make', 'Make it'], ['pdp-store', 'Storage'], ['pdp-char', 'Meet ' + p.character], ['pdp-reviews', 'Reviews'], ['pdp-faq', 'FAQ']].map(([id, t]) => ({ t, go: () => { const el = document.getElementById(id); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: this.motionOn() ? 'smooth' : 'auto' }); } })),
+      goTroubleshoot: () => this.go('guide', { guide: 4 }), goPrepGuide: () => this.go('guide', { guide: s.prepTab }),
+      tastePos: s.tastePos, navLeft: navItems.slice(0, 3), navRight: navItems.slice(3),
+      tasteMarker: 'calc(' + (s.tasteX * 100).toFixed(2) + '% - 22px)', tasteFill: (s.tasteX * 100).toFixed(2) + '%', tasteWord: ['Fresh', 'Bright', 'Balanced', 'Deep', 'Rich'][s.tastePos - 1], tastePosText: s.tastePos + ' of 5',
+      dialBright: s.tastePos <= 2, dialBal: s.tastePos === 3, dialDeep: s.tastePos >= 4,
+      dialStops: [1, 2, 3, 4, 5].map((n) => ({ n, go: () => this.setState({ tastePos: n, tasteX: (n - 1) / 4 }), label: ['1', '2', '3', '4', '5'][n - 1], w: n === s.tastePos ? 500 : 400, sel: n === s.tastePos })),
+      dialDown: (e) => { this.dragging = true; this.setState({ dragging: true }); try { e.currentTarget.setPointerCapture(e.pointerId); } catch (x) {} this.dialFrom(e); }, dialMove: (e) => { if (this.dragging) this.dialFrom(e); }, dialUp: () => { this.dragging = false; this.setState({ dragging: false }); },
+      tasteTrans: s.dragging ? 'none' : 'left .6s cubic-bezier(.3,1.4,.4,1)', fillTrans: s.dragging ? 'none' : 'width .6s cubic-bezier(.2,.7,.2,1)',
+      showFloat: s.showFloat && !this.frameMode, floatBottom: s.sticky ? '92px' : '16px', toTop: () => window.scrollTo({ top: 0, behavior: this.motionOn() ? 'smooth' : 'auto' }), floatMenu: () => this.setState({ menuOpen: true }),
+      shelfWheel: (this.props.shelfStyle ?? 'wheel') === 'wheel', shelfH: (this.props.shelfStyle ?? 'wheel') !== 'wheel',
+      yameCard: card(D.products[0]), dailyCard: card(D.products[1]),
+      addSet: () => this.addLine({ id: 'g-set', name: '[Two-tin discovery set]', size: 'Gift set', price: 76, eyebrow: 'GIFT SET', max: 20 }, 1),
+      shelf: [
+        { n: '01', eyebrow: 'RESERVE · DEEP', name: 'Yame no Mukashi', line: 'Nutty, umami, mellow. Whisked or in milk.', price: fmt(48), btn: 'ADD TO CART', act: () => this.addLine(this.productLine(D.products[0], D.products[0].variants[0]), 1), view: () => this.openPdp('yame'), ghost: false, tint: '#D1EEEA' },
+        { n: '02', eyebrow: 'DAILY · BRIGHT', name: '[Daily tea name]', line: 'Fresh and lively. Lovely over ice.', price: fmt(32), btn: 'ADD TO CART', act: () => this.addLine(this.productLine(D.products[1], D.products[1].variants[0]), 1), view: () => this.openPdp('daily'), ghost: false, tint: '#A1D7D6' },
+        { n: '03', eyebrow: 'GIFT SET', name: '[Two-tin discovery set]', line: 'Bright and deep, side by side.', price: fmt(76), btn: 'ADD TO CART', act: () => this.addLine({ id: 'g-set', name: '[Two-tin discovery set]', size: 'Gift set', price: 76, eyebrow: 'GIFT SET', max: 20 }, 1), view: () => this.go('gifts'), ghost: false, tint: '#D1EEEA' },
+        { n: '04', eyebrow: 'GIFT SET', name: '[Tin + bamboo whisk]', line: 'Everything to start whisking.', price: fmt(70), btn: 'ADD TO CART', act: () => this.addLine({ id: 'g-tool', name: '[Tin + bamboo whisk]', size: 'Gift set', price: 70, eyebrow: 'GIFT SET', max: 20 }, 1), view: () => this.go('gifts'), ghost: false, tint: '#A1D7D6' },
+        { n: '05', eyebrow: 'IN PREPARATION', name: 'Coming to the Academy', line: 'A new tea is being tasted. Letters hear first.', price: '', btn: 'GET THE LETTER', act: () => { const el = document.getElementById('nl-email'); if (el) { window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 200, behavior: 'smooth' }); setTimeout(() => el.focus(), 700); } }, view: () => {}, ghost: true, tint: 'transparent' }
+      ].map((x, i) => Object.assign(x, { deg: i * 20, idx: i })),
+      manifesto: 'Every tin is tasted by Pop before it reaches the Academy shelf. We look for sweetness, depth and a colour that tells the truth, then place each tea on one simple scale from bright to deep, so choosing feels like a little magic, not homework.'.split(' ').map((w, i) => ({ w, i })),
+      helpTabs: ['FAQ', 'SHIPPING & RETURNS', 'CONTACT'].map((t, i) => ({ t, go: () => this.setState({ helpTab: i }), line: s.helpTab === i ? '#2A5674' : 'transparent' })), h0: s.helpTab === 0, h1: s.helpTab === 1, h2: s.helpTab === 2
+    };
+  }
+}
+</script>
+</body>
+</html>

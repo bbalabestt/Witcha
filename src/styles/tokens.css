@@ -30,9 +30,22 @@
   --radius-none: 0;
   --radius-sm: 4px;
   --radius-arch: 999px;
-  --font-display: "Libre Caslon Display", "Libre Caslon Text", Georgia, serif;
-  --font-serif: "Libre Caslon Text", Georgia, "Times New Roman", serif;
-  --font-sans: Jost, "Avenir Next", "Segoe UI", sans-serif;
+  --action-primary-hover: #1f4560;
+  --action-primary-active: #183850;
+  --feedback-error: #9c3b2e;
+  --surface-overlay: rgba(42, 86, 116, 0.4);
+  --line-muted: rgba(42, 86, 116, 0.55);
+  --line-on-dark: rgba(250, 246, 238, 0.5);
+  --opacity-disabled: 0.35;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --duration-drawer: 220ms;
+  --duration-reveal: 820ms;
+  --gutter: clamp(16px, 4.4vw, 64px);
+  --content-max: 1440px;
+  --touch-target: 44px;
+  --font-display: var(--wm-font-display), "Libre Caslon Display", "Libre Caslon Text", Georgia, serif;
+  --font-serif: var(--wm-font-serif), "Libre Caslon Text", Georgia, "Times New Roman", serif;
+  --font-sans: var(--wm-font-sans), Jost, "Avenir Next", "Segoe UI", sans-serif;
 }
 
 .display-xl {

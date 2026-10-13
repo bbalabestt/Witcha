@@ -26,9 +26,27 @@ for (const t of tokens.spacing.tokens) {
 for (const t of tokens.radius.tokens) {
   lines.push(`  --${t.name}: ${t.value};`);
 }
-lines.push(`  --font-display: ${tokens.type.families.display};`);
-lines.push(`  --font-serif: ${tokens.type.families.serif};`);
-lines.push(`  --font-sans: ${tokens.type.families.sans};`);
+// Values used by the prototype that tokens.json lacks. Logged in docs/DEVIATIONS.md (D-03).
+const extensions = {
+  "action-primary-hover": "#1f4560",
+  "action-primary-active": "#183850",
+  "feedback-error": "#9c3b2e",
+  "surface-overlay": "rgba(42, 86, 116, 0.4)",
+  "line-muted": "rgba(42, 86, 116, 0.55)",
+  "line-on-dark": "rgba(250, 246, 238, 0.5)",
+  "opacity-disabled": "0.35",
+  "ease-out": "cubic-bezier(0.2, 0.7, 0.2, 1)",
+  "duration-drawer": "220ms",
+  "duration-reveal": "820ms",
+  "gutter": "clamp(16px, 4.4vw, 64px)",
+  "content-max": "1440px",
+  "touch-target": "44px",
+};
+for (const [name, value] of Object.entries(extensions)) lines.push(`  --${name}: ${value};`);
+// next/font/local exposes hashed families via these variables (see src/app/fonts.ts).
+lines.push(`  --font-display: var(--wm-font-display), ${tokens.type.families.display};`);
+lines.push(`  --font-serif: var(--wm-font-serif), ${tokens.type.families.serif};`);
+lines.push(`  --font-sans: var(--wm-font-sans), ${tokens.type.families.sans};`);
 lines.push("}", "");
 
 const mobileOverrides = {

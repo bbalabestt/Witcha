@@ -1,0 +1,82 @@
+.pillGroup {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pill {
+  min-width: 120px;
+  height: 56px;
+  padding: 0 var(--space-3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line-control);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  transition: background-color 0.2s var(--ease-out);
+}
+
+.pill:hover { background: var(--surface-soft); }
+
+.pill[aria-checked="true"] {
+  /* 2 px border without shifting layout: inset shadow tops up the 1 px border. */
+  box-shadow: inset 0 0 0 1px var(--line-control);
+  background: var(--surface-soft);
+}
+
+.pillUnavailable {
+  border-style: dashed;
+  border-color: var(--line-muted);
+}
+
+.pillUnavailable .pillMain { text-decoration: line-through; }
+
+.pillMain {
+  font-size: 17px;
+  line-height: 22px;
+  font-weight: 500;
+}
+
+.pillSub {
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.stepper {
+  display: grid;
+  grid-template-columns: var(--touch-target) var(--touch-target) var(--touch-target);
+  align-items: center;
+  justify-items: center;
+  flex: none;
+  width: 132px;
+  height: 52px;
+  border: 1px solid var(--line-control);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+}
+
+/* Prototype draws 120 × 40; raised to 44 px targets (DEVIATIONS D-13). */
+.stepperCompact {
+  height: var(--touch-target);
+}
+
+.stepperButton {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepperButton:disabled {
+  cursor: not-allowed;
+  opacity: var(--opacity-disabled);
+}
+
+.stepperValue {
+  font-size: 17px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,78 @@
+.frame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3);
+  border: 1px solid var(--line-hairline);
+  text-align: center;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.soft { background: var(--surface-soft); }
+.brand { background: var(--surface-brand); }
+.page { background: var(--surface-page); }
+.dashed { background: transparent; border: 1px dashed var(--line-control); }
+
+.arch {
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+}
+
+.archFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+  overflow: hidden;
+}
+
+/* Thin gold arch outline offset outside the frame, as on the home hero. */
+.outlined {
+  overflow: visible;
+}
+
+.outlined::before {
+  content: "";
+  position: absolute;
+  inset: -18px -18px 0;
+  border: 1.5px solid var(--brand-gold);
+  border-bottom: 0;
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+  pointer-events: none;
+}
+
+.archInner {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+.badgeSlot {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.skeleton {
+  display: block;
+  background: var(--surface-soft);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% { opacity: 0.55; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; }
+}
