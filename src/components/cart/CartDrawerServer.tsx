@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { getServerEnv } from "@/lib/config/env";
 import { getCollection, getPairings, getSiteSettings } from "@/lib/data";
 import { CartDrawer } from "./CartDrawer";
@@ -14,5 +15,11 @@ export async function getCartExtras(): Promise<CartExtras> {
 }
 
 export async function CartDrawerServer() {
-  return <CartDrawer extras={await getCartExtras()} />;
+  const extras = await getCartExtras();
+  // The drawer reads the pathname (to close on navigation), which needs a Suspense boundary.
+  return (
+    <Suspense fallback={null}>
+      <CartDrawer extras={extras} />
+    </Suspense>
+  );
 }

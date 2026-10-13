@@ -210,6 +210,11 @@ export type SiteSettings = {
   dispatchDays: string;
   deliveryDays: string;
   returnsDays: string;
+  expressShipping: Money;
+  expressDays: string;
+  refundDays: string;
+  replyTime: string;
+  supportEmail: string;
   lowStockThreshold: number;
   giftCutoff: string;
   currencyCode: string;

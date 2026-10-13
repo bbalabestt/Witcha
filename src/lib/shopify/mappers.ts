@@ -377,6 +377,7 @@ export function mapSiteSettings(
         : fallback.freeShippingThreshold;
   const low = parseIntOrNull(get("low_stock_threshold"));
   const standard = get("standard_shipping");
+  const express = get("express_shipping");
   return {
     announcement: get("announcement") ?? fallback.announcement,
     freeShippingThreshold: threshold,
@@ -385,6 +386,11 @@ export function mapSiteSettings(
     dispatchDays: get("dispatch_days") ?? fallback.dispatchDays,
     deliveryDays: get("delivery_days") ?? fallback.deliveryDays,
     returnsDays: get("returns_days") ?? fallback.returnsDays,
+    expressShipping: express ? money(toMinorUnits(express.replace(/[^\d.]/g, "")), currency) : fallback.expressShipping,
+    expressDays: get("express_days") ?? fallback.expressDays,
+    refundDays: get("refund_days") ?? fallback.refundDays,
+    replyTime: get("reply_time") ?? fallback.replyTime,
+    supportEmail: get("support_email") ?? fallback.supportEmail,
     lowStockThreshold: low !== null && low >= 0 ? low : fallback.lowStockThreshold,
     giftCutoff: get("gift_cutoff") ?? fallback.giftCutoff,
     currencyCode: currency,

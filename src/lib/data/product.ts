@@ -1,4 +1,4 @@
-import type { BadgeKind, BestFor, Product, ProductKind, TastePosition, TasteProfile, Variant } from "./types";
+import type { Article, BadgeKind, BestFor, PrepMethod, Product, ProductKind, TastePosition, TasteProfile, Variant } from "./types";
 import { TASTE_WORDS } from "./types";
 
 const BADGE_TAGS: Record<string, BadgeKind> = {
@@ -105,4 +105,10 @@ export function isMultiVariant(p: Pick<Product, "variants">): boolean {
 /** Card price: "From $48.00" when there is more than one size (prototype rule), else the single price. */
 export function cardPriceLabel(p: Pick<Product, "priceRange" | "variants">, format: (m: Product["priceRange"]["min"]) => string): string {
   return `${isMultiVariant(p) ? "From " : ""}${format(p.priceRange.min)}`;
+}
+
+/** Article method → the tea's prep method ("Iced" guides use the iced latte recipe). */
+export function prepFor(method: Article["method"], methods: PrepMethod[]): PrepMethod | undefined {
+  const name = method === "Iced" ? "Iced latte" : method;
+  return methods.find((m) => m.method === name);
 }

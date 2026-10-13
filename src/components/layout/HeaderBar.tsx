@@ -25,10 +25,17 @@ type HeaderBarProps = {
   nav: MenuItem[];
   teaMarkers: TasteMarker[];
   cart: ReactNode;
+  /** Null while the URL is not known yet (prerendered shell); no section is underlined then. */
+  pathname: string | null;
 };
 
-export function HeaderBar({ nav, teaMarkers, cart }: HeaderBarProps) {
-  const pathname = usePathname();
+/** Reads the current path for the active underline. Must sit inside <Suspense>. */
+export function HeaderBarWithPath(props: Omit<HeaderBarProps, "pathname">) {
+  return <HeaderBar {...props} pathname={usePathname()} />;
+}
+
+export function HeaderBar({ nav, teaMarkers, cart, pathname: currentPath }: HeaderBarProps) {
+  const pathname = currentPath ?? "";
   const { openMenu, openSearch } = useChrome();
   const [megaOpen, setMegaOpen] = useState(false);
   const megaId = useId();
