@@ -1,0 +1,99 @@
+{
+  "v": 3,
+  "assetGroups": {
+    "Logos": {
+      "files": {
+        "witcha-matcha_large_black.svg": {
+          "blob": "5b4964abf5ca3efafa5a578380798a5a",
+          "name": "witcha-matcha_large_black.svg",
+          "size": 7307,
+          "type": "image/svg+xml"
+        },
+        "witcha-matcha_large_blue.svg": {
+          "blob": "c658f14ee5ddd075235f7ce1136198b9",
+          "name": "witcha-matcha_large_blue.svg",
+          "size": 7307,
+          "type": "image/svg+xml"
+        },
+        "witcha-matcha_large_gold-foil.svg": {
+          "blob": "7c62547bbb712552acfce21b95f0144f",
+          "name": "witcha-matcha_large_gold-foil.svg",
+          "size": 7307,
+          "type": "image/svg+xml"
+        },
+        "witcha-matcha_large_reversed-ivory-gold.svg": {
+          "blob": "00b6097eaef556711e28f1377edc13af",
+          "name": "witcha-matcha_large_reversed-ivory-gold.svg",
+          "size": 7307,
+          "type": "image/svg+xml"
+        },
+        "witcha-matcha_small-no-rules_blue.svg": {
+          "blob": "bd80b8d41dfadb0fff4fd17572af282b",
+          "name": "witcha-matcha_small-no-rules_blue.svg",
+          "size": 7241,
+          "type": "image/svg+xml"
+        },
+        "witcha-matcha_small-no-rules_reversed-ivory.svg": {
+          "blob": "74216172016f69faded86e008a00cc40",
+          "name": "witcha-matcha_small-no-rules_reversed-ivory.svg",
+          "size": 7241,
+          "type": "image/svg+xml"
+        },
+        "witcha-matcha_small_blue.svg": {
+          "blob": "be4a80631df95707cf4af8c122cfdc5e",
+          "name": "witcha-matcha_small_blue.svg",
+          "size": 7404,
+          "type": "image/svg+xml"
+        },
+        "witcha-matcha_small_reversed-ivory-gold.svg": {
+          "blob": "29519c86af89520be411b4ef13adac63",
+          "name": "witcha-matcha_small_reversed-ivory-gold.svg",
+          "size": 7404,
+          "type": "image/svg+xml"
+        },
+        "witcha-matcha_social-avatar_deep-blue.svg": {
+          "blob": "8e51d08eae9d4add6380040ca8e92ff3",
+          "name": "witcha-matcha_social-avatar_deep-blue.svg",
+          "size": 7342,
+          "type": "image/svg+xml"
+        }
+      },
+      "name": "Logos",
+      "order": [
+        "witcha-matcha_large_blue.svg",
+        "witcha-matcha_large_gold-foil.svg",
+        "witcha-matcha_large_reversed-ivory-gold.svg",
+        "witcha-matcha_large_black.svg",
+        "witcha-matcha_small_blue.svg",
+        "witcha-matcha_small_reversed-ivory-gold.svg",
+        "witcha-matcha_small-no-rules_blue.svg",
+        "witcha-matcha_small-no-rules_reversed-ivory.svg",
+        "witcha-matcha_social-avatar_deep-blue.svg"
+      ],
+      "tile": "l"
+    }
+  },
+  "blobs": {},
+  "createdOnFiles": {
+    "at": "2026-10-11T07:10:00Z",
+    "v": 1
+  },
+  "docs": {
+    "readme": "project/README.md",
+    "sections": []
+  },
+  "groups": [
+    "Logos"
+  ],
+  "lastChange": {
+    "at": "2026-10-11T07:10:00Z",
+    "by": "Earth",
+    "note": "First version: logo files, colour, type, spacing and radius tokens, brand book README, cover.",
+    "via": "Claude chat"
+  },
+  "layout": "files",
+  "libraries": [],
+  "namespace": "WitchaMatcha",
+  "sections": {},
+  "title": "WITCHA MATCHA Brand CI"
+}
