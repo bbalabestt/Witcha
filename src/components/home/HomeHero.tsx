@@ -1,8 +1,22 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 import { Button } from "@/components/ui/Button";
 import styles from "./Home.module.css";
+
+/** Floating gold and ivory motes (prototype positions; drift values fixed so SSR and client agree). */
+const HERO_DOTS = [
+  { x: 12, y: 70, size: 4, tone: "gold", dx: -22, dy: 180, dur: 7.2, delay: 0.4 },
+  { x: 22, y: 80, size: 3, tone: "ivory", dx: 30, dy: 240, dur: 8.6, delay: 1.9 },
+  { x: 34, y: 66, size: 5, tone: "gold", dx: 12, dy: 150, dur: 6.1, delay: 3.1 },
+  { x: 46, y: 84, size: 3, tone: "ivory", dx: -35, dy: 280, dur: 9.4, delay: 0.9 },
+  { x: 55, y: 72, size: 4, tone: "gold", dx: 18, dy: 200, dur: 7.8, delay: 2.6 },
+  { x: 63, y: 88, size: 3, tone: "ivory", dx: -10, dy: 300, dur: 9.9, delay: 1.2 },
+  { x: 72, y: 68, size: 5, tone: "gold", dx: 38, dy: 170, dur: 6.7, delay: 3.6 },
+  { x: 81, y: 78, size: 3, tone: "ivory", dx: -26, dy: 220, dur: 8.1, delay: 0.2 },
+  { x: 90, y: 62, size: 4, tone: "gold", dx: 8, dy: 130, dur: 5.6, delay: 2.2 },
+  { x: 6, y: 90, size: 3, tone: "ivory", dx: 24, dy: 260, dur: 9.1, delay: 3.9 },
+];
 
 const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
@@ -54,6 +68,15 @@ export function HomeHero() {
     <section ref={ref} className={styles.hero} aria-labelledby="hero-title">
       <div className={styles.heroStage}>
         <span className={styles.heroBgArch} aria-hidden="true" />
+        <span className={styles.heroDots} aria-hidden="true">
+          {HERO_DOTS.map((d, i) => (
+            <span
+              key={i}
+              data-tone={d.tone}
+              style={{ left: `${d.x}%`, top: `${d.y}%`, width: d.size, height: d.size, "--dx": `${d.dx}px`, "--dy": `${-d.dy}px`, "--dur": `${d.dur}s`, "--delay": `${d.delay}s` } as CSSProperties}
+            />
+          ))}
+        </span>
         <div ref={archRef} className={styles.heroArch} aria-hidden="true">
           <span className={styles.heroRing} />
           <div className={styles.heroArchFill}>
@@ -83,7 +106,7 @@ export function HomeHero() {
           <span className={styles.heroDisplay}>Matcha Moment.</span>
         </div>
 
-        <div className={styles.heroCopy}>
+        <div className={styles.heroCopy} data-hero-copy="">
           <p>Japanese matcha, chosen for taste and brought to life by the cats of Witcha Academy.</p>
           <div className={styles.actions}>
             <Button href="/collections/matcha">Shop the matcha</Button>

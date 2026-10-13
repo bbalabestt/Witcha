@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { requestBackInStock } from "@/lib/cart/actions";
+import { cueFamiliar } from "@/lib/familiar";
 import styles from "./Pdp.module.css";
 
 /** Sold-out sizes: one email field, never an active Add to cart. */
@@ -16,6 +17,7 @@ export function NotifyMe({ variantId, productHandle }: { variantId: string; prod
     setState({ kind: "loading" });
     const r = await requestBackInStock({ email, variantId, productHandle });
     setState(r.ok ? { kind: "done" } : { kind: "error", message: r.error });
+    if (r.ok) cueFamiliar({ say: "I’ll keep watch.", ms: 2000 });
   }
 
   if (state.kind === "done") {

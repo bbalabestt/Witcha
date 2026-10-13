@@ -4,10 +4,11 @@ import { ProductCard } from "@/components/commerce/ProductCard";
 import { QuickAdd } from "@/components/commerce/QuickAdd";
 import { merchandiseFor } from "@/lib/cart/optimistic";
 import { defaultVariant } from "@/lib/data/product";
-import { AcademyShelf } from "@/components/home/AcademyShelf";
+import { AcademyWheel } from "@/components/home/AcademyWheel";
 import { HomeHero } from "@/components/home/HomeHero";
 import { Manifesto } from "@/components/home/Manifesto";
 import { Marquee } from "@/components/home/Marquee";
+import { MarqueeDriver } from "@/components/home/MarqueeDriver";
 import { TasteDial } from "@/components/home/TasteDial";
 import { Button } from "@/components/ui/Button";
 import { ImagePlaceholder } from "@/components/ui/Frame";
@@ -55,6 +56,7 @@ export default async function HomePage() {
       <HomeHero />
       <Marquee tone="deep" items={["Matcha, With Taste.", "Which Matcha Today?", "Bright to deep", "Whisked, frothed, shaken, iced"]} />
       <Marquee tone="soft" reverse items={factStrip} />
+      <MarqueeDriver />
 
       <TasteDial
         bright={bright ? <div className={styles.dialCard}><ProductCard product={bright} /></div> : null}
@@ -74,7 +76,7 @@ export default async function HomePage() {
         }
       />
 
-      <AcademyShelf products={[...teas, ...sets]} />
+      <AcademyWheel products={[...teas, ...sets]} />
 
       <Manifesto
         text={MANIFESTO}

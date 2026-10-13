@@ -59,7 +59,7 @@ src/components/commerce/ ProductCard, TasteScale, PriceBlock, StockNotice, Shipp
 src/components/pdp/      Gallery, BuyBox, StickyBuyBar, NotifyMe, PDP sections
 src/components/cart/     CartProvider (optimistic), CartDrawer, CartLine, meter, gift note, upsell
 src/components/layout/   Header, MegaMenu, MobileMenu, SearchOverlay, Footer, NewsletterBand…
-src/components/home/     Hero scrub, marquees, taste dial, Academy shelf, manifesto
+src/components/home/     Hero scrub, marquees, taste dial, Academy wheel/shelf, manifesto
 src/lib/data/            domain types, CommerceRepository, fixtures, cached reads (tags)
 src/lib/shopify/         Storefront client, queries, raw types, mappers, sanitiser
 src/lib/cart/            cookie, server actions, optimistic reducer
@@ -83,7 +83,7 @@ src/lib/config/          env schema, site settings fallback
 
 ## Quality status (fixtures, production build)
 
-- Unit: 110 tests. e2e: purchase path, keyboard-only checkout, drawer focus/Escape, axe on 18
+- Unit: 115 tests. e2e: purchase path, V2 motion (wheel, familiar, curtain), keyboard-only checkout, drawer focus/Escape, axe on 18
   routes plus open drawer/search (zero serious/critical), screenshot tests at 1440 and 390.
 - Lighthouse mobile (simulated slow 4G): Home 93 / LCP 3.0 s / CLS 0.001, Collection 96 /
   LCP 2.3 s / CLS 0, PDP 97 / LCP 2.2 s / CLS 0. Accessibility and Best Practices 100.

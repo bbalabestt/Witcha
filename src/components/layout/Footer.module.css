@@ -123,3 +123,12 @@
 .paymentsLight li {
   border-color: var(--line-hairline);
 }
+
+.toggle {
+  min-height: var(--touch-target);
+  color: var(--text-on-dark);
+  font-size: 14px;
+  line-height: 22px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

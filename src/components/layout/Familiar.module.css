@@ -1,0 +1,77 @@
+.familiar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 90;
+  width: 64px;
+  height: 48px;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.hit {
+  display: block;
+  width: 64px;
+  height: 48px;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.hit:focus-visible {
+  outline-offset: 4px;
+}
+
+.canvas {
+  display: block;
+  height: 48px;
+  image-rendering: pixelated;
+}
+
+/* Speech bubble: ivory card, deep-blue rule and hard shadow (prototype). */
+.bubble {
+  position: absolute;
+  bottom: 56px;
+  left: -12px;
+  padding: 6px 10px;
+  background: var(--surface-page);
+  border: 2px solid var(--line-control);
+  box-shadow: 4px 4px 0 var(--brand-deep-blue);
+  color: var(--text-primary);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  animation: pop 0.22s var(--ease-out);
+}
+
+.bubble::after {
+  content: "";
+  position: absolute;
+  left: 24px;
+  bottom: -8px;
+  width: 12px;
+  height: 8px;
+  background: var(--brand-deep-blue);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bubble {
+    animation: none;
+  }
+}
+
+@media print {
+  .familiar {
+    display: none;
+  }
+}

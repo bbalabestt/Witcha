@@ -3,6 +3,7 @@
 import { Icon } from "@/components/ui/Icon";
 import { formatMoney } from "@/lib/data/money";
 import { OPTIMISTIC_PREFIX } from "@/lib/cart/optimistic";
+import { cueFamiliar } from "@/lib/familiar";
 import type { Cart } from "@/lib/data/types";
 import styles from "./Cart.module.css";
 
@@ -25,7 +26,7 @@ export function CartSummary({ cart, pending, shopPay }: { cart: Cart; pending: b
         </span>
       ) : (
         // Same tab, straight to Shopify's checkoutUrl. No custom checkout.
-        <a href={cart.checkoutUrl} className={styles.checkout}>
+        <a href={cart.checkoutUrl} className={styles.checkout} onClick={() => cueFamiliar({ say: "Over to Shopify checkout.", ms: 2000 })}>
           <Icon name="lock" size={18} />
           Checkout
         </a>

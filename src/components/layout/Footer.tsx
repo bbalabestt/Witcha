@@ -4,6 +4,7 @@ import { Logo } from "@/components/ui/Logo";
 import { MENU_HANDLES, SITE } from "@/lib/config/site";
 import { getMenu } from "@/lib/data";
 import { MENUS } from "@/lib/data/fixtures/data";
+import { FamiliarToggle } from "./Familiar";
 import { PaymentBadges } from "./PaymentBadges";
 import styles from "./Footer.module.css";
 
@@ -66,6 +67,7 @@ export async function Footer() {
           <p>
             © {YEAR} WITCHA MATCHA · ABN [pending] · Prices in AUD incl. GST
           </p>
+          <FamiliarToggle className={styles.toggle} />
           <PaymentBadges />
         </div>
       </div>

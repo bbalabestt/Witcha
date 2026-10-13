@@ -3,6 +3,7 @@
 import { createContext, startTransition, useCallback, useContext, useEffect, useMemo, useOptimistic, useRef, useState, useTransition, type ReactNode } from "react";
 import { addToCart, fetchCart, removeCartLine, updateCartLine, updateGift, type CartActionResult } from "@/lib/cart/actions";
 import { applyCartOp, type CartOp } from "@/lib/cart/optimistic";
+import { cueFamiliar } from "@/lib/familiar";
 import type { Cart, CartAttributes, CartLineMerchandise } from "@/lib/data/types";
 
 type Status = { tone: "info" | "error"; message: string; retry?: () => void } | null;
@@ -107,6 +108,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       close: () => setOpen(false),
       addItem: (merchandise, quantity) => {
         setOpen(true);
+        cueFamiliar({ say: "Into the cart it goes.", ms: 2200, run: "cart" });
         return run({ type: "add", merchandise, quantity }, () => addToCart([{ variantId: merchandise.variantId, quantity }]), `${merchandise.productTitle} wasn’t added.`);
       },
       updateQuantity: (lineId, quantity) => run({ type: "update", lineId, quantity }, () => updateCartLine(lineId, quantity), "Quantity not changed."),

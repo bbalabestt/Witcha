@@ -679,9 +679,14 @@ a.shelfName:hover {
   font-weight: 500;
 }
 
-.shelfBuy button,
-.shelfBuy a {
+.shelfCard .shelfBuy button,
+.shelfCard .shelfBuy a {
   background: var(--surface-page);
+}
+
+.shelfArch,
+.wheelArch {
+  text-decoration: none;
 }
 
 /* ---------- Manifesto ---------- */
@@ -921,4 +926,212 @@ a.shelfName:hover {
   .dialResult {
     min-height: 0;
   }
+}
+
+/* ---------- Academy wheel (Prototype V2 default shelf) ---------- */
+
+.wheel {
+  position: relative;
+  height: 420vh;
+  background: var(--surface-brand);
+}
+
+.wheelStage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.wheelHead {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 2;
+  padding: clamp(88px, 14vh, 140px) var(--gutter) 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.wheelHead > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.wheelProgress {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.wheelCount {
+  font-family: var(--font-display);
+  font-size: 28px;
+  line-height: 1;
+}
+
+.wheelTrack {
+  display: block;
+  width: min(40vw, 240px);
+  height: 2px;
+  background: var(--line-hairline);
+}
+
+.wheelBar {
+  display: block;
+  height: 2px;
+  background: var(--action-primary);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+/* Gold outline arch marking "the one in front". Decorative line, never text. */
+.wheelPointer {
+  position: absolute;
+  left: 50%;
+  top: calc(30vh - 12px);
+  z-index: 2;
+  width: 28px;
+  height: 36px;
+  margin-left: -14px;
+  border: 1.5px solid var(--brand-gold);
+  border-bottom: 0;
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+}
+
+/* The ring's centre sits far below the screen; only its top arc is visible. */
+.wheelRot {
+  position: absolute;
+  left: 50%;
+  top: calc(62vh + 120vh);
+  width: 0;
+  height: 0;
+  will-change: transform;
+}
+
+.wheelRing,
+.wheelRingDashed {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.wheelRing {
+  left: -120vh;
+  top: -120vh;
+  width: 240vh;
+  height: 240vh;
+  border: 1px solid var(--line-hairline);
+}
+
+.wheelRingDashed {
+  left: -104vh;
+  top: -104vh;
+  width: 208vh;
+  height: 208vh;
+  border: 1px dashed color-mix(in srgb, var(--brand-gold) 70%, transparent);
+}
+
+.wheelList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wheelCard {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: clamp(240px, 24vw, 320px);
+  transform: translate(-50%, -50%) rotate(var(--deg)) translateY(-120vh);
+}
+
+.wheelInner {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: var(--space-3);
+  background: var(--surface-page);
+  border: 1px solid var(--line-control);
+  transform: scale(var(--card-scale, 1));
+  transition: transform 0.2s;
+}
+
+.wheelArch {
+  aspect-ratio: 3 / 4;
+  width: 100%;
+  max-height: 34vh;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 14%;
+  background: var(--surface-soft);
+  border: 1px solid color-mix(in srgb, var(--line-control) 40%, transparent);
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+}
+
+.wheelArch[data-tint="brand"] {
+  background: var(--surface-brand);
+}
+
+.wheelGhost {
+  background: transparent;
+  border-style: dashed;
+}
+
+.wheelArch .shelfThumb {
+  width: 52%;
+}
+
+/* Floating motes (decorative). Gold dots are shapes, not text. */
+.heroDots {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.heroDots span {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.heroDots span[data-tone="gold"] {
+  background: var(--brand-gold);
+}
+
+.heroDots span[data-tone="ivory"] {
+  background: var(--brand-ivory);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .heroDots span {
+    animation: mote var(--dur) ease-in-out var(--delay) infinite;
+  }
+}
+
+@keyframes mote {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.9;
+  }
+  75% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(var(--dx), var(--dy));
+    opacity: 0;
+  }
+}
+
+.marqueeTrack[data-driven] {
+  animation: none;
+  will-change: transform;
 }

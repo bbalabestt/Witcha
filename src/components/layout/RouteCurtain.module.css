@@ -1,0 +1,23 @@
+.curtain {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 95;
+  height: 125vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-brand);
+  border-radius: 50% 50% 0 0 / 180px 180px 0 0;
+  transform: translateY(110%);
+  pointer-events: none;
+}
+
+.logo {
+  margin-top: -25vh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .curtain {
+    display: none;
+  }
+}

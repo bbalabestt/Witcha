@@ -66,7 +66,7 @@ founders or the Brand Bible.
 | Character model | Metaobject per tea (built), or a separate Academy metaobject list | `custom.character` |
 | Hosting | Vercel (common for Next.js) or self-host | `pnpm build && pnpm start`; set env and webhook URL |
 | Final copy | Brand Bible v3.0 | Pages in `src/app/(shop)/pages`, home in `src/app/(shop)/page.tsx` |
-| Route curtain | Keep off (performance) or add behind a flag | DEVIATIONS D-50 |
+| Route curtain, pixel cat | Shipped (V2 fidelity); keep, trim or remove | DEVIATIONS D-10, D-50 |
 
 In production, each stub provider answers with a `NotConfigured` error until it is replaced, so
 forms show a friendly failure instead of pretending to succeed.
@@ -94,9 +94,9 @@ forms show a friendly failure instead of pretending to succeed.
 
 ```bash
 pnpm install
-pnpm typecheck && pnpm lint && pnpm test   # 110 unit tests
+pnpm typecheck && pnpm lint && pnpm test   # 115 unit tests
 pnpm build && pnpm check:bundle
-pnpm e2e                                   # 34 e2e (purchase, keyboard, axe on 18 routes, visual)
+pnpm e2e                                   # 37 e2e (purchase, keyboard, motion, axe on 18 routes, visual)
 ```
 
 Lighthouse (mobile, production build, fixtures): Home 93 / Collection 96 / PDP 97 performance;
