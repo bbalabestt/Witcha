@@ -19,7 +19,7 @@ export function Manifesto({ text, chips }: { text: string; chips: string[] }) {
       const H = window.innerHeight;
       const p = Math.max(0, Math.min(1, -r.top / Math.max(1, r.height - H)));
       const lit = p * spans.length * 1.15;
-      spans.forEach((s, i) => (s.style.opacity = String(Math.max(0.14, Math.min(1, lit - i)))));
+      spans.forEach((s, i) => (s.style.opacity = String(Math.max(0.65, Math.min(1, lit - i)))));
     };
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(update);

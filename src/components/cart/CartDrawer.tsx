@@ -1,7 +1,7 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { RouteChange } from "@/components/layout/RouteChange";
 import { Button } from "@/components/ui/Button";
 import { Dialog } from "@/components/ui/Dialog";
 import { Skeleton } from "@/components/ui/Frame";
@@ -12,39 +12,46 @@ import styles from "./Cart.module.css";
 export function CartDrawer({ extras }: { extras: CartExtras }) {
   const { isOpen, close, cart, loaded } = useCart();
   const empty = useCartIsEmpty();
-  const pathname = usePathname();
   const count = cart?.totalQuantity ?? 0;
-
-  // The full cart page replaces the drawer; close on any navigation.
+  // The full cart page replaces the drawer there.
+  const [onCartPage, setOnCartPage] = useState(false);
   useEffect(() => {
-    close();
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- run on route change only
-  }, [pathname]);
+    const t = window.setTimeout(() => setOnCartPage(window.location.pathname === "/cart"), 0);
+    return () => window.clearTimeout(t);
+  }, []);
 
   return (
-    <Dialog open={isOpen && pathname !== "/cart"} onClose={close} placement="right" title={`Your cart (${count})`} closeLabel="Close cart">
-      <div className={styles.drawer}>
-        <div className={styles.drawerScroll}>
-          {!loaded && !cart ? (
-            <div className={styles.loading} aria-busy="true">
-              <Skeleton height={22} />
-              <Skeleton height={96} />
-            </div>
-          ) : empty ? (
-            <EmptyCart suggestions={extras.suggestions} onNavigate={close} />
-          ) : (
-            <CartBody extras={extras} onNavigate={close} />
-          )}
-        </div>
-        {!empty ? (
-          <div className={styles.drawerFooter}>
-            <CartFooter extras={extras} />
-            <Button variant="link" onClick={close} className={styles.keepShopping}>
-              Keep shopping
-            </Button>
+    <>
+      <RouteChange
+        onChange={(p) => {
+          setOnCartPage(p === "/cart");
+          close();
+        }}
+      />
+      <Dialog open={isOpen && !onCartPage} onClose={close} placement="right" title={`Your cart (${count})`} closeLabel="Close cart">
+        <div className={styles.drawer}>
+          <div className={styles.drawerScroll}>
+            {!loaded && !cart ? (
+              <div className={styles.loading} aria-busy="true">
+                <Skeleton height={22} />
+                <Skeleton height={96} />
+              </div>
+            ) : empty ? (
+              <EmptyCart suggestions={extras.suggestions} onNavigate={close} />
+            ) : (
+              <CartBody extras={extras} onNavigate={close} />
+            )}
           </div>
-        ) : null}
-      </div>
-    </Dialog>
+          {!empty ? (
+            <div className={styles.drawerFooter}>
+              <CartFooter extras={extras} />
+              <Button variant="link" onClick={close} className={styles.keepShopping}>
+                Keep shopping
+              </Button>
+            </div>
+          ) : null}
+        </div>
+      </Dialog>
+    </>
   );
 }

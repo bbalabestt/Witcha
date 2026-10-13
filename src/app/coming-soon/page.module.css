@@ -1,0 +1,25 @@
+.page {
+  min-height: 100dvh;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: var(--space-6) var(--gutter) 0;
+  background: var(--surface-brand);
+}
+
+.arch {
+  width: min(100%, 640px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-7) var(--space-5) var(--space-6);
+  background: var(--surface-page);
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+  text-align: center;
+}
+
+.arch form {
+  width: 100%;
+  text-align: left;
+}

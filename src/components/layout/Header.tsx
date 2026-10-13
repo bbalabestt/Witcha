@@ -6,8 +6,7 @@ import type { MenuItem } from "@/lib/data/types";
 import { MENUS } from "@/lib/data/fixtures/data";
 import { CartButton } from "@/components/cart/CartButton";
 import { AnnouncementBar } from "./AnnouncementBar";
-import { Suspense } from "react";
-import { HeaderBar, HeaderBarWithPath } from "./HeaderBar";
+import { HeaderBar } from "./HeaderBar";
 
 /** Used when the Shopify menu is missing so the site never renders without navigation. */
 const FALLBACK_NAV: MenuItem[] = MENUS.find((m) => m.handle === "main-menu")?.items ?? [];
@@ -22,9 +21,7 @@ export async function Header() {
   return (
     <header>
       <AnnouncementBar settings={settings} />
-      <Suspense fallback={<HeaderBar nav={nav} teaMarkers={teaMarkers} cart={<CartButton />} pathname={null} />}>
-        <HeaderBarWithPath nav={nav} teaMarkers={teaMarkers} cart={<CartButton />} />
-      </Suspense>
+      <HeaderBar nav={nav} teaMarkers={teaMarkers} cart={<CartButton />} />
     </header>
   );
 }

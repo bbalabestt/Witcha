@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { TasteScale, type TasteMarker } from "@/components/commerce/TasteScale";
 import { IconButton } from "@/components/ui/Button";
@@ -10,6 +9,7 @@ import { Icon } from "@/components/ui/Icon";
 import { Logo } from "@/components/ui/Logo";
 import type { MenuItem } from "@/lib/data/types";
 import { useChrome } from "./ChromeContext";
+import { RouteChange } from "./RouteChange";
 import styles from "./Header.module.css";
 
 export function isActive(pathname: string, item: MenuItem): boolean {
@@ -25,17 +25,16 @@ type HeaderBarProps = {
   nav: MenuItem[];
   teaMarkers: TasteMarker[];
   cart: ReactNode;
-  /** Null while the URL is not known yet (prerendered shell); no section is underlined then. */
-  pathname: string | null;
 };
 
-/** Reads the current path for the active underline. Must sit inside <Suspense>. */
-export function HeaderBarWithPath(props: Omit<HeaderBarProps, "pathname">) {
-  return <HeaderBar {...props} pathname={usePathname()} />;
-}
-
-export function HeaderBar({ nav, teaMarkers, cart, pathname: currentPath }: HeaderBarProps) {
-  const pathname = currentPath ?? "";
+export function HeaderBar({ nav, teaMarkers, cart }: HeaderBarProps) {
+  // The active underline is set after mount (and on navigation), so the header itself never sits
+  // in a Suspense boundary and hydrates with the page.
+  const [pathname, setPathname] = useState("");
+  useEffect(() => {
+    const t = window.setTimeout(() => setPathname(window.location.pathname), 0);
+    return () => window.clearTimeout(t);
+  }, []);
   const { openMenu, openSearch } = useChrome();
   const [megaOpen, setMegaOpen] = useState(false);
   const megaId = useId();
@@ -45,12 +44,6 @@ export function HeaderBar({ nav, teaMarkers, cart, pathname: currentPath }: Head
   const left = nav.slice(0, 3);
   const right = nav.slice(3);
 
-  // Close the mega menu on navigation.
-  const [lastPath, setLastPath] = useState(pathname);
-  if (lastPath !== pathname) {
-    setLastPath(pathname);
-    setMegaOpen(false);
-  }
 
   useEffect(() => {
     if (!megaOpen) return;
@@ -101,6 +94,12 @@ export function HeaderBar({ nav, teaMarkers, cart, pathname: currentPath }: Head
 
   return (
     <div ref={barRef} className={styles.wrap}>
+      <RouteChange
+        onChange={(p) => {
+          setPathname(p);
+          setMegaOpen(false);
+        }}
+      />
       <div className={styles.bar}>
         <div className={styles.side}>
           <IconButton label="Open menu" className={styles.narrowOnly} onClick={openMenu}>

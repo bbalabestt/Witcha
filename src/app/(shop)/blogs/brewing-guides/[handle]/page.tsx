@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 import { ArticleCard } from "@/components/content/ArticleCard";
 import { ProductCard } from "@/components/commerce/ProductCard";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { Breadcrumb } from "@/components/ui/Navigation";
-import { Skeleton } from "@/components/ui/Frame";
 import { BLOG_HANDLE } from "@/lib/config/site";
 import { getArticle, getArticles, getCollection } from "@/lib/data";
 import { breadcrumbJsonLd, JsonLd, absoluteUrl } from "@/lib/seo/json-ld";
@@ -31,20 +29,10 @@ export async function generateMetadata({ params }: PageProps<"/blogs/brewing-gui
 
 const METHOD_ICON: Record<Article["method"], IconName> = { Whisk: "whisk", Frother: "frother", Shaker: "shaker", Iced: "iced" };
 
+export const instant = false;
+
 export default function GuidePage({ params }: PageProps<"/blogs/brewing-guides/[handle]">) {
-  return (
-    <Suspense
-      fallback={
-        <div className={styles.article} aria-busy="true">
-          <Skeleton width={260} height={22} />
-          <Skeleton width="60%" height={50} />
-          <Skeleton ratio="16:9" />
-        </div>
-      }
-    >
-      <Guide params={params} />
-    </Suspense>
-  );
+  return <Guide params={params} />;
 }
 
 async function Guide({ params }: Pick<PageProps<"/blogs/brewing-guides/[handle]">, "params">) {

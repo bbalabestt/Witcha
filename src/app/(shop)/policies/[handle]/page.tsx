@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
-import { Skeleton } from "@/components/ui/Frame";
 import { getPolicy } from "@/lib/data";
 import styles from "@/components/content/Content.module.css";
 
@@ -17,19 +15,10 @@ export async function generateMetadata({ params }: PageProps<"/policies/[handle]
   return p ? { title: p.title, alternates: { canonical: `/policies/${handle}` } } : { title: "Not found" };
 }
 
+export const instant = false;
+
 export default function PolicyPage({ params }: PageProps<"/policies/[handle]">) {
-  return (
-    <Suspense
-      fallback={
-        <div className={styles.policy} aria-busy="true">
-          <Skeleton width="60%" height={50} />
-          <Skeleton height={200} />
-        </div>
-      }
-    >
-      <Policy params={params} />
-    </Suspense>
-  );
+  return <Policy params={params} />;
 }
 
 /** PolicyLayout: Shopify shop policies (Settings → Policies), sanitised. */

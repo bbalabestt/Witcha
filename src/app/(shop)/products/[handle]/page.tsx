@@ -17,7 +17,6 @@ import { productJsonLd, breadcrumbJsonLd, JsonLd } from "@/lib/seo/json-ld";
 import { tasteText } from "@/lib/data/product";
 import type { Product } from "@/lib/data/types";
 import { getReviewsProvider } from "@/lib/providers";
-import { PdpSkeleton } from "./skeleton";
 import styles from "@/components/pdp/Pdp.module.css";
 
 export async function generateStaticParams() {
@@ -44,12 +43,14 @@ export async function generateMetadata({ params }: PageProps<"/products/[handle]
   };
 }
 
+/**
+ * Known handles are prerendered in full (no skeleton swap, no layout shift on first load).
+ * Unknown handles block while they load instead of showing a skeleton (D-51).
+ */
+export const instant = false;
+
 export default function ProductPage({ params }: PageProps<"/products/[handle]">) {
-  return (
-    <Suspense fallback={<PdpSkeleton />}>
-      <ProductBody params={params} />
-    </Suspense>
-  );
+  return <ProductBody params={params} />;
 }
 
 function crumbsFor(p: Product) {

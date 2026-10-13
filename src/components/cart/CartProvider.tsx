@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useOptimistic, useRef, useState, useTransition, type ReactNode } from "react";
+import { createContext, startTransition, useCallback, useContext, useEffect, useMemo, useOptimistic, useRef, useState, useTransition, type ReactNode } from "react";
 import { addToCart, fetchCart, removeCartLine, updateCartLine, updateGift, type CartActionResult } from "@/lib/cart/actions";
 import { applyCartOp, type CartOp } from "@/lib/cart/optimistic";
 import type { Cart, CartAttributes, CartLineMerchandise } from "@/lib/data/types";
@@ -29,7 +29,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<Cart | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [optimisticCart, applyOptimistic] = useOptimistic<Cart | null, CartOp>(cart, applyCartOp);
-  const [pending, startTransition] = useTransition();
+  const [pending, startCartTransition] = useTransition();
   const [isOpen, setOpen] = useState(false);
   const [status, setStatus] = useState<Status>(null);
   const loading = useRef(false);
@@ -40,13 +40,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
       if (loading.current) return;
       loading.current = true;
       fetchCart()
-        .then((c) => setCart(c))
-        .catch(() => {
-          // Leave the cart as is; the next mutation reconciles it.
+        .then((c) => {
+          // Transition: React finishes hydrating streamed boundaries before applying it, instead of
+          // discarding their server HTML (hydration error #418 under slow CPUs).
+          startTransition(() => {
+            setCart(c);
+            setLoaded(true);
+          });
         })
+        .catch(() => startTransition(() => setLoaded(true)))
         .finally(() => {
           loading.current = false;
-          setLoaded(true);
         });
     };
     load();
@@ -65,7 +69,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     (op: CartOp, action: () => Promise<CartActionResult>, failure: string): Promise<CartActionResult> =>
       new Promise((resolve) => {
         setStatus(null);
-        startTransition(async () => {
+        startCartTransition(async () => {
           applyOptimistic(op);
           let result: CartActionResult;
           try {
@@ -75,7 +79,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
           }
           if (result.ok) {
             const next = result.cart;
-            startTransition(() => setCart(next));
+            startCartTransition(() => setCart(next));
             if (result.notice) setStatus({ tone: "info", message: result.notice });
           } else {
             // The optimistic change falls away when the transition ends: that is the rollback.

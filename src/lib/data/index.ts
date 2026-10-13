@@ -9,16 +9,8 @@ import { money } from "./money";
 import type { CommerceRepository } from "./repository";
 import type { CollectionQuery } from "./types";
 
-/** Revalidation tags. `/api/revalidate` maps Shopify webhook topics onto these. */
-export const TAGS = {
-  products: "products",
-  product: (handle: string) => `product:${handle}`,
-  collections: "collections",
-  collection: (handle: string) => `collection:${handle}`,
-  menus: "menus",
-  settings: "settings",
-  content: "content",
-} as const;
+export { TAGS } from "./tags";
+import { TAGS } from "./tags";
 
 let repo: CommerceRepository | undefined;
 

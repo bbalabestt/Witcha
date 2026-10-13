@@ -15,14 +15,25 @@ export function StickyBuyBar() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const target = document.querySelector("[data-atc-main]");
-    if (!target) return;
-    const io = new IntersectionObserver(([entry]) => {
-      if (!entry) return;
-      setVisible(!entry.isIntersecting && entry.boundingClientRect.bottom < 60);
-    }, { rootMargin: "-60px 0px 0px 0px" });
-    io.observe(target);
-    return () => io.disconnect();
+    // Scroll check rather than IntersectionObserver: a jump from below the row to above it
+    // (fast scroll, anchor link, restored position) never "intersects", so IO would miss it.
+    let frame = 0;
+    const check = () => {
+      frame = 0;
+      const target = document.querySelector("[data-atc-main]");
+      setVisible(Boolean(target && target.getBoundingClientRect().bottom < 60));
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(check);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(frame);
+    };
   }, [variant.id]);
 
   const show = visible && variant.availableForSale;

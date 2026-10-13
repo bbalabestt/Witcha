@@ -41,12 +41,11 @@ function nounFor(handle: string): string {
   return "teas";
 }
 
+/** Header prerenders per collection; only the sort/filter-dependent results stream (D-51). */
+export const instant = false;
+
 export default function CollectionPage({ params, searchParams }: PageProps<"/collections/[handle]">) {
-  return (
-    <Suspense fallback={<CollectionSkeleton withHeader />}>
-      <CollectionBody params={params} searchParams={searchParams} />
-    </Suspense>
-  );
+  return <CollectionBody params={params} searchParams={searchParams} />;
 }
 
 async function CollectionBody({ params, searchParams }: Pick<PageProps<"/collections/[handle]">, "params" | "searchParams">) {
