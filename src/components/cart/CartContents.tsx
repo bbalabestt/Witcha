@@ -21,7 +21,7 @@ export type CartExtras = {
   shopPay: boolean;
 };
 
-function StatusLine() {
+export function StatusLine() {
   const { status, clearStatus } = useCart();
   if (!status) return null;
   return (

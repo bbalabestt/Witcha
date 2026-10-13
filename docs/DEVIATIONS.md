@@ -44,3 +44,5 @@ Each entry: what, why, where.
 | D-37 | Storage section uses the prototype's fixed Cool / Dry / Closed tight copy; `custom.storage_note` is shown underneath when set. | Prototype copy is final-looking; the metafield adds product specifics. | `Storage` |
 | D-38 | Sticky buy bar is fixed to the bottom at every width. | Prototype; the brief's "desktop top under header" conflicts with the non-sticky header (D-20). | `StickyBuyBar` |
 | D-39 | Section padding drops to 40 px on mobile on the PDP. | Brief §6 vertical rhythm; prototype used 64 px everywhere. | `Pdp.module.css` |
+| D-40 | Checkout is disabled (shown as "Updating…") while a cart change is in flight, and while any line is sold out. | Prevents sending a stale `checkoutUrl` or a cart Shopify will reject. | `CartSummary` |
+| D-41 | The cart page puts the gift note in the summary column; the drawer keeps the prototype order. | Prototype only drew the drawer; brief says "same design in drawer and cart page", so the pieces are shared and only the layout differs. | `/cart` |
