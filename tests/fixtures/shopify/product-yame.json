@@ -1,0 +1,127 @@
+{
+  "data": {
+    "product": {
+      "id": "gid://shopify/Product/8812345600001",
+      "handle": "yame-no-mukashi",
+      "title": "Yame no Mukashi",
+      "productType": "Matcha",
+      "description": "Deep and nutty. From Yame in Fukuoka.",
+      "descriptionHtml": "<h1>Yame</h1><p onclick=\"steal()\">Deep and <strong>nutty</strong>.</p><script>alert(1)</script><a href=\"https://example.com/x\">Origin</a><a href=\"javascript:alert(1)\">bad</a>",
+      "tags": ["New", "matcha"],
+      "availableForSale": true,
+      "createdAt": "2026-09-01T02:00:00Z",
+      "updatedAt": "2026-10-02T02:00:00Z",
+      "seo": { "title": null, "description": "Deep, nutty matcha from Yame." },
+      "options": [{ "name": "Size", "optionValues": [{ "name": "30 g" }, { "name": "100 g" }] }],
+      "priceRange": {
+        "minVariantPrice": { "amount": "48.0", "currencyCode": "AUD" },
+        "maxVariantPrice": { "amount": "140.0", "currencyCode": "AUD" }
+      },
+      "images": {
+        "nodes": [
+          { "url": "https://cdn.shopify.com/s/files/1/0000/0001/files/yame-tin.jpg", "altText": "Yame no Mukashi tin on ivory", "width": 1600, "height": 2000 },
+          { "url": "https://cdn.shopify.com/s/files/1/0000/0001/files/yame-powder.jpg", "altText": null, "width": 1600, "height": 2000 }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/4400001",
+            "title": "30 g",
+            "sku": "WM-YAME-30",
+            "availableForSale": true,
+            "quantityAvailable": 4,
+            "selectedOptions": [{ "name": "Size", "value": "30 g" }],
+            "price": { "amount": "48.0", "currencyCode": "AUD" },
+            "compareAtPrice": { "amount": "48.0", "currencyCode": "AUD" },
+            "image": null,
+            "servings": null
+          },
+          {
+            "id": "gid://shopify/ProductVariant/4400002",
+            "title": "100 g",
+            "sku": "WM-YAME-100",
+            "availableForSale": false,
+            "quantityAvailable": 0,
+            "selectedOptions": [{ "name": "Size", "value": "100 g" }],
+            "price": { "amount": "140.0", "currencyCode": "AUD" },
+            "compareAtPrice": { "amount": "160.0", "currencyCode": "AUD" },
+            "image": null,
+            "servings": { "value": "50" }
+          }
+        ]
+      },
+      "metafields": [
+        { "key": "taste_position", "value": "4", "type": "number_integer", "reference": null, "references": null },
+        { "key": "tier", "value": "Reserve", "type": "single_line_text_field", "reference": null, "references": null },
+        { "key": "tasting_notes", "value": "[\"Nutty\",\"Umami\",\"Mellow\",\"Extra\"]", "type": "list.single_line_text_field", "reference": null, "references": null },
+        { "key": "best_for", "value": "[\"latte\",\"Straight\",\"Cold brew\"]", "type": "list.single_line_text_field", "reference": null, "references": null },
+        { "key": "origin_region", "value": "Yame, Fukuoka", "type": "single_line_text_field", "reference": null, "references": null },
+        { "key": "cultivar", "value": "100% Okumidori", "type": "single_line_text_field", "reference": null, "references": null },
+        { "key": "harvest", "value": "First harvest", "type": "single_line_text_field", "reference": null, "references": null },
+        null,
+        null,
+        { "key": "net_weight", "value": "30 g", "type": "single_line_text_field", "reference": null, "references": null },
+        null,
+        { "key": "storage_note", "value": "Cool, dry, closed tight.", "type": "multi_line_text_field", "reference": null, "references": null },
+        { "key": "servings", "value": "15", "type": "number_integer", "reference": null, "references": null },
+        null,
+        {
+          "key": "character",
+          "value": "gid://shopify/Metaobject/77001",
+          "type": "metaobject_reference",
+          "reference": {
+            "type": "character",
+            "handle": "keeper-of-deep",
+            "fields": [
+              { "key": "name", "value": "Pop", "reference": null },
+              { "key": "taste_role", "value": "Keeper of the deep tea", "reference": null },
+              { "key": "story", "value": "Pop tastes every tin. Pop likes it deep.", "reference": null },
+              { "key": "art", "value": "gid://shopify/MediaImage/1", "reference": { "image": { "url": "https://cdn.shopify.com/s/files/1/0000/0001/files/pop.png", "altText": null, "width": 900, "height": 1200 } } },
+              { "key": "accessory", "value": "A brass scoop", "reference": null }
+            ]
+          },
+          "references": null
+        },
+        {
+          "key": "prep_methods",
+          "value": "[\"gid://shopify/Metaobject/88001\",\"gid://shopify/Metaobject/88002\"]",
+          "type": "list.metaobject_reference",
+          "reference": null,
+          "references": {
+            "nodes": [
+              {
+                "type": "prep_method",
+                "handle": "whisk",
+                "fields": [
+                  { "key": "method", "value": "Whisk", "reference": null },
+                  { "key": "grams", "value": "2", "reference": null },
+                  { "key": "water_ml", "value": "70", "reference": null },
+                  { "key": "temp_c", "value": "80", "reference": null },
+                  { "key": "milk_ml", "value": null, "reference": null },
+                  { "key": "time", "value": "2 min", "reference": null },
+                  { "key": "steps", "value": "[\"Sift 2 g into a warm bowl.\",\"Whisk for 15 seconds.\"]", "reference": null },
+                  { "key": "video_url", "value": null, "reference": null }
+                ]
+              },
+              {
+                "type": "prep_method",
+                "handle": "shaker",
+                "fields": [
+                  { "key": "method", "value": "shaker", "reference": null },
+                  { "key": "grams", "value": "2", "reference": null },
+                  { "key": "water_ml", "value": "60", "reference": null },
+                  { "key": "temp_c", "value": "cold", "reference": null },
+                  { "key": "milk_ml", "value": "150", "reference": null },
+                  { "key": "time", "value": "2 min", "reference": null },
+                  { "key": "steps", "value": "Add 2 g and 60 ml cold water.\nShake hard for 20 seconds.", "reference": null },
+                  { "key": "video_url", "value": "https://cdn.shopify.com/videos/shaker.mp4", "reference": null }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

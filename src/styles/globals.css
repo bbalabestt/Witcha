@@ -10,6 +10,12 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/* Reveal animations start off-screen; clip (not hidden) so sticky positioning still works. */
+html,
+body {
+  overflow-x: clip;
+}
+
 html,
 body {
   margin: 0;
@@ -97,5 +103,87 @@ svg {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+.skip-link {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 100;
+  padding: var(--space-2) var(--space-3);
+  background: var(--action-primary);
+  color: var(--action-primary-text);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+  color: var(--action-primary-text);
+}
+
+main:focus {
+  outline: none;
+}
+
+/* ---------- Scroll reveals ----------
+   Elements marked data-reveal="up|left|right|rise|arch-open" animate in as they enter the viewport,
+   using CSS scroll-driven animations (no JavaScript, nothing hidden where unsupported). */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    [data-reveal] {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+    [data-reveal="left"] {
+      animation-name: reveal-left;
+    }
+    [data-reveal="right"] {
+      animation-name: reveal-right;
+    }
+    [data-reveal="rise"] {
+      animation-name: reveal-rise;
+      transform-origin: bottom;
+    }
+    [data-reveal="arch-open"] {
+      animation-name: reveal-arch;
+    }
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(36px);
+    filter: blur(6px);
+  }
+}
+
+@keyframes reveal-left {
+  from {
+    opacity: 0;
+    transform: translateX(-90px);
+    filter: blur(4px);
+  }
+}
+
+@keyframes reveal-right {
+  from {
+    opacity: 0;
+    transform: translateX(90px);
+    filter: blur(4px);
+  }
+}
+
+@keyframes reveal-rise {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes reveal-arch {
+  from {
+    clip-path: inset(100% 0 0 0);
   }
 }

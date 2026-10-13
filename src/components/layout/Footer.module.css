@@ -1,0 +1,134 @@
+.footer {
+  background: var(--brand-deep-blue);
+  color: var(--text-on-dark);
+}
+
+.footer :focus-visible {
+  outline-color: var(--brand-ivory);
+}
+
+.inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-6) var(--gutter) 32px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+  gap: 32px;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 200px;
+}
+
+.social {
+  display: flex;
+  gap: var(--space-1);
+  margin: 0 0 0 -10px;
+  padding: 0;
+  list-style: none;
+}
+
+.socialLink {
+  width: var(--touch-target);
+  height: var(--touch-target);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-on-dark);
+}
+
+.socialLink:hover {
+  color: var(--text-on-dark);
+  opacity: 0.8;
+}
+
+.pendingMark {
+  width: 22px;
+  height: 22px;
+  border: 1px dashed var(--line-on-dark);
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.column h2 {
+  margin-bottom: var(--space-2);
+}
+
+.column ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: inline-block;
+  color: var(--text-on-dark);
+  font-size: 17px;
+  line-height: 32px;
+  text-decoration: none;
+  /* 44 px tall rows on touch screens. */
+  padding-block: 6px;
+}
+
+.link:hover {
+  color: var(--text-on-dark);
+  text-decoration: underline;
+}
+
+/* Decorative gold hairline (brand rule: gold for lines, never text). */
+.rule {
+  height: 1px;
+  background: var(--brand-gold);
+}
+
+.base {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.payments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.payments li {
+  padding: 2px var(--space-2);
+  border: 1px solid var(--line-on-dark);
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.paymentsLight li {
+  border-color: var(--line-hairline);
+}
+
+.toggle {
+  min-height: var(--touch-target);
+  color: var(--text-on-dark);
+  font-size: 14px;
+  line-height: 22px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

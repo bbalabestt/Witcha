@@ -9,6 +9,12 @@ import { Icon } from "@/components/ui/Icon";
 import { iconMarkup, type IconName } from "@/components/ui/icons.generated";
 import { Logo } from "@/components/ui/Logo";
 import { Breadcrumb } from "@/components/ui/Navigation";
+import { InPreparationCard, ProductCard } from "@/components/commerce/ProductCard";
+import { PriceBlock } from "@/components/commerce/PriceBlock";
+import { TasteScale } from "@/components/commerce/TasteScale";
+import { PRODUCTS } from "@/lib/data/fixtures/data";
+import { money } from "@/lib/data/money";
+import { CartProvider } from "@/components/cart/CartProvider";
 import { DevDemos } from "./DevDemos";
 import styles from "./page.module.css";
 
@@ -42,6 +48,7 @@ export default function ComponentSheet() {
   const icons = Object.keys(iconMarkup) as IconName[];
 
   return (
+    <CartProvider>
     <main className={styles.page}>
       <header className={styles.stack}>
         <p className="label">Dev only · not built in production</p>
@@ -230,6 +237,55 @@ export default function ComponentSheet() {
       </section>
 
       <DevDemos />
+      <section className={styles.section}>
+        <h2 className="heading-2">TasteScale</h2>
+        <p className={styles.caption}>mini · panel (filled + outline comparison) · header (links + captions)</p>
+        <div style={{ maxWidth: 280 }}>
+          <TasteScale size="mini" markers={[{ position: 4, label: "Deep, 4 of 5" }]} />
+        </div>
+        <div style={{ maxWidth: 420 }}>
+          <TasteScale size="panel" caption="Deep, 4 of 5" markers={[{ position: 4, label: "This tea, Deep 4 of 5" }, { position: 2, label: "Other tea, Bright 2 of 5", tone: "outline" }]} />
+        </div>
+        <div style={{ maxWidth: 640 }}>
+          <TasteScale
+            size="header"
+            markers={[
+              { position: 2, label: "[Daily tea name], Bright 2 of 5", caption: "[Daily] · 2 of 5", href: "/products/daily" },
+              { position: 4, label: "Yame no Mukashi, Deep 4 of 5", caption: "Yame · 4 of 5", href: "/products/yame" },
+            ]}
+          />
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <h2 className="heading-2">PriceBlock</h2>
+        <div className={styles.row}>
+          <PriceBlock price={money(4800, "AUD", true)} />
+          <PriceBlock price={money(4800, "AUD", true)} from />
+          <PriceBlock price={money(4000)} compareAt={money(4800)} />
+          <PriceBlock price={money(4800)} perCup={money(320)} perCupNote="([2] g serve)" size="pdp" />
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <h2 className="heading-2">ProductCard</h2>
+        <p className={styles.caption}>multi-size · single-size · sold out · sale · gift · in preparation</p>
+        <div className={styles.cards}>
+          <ProductCard product={PRODUCTS[0]!} />
+          <ProductCard product={PRODUCTS[1]!} />
+          <ProductCard product={{ ...PRODUCTS[1]!, availableForSale: false, variants: PRODUCTS[1]!.variants.map((v) => ({ ...v, availableForSale: false })) }} />
+          <ProductCard
+            product={{
+              ...PRODUCTS[1]!,
+              badges: ["sale"],
+              variants: PRODUCTS[1]!.variants.map((v) => ({ ...v, price: money(2800, "AUD", true), compareAtPrice: money(3200, "AUD", true) })),
+            }}
+          />
+          <ProductCard product={PRODUCTS[2]!} />
+          <InPreparationCard />
+        </div>
+      </section>
     </main>
+    </CartProvider>
   );
 }

@@ -1,0 +1,113 @@
+.scale {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  color: var(--text-primary);
+  /* Marker sizes per variant (prototype: 11×14, 17×24, 27×38). */
+  --marker-w: 17px;
+  --marker-h: 24px;
+  --track-h: 28px;
+  --tick-h: 8px;
+}
+
+.mini { --marker-w: 11px; --marker-h: 14px; --track-h: 16px; --tick-h: 5px; gap: var(--space-1); }
+.panel { --marker-w: 17px; --marker-h: 24px; --track-h: 28px; --tick-h: 8px; }
+.header { --marker-w: 27px; --marker-h: 38px; --track-h: 40px; --tick-h: 10px; gap: var(--space-3); }
+
+.track {
+  position: relative;
+  height: var(--track-h);
+  /* Half a marker of room at each end so end markers are never clipped. */
+  margin: 0 calc(var(--marker-w) / 2);
+}
+
+.line,
+.tick {
+  position: absolute;
+  bottom: 0;
+  background: var(--line-control);
+}
+
+.line {
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
+.tick {
+  width: 1px;
+  height: var(--tick-h);
+  transform: translateX(-50%);
+}
+
+.marker {
+  position: absolute;
+  bottom: 0;
+  left: calc(var(--at) - var(--marker-w) / 2);
+  width: var(--marker-w);
+  height: var(--marker-h);
+  background: var(--action-primary);
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+  transition:
+    left 0.6s cubic-bezier(0.3, 1.4, 0.4, 1),
+    transform 0.2s var(--ease-out);
+}
+
+.outline {
+  background: var(--surface-page);
+  border: 1px solid var(--line-control);
+  border-bottom: 0;
+}
+
+a.marker::before {
+  /* 44 px hit area around a small marker. */
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: var(--touch-target);
+  height: var(--touch-target);
+  transform: translateX(-50%);
+}
+
+a.marker:hover {
+  transform: translateY(-4px);
+}
+
+a.marker:focus-visible {
+  outline-offset: 3px;
+}
+
+.ends {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+}
+
+.captions {
+  position: relative;
+  height: 22px;
+  margin: 0 calc(var(--marker-w) / 2);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.captions span {
+  position: absolute;
+  left: var(--at);
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.caption {
+  font-size: 14px;
+  line-height: 22px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marker { transition: none; }
+}

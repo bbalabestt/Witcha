@@ -1,0 +1,37 @@
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-size: 17px;
+  line-height: 28px;
+  font-weight: 500;
+}
+
+/* Prototype: Jost 500 22/30 on the PDP. */
+.pdp .price {
+  font-size: 22px;
+  line-height: 30px;
+}
+
+.was {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+}
+
+.pdp .was {
+  font-size: 17px;
+}
+
+.perCup {
+  font-size: 14px;
+  line-height: 22px;
+}

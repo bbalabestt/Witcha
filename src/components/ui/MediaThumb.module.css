@@ -1,0 +1,19 @@
+.frame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: var(--surface-soft);
+}
+
+.img {
+  object-fit: cover;
+}
+
+.thumb {
+  position: relative;
+  flex: none;
+  display: block;
+  overflow: hidden;
+  background: var(--surface-soft);
+  border: 1px solid var(--line-hairline);
+}

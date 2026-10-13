@@ -1,0 +1,122 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+}
+
+.media {
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+}
+
+.soldOut .media {
+  opacity: 0.6;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  flex: 1;
+}
+
+.name {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  line-height: 30px;
+  /* Two lines maximum. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.link {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+/* The whole card (image + text) opens the product; the action button sits above this layer. */
+.link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.link:hover {
+  color: var(--text-primary);
+  text-decoration: underline;
+}
+
+.link:focus-visible {
+  outline: none;
+}
+
+.link:focus-visible::after {
+  outline: 2px solid var(--line-control);
+  outline-offset: 4px;
+}
+
+.notes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.note,
+.sizes {
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.actions {
+  position: relative;
+  z-index: 2;
+}
+
+.cta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.ctaStatus {
+  min-height: 0;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.ctaStatus:empty {
+  display: none;
+}
+
+.prep {
+  aspect-ratio: 4 / 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: 32px;
+  border: 1px dashed var(--line-control);
+  text-align: center;
+}
+
+.prepArch {
+  width: 96px;
+  height: 128px;
+  background: var(--surface-soft);
+  border: 1px solid var(--line-hairline);
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+}

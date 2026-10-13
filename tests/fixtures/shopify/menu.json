@@ -1,0 +1,19 @@
+{
+  "data": {
+    "menu": {
+      "handle": "main-menu",
+      "items": [
+        {
+          "id": "gid://shopify/MenuItem/1",
+          "title": "Shop Matcha",
+          "url": "https://witcha-matcha.myshopify.com/collections/matcha",
+          "items": [
+            { "id": "gid://shopify/MenuItem/11", "title": "All matcha", "url": "https://witchamatcha.com.au/collections/matcha?sort=featured", "items": [] },
+            { "id": "gid://shopify/MenuItem/12", "title": "Instagram", "url": "https://www.instagram.com/example", "items": [] }
+          ]
+        },
+        { "id": "gid://shopify/MenuItem/2", "title": "Our Story", "url": "/pages/our-story", "items": [] }
+      ]
+    }
+  }
+}

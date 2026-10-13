@@ -1,0 +1,9 @@
+{
+  "data": {
+    "cartLinesAdd": {
+      "cart": null,
+      "userErrors": [{ "field": ["cartId"], "message": "The specified cart does not exist.", "code": "INVALID" }],
+      "warnings": []
+    }
+  }
+}

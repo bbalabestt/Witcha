@@ -1,0 +1,125 @@
+.band {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-brand);
+  color: var(--text-primary);
+}
+
+.archSoft,
+.archIvory {
+  position: absolute;
+  bottom: 0;
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+}
+
+.archSoft {
+  right: clamp(120px, 16vw, 240px);
+  width: clamp(90px, 11vw, 168px);
+  height: 72%;
+  background: var(--surface-soft);
+}
+
+.archIvory {
+  right: clamp(24px, 6vw, 88px);
+  width: clamp(56px, 6.5vw, 96px);
+  height: 88%;
+  background: var(--brand-ivory);
+  outline: 1.5px solid var(--brand-gold);
+  outline-offset: 10px;
+}
+
+.inner {
+  position: relative;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: clamp(48px, 7vw, 96px) var(--gutter);
+}
+
+.copy {
+  max-width: 620px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 560px;
+}
+
+.label {
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.input {
+  flex: 1 1 220px;
+  min-width: 0;
+  height: 52px;
+  padding: 0 14px;
+  background: var(--white);
+  border: 1px solid var(--line-control);
+  border-radius: var(--radius-sm);
+  font-size: 17px;
+}
+
+.invalid {
+  border: 2px solid var(--feedback-error);
+}
+
+.submit {
+  min-width: 150px;
+}
+
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+/* Error text sits on an ivory chip: the error red is not legible on Witcha blue. */
+.error {
+  display: flex;
+  align-items: flex-start;
+  align-self: flex-start;
+  gap: 6px;
+  padding: 6px var(--space-2);
+  background: var(--surface-page);
+  color: var(--feedback-error);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.error svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+.small {
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.ok {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+@media (max-width: 767px) {
+  .archSoft,
+  .archIvory {
+    display: none;
+  }
+}

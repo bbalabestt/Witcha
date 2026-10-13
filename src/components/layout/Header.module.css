@@ -1,0 +1,224 @@
+.wrap {
+  position: relative;
+  z-index: 50;
+  background: var(--surface-page);
+}
+
+.bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-4);
+  padding: 28px var(--gutter);
+  border-bottom: 1px solid var(--line-hairline);
+}
+
+.side {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2.2vw, 32px);
+  min-width: 0;
+}
+
+.end {
+  justify-content: flex-end;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2.2vw, 32px);
+}
+
+.navItem {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--touch-target);
+  padding: 14px 0;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: letter-spacing 0.3s var(--ease-out);
+}
+
+.navItem::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 8px;
+  height: 1px;
+  background: transparent;
+}
+
+.navItem[data-active]::after {
+  background: var(--line-control);
+}
+
+.navItem:hover {
+  color: var(--text-primary);
+  letter-spacing: 0.22em;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.logoLink {
+  display: block;
+}
+
+.logo {
+  width: 200px;
+  height: auto;
+}
+
+.utilities {
+  display: flex;
+  gap: 2px;
+}
+
+.iconLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-target);
+  height: var(--touch-target);
+  color: var(--text-primary);
+  transition: background-color 0.2s var(--ease-out);
+}
+
+.iconLink:hover {
+  background: var(--surface-soft);
+  color: var(--text-primary);
+}
+
+.count {
+  position: absolute;
+  top: 4px;
+  right: 2px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  background: var(--action-primary);
+  color: var(--action-primary-text);
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  line-height: 18px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.side .narrowOnly {
+  display: none;
+}
+
+/* ---------- Mega menu (desktop) ---------- */
+
+.mega {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 5fr) minmax(0, 3fr);
+  gap: var(--space-4);
+  padding: var(--space-5) var(--gutter) 48px;
+  background: var(--surface-page);
+  border-bottom: 1px solid var(--line-hairline);
+  animation: drop 0.82s var(--ease-out);
+}
+
+.mega[hidden] {
+  display: none;
+}
+
+@keyframes drop {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+.megaLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.megaLinks > :global(.label) {
+  margin-bottom: 12px;
+}
+
+.megaLink {
+  padding: 7px 0;
+  color: var(--text-primary);
+  font-family: var(--font-serif);
+  font-size: 22px;
+  line-height: 30px;
+  text-decoration: none;
+}
+
+.megaLink:hover {
+  text-decoration: underline;
+}
+
+.megaTaste {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+  padding: 32px;
+  background: var(--surface-brand);
+  color: var(--text-primary);
+}
+
+.megaCta {
+  align-self: flex-start;
+  padding: 6px 0;
+  min-height: var(--touch-target);
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-underline-offset: 4px;
+}
+
+.megaArt {
+  align-self: start;
+}
+
+/* Below 1200 px the inline nav gives way to the menu drawer (prototype `narrow`). */
+@media (max-width: 1199px) {
+  .bar {
+    padding-block: 22px;
+  }
+  .nav,
+  .mega {
+    display: none;
+  }
+  .side .narrowOnly {
+    display: inline-flex;
+  }
+  .logo {
+    width: 160px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mega {
+    animation: none;
+  }
+}
