@@ -1,0 +1,63 @@
+{
+  "id": "gid://shopify/Product/9001",
+  "handle": "yame-no-mukashi",
+  "title": "Yame no Mukashi",
+  "description": "The Professor keeps the deep tea at the Academy.",
+  "productType": "Matcha",
+  "tags": ["new", "sale"],
+  "featuredImage": { "url": "https://cdn.shopify.com/s/files/tin.webp", "altText": "", "width": 720, "height": 720 },
+  "images": {
+    "nodes": [
+      { "url": "https://cdn.shopify.com/s/files/tin.webp", "altText": "", "width": 720, "height": 720 },
+      { "url": "https://cdn.shopify.com/s/files/whisk.jpg", "altText": "Hands whisking matcha", "width": 960, "height": 640 }
+    ]
+  },
+  "variants": {
+    "nodes": [
+      {
+        "id": "gid://shopify/ProductVariant/1",
+        "title": "30 g",
+        "availableForSale": true,
+        "quantityAvailable": 3,
+        "price": { "amount": "48.0", "currencyCode": "AUD" },
+        "compareAtPrice": { "amount": "48.0", "currencyCode": "AUD" },
+        "servings": null
+      },
+      {
+        "id": "gid://shopify/ProductVariant/2",
+        "title": "100 g",
+        "availableForSale": false,
+        "quantityAvailable": 0,
+        "price": { "amount": "140.0", "currencyCode": "AUD" },
+        "compareAtPrice": { "amount": "165.0", "currencyCode": "AUD" },
+        "servings": { "value": "50" }
+      }
+    ]
+  },
+  "servings": { "value": "15" },
+  "tastePosition": { "value": "4" },
+  "tier": { "value": "Reserve" },
+  "tasteWord": null,
+  "tastingNotes": { "value": "[\"Nutty\",\"Umami\",\"Mellow\",\"Extra\"]" },
+  "bestFor": { "value": "[\"Latte\",\"Straight\",\"Smoothie\"]" },
+  "originRegion": { "value": "Yame, Fukuoka" },
+  "cultivar": { "value": "100% Okumidori" },
+  "harvest": { "value": "First harvest" },
+  "gradeDescription": null,
+  "packDateNote": null,
+  "netWeight": null,
+  "ingredients": { "value": "100% green tea (matcha)" },
+  "storageNote": null,
+  "pending": null,
+  "character": {
+    "value": "gid://shopify/Metaobject/77",
+    "reference": {
+      "handle": "the-professor",
+      "fields": [
+        { "key": "name", "value": "The Professor", "reference": null },
+        { "key": "taste_role", "value": "Keeper of the reserve tea", "reference": null },
+        { "key": "art", "value": "gid://shopify/MediaImage/5", "reference": { "image": { "url": "https://cdn.shopify.com/s/files/prof.webp", "altText": "The Professor", "width": 820, "height": 820 } } }
+      ]
+    }
+  }
+}
