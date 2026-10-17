@@ -1,0 +1,17 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.sent,
+.error {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.error {
+  gap: 6px;
+  color: var(--feedback-error);
+}

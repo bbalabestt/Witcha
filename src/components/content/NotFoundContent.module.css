@@ -1,0 +1,30 @@
+.page {
+  padding-block: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  text-align: center;
+}
+
+.arch {
+  position: relative;
+  width: 200px;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--surface-soft);
+  border: 1px solid var(--line-hairline);
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+}
+
+.contain {
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}

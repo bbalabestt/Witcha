@@ -1,0 +1,133 @@
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(44px, 5vw, 64px);
+  line-height: 1.07;
+}
+
+.garden {
+  padding-bottom: clamp(56px, 7vw, 96px);
+}
+
+.garden img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 1;
+  object-fit: cover;
+  border: 1px solid var(--line-control);
+}
+
+.class {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 32px;
+}
+
+.keeper {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.keeperArt {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--surface-soft);
+  border: 1px solid var(--line-hairline);
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+}
+
+.keeperArt[data-concept] {
+  border: 1px dashed var(--line-control);
+}
+
+.contain {
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+.grounds {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: var(--space-4);
+}
+
+.ground {
+  min-height: 160px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 6px;
+  background: var(--surface-page);
+}
+
+.story {
+  padding-block: clamp(40px, 6vw, 64px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: 48px;
+  align-items: center;
+}
+
+.storyCopy {
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.founders {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.photo {
+  aspect-ratio: 4 / 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3);
+  background: var(--surface-soft);
+  border: 1px solid var(--line-hairline);
+  text-align: center;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.offset {
+  margin-top: 48px;
+}
+
+.steps {
+  padding-block: clamp(40px, 6vw, 64px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 32px;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stepN {
+  font-family: var(--font-display);
+  font-size: 44px;
+  line-height: 50px;
+}
+
+.center {
+  padding-block: clamp(40px, 6vw, 64px);
+  display: flex;
+  justify-content: center;
+}

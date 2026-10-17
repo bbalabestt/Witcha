@@ -1,0 +1,54 @@
+.layout {
+  padding-block: 56px 80px;
+  display: grid;
+  grid-template-columns: minmax(200px, 1fr) minmax(0, 3fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+@media (max-width: 767px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+}
+
+.toc {
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.toc a {
+  min-height: var(--touch-target);
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.toc a[aria-current="page"] {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+}
+
+.body {
+  max-width: 68ch;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.prose :global(p),
+.prose :global(ul),
+.prose :global(ol) {
+  margin-bottom: 1em;
+}
+
+.prose :global(h2),
+.prose :global(h3) {
+  font-family: var(--font-serif);
+  margin: 1.4em 0 0.4em;
+}

@@ -18,7 +18,7 @@
   transition: background-color 0.2s var(--ease-out);
 }
 
-.pill:hover { background: var(--surface-soft); }
+.pill:hover { background: var(--surface-hover); }
 
 .pill[aria-checked="true"] {
   /* 2 px border without shifting layout: inset shadow tops up the 1 px border. */

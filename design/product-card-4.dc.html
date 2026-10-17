@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="display:flex;flex-direction:column;gap:12px;width:100%;height:100%;">
+  <div onClick="{{ c.open }}" role="link" tabIndex="0" style="display:flex;flex-direction:column;gap:16px;cursor:pointer;flex:1;">
+    <div style="position:relative;aspect-ratio:4/5;background:var(--wm-aqua);border:1px solid color-mix(in srgb,var(--wm-primary) 25%,transparent);display:flex;align-items:center;justify-content:center;font:500 12px/16px Jost;letter-spacing:.18em;text-align:center;padding:16px;overflow:hidden;transition:background .4s;" style-hover="background:var(--wm-blue);">
+      <span role="img" aria-label="{{ c.alt }}" style="position:absolute;inset:4% 4% 2%;background-image:{{ c.bg }};background-size:contain;background-position:center bottom;background-repeat:no-repeat;opacity:{{ c.imgOp }};"></span><span style="position:relative;opacity:{{ c.labelOp }};">{{ c.label }}</span><sc-if value="{{ c.isSold }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:0;right:0;bottom:0;background:var(--wm-blush);color:var(--wm-primary);font:500 12px/16px Jost;letter-spacing:.16em;padding:10px 8px;text-align:center;">RESTOCKING · TAP TO BE NOTIFIED</span></sc-if>
+      <sc-if value="{{ c.hasBadge }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:12px;left:12px;font:500 12px/16px Jost;letter-spacing:.18em;background:{{ c.badgeBg }};color:{{ c.badgeFg }};border:{{ c.badgeBd }};padding:4px 8px;">{{ c.badge }}</span></sc-if>
+      <sc-if value="{{ c.pending }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:12px;right:12px;font:500 12px/16px Jost;letter-spacing:.14em;border:1px dashed var(--wm-primary);background:var(--wm-ivory);padding:2px 6px;">PENDING</span></sc-if>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <span style="font:500 12px/16px Jost;letter-spacing:.18em;">{{ c.eyebrow }}</span>
+      <span style="font-family:'Libre Caslon Text',serif;font-size:22px;line-height:30px;">{{ c.name }}</span>
+      <sc-if value="{{ c.hasScale }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;align-items:center;gap:8px;" aria-label="{{ c.tasteLabel }}">
+          <span style="font:500 12px/16px Jost;letter-spacing:.14em;">BRIGHT</span>
+          <div style="position:relative;flex:1;height:16px;">
+            <div style="position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--wm-primary);"></div>
+            <span style="position:absolute;left:0;bottom:0;width:1px;height:5px;background:var(--wm-primary);"></span><span style="position:absolute;left:25%;bottom:0;width:1px;height:5px;background:var(--wm-primary);"></span><span style="position:absolute;left:50%;bottom:0;width:1px;height:5px;background:var(--wm-primary);"></span><span style="position:absolute;left:75%;bottom:0;width:1px;height:5px;background:var(--wm-primary);"></span><span style="position:absolute;right:0;bottom:0;width:1px;height:5px;background:var(--wm-primary);"></span>
+            <span style="position:absolute;left:{{ c.marker }};bottom:0;width:11px;height:15px;background:var(--wm-primary);border-radius:999px 999px 0 0;"></span>
+          </div>
+          <span style="font:500 12px/16px Jost;letter-spacing:.14em;">DEEP</span>
+        </div>
+      </sc-if>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <sc-for list="{{ c.notes }}" as="n" hint-placeholder-count="2"><span style="font-size:14px;line-height:22px;background:var(--wm-aqua);border-radius:4px;padding:2px 10px;">{{ n }}</span></sc-for>
+      </div>
+      <div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap;">
+        <span style="display:flex;gap:8px;align-items:baseline;"><span style="font:500 17px/28px Jost;">{{ c.price }}</span><sc-if value="{{ c.hasCompare }}" hint-placeholder-val="{{ false }}"><s style="font-size:14px;line-height:22px;">{{ c.compare }}</s></sc-if></span>
+        <span style="font-size:14px;line-height:22px;">{{ c.size }}</span>
+      </div>
+    </div>
+  </div>
+  <button onClick="{{ c.act }}" aria-live="polite" style="height:44px;border:1px solid var(--wm-primary);background:{{ c.btnBg }};color:{{ c.btnFg }};display:flex;align-items:center;justify-content:center;gap:8px;font:500 12px/16px Jost;letter-spacing:.18em;transition:background .2s,color .2s;" style-hover="background:var(--wm-aqua);color:var(--wm-primary);" style-active="background:var(--wm-blue);"><sc-if value="{{ c.loading }}" hint-placeholder-val="{{ false }}"><span style="width:14px;height:14px;border-radius:50%;border:1.5px solid rgba(42,86,116,0.3);border-top-color:var(--wm-primary);animation:wmspin .8s linear infinite;"></span></sc-if>{{ c.btn }}</button>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:310,&quot;height&quot;:620},&quot;c&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;object&quot;}}"></script>
+</body>
+</html>

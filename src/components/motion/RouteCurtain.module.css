@@ -1,0 +1,27 @@
+.curtain {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 125vh;
+  z-index: 95;
+  background: var(--surface-brand);
+  border-radius: 50% 50% 0 0 / 180px 180px 0 0;
+  transform: translateY(110%);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  width: 200px;
+  height: auto;
+  margin-top: -25vh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .curtain {
+    display: none;
+  }
+}

@@ -1,0 +1,41 @@
+.promise {
+  background: var(--surface-soft);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.promise p {
+  display: flex;
+  gap: 10px;
+}
+
+.promise svg {
+  flex: none;
+}
+
+.promise b {
+  font-weight: 500;
+}
+
+.summary {
+  background: var(--surface-soft);
+}
+
+.summaryGrid {
+  padding-block: 48px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: var(--space-4);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.summaryGrid > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}

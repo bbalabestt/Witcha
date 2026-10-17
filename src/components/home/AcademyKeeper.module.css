@@ -1,0 +1,110 @@
+.section {
+  position: relative;
+  overflow: hidden;
+}
+
+.ghosts {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  pointer-events: none;
+}
+
+.ghostRow {
+  white-space: nowrap;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(72px, 11vw, 180px);
+  line-height: 1.05;
+  color: color-mix(in srgb, var(--wm-primary) 7%, transparent);
+}
+
+.ghostRow span {
+  padding-right: 0.3em;
+}
+
+.inner {
+  position: relative;
+  padding-block: var(--space-7);
+}
+
+.kicker {
+  display: block;
+  margin-bottom: var(--space-4);
+}
+
+/* The copy wraps around the arch window (shape-outside). */
+.arch {
+  position: relative;
+  float: left;
+  width: min(42vw, 360px);
+  aspect-ratio: 3 / 4;
+  margin: var(--space-3) 56px var(--space-4) var(--space-3);
+  background: var(--surface-brand);
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+  outline: 1.5px solid var(--brand-gold);
+  outline-offset: 12px;
+  shape-outside: inset(0 round 180px 180px 0 0);
+  shape-margin: 36px;
+}
+
+.arch img {
+  position: absolute;
+  left: 2%;
+  bottom: 0;
+  width: 96%;
+  height: auto;
+}
+
+.heading {
+  margin-bottom: var(--space-4);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.28em;
+}
+
+.heading span {
+  display: inline-block;
+  will-change: transform;
+}
+
+.copy {
+  font-family: var(--font-serif);
+  font-size: clamp(20px, 1.8vw, 26px);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.cta {
+  margin-top: 28px;
+  height: 52px;
+  padding: 0 28px;
+  display: inline-flex;
+  align-items: center;
+  background: var(--action-secondary-fill);
+  border: 1px solid var(--line-control);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.cta:hover {
+  background: var(--surface-hover);
+}
+
+.clear {
+  clear: both;
+}
+
+@media (max-width: 599px) {
+  .arch {
+    float: none;
+    width: min(80vw, 320px);
+    margin: var(--space-3) auto var(--space-5);
+  }
+}
