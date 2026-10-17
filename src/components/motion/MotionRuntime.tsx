@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import { motionAllowed, playReveal, startAmbient } from "./runtime";
+import { holdHidden, isHeld, markSeen, motionAllowed, playReveal, release, startAmbient } from "./runtime";
 
 /**
  * Scans the page for `data-reveal` and ambient-motion attributes after each navigation. Server components stay
@@ -25,29 +25,30 @@ export function MotionRuntime() {
 
     const scan = () => {
       startAmbient(document);
-      document.querySelectorAll<HTMLElement>("[data-reveal]:not([data-rv])").forEach((el) => {
-        el.dataset.rv = "1";
+      document.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el) => {
+        if (!markSeen(el)) return;
         if (el.closest("dialog") || el.dataset.reveal === "manual") return;
         const r = el.getBoundingClientRect();
         if (r.top < window.innerHeight && r.bottom > 0) {
           playReveal(el);
           return;
         }
-        el.style.opacity = "0";
+        holdHidden(el);
         io.observe(el);
       });
     };
 
     scan();
-    // Client islands (filters, tabs, drawers) add markup after the first scan.
+    // Client islands (filters, tabs, drawers) and streamed sections add markup after the first scan.
     const mo = new MutationObserver(() => scan());
     mo.observe(document.body, { childList: true, subtree: true });
-    // Safety net: anything still hidden but on screen after 1.2 s is shown.
-    const safety = window.setTimeout(() => {
-      document.querySelectorAll<HTMLElement>("[data-rv]").forEach((el) => {
+    // Safety net: anything still held but on screen after 1.2 s is shown.
+    const safety = window.setInterval(() => {
+      document.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el) => {
+        if (!isHeld(el)) return;
         const r = el.getBoundingClientRect();
-        if (el.style.opacity === "0" && r.top < window.innerHeight && r.bottom > 0) {
-          el.style.opacity = "";
+        if (r.top < window.innerHeight && r.bottom > 0) {
+          release(el);
           io.unobserve(el);
         }
       });
@@ -56,7 +57,7 @@ export function MotionRuntime() {
     return () => {
       io.disconnect();
       mo.disconnect();
-      window.clearTimeout(safety);
+      window.clearInterval(safety);
     };
   }, [pathname]);
 

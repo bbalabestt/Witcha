@@ -85,20 +85,48 @@ function duration(kind: string): number {
   return 820;
 }
 
+/**
+ * Reveal state lives in Web Animations and a WeakSet, never in DOM attributes, so streamed server HTML that
+ * has not hydrated yet is never mutated (no hydration mismatches).
+ */
+const seen = new WeakSet<Element>();
+const holds = new WeakMap<Element, Animation>();
+
+const ORIGIN: Record<string, string> = { rise: "bottom", "line-l": "left", "line-r": "right" };
+
+export function markSeen(el: Element): boolean {
+  if (seen.has(el)) return false;
+  seen.add(el);
+  return true;
+}
+
+/** Keeps an off-screen element invisible until it is revealed. */
+export function holdHidden(el: HTMLElement) {
+  holds.set(el, el.animate([{ opacity: 0 }], { duration: 1, fill: "forwards" }));
+}
+
+export function isHeld(el: Element): boolean {
+  return holds.has(el);
+}
+
+export function release(el: Element) {
+  holds.get(el)?.cancel();
+  holds.delete(el);
+}
+
 export function playReveal(el: HTMLElement) {
+  release(el);
   const kind = el.dataset.reveal ?? "fade";
   const delay = Number(el.dataset.delay ?? 0);
-  el.style.opacity = "";
-  if (kind === "rise") el.style.transformOrigin = "bottom";
-  if (kind === "line-l") el.style.transformOrigin = "left";
-  if (kind === "line-r") el.style.transformOrigin = "right";
-  el.animate(REVEALS[kind] ?? REVEALS.fade!, { duration: duration(kind), delay, easing: EASE, fill: "backwards" });
+  const origin = ORIGIN[kind];
+  const frames = (REVEALS[kind] ?? REVEALS.fade!).map((f) => (origin ? { ...f, transformOrigin: origin } : f));
+  el.animate(frames, { duration: duration(kind), delay, easing: EASE, fill: "backwards" });
 }
 
 /** Infinite ambient effects: floating motes, twinkling stars, the breathing arch outline, liquid waves. */
 export function startAmbient(root: ParentNode) {
-  root.querySelectorAll<HTMLElement>("[data-float]:not([data-fl])").forEach((el) => {
-    el.dataset.fl = "1";
+  root.querySelectorAll<HTMLElement>("[data-float]").forEach((el) => {
+    if (!markSeen(el)) return;
     const dx = (Math.random() - 0.5) * 80;
     const dy = 120 + Math.random() * 200;
     el.animate(
@@ -106,8 +134,8 @@ export function startAmbient(root: ParentNode) {
       { duration: 5000 + Math.random() * 5000, delay: Math.random() * 4000, iterations: Infinity, easing: "ease-in-out" },
     );
   });
-  root.querySelectorAll<HTMLElement>("[data-twinkle]:not([data-tw])").forEach((el) => {
-    el.dataset.tw = "1";
+  root.querySelectorAll<HTMLElement>("[data-twinkle]").forEach((el) => {
+    if (!markSeen(el)) return;
     el.animate([{ opacity: 0.15, transform: "scale(.55) rotate(0deg)" }, { opacity: 1, transform: "scale(1) rotate(45deg)" }], {
       duration: 1400 + Math.random() * 1600,
       delay: Math.random() * 2000,
@@ -116,8 +144,8 @@ export function startAmbient(root: ParentNode) {
       easing: "ease-in-out",
     });
   });
-  root.querySelectorAll<HTMLElement>("[data-breathe]:not([data-br])").forEach((el) => {
-    el.dataset.br = "1";
+  root.querySelectorAll<HTMLElement>("[data-breathe]").forEach((el) => {
+    if (!markSeen(el)) return;
     el.animate(
       [
         { outlineOffset: "10px", outlineColor: "color-mix(in srgb, var(--brand-gold) 35%, transparent)" },
@@ -126,8 +154,8 @@ export function startAmbient(root: ParentNode) {
       { duration: 2250, direction: "alternate", iterations: Infinity, easing: "ease-in-out" },
     );
   });
-  root.querySelectorAll<HTMLElement>("[data-wave]:not([data-wv])").forEach((el) => {
-    el.dataset.wv = "1";
+  root.querySelectorAll<HTMLElement>("[data-wave]").forEach((el) => {
+    if (!markSeen(el)) return;
     el.animate([{ transform: "translateX(0)" }, { transform: "translateX(-25%)" }], { duration: 3600, iterations: Infinity, easing: "linear" });
   });
 }

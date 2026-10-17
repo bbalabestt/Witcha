@@ -190,7 +190,10 @@ export const PRODUCTS: Product[] = [
     tags: ["gift"],
     badge: null,
     tin: ART.kosenTin,
-    gallery: [{ kind: "image", image: ART.everyday, fit: "cover", label: "GIFT SET" }],
+    gallery: [
+      { kind: "image", image: ART.kosenTin, fit: "contain", label: "GIFT SET" },
+      { kind: "image", image: ART.professorTin, fit: "contain", label: "GIFT SET" },
+    ],
     variants: [variant("g-set", "Set of 2", 76, 10, null)],
     taste: null,
     tastingNotes: [],

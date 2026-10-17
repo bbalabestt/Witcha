@@ -153,6 +153,7 @@ svg {
   padding: 1px 5px;
   white-space: nowrap;
   vertical-align: middle;
+  text-transform: uppercase;
 }
 
 .sample-tag {
