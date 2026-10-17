@@ -99,3 +99,112 @@ svg {
     scroll-behavior: auto !important;
   }
 }
+
+/* ---------- Layout utilities (Prototype V4) ---------- */
+
+.container {
+  width: 100%;
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Fluid display sizes are kept only for the home hero and section display headings (D-04). */
+.display-section {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(34px, 4vw, 56px);
+  line-height: 1.08;
+}
+
+.serif-italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+.text-link {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Uppercase underlined action, e.g. "SHOP ALL TEAS". */
+.label-link {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  padding: 14px 0;
+  display: inline-block;
+}
+
+/* Visible tag for content that is still a placeholder (brief §11). */
+.pending-tag {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  border: 1px dashed var(--line-control);
+  padding: 1px 5px;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.sample-tag {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  background: var(--surface-blush);
+  color: var(--text-primary);
+  padding: 3px 8px;
+  white-space: nowrap;
+}
+
+/* Gold four-point star (decorative). */
+.twinkle {
+  position: absolute;
+  background: var(--brand-gold);
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+  pointer-events: none;
+}
+
+.mote {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--space-3);
+  top: -100px;
+  z-index: 200;
+  background: var(--action-primary);
+  color: var(--action-primary-text);
+  padding: 10px var(--space-3);
+}
+.skip-link:focus {
+  top: var(--space-3);
+  color: var(--action-primary-text);
+}
+
+/* Primary-filled controls: ivory ring plus a primary halo so it shows on ivory pages too (V4 1.5). */
+.on-primary:focus-visible {
+  outline: 2px solid var(--brand-ivory);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 6px var(--action-primary);
+}
+
+/* Deep-blue surfaces (announcement bar, footer): ivory focus ring (D-09). */
+[data-surface-dark] :focus-visible,
+[data-surface-dark]:focus-visible {
+  outline-color: var(--brand-ivory);
+}

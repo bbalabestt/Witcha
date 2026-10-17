@@ -1,0 +1,135 @@
+.root {
+  --float-bottom: 16px;
+  pointer-events: none;
+}
+
+.root[data-shown] > * {
+  pointer-events: auto;
+  opacity: 1;
+  transform: none;
+}
+
+.archMenu,
+.archTop,
+.pill {
+  position: fixed;
+  bottom: var(--float-bottom);
+  z-index: 75;
+  opacity: 0;
+  transition:
+    opacity 0.3s var(--ease-out),
+    transform 0.3s var(--ease-out),
+    bottom 0.3s var(--ease-out);
+}
+
+.lifted {
+  --float-bottom: 92px;
+}
+
+.archMenu,
+.archTop {
+  width: 56px;
+  height: 68px;
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2px;
+  padding-bottom: 10px;
+}
+
+.archMenu {
+  left: 16px;
+  background: var(--action-primary);
+  color: var(--text-on-dark);
+  transform: translateX(-24px);
+}
+
+.archTop {
+  right: 16px;
+  overflow: hidden;
+  background: var(--action-secondary-fill);
+  border: 1.5px solid var(--line-control);
+  transform: translateX(24px);
+}
+
+.root[data-shown] .archMenu:hover,
+.root[data-shown] .archTop:hover {
+  transform: translateY(-4px);
+}
+
+.archInner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.archLabel {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.fill {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 0;
+  background: var(--surface-brand);
+}
+
+.pill {
+  display: none;
+  right: 12px;
+  z-index: 80;
+  gap: var(--space-2);
+  padding: 6px;
+  background: var(--surface-page);
+  border: 1px solid var(--line-control);
+  border-radius: var(--radius-arch);
+  transform: translateY(24px);
+}
+
+.round {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.roundMenu {
+  background: var(--action-primary);
+  color: var(--text-on-dark);
+}
+
+.roundTop {
+  background: var(--action-secondary-fill);
+  border: 1.5px solid var(--line-control);
+}
+
+.raised {
+  position: relative;
+}
+
+@media (max-width: 767px) {
+  .archMenu,
+  .archTop {
+    display: none;
+  }
+  .pill {
+    display: flex;
+  }
+  .lifted {
+    --float-bottom: 84px;
+  }
+}

@@ -1,0 +1,147 @@
+.band {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-brand);
+}
+
+.arches {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.archSoft,
+.archIvory {
+  position: absolute;
+  bottom: 0;
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+}
+
+.archSoft {
+  right: clamp(120px, 16vw, 240px);
+  width: clamp(90px, 11vw, 168px);
+  height: 72%;
+  background: var(--surface-soft);
+}
+
+.archIvory {
+  right: clamp(24px, 6vw, 88px);
+  width: clamp(56px, 6.5vw, 96px);
+  height: 88%;
+  background: var(--surface-page);
+  outline: 1.5px solid var(--brand-gold);
+  outline-offset: 10px;
+}
+
+/* The arches collide with the heading and form at phone widths (V4 1.9). */
+@media (max-width: 767px) {
+  .arches {
+    display: none;
+  }
+}
+
+.inner {
+  position: relative;
+  padding-block: clamp(48px, 7vw, 96px);
+}
+
+.copy {
+  max-width: 620px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 560px;
+}
+
+.label {
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+}
+
+.row {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.input {
+  flex: 1 1 220px;
+  min-width: 0;
+  height: 52px;
+  padding: 0 14px;
+  background: var(--surface-card);
+  border: 1px solid var(--line-control);
+  border-radius: var(--radius-sm);
+  font-size: 17px;
+}
+
+.input[aria-invalid="true"] {
+  border: 2px solid var(--feedback-error);
+}
+
+.submit {
+  height: 52px;
+  min-width: 150px;
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--action-primary);
+  color: var(--action-primary-text);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: background-color 0.2s var(--ease-out);
+}
+
+.submit:hover {
+  background: var(--action-primary-hover);
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid color-mix(in srgb, currentColor 35%, transparent);
+  border-top-color: currentColor;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Error text is not readable on Witcha blue, so it sits on an ivory chip (A0 DS gap). */
+.error {
+  align-self: flex-start;
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  background: var(--surface-page);
+  padding: 6px var(--space-2);
+  color: var(--feedback-error);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.error svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+.success {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
