@@ -1,0 +1,159 @@
+.article {
+  padding-block: 40px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.head {
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.meta {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.meta span {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.video {
+  aspect-ratio: 16 / 9;
+  max-height: 560px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background-color: var(--surface-soft);
+  background-size: cover;
+  background-position: center;
+  border: 1px solid var(--line-hairline);
+}
+
+.play {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-page);
+}
+
+.videoLabel {
+  padding: 4px 10px;
+  background: var(--surface-page);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 48px;
+  align-items: start;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.needs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: var(--surface-soft);
+}
+
+.needs li {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 20px;
+}
+
+.needs li + li {
+  border-top: 1px solid var(--line-hairline);
+}
+
+.needs b {
+  font-weight: 500;
+}
+
+.fix {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  border: 1px solid var(--line-control);
+}
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.steps li {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.n {
+  width: 32px;
+  flex: none;
+  font-family: var(--font-display);
+  font-size: 34px;
+  line-height: 34px;
+}
+
+.tea {
+  max-width: 300px;
+}
+
+.body {
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.prose :global(p) {
+  margin-bottom: 1em;
+}
+
+.prose :global(h2),
+.prose :global(h3) {
+  font-family: var(--font-serif);
+  margin: 1.2em 0 0.4em;
+}
+
+.more {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  border-top: 1px solid var(--line-hairline);
+  padding-top: var(--space-5);
+}
+
+.moreGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: var(--space-4);
+}
