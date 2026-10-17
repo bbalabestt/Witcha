@@ -3,6 +3,7 @@ import { cardAction, cardPrice, eyebrow, firstAvailable, tasteLabel, type CardAc
 import type { BadgeKind, Image, Product } from "@/lib/data/types";
 import type { LinePreview } from "./CartProvider";
 import type { GiftSetData } from "./GiftSetCard";
+import type { UpsellItem } from "./CartParts";
 
 /** Serializable card model built on the server; the card itself is a small client island. */
 export type CardData = {
@@ -86,4 +87,28 @@ export function toGiftSet(p: Product): GiftSetData {
           }
         : null,
   };
+}
+
+/** "Pair with" items: tools that can be quick-added. */
+export function toUpsellItems(products: Product[]): UpsellItem[] {
+  return products
+    .filter((p) => p.kind === "tool")
+    .flatMap((p) => {
+      const v = firstAvailable(p);
+      if (!v || !v.availableForSale) return [];
+      return [
+        {
+          label: p.title,
+          merchandiseId: v.id,
+          handle: p.handle,
+          title: p.title,
+          kind: p.kind,
+          eyebrow: eyebrow(p),
+          tin: p.tin,
+          variantTitle: v.title,
+          price: v.price,
+          quantityAvailable: v.quantityAvailable,
+        },
+      ];
+    });
 }

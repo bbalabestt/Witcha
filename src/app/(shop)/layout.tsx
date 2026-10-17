@@ -1,5 +1,5 @@
 import { CartDrawer, type EmptyCartTea } from "@/components/commerce/CartDrawer";
-import type { UpsellItem } from "@/components/commerce/CartParts";
+import { toUpsellItems } from "@/components/commerce/card-data";
 import { CartProvider } from "@/components/commerce/CartProvider";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { ConsentBanner } from "@/components/layout/ConsentBanner";
@@ -17,7 +17,7 @@ import { ToastProvider } from "@/components/ui/Toast";
 import { readCart } from "@/lib/cart/server";
 import { env } from "@/lib/config/env";
 import { getProducts, getSiteSettings } from "@/lib/data/catalog";
-import { eyebrow, firstAvailable } from "@/lib/data/product";
+import { eyebrow } from "@/lib/data/product";
 import { socialReviews } from "@/lib/providers";
 
 export default async function ShopLayout({ children }: LayoutProps<"/">) {
@@ -29,7 +29,8 @@ export default async function ShopLayout({ children }: LayoutProps<"/">) {
 
   const teas = products.filter((p) => p.kind === "tea" && p.taste);
   const megaTeas: MegaTea[] = teas
-    .filter((p) => p.handle === "yame-no-mukashi" || p.handle === "kosen-daily-matcha" || teas.length <= 2)
+    // One marker per stop so arches never sit on top of each other.
+    .filter((p, i, all) => all.findIndex((q) => q.taste!.position === p.taste!.position) === i)
     .map((p) => ({ handle: p.handle, title: p.title, position: p.taste!.position, word: p.taste!.word }));
   const emptyTeas: EmptyCartTea[] = teas.slice(0, 2).map((p) => ({
     handle: p.handle,
@@ -37,26 +38,7 @@ export default async function ShopLayout({ children }: LayoutProps<"/">) {
     eyebrow: eyebrow(p),
     tin: p.tin ? { url: p.tin.url, alt: p.tin.alt } : null,
   }));
-  const upsell: UpsellItem[] = products
-    .filter((p) => p.kind === "tool")
-    .flatMap((p) => {
-      const v = firstAvailable(p);
-      if (!v || !v.availableForSale) return [];
-      return [
-        {
-          label: p.title,
-          merchandiseId: v.id,
-          handle: p.handle,
-          title: p.title,
-          kind: p.kind,
-          eyebrow: eyebrow(p),
-          tin: p.tin,
-          variantTitle: v.title,
-          price: v.price,
-          quantityAvailable: v.quantityAvailable,
-        },
-      ];
-    });
+  const upsell = toUpsellItems(products);
 
   return (
     <ToastProvider>

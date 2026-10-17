@@ -81,13 +81,13 @@ export function CartLineItem({ line }: { line: Line }) {
 
 export type UpsellItem = LinePreview & { label: string };
 
-export function UpsellRail({ items, compact = false }: { items: UpsellItem[]; compact?: boolean }) {
+export function UpsellRail({ items, compact = false, showLabel = true }: { items: UpsellItem[]; compact?: boolean; showLabel?: boolean }) {
   const { add, cart } = useCart();
   const visible = items.filter((i) => !cart?.lines.some((l) => l.merchandiseId === i.merchandiseId));
   if (visible.length === 0) return null;
   return (
     <div className={styles.upsell}>
-      <span className="label">Pair with</span>
+      {showLabel ? <span className="label">Pair with</span> : null}
       {visible.map((i) => (
         <div key={i.merchandiseId} className={styles.upsellItem}>
           <span className={styles.upsellThumb} aria-hidden="true" />
