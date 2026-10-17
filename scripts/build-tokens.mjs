@@ -49,6 +49,56 @@ lines.push(`  --font-serif: var(--wm-font-serif), ${tokens.type.families.serif};
 lines.push(`  --font-sans: var(--wm-font-sans), ${tokens.type.families.sans};`);
 lines.push("}", "");
 
+// Prototype V4 theme layer (docs/DEVIATIONS.md D-13): the V4 defaults are a Midnight primary and the Cream
+// surface, with Witcha blue moved to the secondary fill. Every semantic colour derives from --wm-primary so
+// a different primary from the V4 board is one variable. `data-surface="teal"` restores the brand-CI surfaces.
+const theme = {
+  root: {
+    "wm-primary": "#23395b",
+    "text-primary": "var(--wm-primary)",
+    "action-primary": "var(--wm-primary)",
+    "line-control": "var(--wm-primary)",
+    "action-primary-hover": "color-mix(in srgb, var(--wm-primary) 76%, #000)",
+    "action-primary-active": "color-mix(in srgb, var(--wm-primary) 64%, #000)",
+    "line-hairline": "color-mix(in srgb, var(--wm-primary) 25%, transparent)",
+    "line-muted": "color-mix(in srgb, var(--wm-primary) 55%, transparent)",
+    "surface-overlay": "color-mix(in srgb, var(--wm-primary) 40%, transparent)",
+    "surface-overlay-strong": "color-mix(in srgb, var(--wm-primary) 62%, transparent)",
+    "surface-inverse": "var(--wm-primary)",
+    "surface-page": "#fffdf8",
+    "surface-brand": "#f6f0e4",
+    "surface-soft": "#fbf7ef",
+    "surface-card": "#ffffff",
+    "surface-muted": "#f6f0e4",
+    "surface-blush": "#f2d6cf",
+    "surface-hover": "var(--brand-witcha-blue)",
+    "action-secondary-fill": "var(--brand-witcha-blue)",
+    "text-unread": "#658399",
+    "foam-dark": "#3f5c17",
+    "foam-mid": "#5f7f26",
+    "foam-light": "#7e9b3a",
+    "foam-bubble": "#a9bf6a",
+    "foam-bubble-line": "#6e8b30",
+    "foam-swirl-1": "#c9d98f",
+    "foam-swirl-2": "#b3c878",
+    "foam-swirl-3": "#9fb765",
+  },
+  teal: {
+    "surface-page": "var(--brand-ivory)",
+    "surface-brand": "var(--brand-witcha-blue)",
+    "surface-soft": "var(--brand-aqua-light)",
+    "surface-muted": "#f3f0e8",
+    "surface-blush": "var(--brand-blush)",
+    "action-secondary-fill": "transparent",
+  },
+};
+lines.push(":root {");
+for (const [name, value] of Object.entries(theme.root)) lines.push(`  --${name}: ${value};`);
+lines.push("}", "");
+lines.push(':root[data-surface="teal"] {');
+for (const [name, value] of Object.entries(theme.teal)) lines.push(`  --${name}: ${value};`);
+lines.push("}", "");
+
 const mobileOverrides = {
   "display-xl": "44px",
   "heading-1": "34px",

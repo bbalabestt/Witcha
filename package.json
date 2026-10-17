@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "next typegen && tsc --noEmit",
     "tokens": "node scripts/build-tokens.mjs",
     "icons": "node scripts/build-icons.mjs",
     "prebuild": "node scripts/build-tokens.mjs && node scripts/build-icons.mjs",

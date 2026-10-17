@@ -41,11 +41,11 @@
 .primary:active:not(:disabled) { background: var(--action-primary-active); }
 
 .secondary {
-  background: transparent;
+  background: var(--action-secondary-fill);
   border-color: var(--line-control);
   color: var(--text-primary);
 }
-.secondary:hover:not(:disabled) { background: var(--surface-soft); color: var(--text-primary); }
+.secondary:hover:not(:disabled) { background: var(--surface-hover); color: var(--text-primary); }
 .secondary:active:not(:disabled) { background: var(--surface-brand); }
 
 /* Labelled slot for things rendered by Shopify (wallet buttons); never a fake button. */
@@ -91,6 +91,6 @@
   color: inherit;
   transition: background-color 0.2s var(--ease-out);
 }
-.iconButton:hover { background: var(--surface-soft); }
+.iconButton:hover { background: var(--surface-hover); }
 .onDark:hover { background: transparent; opacity: 0.8; }
 .onDark:focus-visible { outline-color: var(--brand-ivory); }
