@@ -15,19 +15,30 @@ export default async function ShippingPage() {
         We dispatch from {s.dispatchCity} within {s.dispatchDays} business days. Rates, times and refund days below come from our store
         settings, the same ones shown on every product page and in your cart.
       </p>
-      <div className={styles.table} role="table" aria-label="Shipping rates">
-        <b role="columnheader">Method</b>
-        <b role="columnheader">Cost</b>
-        <b role="columnheader">Arrives</b>
-        <span role="cell">Standard, metro</span>
-        <span role="cell">
-          {formatMoney(s.standardShipping)} · free over {formatMoney(s.freeShippingThreshold)}
-        </span>
-        <span role="cell">{s.deliveryDays} business days</span>
-        <span role="cell">Express</span>
-        <span role="cell">{formatMoney(s.expressShipping)}</span>
-        <span role="cell">{s.expressDays} business days</span>
-      </div>
+      <table className={styles.table}>
+        <caption className="visually-hidden">Shipping rates</caption>
+        <thead>
+          <tr>
+            <th scope="col">Method</th>
+            <th scope="col">Cost</th>
+            <th scope="col">Arrives</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Standard, metro</td>
+            <td>
+              {formatMoney(s.standardShipping)} · free over {formatMoney(s.freeShippingThreshold)}
+            </td>
+            <td>{s.deliveryDays} business days</td>
+          </tr>
+          <tr>
+            <td>Express</td>
+            <td>{formatMoney(s.expressShipping)}</td>
+            <td>{s.expressDays} business days</td>
+          </tr>
+        </tbody>
+      </table>
       <h2 className="heading-3">Returns in three steps</h2>
       <ol className={styles.steps}>
         <li>Email us within {s.returnsDays} days with your order number.</li>

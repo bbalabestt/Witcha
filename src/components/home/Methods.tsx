@@ -39,17 +39,19 @@ export function Methods({ methods }: { methods: MethodCard[] }) {
                 href={m.href}
                 className={styles.card}
                 data-flipped={flip === m.id || undefined}
-                aria-label={`${m.name}: read the guide`}
                 onMouseEnter={() => hoverCapable() && setFlip(m.id)}
                 onMouseLeave={() => setFlip((f) => (f === m.id ? null : f))}
                 onFocus={() => setFlip(m.id)}
                 onBlur={() => setFlip((f) => (f === m.id ? null : f))}
               >
                 <span className={styles.front}>
-                  <span className={styles.n}>{String(i + 1).padStart(2, "0")}</span>
+                  <span className={styles.n} aria-hidden="true">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
                   <Icon name={ICON[m.id]} size={36} />
                   <span className={styles.name}>{m.name}</span>
                   <span className={`body-small ${styles.meas}`}>{m.summary}</span>
+                  <span className="visually-hidden">: read the guide</span>
                 </span>
                 <span className={styles.back} aria-hidden="true">
                   <span className={styles.photoArch}>

@@ -17,7 +17,7 @@ import { Icon } from "@/components/ui/Icon";
 import { Breadcrumb } from "@/components/ui/Navigation";
 import { env } from "@/lib/config/env";
 import { getFaq, getGuides, getPrepMethods, getProduct, getProducts, getSiteSettings } from "@/lib/data/catalog";
-import { productJsonLd } from "@/lib/seo";
+import { breadcrumbJsonLd, productJsonLd } from "@/lib/seo";
 import styles from "./page.module.css";
 
 export async function generateStaticParams() {
@@ -76,6 +76,19 @@ export default async function ProductPage({ params }: PageProps<"/products/[hand
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: productJsonLd(product, e.siteUrl) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: breadcrumbJsonLd(
+            [
+              { name: "Home", path: "/" },
+              { name: "Shop Matcha", path: "/collections/matcha" },
+              { name: product.title, path: `/products/${product.handle}` },
+            ],
+            e.siteUrl,
+          ),
+        }}
+      />
       <div className={`container ${styles.crumbs}`}>
         <Breadcrumb items={[{ label: "Home", href: "/" }, { label: "Shop Matcha", href: "/collections/matcha" }, { label: product.title }]} />
       </div>

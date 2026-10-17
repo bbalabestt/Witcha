@@ -36,7 +36,6 @@ function ShelfArch({ item, index, on, onEnter, onLeave }: { item: ShelfItem; ind
           type="button"
           className={styles.arch}
           data-tint={index % 2 ? "soft" : "page"}
-          aria-label={item.handle ? `View ${item.name}` : `${item.name}: meet the concept keeper`}
           onFocus={onEnter}
           onBlur={onLeave}
           onClick={() => (item.handle ? router.push(`/products/${item.handle}`) : onEnter())}
@@ -51,7 +50,10 @@ function ShelfArch({ item, index, on, onEnter, onLeave }: { item: ShelfItem; ind
               <Image src={item.key.url} alt="" fill sizes="(max-width: 767px) 72vw, 30vw" className={styles.contain} />
             </span>
           ) : null}
-          <span className={styles.number}>{String(index + 1).padStart(2, "0")}</span>
+          <span className="visually-hidden">{item.handle ? `View ${item.name}` : `${item.name}: meet the concept keeper`}</span>
+          <span className={styles.number} aria-hidden="true">
+            {String(index + 1).padStart(2, "0")}
+          </span>
         </button>
         <div className={styles.text}>
           <span className={`label ${styles.eyebrow}`}>{item.eyebrow}</span>

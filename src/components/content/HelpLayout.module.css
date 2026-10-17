@@ -13,20 +13,28 @@
 }
 
 .table {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  width: 100%;
+  border-collapse: collapse;
   border-top: 1px solid var(--line-control);
   font-size: 14px;
   line-height: 22px;
+  text-align: left;
 }
 
-.table > * {
-  padding: 12px 0;
+.table th,
+.table td {
+  padding: 12px var(--space-3) 12px 0;
   border-bottom: 1px solid var(--line-hairline);
+  vertical-align: top;
 }
 
-.table b {
+.table th {
   font-weight: 500;
+}
+
+.table th:first-child,
+.table td:first-child {
+  width: 50%;
 }
 
 .steps {

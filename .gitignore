@@ -40,3 +40,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 witcha-matcha-brand-ci/fonts/*.ttf
+
+# playwright
+/test-results/
+/playwright-report/
+/blob-report/

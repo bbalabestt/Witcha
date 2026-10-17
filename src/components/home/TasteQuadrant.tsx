@@ -108,7 +108,6 @@ export function TasteQuadrant({ cells, roastedHandle }: { cells: QuadCell[]; roa
                   data-state={on ? "selected" : inMode ? "suits" : "other"}
                   data-row={c.row}
                   aria-pressed={on}
-                  aria-label={`${c.keeper}, ${c.role.toLowerCase()}: ${c.tea}`}
                   onClick={() => {
                     setSelected(c.id);
                     setMode(c.row);
