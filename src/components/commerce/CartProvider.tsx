@@ -20,7 +20,7 @@ export type LinePreview = {
   quantityAvailable: number | null;
 };
 
-type Op =
+export type CartOp =
   | { type: "add"; preview: LinePreview; quantity: number }
   | { type: "quantity"; lineId: string; quantity: number }
   | { type: "gift"; gift: boolean; note: string };
@@ -30,7 +30,7 @@ function emptyCart(placeholder: boolean): Cart {
 }
 
 /** Pure optimistic reducer; exported for tests. */
-export function applyCartOp(cart: Cart | null, op: Op): Cart {
+export function applyCartOp(cart: Cart | null, op: CartOp): Cart {
   const base = cart ?? emptyCart(op.type === "add" ? Boolean(op.preview.price.placeholder) : false);
   let lines: CartLine[] = base.lines;
   if (op.type === "add") {
@@ -92,7 +92,7 @@ export function CartProvider({ cartPromise, children }: { cartPromise: Promise<C
   const [error, setError] = useState<string | null>(null);
   const [optimistic, apply] = useOptimistic(cart, applyCartOp);
   const toast = useToast();
-  const lastFailed = useRef<{ op: Op; action: () => Promise<CartResult> } | null>(null);
+  const lastFailed = useRef<{ op: CartOp; action: () => Promise<CartResult> } | null>(null);
 
   const hydrate = useCallback((c: Cart | null) => {
     setCart(c);
@@ -100,7 +100,7 @@ export function CartProvider({ cartPromise, children }: { cartPromise: Promise<C
   }, []);
 
   const run = useCallback(
-    (op: Op, action: () => Promise<CartResult>): Promise<boolean> =>
+    (op: CartOp, action: () => Promise<CartResult>): Promise<boolean> =>
       new Promise((resolve) => {
         setInFlight((n) => n + 1);
         startTransition(async () => {
