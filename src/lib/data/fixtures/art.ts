@@ -1,8 +1,8 @@
 import type { Image } from "../types";
 
 /**
- * Commissioned packaging and painting concepts supplied with Prototype V4 (`public/art`). Real art from the
- * brand team, not AI or stock imagery; the Dreamer (05) is still a concept and is labelled as one.
+ * Packaging and painting concepts supplied with Prototype V4 (`public/art`). Origin and licence to be confirmed
+ * before launch (docs/DEVIATIONS.md D-14); the Dreamer (05) is still a concept and is labelled as one.
  */
 const SIZES: Record<string, [number, number]> = {
   tin: [720, 720],

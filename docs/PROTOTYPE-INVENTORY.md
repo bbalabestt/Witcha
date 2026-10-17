@@ -1,5 +1,11 @@
 # Prototype inventory: Witcha Matcha Prototype V2
 
+> **2026-10-17: superseded by Prototype V4** (`design/prototype-v4.dc.html`, with `design/product-card-4.dc.html`).
+> V4 keeps V2.1's structure and adds: the commissioned-art pass (V3), the arch shelf, the whisk-foam hero step, the
+> Latte/Pure taste quadrant, Google/Facebook reviews, a promo pop-up and a theme layer (primary colour, Day/Dark,
+> Teal/Cream). What shipped and why is in `docs/DEVIATIONS.md` D-13 to D-24. The V2 inventory below is kept for history.
+
+
 Source: Claude Design project `eb40921f-00a6-4c14-b7eb-001afa45c546`, file `Witcha Matcha Prototype V2.dc.html`
 (etag `1791848395943615`, 1323 lines). A decoded local copy lives at `design/prototype-v2.dc.html` and
 `ProductCard.dc.html` is imported by it. Read in full on 2026-10-13.
