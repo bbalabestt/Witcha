@@ -1,0 +1,51 @@
+.bandDark {
+  overflow: hidden;
+  padding: 26px 0;
+  background: var(--surface-inverse);
+  color: var(--text-on-dark);
+}
+
+.bandItems {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  padding-right: var(--space-5);
+  white-space: nowrap;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(32px, 4.5vw, 64px);
+  line-height: 1.1;
+}
+
+.archLine,
+.archSolid {
+  width: 20px;
+  height: 28px;
+  flex: none;
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+}
+
+.archLine {
+  border: 1.5px solid var(--brand-gold);
+  border-bottom: 0;
+}
+
+.archSolid {
+  background: var(--brand-witcha-blue);
+}
+
+.bandSoft {
+  overflow: hidden;
+  padding: 14px 0;
+  background: var(--surface-soft);
+  border-bottom: 1px solid var(--line-hairline);
+}
+
+.bandFacts {
+  padding-right: var(--space-4);
+  white-space: nowrap;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+}

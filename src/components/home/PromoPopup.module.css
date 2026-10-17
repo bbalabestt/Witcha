@@ -1,0 +1,127 @@
+.dialog {
+  width: min(100% - 24px, 1360px) !important;
+  height: min(100dvh - 24px, 860px) !important;
+  max-height: none !important;
+}
+
+.dialog::backdrop {
+  background: var(--surface-overlay-strong);
+}
+
+.panel {
+  position: relative;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+  overflow: auto;
+  background: var(--surface-brand);
+}
+
+.art {
+  position: relative;
+  min-height: 260px;
+  background: var(--surface-soft) url("/art/heroes-02-everyday-matcha-desktop.jpg") 30% 50% / cover no-repeat;
+}
+
+.dates {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  padding: 6px 12px;
+  background: var(--surface-page);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.copy {
+  position: relative;
+  padding: clamp(28px, 5vw, 72px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 22px;
+}
+
+.copy > :not(.arch) {
+  position: relative;
+}
+
+.arch {
+  position: absolute;
+  right: clamp(24px, 4vw, 56px);
+  bottom: 0;
+  width: clamp(56px, 6vw, 90px);
+  height: 46%;
+  background: var(--surface-page);
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+  outline: 1.5px solid var(--brand-gold);
+  outline-offset: 8px;
+}
+
+.title {
+  max-width: 12ch;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(40px, 5.4vw, 84px);
+  line-height: 1.02;
+}
+
+.copy p {
+  max-width: 440px;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.primary,
+.secondary {
+  height: 52px;
+  padding: 0 28px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.primary {
+  background: var(--action-primary);
+  color: var(--action-primary-text);
+}
+
+.primary:hover {
+  background: var(--action-primary-hover);
+}
+
+.secondary {
+  background: var(--action-secondary-fill);
+  border: 1px solid var(--line-control);
+}
+
+.secondary:hover {
+  background: var(--surface-hover);
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--action-secondary-fill);
+  border: 1px solid var(--line-control);
+}

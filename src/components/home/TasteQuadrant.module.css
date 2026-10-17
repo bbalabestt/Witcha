@@ -1,0 +1,302 @@
+.section {
+  padding-block: var(--space-7);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
+  gap: clamp(32px, 5vw, 72px);
+  align-items: start;
+}
+
+.left,
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.right {
+  gap: 20px;
+}
+
+.toggle {
+  align-self: flex-start;
+  display: flex;
+  border: 1px solid var(--line-control);
+}
+
+.toggle button {
+  height: 48px;
+  padding: 0 var(--space-4);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+.toggle button[aria-checked="true"] {
+  background: var(--action-primary);
+  color: var(--action-primary-text);
+}
+
+.window {
+  position: relative;
+  width: min(100%, 420px);
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border: 1px solid var(--line-control);
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+  background: var(--surface-soft);
+}
+
+.photo {
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.12);
+  transition:
+    opacity 0.8s,
+    transform 1.2s var(--ease-out);
+}
+
+.photo[data-on] {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.windowBar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: var(--space-3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--surface-page);
+  border-top: 1px solid var(--line-control);
+  text-align: right;
+}
+
+.quadWrap {
+  position: relative;
+  padding: 36px 0;
+}
+
+.axisTop,
+.axisBottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.axisTop {
+  top: 0;
+}
+
+.axisBottom {
+  bottom: 0;
+}
+
+.axisX {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line-control);
+  border: 1px solid var(--line-control);
+}
+
+.cell {
+  position: relative;
+  padding: clamp(12px, 1.6vw, 20px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  text-align: left;
+  background: var(--surface-muted);
+  transition:
+    background-color 0.3s,
+    transform 0.4s cubic-bezier(0.34, 1.45, 0.5, 1),
+    box-shadow 0.4s;
+}
+
+.cell:hover {
+  background: var(--surface-hover);
+}
+
+/* Only cards that suit the current view (or are selected) are outlined (V4 last round). */
+.cell[data-state="suits"] {
+  background: var(--surface-card);
+  outline: 1px solid var(--line-control);
+  outline-offset: -3px;
+}
+
+.cell[data-state="selected"] {
+  z-index: 2;
+  background: var(--surface-hover);
+  outline: 3px solid var(--line-control);
+  outline-offset: -3px;
+  box-shadow: 6px 6px 0 var(--line-control);
+  transform: translate(-3px, -3px);
+}
+
+.cell[data-state="selected"]:focus-visible {
+  outline-offset: -6px;
+}
+
+.selectedTag {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: var(--action-primary);
+  color: var(--action-primary-text);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.art {
+  position: relative;
+  align-self: center;
+  width: min(100%, 150px);
+  aspect-ratio: 3 / 4;
+  border: 1px solid transparent;
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+  overflow: hidden;
+  background: var(--surface-soft);
+  transition: transform 0.5s cubic-bezier(0.34, 1.45, 0.5, 1);
+}
+
+.cell[data-row="latte"] .art {
+  background: var(--surface-brand);
+}
+
+.cell[data-state="suits"] .art {
+  border-color: color-mix(in srgb, var(--wm-primary) 45%, transparent);
+}
+
+.cell[data-state="selected"] .art {
+  border: 2px solid var(--line-control);
+  transform: scale(1.06);
+}
+
+.contain {
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+/* Not-applicable keepers stay in full colour with a tag, never greyed out (V4). */
+.naTag {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 3px var(--space-2);
+  background: var(--surface-page);
+  border: 1px solid var(--line-control);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.keeper {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  line-height: 30px;
+}
+
+.detail {
+  padding: var(--space-4);
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 20px;
+  align-items: center;
+  background: var(--surface-soft);
+}
+
+.detailTin {
+  position: relative;
+  width: 96px;
+  aspect-ratio: 4 / 5;
+}
+
+.detailText {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.detailRow {
+  margin-top: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.detailActions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.price {
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.add {
+  height: var(--touch-target);
+  padding: 0 18px;
+  display: inline-flex;
+  align-items: center;
+  background: var(--action-primary);
+  color: var(--action-primary-text);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.add:hover {
+  background: var(--action-primary-hover);
+  color: var(--action-primary-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cell[data-state="selected"],
+  .cell[data-state="selected"] .art {
+    transform: none;
+  }
+}
+
+/* Narrow cells: the selected tag sits above the label instead of over it. */
+@media (max-width: 599px) {
+  .selectedTag {
+    position: static;
+    margin: calc(clamp(12px, 1.6vw, 20px) * -1) calc(clamp(12px, 1.6vw, 20px) * -1) 0;
+  }
+}
