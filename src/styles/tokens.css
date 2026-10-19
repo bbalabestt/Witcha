@@ -69,14 +69,14 @@
   --surface-hover: var(--brand-witcha-blue);
   --action-secondary-fill: var(--brand-witcha-blue);
   --text-unread: #658399;
-  --foam-dark: #3f5c17;
-  --foam-mid: #5f7f26;
-  --foam-light: #7e9b3a;
-  --foam-bubble: #a9bf6a;
-  --foam-bubble-line: #6e8b30;
-  --foam-swirl-1: #c9d98f;
-  --foam-swirl-2: #b3c878;
-  --foam-swirl-3: #9fb765;
+  --foam-dark: #95b84b;
+  --foam-mid: #b6d862;
+  --foam-light: #c8e077;
+  --foam-bubble: #d6e996;
+  --foam-bubble-line: #a6c650;
+  --foam-swirl-1: #e2efb2;
+  --foam-swirl-2: #a0c24a;
+  --foam-swirl-3: #d4e78f;
 }
 
 :root[data-surface="teal"] {

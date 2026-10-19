@@ -241,7 +241,7 @@
   background: var(--surface-brand);
 }
 
-/* Real matcha colour (V4 mobile round): deep green bowl, lighter bubbles and swirls, ivory whisk. */
+/* Real whisked-matcha colour (client reference photo): bright crema, shaded rim, lighter bubbles and swirls. */
 .bowl {
   position: relative;
   width: min(70vw, 66vh);
@@ -274,7 +274,8 @@
   top: 42%;
   width: 30%;
   height: 30%;
-  color: var(--brand-ivory);
+  /* Deep primary: ivory disappears on the bright whisked-matcha crema. */
+  color: var(--wm-primary);
   transform: translate(-50%, -50%);
 }
 
