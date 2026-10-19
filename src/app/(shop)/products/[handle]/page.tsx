@@ -7,7 +7,7 @@ import { toCardData, toUpsellItems } from "@/components/commerce/card-data";
 import { UpsellRail } from "@/components/commerce/CartParts";
 import { ProductCard } from "@/components/commerce/ProductCard";
 import { AnchorNav } from "@/components/product/AnchorNav";
-import { BuyBox, BuyBoxFromUrl } from "@/components/product/BuyBox";
+import { BuyBox, BuyBoxFromUrl, SelectedNetWeight } from "@/components/product/BuyBox";
 import { Gallery } from "@/components/product/Gallery";
 import { PrepMethodTabs } from "@/components/product/PrepMethodTabs";
 import { ShippingPromise, ShippingSummary } from "@/components/product/ShippingPromise";
@@ -125,7 +125,11 @@ export default async function ProductPage({ params }: PageProps<"/products/[hand
             <dt>Grade</dt>
             <dd>{product.facts.grade}</dd>
             <dt>Net weight</dt>
-            <dd>{product.facts.netWeight}</dd>
+            <dd>
+              <Suspense fallback={product.facts.netWeight}>
+                <SelectedNetWeight variants={product.variants} fallback={product.facts.netWeight} />
+              </Suspense>
+            </dd>
             <dt>Pack date</dt>
             <dd>{product.facts.packDate}</dd>
             <dt>Ingredients</dt>
@@ -248,7 +252,7 @@ export default async function ProductPage({ params }: PageProps<"/products/[hand
           <h2 className="heading-2" data-reveal="up">
             Pair with
           </h2>
-          <UpsellRail items={toUpsellItems(products)} showLabel={false} />
+          <UpsellRail items={toUpsellItems(products)} showLabel={false} variant="pdp" />
         </div>
       </section>
     </>

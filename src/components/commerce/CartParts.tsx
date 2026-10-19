@@ -81,17 +81,33 @@ export function CartLineItem({ line }: { line: Line }) {
 
 export type UpsellItem = LinePreview & { label: string };
 
-export function UpsellRail({ items, compact = false, showLabel = true }: { items: UpsellItem[]; compact?: boolean; showLabel?: boolean }) {
+/**
+ * "Pair with" tools. In the cart, tools already added drop out. The PDP variant (V4) always lists every
+ * tool as a ruled row with an 80 px thumb and a TOOL eyebrow.
+ */
+export function UpsellRail({
+  items,
+  compact = false,
+  showLabel = true,
+  variant = "cart",
+}: {
+  items: UpsellItem[];
+  compact?: boolean;
+  showLabel?: boolean;
+  variant?: "cart" | "pdp";
+}) {
   const { add, cart } = useCart();
-  const visible = items.filter((i) => !cart?.lines.some((l) => l.merchandiseId === i.merchandiseId));
+  const pdp = variant === "pdp";
+  const visible = pdp ? items : items.filter((i) => !cart?.lines.some((l) => l.merchandiseId === i.merchandiseId));
   if (visible.length === 0) return null;
   return (
-    <div className={styles.upsell}>
+    <div className={[styles.upsell, pdp ? styles.upsellPdp : undefined].filter(Boolean).join(" ")}>
       {showLabel ? <span className="label">Pair with</span> : null}
       {visible.map((i) => (
         <div key={i.merchandiseId} className={styles.upsellItem}>
           <span className={styles.upsellThumb} aria-hidden="true" />
           <span className={styles.upsellText}>
+            {pdp ? <span className="label">Tool</span> : null}
             <span className={compact ? "body-small" : undefined}>{i.title}</span>
             <span className="body-small">{formatMoney(i.price)}</span>
           </span>

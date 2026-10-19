@@ -48,6 +48,14 @@ export function BuyBoxFromUrl(props: Omit<Props, "initialVariantId">) {
   return <BuyBox key={id ?? "default"} {...props} initialVariantId={id} />;
 }
 
+/** Net weight in the fact table follows the selected size (V4 passes `weight: v.size`). */
+export function SelectedNetWeight({ variants, fallback }: { variants: Product["variants"]; fallback: string }) {
+  const id = useSearchParams().get("variant");
+  if (variants.length < 2) return <>{fallback}</>;
+  const v = variants.find((x) => x.id === id) ?? variants.find((x) => x.availableForSale) ?? variants[0];
+  return <>{v?.title || fallback}</>;
+}
+
 /**
  * Buy box in V4 order: eyebrow + badge, name, keeper line, price block, taste + notes + best for, size,
  * stock notice directly above the button, quantity + add to cart, express pay slot, shipping promise.

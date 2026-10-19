@@ -60,7 +60,7 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--space-1);
 }
 
 .lineTop {
@@ -188,6 +188,25 @@
 
 .upsellAdd:hover {
   background: var(--surface-hover);
+}
+
+.upsellPdp {
+  gap: var(--space-3);
+}
+
+.upsellPdp .upsellItem {
+  gap: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--line-hairline);
+}
+
+.upsellPdp .upsellThumb {
+  width: 80px;
+  background: var(--surface-brand);
+}
+
+.upsellPdp .upsellText {
+  line-height: 28px;
 }
 
 /* ---------- Gift ---------- */
