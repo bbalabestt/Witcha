@@ -35,7 +35,7 @@
 
 .social {
   display: flex;
-  gap: 4px;
+  gap: var(--space-1);
   margin-left: -10px;
 }
 
@@ -95,7 +95,7 @@
 
 .payments li {
   border: 1px solid var(--line-on-dark);
-  padding: 2px 8px;
+  padding: 2px var(--space-2);
   font-size: 12px;
   line-height: 16px;
 }

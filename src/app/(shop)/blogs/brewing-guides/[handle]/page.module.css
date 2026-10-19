@@ -1,5 +1,5 @@
 .article {
-  padding-block: 40px 64px;
+  padding-block: var(--space-5) var(--space-6);
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
@@ -50,7 +50,7 @@
 }
 
 .videoLabel {
-  padding: 4px 10px;
+  padding: var(--space-1) 10px;
   background: var(--surface-page);
   font-size: 12px;
   line-height: 16px;

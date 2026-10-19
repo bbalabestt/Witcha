@@ -346,7 +346,7 @@
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  padding: 32px var(--space-3) 40px;
+  padding: 32px var(--space-3) var(--space-5);
   flex-direction: column;
   gap: 20px;
   background: var(--surface-brand);
@@ -374,7 +374,7 @@
   align-self: center;
   width: min(74vw, 300px);
   aspect-ratio: 3 / 4;
-  margin: 12px 0 4px;
+  margin: 12px 0 var(--space-1);
 }
 
 .mRing {

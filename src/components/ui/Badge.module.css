@@ -1,7 +1,7 @@
 .badge {
   display: inline-flex;
   align-items: center;
-  padding: 4px 8px;
+  padding: var(--space-1) var(--space-2);
   font-size: 12px;
   line-height: 16px;
   font-weight: 500;
@@ -40,7 +40,7 @@
 }
 
 .outline {
-  padding: 8px 14px;
+  padding: var(--space-2) 14px;
   border: 1px solid var(--line-control);
 }
 

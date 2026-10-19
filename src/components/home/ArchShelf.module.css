@@ -48,7 +48,7 @@
   align-items: flex-start;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  padding: 28px 2px 8px;
+  padding: 28px 2px var(--space-2);
   margin: -28px -2px 0;
 }
 

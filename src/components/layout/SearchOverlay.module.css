@@ -35,7 +35,7 @@
 }
 
 .body {
-  padding: 28px var(--gutter) 40px;
+  padding: 28px var(--gutter) var(--space-5);
 }
 
 .popular {

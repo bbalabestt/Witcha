@@ -74,7 +74,7 @@
   position: absolute;
   right: 12px;
   bottom: 12px;
-  padding: 4px 10px;
+  padding: var(--space-1) 10px;
   background: var(--surface-page);
   font-size: 12px;
   line-height: 16px;
