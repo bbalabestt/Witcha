@@ -1,0 +1,160 @@
+.section {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-soft);
+}
+
+.inner {
+  position: relative;
+  padding-block: var(--space-7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: var(--space-4);
+}
+
+.slot {
+  perspective: 1200px;
+}
+
+.card {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: 320px;
+  transform-style: preserve-3d;
+  transition: transform 0.9s cubic-bezier(0.34, 1.45, 0.5, 1);
+  text-decoration: none;
+}
+
+.card:hover {
+  color: var(--text-primary);
+}
+
+.front,
+.back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.front {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  background: var(--surface-page);
+}
+
+.n {
+  font-family: var(--font-display);
+  font-size: 64px;
+  line-height: 1;
+}
+
+.name {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  line-height: 30px;
+}
+
+.meas {
+  margin-top: auto;
+}
+
+.back {
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--surface-brand);
+  transform: rotateY(180deg);
+}
+
+.photoArch {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  border: 1px solid var(--line-control);
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+  background: var(--surface-soft);
+}
+
+.photo {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.4);
+  transition: transform 1.2s var(--ease-out);
+}
+
+.pop {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--surface-page);
+  transform: scale(0);
+  transition: transform 0.5s cubic-bezier(0.34, 1.6, 0.5, 1) 0.45s;
+}
+
+.backFoot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.card[data-flipped] {
+  transform: rotateY(180deg);
+}
+
+.card[data-flipped] .photo,
+.card[data-flipped] .pop {
+  transform: scale(1);
+}
+
+/* Reduced motion: the back fades in over the front instead of flipping. */
+@media (prefers-reduced-motion: reduce) {
+  .card[data-flipped] {
+    transform: none;
+  }
+  .back {
+    transform: none;
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  .card[data-flipped] .back {
+    opacity: 1;
+  }
+  .photo,
+  .pop {
+    transform: none;
+  }
+}

@@ -1,0 +1,235 @@
+.header {
+  position: relative;
+  z-index: 50;
+  background: var(--surface-page);
+}
+
+.row {
+  padding: 28px var(--gutter);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-4);
+  border-bottom: 1px solid var(--line-hairline);
+}
+
+.side {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2.2vw, 32px);
+}
+
+.sideRight {
+  justify-content: flex-end;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2.2vw, 32px);
+}
+
+.navItem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 14px 0;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: letter-spacing 0.3s var(--ease-out);
+}
+
+.navItem:hover {
+  letter-spacing: 0.22em;
+  color: var(--text-primary);
+}
+
+.underline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 8px;
+  height: 1px;
+  background: transparent;
+}
+
+.underline[data-active] {
+  background: var(--line-control);
+}
+
+.menuButton,
+.utility {
+  width: var(--touch-target);
+  height: var(--touch-target);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: background-color 0.2s var(--ease-out);
+}
+
+.utility:hover {
+  background: var(--surface-hover);
+}
+
+.menuButton {
+  display: none;
+}
+
+.utilities {
+  display: flex;
+  gap: 2px;
+}
+
+.count {
+  position: absolute;
+  top: 4px;
+  right: 2px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 var(--space-1);
+  border-radius: var(--radius-sm);
+  background: var(--action-primary);
+  color: var(--action-primary-text);
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  text-align: center;
+  animation: drop var(--duration-drawer) var(--ease-out);
+}
+
+.logoLink {
+  display: block;
+}
+
+.logo {
+  width: 200px;
+  height: auto;
+}
+
+@media (max-width: 1199px) {
+  .row {
+    padding-block: 22px;
+  }
+  .nav {
+    display: none;
+  }
+  .menuButton {
+    display: flex;
+  }
+  .logo {
+    width: 160px;
+  }
+}
+
+.mega {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  background: var(--surface-page);
+  border-bottom: 1px solid var(--line-hairline);
+  padding: var(--space-5) var(--gutter) 48px;
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 5fr) minmax(0, 3fr);
+  gap: var(--space-4);
+  animation: drop var(--duration-drawer) var(--ease-out);
+}
+
+.mega[hidden] {
+  display: none;
+}
+
+@media (max-width: 1199px) {
+  .mega {
+    display: none;
+  }
+}
+
+.megaLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.megaLinks :global(.label) {
+  margin-bottom: 12px;
+}
+
+.megaLinks a {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  line-height: 30px;
+  padding: 7px 0;
+  text-decoration: none;
+}
+
+.megaLinks a:hover {
+  text-decoration: underline;
+}
+
+.megaTaste {
+  background: var(--surface-brand);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  justify-content: center;
+}
+
+.megaTasteTitle {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  line-height: 30px;
+}
+
+.megaTrack {
+  position: relative;
+  height: 28px;
+  border-bottom: 1px solid var(--line-control);
+}
+
+.megaMarker {
+  position: absolute;
+  bottom: 0;
+  width: 17px;
+  height: 24px;
+  background: var(--action-primary);
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+}
+
+/* 44 px hit area around the small marker. */
+.megaMarker::after {
+  content: "";
+  position: absolute;
+  inset: -10px -14px 0;
+}
+
+.ends {
+  display: flex;
+  justify-content: space-between;
+}
+
+.megaArt {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  height: auto;
+  object-fit: contain;
+  object-position: center bottom;
+  background: var(--surface-soft);
+  border: 1px solid var(--line-hairline);
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+}
+
+@keyframes drop {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}

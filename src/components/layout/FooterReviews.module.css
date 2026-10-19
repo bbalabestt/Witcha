@@ -1,0 +1,90 @@
+.strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: var(--space-4) 48px;
+  align-items: center;
+  border-top: 1px solid color-mix(in srgb, var(--brand-ivory) 25%, transparent);
+  padding-top: 32px;
+}
+
+.summary {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.heading {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.chips {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid color-mix(in srgb, var(--brand-ivory) 60%, transparent);
+  padding: var(--space-2) 14px;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.chip b {
+  font-weight: 500;
+}
+
+.quote {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-height: 100px;
+}
+
+.quote blockquote {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 22px;
+  line-height: 30px;
+}
+
+.caption {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.dots {
+  display: flex;
+  margin-block: -10px;
+}
+
+/* 8 px dot, 28 × 44 px hit area. */
+.dots button {
+  width: 28px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dots button span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--brand-ivory);
+}
+
+.dots button[aria-pressed="true"] span {
+  background: var(--brand-ivory);
+}

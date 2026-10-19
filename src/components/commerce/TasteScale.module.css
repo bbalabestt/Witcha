@@ -1,0 +1,148 @@
+.track {
+  position: relative;
+  border-bottom: 1px solid var(--line-control);
+}
+
+.trackMini {
+  flex: 1;
+  height: 16px;
+}
+
+.trackFull {
+  height: 28px;
+}
+
+.trackLineup {
+  height: 40px;
+}
+
+.tick {
+  position: absolute;
+  bottom: 0;
+  width: 1px;
+  background: var(--line-control);
+}
+
+.tick_mini {
+  height: 5px;
+}
+
+.tick_full {
+  height: 7px;
+}
+
+.tick_lineup {
+  height: 10px;
+}
+
+.marker {
+  position: absolute;
+  bottom: 0;
+  background: var(--action-primary);
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+  transition: left 0.5s var(--ease-out);
+}
+
+.markerMini {
+  width: 11px;
+  height: 15px;
+}
+
+.markerFull {
+  width: 17px;
+  height: 24px;
+}
+
+.markerOutline {
+  background: transparent;
+  border: 1.5px solid var(--line-control);
+  border-bottom: 0;
+}
+
+.markerLineup {
+  width: 27px;
+  height: 38px;
+  transition: transform 0.3s var(--ease-out);
+}
+
+.markerLineup:hover {
+  transform: translateY(-4px);
+}
+
+/* 44 px hit area. */
+.markerLineup::after {
+  content: "";
+  position: absolute;
+  inset: -6px -9px 0;
+}
+
+.mini {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.end {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.full {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fullHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.fullText {
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+}
+
+.ends {
+  display: flex;
+  justify-content: space-between;
+}
+
+.lineup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lineupLabels {
+  position: relative;
+  height: 44px;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.lineupLabels span {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.lineupLabels span[data-row="2"] {
+  top: 22px;
+}
+
+.lineupLabels span[data-edge="end"] {
+  left: auto !important;
+  right: 0;
+  transform: none;
+}
+
+.lineupLabels span[data-edge="start"] {
+  transform: none;
+}

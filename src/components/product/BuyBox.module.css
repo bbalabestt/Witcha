@@ -1,0 +1,353 @@
+.box {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.eyebrowRow {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.badge {
+  padding: var(--space-1) var(--space-2);
+  background: var(--action-primary);
+  color: var(--text-on-dark);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+}
+
+.badge[data-kind="SALE"] {
+  background: var(--brand-blush);
+  color: var(--text-primary);
+}
+
+.badge[data-kind="SOLD OUT"] {
+  background: var(--surface-page);
+  color: var(--text-primary);
+  border: 1px solid var(--line-control);
+}
+
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(34px, 3.4vw, 44px);
+  line-height: 1.14;
+}
+
+.price {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.priceRow {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.amount {
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: 500;
+}
+
+.compare {
+  font-size: 17px;
+  line-height: 28px;
+}
+
+.sale {
+  padding: var(--space-1) var(--space-2);
+  background: var(--brand-blush);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.taste {
+  background: var(--surface-soft);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.notes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.notes li {
+  padding: 2px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-page);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.bestFor {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  flex-wrap: wrap;
+  padding-top: 12px;
+  border-top: 1px solid var(--line-hairline);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.bestItem {
+  display: flex;
+  gap: var(--space-1);
+  align-items: center;
+}
+
+.size {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.purchase {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stock {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.stock svg {
+  flex: none;
+}
+
+.stock b {
+  font-weight: 500;
+}
+
+.atcRow {
+  display: flex;
+  gap: 10px;
+}
+
+.atcRow > [role="group"] {
+  height: 52px;
+  flex: none;
+}
+
+.atc {
+  flex: 1;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--action-primary);
+  color: var(--action-primary-text);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: background-color 0.2s var(--ease-out);
+}
+
+.atc:hover {
+  background: var(--action-primary-hover);
+}
+
+.atc:active {
+  background: var(--action-primary-active);
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid color-mix(in srgb, currentColor 35%, transparent);
+  border-top-color: currentColor;
+  animation: spin 0.8s linear infinite;
+}
+
+.or {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.or span {
+  flex: 1;
+  height: 1px;
+  background: var(--line-hairline);
+}
+
+.shopPay {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--line-control);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.notify {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.notifyRow {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.notifyInput {
+  flex: 1;
+  min-width: 0;
+  height: 52px;
+  padding: 0 14px;
+  background: var(--surface-card);
+  border: 1px solid var(--line-control);
+  border-radius: var(--radius-sm);
+  font-size: 17px;
+}
+
+.notifyInput[aria-invalid="true"] {
+  border: 2px solid var(--feedback-error);
+}
+
+.notifyButton {
+  height: 52px;
+  padding: 0 20px;
+  background: var(--action-primary);
+  color: var(--action-primary-text);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.notified {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  padding: 14px;
+  background: var(--surface-soft);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.error {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  color: var(--feedback-error);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+/* ---------- Sticky buy bar: bottom, every width (V2.1 4.4) ---------- */
+
+.sticky {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 60;
+  padding: 10px var(--gutter);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--surface-page);
+  border-top: 1px solid var(--line-control);
+  animation: fade var(--duration-drawer) var(--ease-out);
+}
+
+.stickyThumb {
+  position: relative;
+  width: 40px;
+  aspect-ratio: 4 / 5;
+  flex: none;
+  background: var(--surface-soft);
+  border: 1px solid var(--line-hairline);
+}
+
+.contain {
+  object-fit: contain;
+}
+
+.stickyText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.stickyName {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 24px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stickyButton {
+  height: 48px;
+  padding: 0 var(--space-4);
+  background: var(--action-primary);
+  color: var(--action-primary-text);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.stickyButton:hover {
+  background: var(--action-primary-hover);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}

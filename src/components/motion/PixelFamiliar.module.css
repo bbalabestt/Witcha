@@ -1,0 +1,54 @@
+.cat {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 90;
+  width: 64px;
+  height: 48px;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.canvas {
+  width: 64px;
+  height: 48px;
+  display: block;
+  image-rendering: pixelated;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.bubble {
+  position: absolute;
+  bottom: 56px;
+  left: -12px;
+  white-space: nowrap;
+  background: var(--surface-page);
+  border: 2px solid var(--line-control);
+  padding: 6px 10px;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  box-shadow: 4px 4px 0 var(--line-control);
+  animation: drop var(--duration-drawer) var(--ease-out);
+}
+
+.bubble::after {
+  content: "";
+  position: absolute;
+  left: 24px;
+  bottom: -8px;
+  width: 12px;
+  height: 8px;
+  background: var(--line-control);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+@keyframes drop {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}

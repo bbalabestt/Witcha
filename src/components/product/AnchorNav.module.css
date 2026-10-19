@@ -1,0 +1,36 @@
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--surface-page);
+  border-top: 1px solid var(--line-hairline);
+  border-bottom: 1px solid var(--line-hairline);
+}
+
+.inner {
+  display: flex;
+  gap: 32px;
+  overflow-x: auto;
+}
+
+.link {
+  padding: var(--space-3) 0;
+  white-space: nowrap;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+@media (max-width: 1199px) {
+  .nav {
+    display: none;
+  }
+}

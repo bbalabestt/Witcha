@@ -1,0 +1,405 @@
+/* ---------- Desktop scroll hero (≥ 768 px) ---------- */
+
+.desktop {
+  /* 240vh without the foam step; 320vh with it (V4 default). */
+  height: 320vh;
+  position: relative;
+  background: var(--surface-brand);
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  height: calc(100vh - 124px);
+  min-height: 420px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backdrop,
+.backdropMobile {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center 40%;
+  pointer-events: none;
+}
+
+.backdropMobile {
+  z-index: -1;
+}
+
+.bar {
+  position: absolute;
+  right: 7vw;
+  bottom: 0;
+  width: clamp(56px, 7vw, 110px);
+  height: 62vh;
+  background: var(--surface-page);
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+}
+
+.motes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.arch {
+  --arch-w: min(34vw, 420px, 44vh);
+  position: relative;
+  width: var(--arch-w);
+  aspect-ratio: 3 / 4;
+  margin-top: 6vh;
+  transform-origin: 50% 55%;
+  will-change: transform;
+}
+
+.ring {
+  position: absolute;
+  inset: -18px -18px 0;
+  pointer-events: none;
+}
+
+.ring svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.window {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 4%;
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+  background: var(--surface-page) url("/art/heroes-01-academy-garden-desktop.jpg") 70% 50% / cover no-repeat;
+}
+
+.tin {
+  position: relative;
+  z-index: 1;
+  width: 70%;
+  height: auto;
+  filter: drop-shadow(0 18px 22px color-mix(in srgb, var(--wm-primary) 35%, transparent));
+}
+
+.badge {
+  position: absolute;
+  top: 16vh;
+  right: calc(50% - min(34vw, 420px, 44vh) / 2 - 70px);
+  width: 130px;
+  height: 130px;
+}
+
+.badge svg {
+  width: 100%;
+  height: 100%;
+}
+
+.badgeText {
+  font: 500 12px var(--font-sans);
+  letter-spacing: 1.2px;
+  fill: var(--brand-ivory);
+}
+
+.mask {
+  overflow: hidden;
+}
+
+.l1 {
+  position: absolute;
+  left: clamp(16px, 5vw, 80px);
+  top: clamp(70px, 13vh, 140px);
+  max-width: 46vw;
+}
+
+.l2 {
+  position: absolute;
+  right: clamp(16px, 5vw, 80px);
+  bottom: clamp(64px, 13vh, 150px);
+  max-width: 52vw;
+  text-align: right;
+}
+
+/* Fluid display size: allowed on the home hero only (D-04). */
+.headline {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(40px, min(7vw, 11vh), 112px);
+  line-height: 1;
+  letter-spacing: 0.005em;
+}
+
+.inEvery {
+  display: block;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(28px, min(5vw, 8vh), 80px);
+  line-height: 1.05;
+}
+
+.copy {
+  position: absolute;
+  z-index: 2;
+  left: clamp(16px, 5vw, 80px);
+  bottom: clamp(16px, 4vh, 64px);
+  min-width: 220px;
+  max-width: min(400px, calc(50vw - min(34vw, 420px, 44vh) / 2 - clamp(16px, 5vw, 80px) - 24px));
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.buttonsStacked {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.primary,
+.secondary {
+  height: 52px;
+  padding: 0 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color 0.2s var(--ease-out),
+    letter-spacing 0.3s var(--ease-out);
+}
+
+.primary {
+  background: var(--action-primary);
+  color: var(--action-primary-text);
+}
+
+.primary:hover {
+  background: var(--action-primary-hover);
+  color: var(--action-primary-text);
+  letter-spacing: 0.22em;
+}
+
+.secondary {
+  background: var(--action-secondary-fill);
+  border: 1px solid var(--line-control);
+}
+
+.secondary:hover {
+  background: var(--surface-hover);
+}
+
+.scrollHint {
+  position: absolute;
+  right: clamp(16px, 5vw, 80px);
+  top: clamp(20px, 5vh, 48px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.scrollHint span {
+  width: 1px;
+  height: 40px;
+  background: var(--line-control);
+}
+
+.foam {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background: var(--surface-brand);
+}
+
+/* Real matcha colour (V4 mobile round): deep green bowl, lighter bubbles and swirls, ivory whisk. */
+.bowl {
+  position: relative;
+  width: min(70vw, 66vh);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 44%, var(--foam-light) 0%, var(--foam-mid) 52%, var(--foam-dark) 100%);
+  box-shadow:
+    0 0 0 14px var(--brand-ivory),
+    0 0 0 15px var(--wm-primary);
+  will-change: transform;
+}
+
+.swirl {
+  position: absolute;
+  border: 1.5px dashed;
+  border-radius: 50%;
+}
+
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--foam-bubble);
+  border: 1px solid var(--foam-bubble-line);
+  transform: scale(0);
+}
+
+.whisk {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  width: 30%;
+  height: 30%;
+  color: var(--brand-ivory);
+  transform: translate(-50%, -50%);
+}
+
+.whisk svg {
+  width: 100%;
+  height: 100%;
+}
+
+.caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 5vh;
+  text-align: center;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.wash {
+  position: absolute;
+  inset: 0;
+  background: var(--surface-page);
+  opacity: 0;
+}
+
+.inside {
+  position: absolute;
+  inset: 0;
+  padding: 0 var(--space-3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.insideTitle {
+  max-width: 900px;
+  font-family: var(--font-display);
+  font-size: clamp(40px, 6vw, 96px);
+  line-height: 1.02;
+}
+
+.inside > span:last-child {
+  max-width: 520px;
+}
+
+/* Reduced motion: the hero is a single static screen. */
+@media (prefers-reduced-motion: reduce) {
+  .desktop {
+    height: auto;
+  }
+  .foam,
+  .inside {
+    display: none;
+  }
+}
+
+/* ---------- Mobile static stack (< 768 px) ---------- */
+
+.mobile {
+  display: none;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding: 32px var(--space-3) var(--space-5);
+  flex-direction: column;
+  gap: 20px;
+  background: var(--surface-brand);
+}
+
+@media (max-width: 767px) {
+  .desktop {
+    display: none;
+  }
+  .mobile {
+    display: flex;
+  }
+}
+
+.mHeadline {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 44px;
+  line-height: 48px;
+}
+
+.mArch {
+  position: relative;
+  align-self: center;
+  width: min(74vw, 300px);
+  aspect-ratio: 3 / 4;
+  margin: 12px 0 var(--space-1);
+}
+
+.mRing {
+  position: absolute;
+  inset: -12px -12px 0;
+  border: 1.5px solid var(--brand-gold);
+  border-bottom: 0;
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+}
+
+.mWindow {
+  composes: window;
+  height: 100%;
+}
+
+.mLine2 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.mInEvery {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 30px;
+  line-height: 36px;
+}

@@ -1,0 +1,166 @@
+.header {
+  background: var(--surface-brand);
+}
+
+.headerSoft {
+  background: var(--surface-soft);
+}
+
+.headerInner {
+  padding-block: clamp(40px, 6vw, 64px) 56px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: var(--space-5);
+  align-items: end;
+}
+
+.headerCopy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.intro {
+  max-width: 520px;
+}
+
+.cutoff {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 12px var(--space-3);
+  background: var(--surface-inverse);
+  color: var(--text-on-dark);
+  font-size: 14px;
+  line-height: 22px;
+  text-align: center;
+}
+
+.body {
+  padding-block: 32px var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--line-hairline);
+}
+
+.toolbarLeft {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.sort {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.selectWrap {
+  position: relative;
+}
+
+.select {
+  height: var(--touch-target);
+  padding: 0 12px;
+  border: 1px solid var(--line-control);
+  border-radius: var(--radius-sm);
+  background: var(--surface-card);
+  font-size: 17px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 310px));
+  justify-content: center;
+  gap: var(--space-5) var(--space-4);
+}
+
+.gridStart {
+  justify-content: start;
+}
+
+.more {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.empty {
+  border: 1px solid var(--line-hairline);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+  max-width: 620px;
+}
+
+.sectionTitle {
+  margin-top: var(--space-4);
+}
+
+.sets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: var(--space-4);
+}
+
+.skeletonCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filter {
+  position: relative;
+  height: 40px;
+  padding: 0 var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--line-control);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.filter::after {
+  content: "";
+  position: absolute;
+  inset: -2px 0;
+}
+
+.filter:hover {
+  background: var(--surface-hover);
+}
+
+.filter[data-on] {
+  background: var(--action-primary);
+  color: var(--action-primary-text);
+}
+
+.giftsInner {
+  padding-block: clamp(40px, 6vw, 64px) 48px;
+}
+
+/* V4 Gifts body sits 56 px below the cut-off band. */
+.giftsBody {
+  padding-top: 56px;
+}

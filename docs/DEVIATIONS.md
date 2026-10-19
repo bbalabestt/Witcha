@@ -1,6 +1,6 @@
 # Deviations and decisions
 
-Order of authority: prototype V2 > `witcha-matcha-brand-ci/` > `docs/design-brief.md` > Brand Bible.
+Order of authority: prototype V4 (V2 before 2026-10-17) > `witcha-matcha-brand-ci/` > `docs/design-brief.md` > Brand Bible.
 Each entry: what, why, where.
 
 | ID | Decision | Why | Where |
@@ -14,6 +14,24 @@ Each entry: what, why, where.
 | D-07 | Help is three routes (`/pages/faq`, `/pages/shipping-returns`, `/pages/contact`) sharing one layout with the prototype's tab row rendered as links. | Spec §4 routes win for data/URLs; prototype visual kept. | M7 |
 | D-08 | Sale state (not drawn in V2) follows the brief: struck-through compare-at price, `SALE` badge. Badge uses brand blush with deep-blue text (4.8:1). | Only source that defines it. | PriceBlock, Badge |
 | D-09 | Focus ring on deep-blue surfaces uses ivory (`--brand-ivory`). | Brief §3.4 DS GAP; deep-blue ring is invisible there. | `globals.css`, footer, announcement bar |
-| D-10 | Pixel cat familiar, V2/V1 switch, map and flow views not shipped. | Prototype-only; no placeholder cat imagery rule. | — |
+| D-10 | V2/V1 switch, map and flow views not shipped. ~~Pixel cat not shipped~~: superseded by D-17. | Prototype-only tooling. | — |
 | D-11 | Shop Pay buttons are a feature-flagged slot, not a drawn button, until the Shopify component is wired. | Spec §3: do not fake wallet buttons. | PDP, cart |
 | D-12 | Fonts served from `src/assets/fonts` via `next/font/local` (not `public/`). Token font stacks reference `--wm-font-*` variables. | next/font hashes family names; avoids duplicate public copies. | `src/app/fonts.ts` |
+| D-13 | **Source of truth moved to Prototype V4.** Shipped with V4's tweak *defaults*: Midnight primary `#23395B`, Cream surface (page `#FFFDF8`, sections `#F6F0E4`/`#FBF7EF`, Witcha blue as secondary-button fill and hover), Day theme, classic hero with the everyday painting at 22%, whisk-foam step on, taste quadrant, arch shelf (expand hover, garden backdrop). Every colour derives from `--wm-primary`; `data-surface="teal"` on `<html>` restores the brand-CI surfaces. Dark theme, the other seven primaries, wheel/horizontal shelves and the scale taste view are not built. | Client chose "V4 defaults only"; the file's defaults are Midnight + Cream (not deep blue + teal as first described). Cream lowers Witcha blue below the brief's 40–60% on brand surfaces: confirm with the client. | `scripts/build-tokens.mjs`, `tokens.css` |
+| D-14 | V3/V4 packaging and painting concepts (`public/art`) replace `ImagePlaceholder` for tins, keepers, hero, guides and gifts. The Dreamer stays labelled as a concept. Powder-colour and founder shots remain placeholders. | Client chose to ship the V4 art. CLAUDE.md forbids AI or stock imagery, so confirm the art's origin and licence before launch. | fixtures, home, PDP |
+| D-15 | Google/Facebook review section (home) and footer strip are built but render **only** when the `SocialReviewsProvider` returns reviews. Default is empty, so the launch site shows neither. `REVIEWS_SOURCE=sample` shows V4's invented reviews with a SAMPLE DATA tag for demos and is refused with live Shopify data in production. No platform logos (trademarks). | No fabricated social proof (brief §3.6, CLAUDE.md). | `src/lib/providers`, `HomeReviews`, `FooterReviews` |
+| D-16 | Promo pop-up (10% scroll, once per session) is behind `PROMO_POPUP=on`, **off by default**. | Brief and Brand Bible rule out pop-ups; V4 added it as an option. | `PromoPopup` |
+| D-17 | Pixel familiar ships (`PIXEL_CAT=on` default), decorative and hidden from assistive technology; sits still under reduced motion. | Client approved it as the one exception (V2.1 1.7, V4). | `PixelFamiliar` |
+| D-18 | Quadrant placements (Dreamer bright·pure, Professor deep·pure, Kosen bright·latte, Charmer deep·latte) and the hojicha "roasted" link are editorial config in `src/lib/content/home.ts`, not metafields. | V4 placed them by hand; no metafield defines pure/latte. | home |
+| D-19 | Taste word metafield `custom.taste_role` added (fallback: 1–2 Bright, 3 Balanced, 4–5 Deep). Product kind comes from `productType`/tags (`gift`, `tool`/`accessory`). | V4 shows words the brief did not map. | `mappers.ts` |
+| D-20 | Fixture checkout goes to `/dev/checkout`, a branded reference of Shopify's hosted checkout and confirmation (V4 frames G1–G3) with the SHOPIFY-HOSTED banner. It 404s with live Shopify data, where the real `checkoutUrl` is used. | Keeps the handoff demoable without a store. | `src/app/dev/checkout` |
+| D-21 | Quick add on home sections and gift sets adds the first available size (V4). Product cards still say "Choose size" for multi-size teas. | V4 behaviour. | home |
+| D-22 | Card "Added ✓" opens the drawer after 0.6 s; the label reverts at 2 s. | V2.1 changelog (changed from brief). | `useAddFeedback` |
+| D-23 | Mobile PDP keeps sections expanded (no accordions), with 40 px section padding. | V2.1/V4 draw no accordions; brief E2 asked for them. | PDP |
+| D-24 | Instant-navigation validation in `next dev` logs a Next.js internal error ("Could not find … PlaceValidationBoundaryBelowThisLevel in the React Client Manifest"). Dev-only; production builds and e2e are clean. Each dynamic segment has a `loading.tsx` so client navigations stay instant. | Next 16.4 dev tooling with pnpm + Turbopack. | — |
+| D-25 | Hero "inside" line reads "Teas on one scale, from bright to deep…" instead of V4's "Two teas…". | The catalogue has four teas on the scale; "Two" would be wrong. | `Hero.tsx` |
+| D-26 | Shipping & Returns intro is customer-facing copy, not V4's annotation ("This page is the single source for the shipping promise…"). | The V4 line is a note to the developer, not copy for shoppers. Its point (rates and times come from store settings) still holds. | `pages/shipping-returns` |
+| D-27 | Manifesto "Why it tastes good" is an `<h2>` styled as a label (Jost 500, uppercase). | It names the section for screen readers. The weight-400 rule is for display headings; labels are 500 by the brand type scale. | `Manifesto.tsx` |
+| D-28 | Cart drawer and cart page hide "Pair with" tools that are already in the cart. The PDP lists every tool, as V4 does. | Offering an item that is already in the cart wastes the slot. | `UpsellRail` |
+| D-29 | Taste markers in the mega menu and collection header come from the catalogue (one per taste stop, all teas). V4 draws two hand-placed markers. | They are data-driven so new teas appear without code changes. | `layout.tsx`, `TasteScale` |
+| D-30 | When a tea has no `custom.storage_note`, the PDP shows nothing there. V4's "[Optional note for this tea · custom.storage_note]" is a field annotation. | Annotations are not shown to shoppers. | PDP |

@@ -1,0 +1,101 @@
+.footer {
+  background: var(--surface-inverse);
+  color: var(--text-on-dark);
+}
+
+.footer a {
+  color: var(--text-on-dark);
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: var(--text-on-dark);
+  text-decoration: underline;
+}
+
+.inner {
+  padding-block: clamp(40px, 6vw, 64px) 32px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+  gap: 32px;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 200px;
+}
+
+.social {
+  display: flex;
+  gap: var(--space-1);
+  margin-left: -10px;
+}
+
+.socialLink {
+  width: var(--touch-target);
+  height: var(--touch-target);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.markPending {
+  width: 22px;
+  height: 22px;
+  border: 1px dashed var(--text-on-dark);
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 17px;
+  line-height: 32px;
+}
+
+.column :global(.label) {
+  margin-bottom: var(--space-2);
+}
+
+.policies {
+  font-size: 17px;
+}
+
+.gold {
+  height: 1px;
+  background: var(--brand-gold);
+}
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.payments {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.payments li {
+  border: 1px solid var(--line-on-dark);
+  padding: 2px var(--space-2);
+  font-size: 12px;
+  line-height: 16px;
+}

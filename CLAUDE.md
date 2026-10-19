@@ -5,7 +5,7 @@ Next.js (App Router) + React + TypeScript. Shopify is the catalogue and commerce
 (Storefront API). Checkout is Shopify-hosted.
 
 ## Source of truth, in order
-1. `Witcha Matcha Prototype V2.dc.html` (Claude Design project) for layout, states and behaviour.
+1. `Witcha Matcha Prototype V4.dc.html` (Claude Design project; local copy `design/prototype-v4.dc.html`) for layout, states and behaviour. V2 (`design/prototype-v2.dc.html`) is kept for history only.
 2. `witcha-matcha-brand-ci/` (tokens.json, fonts, logos): brand tokens and rules.
 3. `docs/design-brief.md` (data mapping and component names).
 4. Brand Bible v3.0 for copy and claim rules.

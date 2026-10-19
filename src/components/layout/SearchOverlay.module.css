@@ -1,0 +1,145 @@
+.bar {
+  flex: none;
+  padding: var(--space-4) var(--gutter);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  border-bottom: 1px solid var(--line-hairline);
+}
+
+.field {
+  flex: 1;
+  height: 56px;
+  padding: 0 var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface-card);
+  border: 1px solid var(--line-control);
+  border-radius: var(--radius-sm);
+}
+
+.field:focus-within {
+  outline: 2px solid var(--line-control);
+  outline-offset: 2px;
+}
+
+.field input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-size: 17px;
+}
+
+.body {
+  padding: 28px var(--gutter) var(--space-5);
+}
+
+.popular {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.chips {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.chip {
+  height: 40px;
+  padding: 0 14px;
+  font-size: 14px;
+  background: var(--action-secondary-fill);
+  border: 1px solid var(--line-control);
+  border-radius: var(--radius-sm);
+  position: relative;
+}
+
+.chip::after {
+  content: "";
+  position: absolute;
+  inset: -2px 0;
+}
+
+.chip:hover {
+  background: var(--surface-hover);
+}
+
+.seeAll {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--space-3);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 32px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.hit {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  padding: 6px;
+  margin: -6px;
+  text-decoration: none;
+}
+
+.hit:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+.hitText {
+  display: flex;
+  flex-direction: column;
+}
+
+.thumb {
+  position: relative;
+  width: 56px;
+  aspect-ratio: 4 / 5;
+  flex: none;
+  background: var(--surface-soft);
+  border: 1px solid var(--line-hairline);
+}
+
+.thumbWide {
+  width: 84px;
+  aspect-ratio: 3 / 2;
+}
+
+.contain {
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+.cover {
+  object-fit: cover;
+}
+
+.none {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 620px;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}

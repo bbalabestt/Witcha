@@ -1,0 +1,100 @@
+.layout {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.scroll {
+  flex: 1;
+  overflow: auto;
+  padding: 20px var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line-hairline);
+}
+
+.divided {
+  border-top: 1px solid var(--line-hairline);
+  padding-top: var(--space-3);
+}
+
+.footer {
+  flex: none;
+  padding: var(--space-3) var(--space-4) 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid var(--line-hairline);
+  background: var(--surface-page);
+}
+
+.subtotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.amount {
+  font-size: 22px;
+}
+
+.links {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4);
+}
+
+.empty {
+  flex: 1;
+  overflow: auto;
+  padding: 32px var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.emptyGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.emptyCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  text-decoration: none;
+}
+
+.emptyImg {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  background: var(--surface-soft);
+  border: 1px solid var(--line-hairline);
+}
+
+.contain {
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+.error {
+  margin: var(--space-3) var(--space-4) 0;
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  border: 2px solid var(--feedback-error);
+  color: var(--feedback-error);
+  font-size: 14px;
+  line-height: 22px;
+}

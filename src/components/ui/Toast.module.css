@@ -1,8 +1,10 @@
 .region {
   position: fixed;
   left: 50%;
-  bottom: var(--space-3);
+  /* V4: clear the floating MENU/TOP, and the PDP buy bar when it shows. */
+  bottom: 100px;
   z-index: 90;
+  transition: bottom var(--duration-drawer) var(--ease-out);
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
@@ -10,6 +12,8 @@
   width: min(100% - 32px, 440px);
   pointer-events: none;
 }
+
+:global(html[data-sticky-bar]) .region { bottom: 170px; }
 
 .toast {
   pointer-events: auto;

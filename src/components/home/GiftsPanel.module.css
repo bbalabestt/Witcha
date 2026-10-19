@@ -1,0 +1,132 @@
+.wrap {
+  padding-bottom: var(--space-7);
+}
+
+.panel {
+  position: relative;
+  padding: clamp(32px, 5vw, 72px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  gap: 48px;
+  align-items: center;
+  background: var(--surface-page);
+  /* Inner gold outline stays static; the outer frame draws itself. */
+  outline: 1px solid var(--brand-gold);
+  outline-offset: -10px;
+}
+
+.edge {
+  position: absolute;
+  background: var(--brand-gold);
+}
+
+.top,
+.bottom {
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
+.top {
+  top: 0;
+}
+
+.bottom {
+  bottom: 0;
+}
+
+.left,
+.right {
+  top: 0;
+  bottom: 0;
+  width: 1px;
+}
+
+.left {
+  left: 0;
+}
+
+.right {
+  right: 0;
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cutoff {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.cta {
+  align-self: flex-start;
+  height: 52px;
+  padding: 0 28px;
+  display: inline-flex;
+  align-items: center;
+  background: var(--action-primary);
+  color: var(--action-primary-text);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition:
+    background-color 0.2s var(--ease-out),
+    letter-spacing 0.3s var(--ease-out);
+}
+
+.cta:hover {
+  background: var(--action-primary-hover);
+  color: var(--action-primary-text);
+  letter-spacing: 0.22em;
+}
+
+.artWrap {
+  position: relative;
+  perspective: 900px;
+}
+
+.sparkles {
+  position: absolute;
+  inset: -22px;
+  pointer-events: none;
+  opacity: 0.55;
+  transform: scale(0.97);
+  transition:
+    opacity 0.4s,
+    transform 0.4s;
+}
+
+.sparkles[data-on] {
+  opacity: 1;
+  transform: scale(1.04);
+}
+
+.art {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  max-height: 520px;
+  overflow: hidden;
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+  background: var(--surface-soft);
+  transition: transform 0.5s var(--ease-out);
+}
+
+.cover {
+  object-fit: cover;
+  object-position: 28% 50%;
+}
+
+.sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}

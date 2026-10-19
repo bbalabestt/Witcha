@@ -1,0 +1,190 @@
+.crumbs {
+  padding-top: 20px;
+}
+
+.top {
+  padding-block: 20px var(--space-6);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+  gap: clamp(24px, 4vw, 64px);
+  align-items: start;
+}
+
+/* Gallery takes columns 1–7, buy box 8–12 and stays in view while the page scrolls. */
+@media (min-width: 900px) {
+  .top {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+  .buyColumn {
+    position: sticky;
+    top: 24px;
+  }
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.tea {
+  padding-block: clamp(40px, 6vw, 64px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.teaCopy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 560px;
+}
+
+.facts {
+  margin: 0;
+  padding: var(--space-4);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px var(--space-4);
+  background: var(--surface-soft);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.facts dt {
+  font-weight: 500;
+}
+
+.factShot {
+  aspect-ratio: 4 / 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3);
+  background: var(--surface-soft);
+  border: 1px solid var(--line-hairline);
+  text-align: center;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.make {
+  background: var(--surface-brand);
+}
+
+.makeInner {
+  padding-block: clamp(40px, 6vw, 64px);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.store {
+  padding-block: clamp(40px, 6vw, 64px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.storeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: var(--space-4);
+}
+
+.storeGrid p {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.storeGrid svg {
+  flex: none;
+}
+
+.storeGrid b {
+  font-weight: 500;
+}
+
+.character {
+  background: var(--surface-soft);
+}
+
+.characterInner {
+  padding-block: clamp(40px, 6vw, 64px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: var(--space-5);
+  align-items: center;
+}
+
+.characterArt {
+  position: relative;
+  justify-self: center;
+  width: 100%;
+  max-width: 300px;
+  aspect-ratio: 3 / 4;
+  background: var(--surface-page);
+  border: 1px solid var(--line-hairline);
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+  overflow: hidden;
+}
+
+.contain {
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+.reviews {
+  padding-block: clamp(40px, 6vw, 64px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.zero {
+  padding: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  border: 1px solid var(--line-hairline);
+}
+
+.faq {
+  padding-bottom: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.related {
+  padding-block: clamp(40px, 6vw, 64px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 48px;
+}
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 300px));
+  gap: var(--space-4);
+}
+
+/* V2.1 4.6: 40 px section padding on phones. */
+@media (max-width: 767px) {
+  .tea,
+  .makeInner,
+  .store,
+  .characterInner,
+  .reviews,
+  .related {
+    padding-block: var(--space-5);
+  }
+}

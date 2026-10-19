@@ -1,0 +1,357 @@
+.meter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.meterText {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.track {
+  height: 4px;
+  background: var(--surface-soft);
+}
+
+.fill {
+  height: 4px;
+  background: var(--action-primary);
+  transition: width 0.5s var(--ease-out);
+}
+
+/* ---------- Line ---------- */
+
+.line {
+  display: flex;
+  gap: 14px;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--line-hairline);
+}
+
+.line[data-muted] .thumb,
+.line[data-muted] .lineName {
+  opacity: 0.6;
+}
+
+.line[aria-busy="true"] {
+  opacity: 0.7;
+}
+
+.thumb {
+  position: relative;
+  width: 80px;
+  aspect-ratio: 4 / 5;
+  flex: none;
+  background: var(--surface-soft);
+  border: 1px solid var(--line-hairline);
+}
+
+.contain {
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+.lineBody {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.lineTop {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.linePrice {
+  font-size: 17px;
+  line-height: 26px;
+  font-weight: 500;
+}
+
+.lineName {
+  font-size: 17px;
+  line-height: 26px;
+  text-decoration: none;
+}
+
+.lineName:hover {
+  text-decoration: underline;
+}
+
+.lineActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+}
+
+.stepper {
+  width: 132px;
+  height: var(--touch-target);
+  display: grid;
+  grid-template-columns: var(--touch-target) var(--touch-target) var(--touch-target);
+  align-items: center;
+  justify-items: center;
+  border: 1px solid var(--line-control);
+  border-radius: var(--radius-sm);
+  background: var(--surface-card);
+}
+
+.stepper button {
+  width: var(--touch-target);
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepper button:disabled {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+}
+
+.stepper output {
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.remove {
+  font-size: 14px;
+  line-height: 22px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  min-height: var(--touch-target);
+}
+
+.lineError {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  color: var(--feedback-error);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.lineError svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+/* ---------- Upsell ---------- */
+
+.upsell {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.upsellItem {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.upsellThumb {
+  width: 48px;
+  aspect-ratio: 4 / 5;
+  flex: none;
+  background: var(--surface-soft);
+  border: 1px solid var(--line-hairline);
+}
+
+.upsellText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-size: 17px;
+  line-height: 26px;
+}
+
+.upsellAdd {
+  height: var(--touch-target);
+  padding: 0 var(--space-3);
+  background: var(--action-secondary-fill);
+  border: 1px solid var(--line-control);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.upsellAdd:hover {
+  background: var(--surface-hover);
+}
+
+.upsellPdp {
+  gap: var(--space-3);
+}
+
+.upsellPdp .upsellItem {
+  gap: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--line-hairline);
+}
+
+.upsellPdp .upsellThumb {
+  width: 80px;
+  background: var(--surface-brand);
+}
+
+.upsellPdp .upsellText {
+  line-height: 28px;
+}
+
+/* ---------- Gift ---------- */
+
+.gift {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.giftToggle {
+  position: relative;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  min-height: var(--touch-target);
+  cursor: pointer;
+}
+
+.giftInput {
+  position: absolute;
+  opacity: 0;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+}
+
+.box {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line-control);
+  border-radius: var(--radius-sm);
+  background: var(--surface-card);
+  color: transparent;
+}
+
+.giftInput:checked + .box {
+  background: var(--action-primary);
+  color: var(--action-primary-text);
+}
+
+.giftInput:focus-visible + .box {
+  outline: 2px solid var(--line-control);
+  outline-offset: 2px;
+}
+
+.giftLabel {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  font-size: 17px;
+  line-height: 28px;
+}
+
+.giftNote {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  animation: drop var(--duration-drawer) var(--ease-out);
+}
+
+.giftRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.fieldLabel {
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+}
+
+.textarea {
+  padding: 10px 14px;
+  background: var(--surface-card);
+  border: 1px solid var(--line-control);
+  border-radius: var(--radius-sm);
+  font-size: 17px;
+  line-height: 28px;
+  resize: none;
+}
+
+/* ---------- Checkout ---------- */
+
+.checkout {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  background: var(--action-primary);
+  color: var(--action-primary-text);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: background-color 0.2s var(--ease-out);
+}
+
+.checkout:hover:not(:disabled) {
+  background: var(--action-primary-hover);
+}
+
+.checkout:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid color-mix(in srgb, currentColor 35%, transparent);
+  border-top-color: currentColor;
+  animation: spin 0.8s linear infinite;
+}
+
+.shopPay {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--line-control);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes drop {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
