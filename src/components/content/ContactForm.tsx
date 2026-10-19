@@ -2,17 +2,10 @@
 
 import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/Button";
-import { Select, TextInput, Textarea } from "@/components/ui/Field";
+import { TextInput, Textarea } from "@/components/ui/Field";
 import { Icon } from "@/components/ui/Icon";
 import { isEmail } from "@/lib/http/validate";
 import styles from "./ContactForm.module.css";
-
-const TOPICS = [
-  { value: "order", label: "An order" },
-  { value: "tea", label: "Our teas" },
-  { value: "gift", label: "Gifts" },
-  { value: "other", label: "Something else" },
-];
 
 type Errors = Partial<Record<"name" | "email" | "message" | "form", string>>;
 
@@ -53,7 +46,6 @@ export function ContactForm() {
       <TextInput name="name" label="Name" autoComplete="name" error={errors.name} />
       <TextInput name="email" type="email" label="Email" autoComplete="email" error={errors.email} />
       <TextInput name="orderNumber" label="Order number (optional)" />
-      <Select name="topic" label="Topic" options={TOPICS} defaultValue="order" />
       <Textarea name="message" label="Message" rows={5} error={errors.message} />
       {errors.form ? (
         <p role="alert" className={styles.error}>

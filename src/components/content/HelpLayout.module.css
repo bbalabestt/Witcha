@@ -1,5 +1,5 @@
 .help {
-  padding-block: 56px 64px;
+  padding-block: 56px var(--space-6);
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -58,11 +58,4 @@
   flex-direction: column;
   gap: 12px;
   background: var(--surface-soft);
-}
-
-.prompt {
-  display: flex;
-  gap: var(--space-3);
-  align-items: center;
-  flex-wrap: wrap;
 }
