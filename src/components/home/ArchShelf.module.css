@@ -181,8 +181,9 @@
 }
 
 .add {
-  height: var(--touch-target);
-  padding: 0 14px;
+  height: var(--control-md);
+  min-width: min(var(--control-min-w-md), 100%);
+  padding: 0 var(--control-pad-x);
   background: var(--action-primary);
   color: var(--action-primary-text);
   font-size: 12px;
@@ -190,6 +191,7 @@
   font-weight: 500;
   letter-spacing: 0.16em;
   text-transform: uppercase;
+  justify-content: center;
 }
 
 .add:hover {

@@ -155,13 +155,14 @@
 }
 
 .atcRow > [role="group"] {
-  height: 52px;
+  height: var(--control-lg);
   flex: none;
 }
 
 .atc {
   flex: 1;
-  height: 52px;
+  height: var(--control-lg);
+  min-width: min(var(--control-min-w-lg), 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -207,7 +208,7 @@
 }
 
 .shopPay {
-  height: 52px;
+  height: var(--control-lg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -234,7 +235,7 @@
 .notifyInput {
   flex: 1;
   min-width: 0;
-  height: 52px;
+  height: var(--control-lg);
   padding: 0 14px;
   background: var(--surface-card);
   border: 1px solid var(--line-control);
@@ -247,8 +248,9 @@
 }
 
 .notifyButton {
-  height: 52px;
-  padding: 0 20px;
+  height: var(--control-lg);
+  min-width: min(var(--control-min-w-lg), 100%);
+  padding: 0 var(--control-pad-x);
   background: var(--action-primary);
   color: var(--action-primary-text);
   font-size: 12px;
@@ -256,6 +258,7 @@
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
+  justify-content: center;
 }
 
 .notified {
@@ -324,8 +327,9 @@
 }
 
 .stickyButton {
-  height: 48px;
-  padding: 0 var(--space-4);
+  height: var(--control-md);
+  min-width: min(var(--control-min-w-md), 100%);
+  padding: 0 var(--control-pad-x);
   background: var(--action-primary);
   color: var(--action-primary-text);
   font-size: 12px;
@@ -334,6 +338,7 @@
   letter-spacing: 0.18em;
   text-transform: uppercase;
   white-space: nowrap;
+  justify-content: center;
 }
 
 .stickyButton:hover {

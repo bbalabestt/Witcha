@@ -175,8 +175,9 @@
 }
 
 .upsellAdd {
-  height: var(--touch-target);
-  padding: 0 var(--space-3);
+  height: var(--control-md);
+  min-width: min(var(--control-min-w-md), 100%);
+  padding: 0 var(--control-pad-x);
   background: var(--action-secondary-fill);
   border: 1px solid var(--line-control);
   font-size: 12px;
@@ -184,6 +185,7 @@
   font-weight: 500;
   letter-spacing: 0.16em;
   text-transform: uppercase;
+  justify-content: center;
 }
 
 .upsellAdd:hover {
@@ -296,7 +298,7 @@
 /* ---------- Checkout ---------- */
 
 .checkout {
-  height: 52px;
+  height: var(--control-lg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -330,7 +332,7 @@
 }
 
 .shopPay {
-  min-height: 48px;
+  height: var(--control-lg);
   display: flex;
   align-items: center;
   justify-content: center;

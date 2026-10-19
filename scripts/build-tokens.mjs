@@ -41,6 +41,12 @@ const extensions = {
   "gutter": "clamp(16px, 4.4vw, 64px)",
   "content-max": "1440px",
   "touch-target": "44px",
+  // Control scale (2026-10-19 polish): two heights only, and buttons never hug their label.
+  "control-lg": "52px",
+  "control-md": "44px",
+  "control-min-w-lg": "200px",
+  "control-min-w-md": "136px",
+  "control-pad-x": "24px",
 };
 for (const [name, value] of Object.entries(extensions)) lines.push(`  --${name}: ${value};`);
 // next/font/local exposes hashed families via these variables (see src/app/fonts.ts).
@@ -74,14 +80,15 @@ const theme = {
     "surface-hover": "var(--brand-witcha-blue)",
     "action-secondary-fill": "var(--brand-witcha-blue)",
     "text-unread": "#658399",
-    "foam-dark": "#3f5c17",
-    "foam-mid": "#5f7f26",
-    "foam-light": "#7e9b3a",
-    "foam-bubble": "#a9bf6a",
-    "foam-bubble-line": "#6e8b30",
-    "foam-swirl-1": "#c9d98f",
-    "foam-swirl-2": "#b3c878",
-    "foam-swirl-3": "#9fb765",
+    // Whisked matcha, sampled from the client's reference photo (2026-10-19): lit crema, body, shaded rim.
+    "foam-dark": "#95b84b",
+    "foam-mid": "#b6d862",
+    "foam-light": "#c8e077",
+    "foam-bubble": "#d6e996",
+    "foam-bubble-line": "#a6c650",
+    "foam-swirl-1": "#e2efb2",
+    "foam-swirl-2": "#a0c24a",
+    "foam-swirl-3": "#d4e78f",
   },
   teal: {
     "surface-page": "var(--brand-ivory)",

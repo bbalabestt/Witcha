@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  padding: 0 28px;
+  padding: 0 var(--control-pad-x);
   border: 1px solid transparent;
   border-radius: var(--radius-none);
   font-family: var(--font-sans);
@@ -26,10 +26,20 @@
   opacity: var(--opacity-disabled);
 }
 
-.sm { height: 40px; padding: 0 14px; }
-.md { height: var(--touch-target); padding: 0 var(--space-4); }
-.lg { height: 48px; }
-.xl { height: 52px; }
+/* Two heights only (tokens.css control scale). Buttons never hug their label: each size has a floor width,
+   capped at the container so two side by side still wrap cleanly on phones. */
+.sm,
+.md {
+  height: var(--control-md);
+  min-width: min(var(--control-min-w-md), 100%);
+  padding: 0 var(--control-pad-x);
+}
+.lg,
+.xl {
+  height: var(--control-lg);
+  min-width: min(var(--control-min-w-lg), 100%);
+  padding: 0 var(--control-pad-x);
+}
 
 .full { width: 100%; }
 
@@ -63,6 +73,7 @@
 
 .link {
   height: auto;
+  min-width: 0;
   min-height: var(--touch-target);
   padding: 0;
   background: none;

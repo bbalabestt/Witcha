@@ -24,8 +24,8 @@
 }
 
 .toggle button {
-  height: 48px;
-  padding: 0 var(--space-4);
+  height: var(--control-md);
+  padding: 0 var(--control-pad-x);
   font-size: 12px;
   line-height: 16px;
   font-weight: 500;
@@ -267,8 +267,9 @@
 }
 
 .add {
-  height: var(--touch-target);
-  padding: 0 18px;
+  height: var(--control-md);
+  min-width: min(var(--control-min-w-md), 100%);
+  padding: 0 var(--control-pad-x);
   display: inline-flex;
   align-items: center;
   background: var(--action-primary);
@@ -279,6 +280,7 @@
   letter-spacing: 0.16em;
   text-transform: uppercase;
   text-decoration: none;
+  justify-content: center;
 }
 
 .add:hover {

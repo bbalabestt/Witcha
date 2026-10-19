@@ -79,8 +79,9 @@
 
 .cta {
   margin-top: 28px;
-  height: 52px;
-  padding: 0 28px;
+  height: var(--control-lg);
+  min-width: min(var(--control-min-w-lg), 100%);
+  padding: 0 var(--control-pad-x);
   display: inline-flex;
   align-items: center;
   background: var(--action-secondary-fill);
@@ -91,6 +92,7 @@
   letter-spacing: 0.18em;
   text-transform: uppercase;
   text-decoration: none;
+  justify-content: center;
 }
 
 .cta:hover {

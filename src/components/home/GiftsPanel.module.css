@@ -64,8 +64,9 @@
 
 .cta {
   align-self: flex-start;
-  height: 52px;
-  padding: 0 28px;
+  height: var(--control-lg);
+  min-width: min(var(--control-min-w-lg), 100%);
+  padding: 0 var(--control-pad-x);
   display: inline-flex;
   align-items: center;
   background: var(--action-primary);
@@ -79,6 +80,7 @@
   transition:
     background-color 0.2s var(--ease-out),
     letter-spacing 0.3s var(--ease-out);
+  justify-content: center;
 }
 
 .cta:hover {
