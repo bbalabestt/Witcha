@@ -43,6 +43,11 @@
   --gutter: clamp(16px, 4.4vw, 64px);
   --content-max: 1440px;
   --touch-target: 44px;
+  --control-lg: 52px;
+  --control-md: 44px;
+  --control-min-w-lg: 200px;
+  --control-min-w-md: 136px;
+  --control-pad-x: 24px;
   --font-display: var(--wm-font-display), "Libre Caslon Display", "Libre Caslon Text", Georgia, serif;
   --font-serif: var(--wm-font-serif), "Libre Caslon Text", Georgia, "Times New Roman", serif;
   --font-sans: var(--wm-font-sans), Jost, "Avenir Next", "Segoe UI", sans-serif;

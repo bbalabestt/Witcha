@@ -163,8 +163,9 @@
 }
 
 .out {
-  height: 48px;
-  padding: 0 20px;
+  height: var(--control-md);
+  min-width: min(var(--control-min-w-md), 100%);
+  padding: 0 var(--control-pad-x);
   display: inline-flex;
   align-items: center;
   background: var(--action-secondary-fill);
@@ -175,6 +176,7 @@
   letter-spacing: 0.16em;
   text-transform: uppercase;
   text-decoration: none;
+  justify-content: center;
 }
 
 .out:hover {

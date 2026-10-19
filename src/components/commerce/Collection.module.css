@@ -130,7 +130,7 @@
 
 .filter {
   position: relative;
-  height: 40px;
+  height: var(--control-md);
   padding: 0 var(--space-3);
   display: inline-flex;
   align-items: center;

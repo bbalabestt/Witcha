@@ -41,6 +41,12 @@ const extensions = {
   "gutter": "clamp(16px, 4.4vw, 64px)",
   "content-max": "1440px",
   "touch-target": "44px",
+  // Control scale (2026-10-19 polish): two heights only, and buttons never hug their label.
+  "control-lg": "52px",
+  "control-md": "44px",
+  "control-min-w-lg": "200px",
+  "control-min-w-md": "136px",
+  "control-pad-x": "24px",
 };
 for (const [name, value] of Object.entries(extensions)) lines.push(`  --${name}: ${value};`);
 // next/font/local exposes hashed families via these variables (see src/app/fonts.ts).

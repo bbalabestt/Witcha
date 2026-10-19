@@ -172,8 +172,9 @@
 
 .primary,
 .secondary {
-  height: 52px;
-  padding: 0 28px;
+  height: var(--control-lg);
+  min-width: min(var(--control-min-w-lg), 100%);
+  padding: 0 var(--control-pad-x);
   display: inline-flex;
   align-items: center;
   justify-content: center;

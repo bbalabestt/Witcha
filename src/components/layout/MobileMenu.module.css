@@ -21,7 +21,7 @@
 }
 
 .search {
-  height: 48px;
+  height: var(--control-lg);
   padding: 0 12px;
   display: flex;
   align-items: center;

@@ -145,7 +145,8 @@
 }
 
 .action {
-  height: var(--touch-target);
+  height: var(--control-md);
+  min-width: min(var(--control-min-w-md), 100%);
   display: flex;
   align-items: center;
   justify-content: center;

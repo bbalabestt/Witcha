@@ -43,7 +43,8 @@
 }
 
 .add {
-  height: var(--touch-target);
+  height: var(--control-md);
+  min-width: min(var(--control-min-w-md), 100%);
   background: var(--action-secondary-fill);
   border: 1px solid var(--line-control);
   font-size: 12px;
@@ -52,6 +53,7 @@
   letter-spacing: 0.18em;
   text-transform: uppercase;
   transition: background-color 0.2s var(--ease-out);
+  justify-content: center;
 }
 
 .add:hover:not(:disabled) {
