@@ -154,7 +154,12 @@ async function Results({
           <Button href={link({ shown: String(shown + PAGE_SIZE) })} variant="secondary" size="xl">
             Load more
           </Button>
-        ) : null}
+        ) : (
+          // V4 keeps the button, disabled, once every product is shown.
+          <Button variant="secondary" size="xl" disabled>
+            Load more
+          </Button>
+        )}
       </div>
     </>
   );
@@ -199,7 +204,7 @@ async function GiftsTemplate() {
         <Icon name="gift" size={20} />
         {settings.giftCutoff} delivery in metro Australia.
       </div>
-      <div className={`container ${styles.body}`}>
+      <div className={`container ${styles.body} ${styles.giftsBody}`}>
         <h2 className="heading-2" data-reveal="up">
           Sets
         </h2>

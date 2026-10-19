@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
 type ShopUI = {
   menuOpen: boolean;
@@ -29,6 +29,11 @@ export function ShopUIProvider({ children }: { children: ReactNode }) {
     setSearchOpen(false);
     setStickyBarVisible(false);
   }
+
+  // The toast region lives outside this provider; it reads the sticky bar from <html>.
+  useEffect(() => {
+    document.documentElement.toggleAttribute("data-sticky-bar", stickyBarVisible);
+  }, [stickyBarVisible]);
 
   const value = useMemo(
     () => ({ menuOpen, setMenuOpen, searchOpen, setSearchOpen, stickyBarVisible, setStickyBarVisible }),
