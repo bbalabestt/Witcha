@@ -65,7 +65,7 @@ export function Manifesto({ words, facts }: { words: Array<{ w: string; key: boo
           <div className={styles.foam} data-foam-ring="" />
         </div>
         {MOTES.map(([l, t, s, c], i) => (
-          <span key={i} data-float="" aria-hidden="true" className="mote" style={{ left: `${l}%`, top: `${t}%`, width: s, height: s, background: c === "gold" ? "var(--brand-gold)" : "var(--surface-hover)" }} />
+          <span key={i} data-float="" aria-hidden="true" className="mote" style={{ left: `${l}%`, top: `${t}%`, width: s, height: s, background: c === "gold" ? "var(--brand-gold)" : "var(--surface-brand)" }} />
         ))}
         {STARS.map(([l, t, s], i) => (
           <span key={i} data-twinkle="" aria-hidden="true" className="twinkle" style={{ left: `${l}%`, top: `${t}%`, width: s, height: s }} />

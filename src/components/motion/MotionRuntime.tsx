@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { holdHidden, isHeld, markSeen, motionAllowed, playReveal, release, startAmbient } from "./runtime";
 
 /**
@@ -10,6 +10,19 @@ import { holdHidden, isHeld, markSeen, motionAllowed, playReveal, release, start
  */
 export function MotionRuntime() {
   const pathname = usePathname();
+  const firstPath = useRef(pathname);
+
+  // V4 page enter: on client navigations only (never the first load, so LCP is untouched), the new page
+  // fades up 18 px over 480 ms.
+  useEffect(() => {
+    if (pathname === firstPath.current) return;
+    firstPath.current = "";
+    if (!motionAllowed()) return;
+    document.getElementById("main")?.animate([{ opacity: 0, transform: "translateY(18px)" }, { opacity: 1, transform: "none" }], {
+      duration: 480,
+      easing: "cubic-bezier(.2,.7,.2,1)",
+    });
+  }, [pathname]);
 
   useEffect(() => {
     if (!motionAllowed()) return;
