@@ -8,8 +8,9 @@ import styles from "./FloatingNav.module.css";
 
 /**
  * Floating MENU and TOP controls, shown after 160 px of scroll (when the non-sticky header has gone).
- * Desktop: two arch buttons in the corners. Below 768 px: one compact pill with two 48 px buttons.
- * Both move up when the PDP buy bar is showing. TOP fills with Witcha blue as the page is read.
+ * MENU is an arch pinned to the top-left corner at every width. TOP is an arch bottom-right on desktop and a
+ * compact 48 px pill below 768 px; it moves up when the PDP buy bar is showing and fills with Witcha blue as
+ * the page is read.
  */
 export function FloatingNav() {
   const { setMenuOpen, stickyBarVisible } = useShopUI();
@@ -36,7 +37,7 @@ export function FloatingNav() {
 
   return (
     <div className={styles.root} data-shown={shown || undefined} aria-hidden={!shown || undefined} inert={!shown}>
-      <button type="button" className={`${styles.archMenu} ${lifted} on-primary`} aria-label="Open menu" onClick={() => setMenuOpen(true)}>
+      <button type="button" className={`${styles.archMenu} on-primary`} aria-label="Open menu" onClick={() => setMenuOpen(true)}>
         <Icon name="menu" size={22} />
         <span className={styles.archLabel}>Menu</span>
       </button>
@@ -49,9 +50,6 @@ export function FloatingNav() {
       </button>
 
       <div className={`${styles.pill} ${lifted}`}>
-        <button type="button" className={`${styles.round} ${styles.roundMenu} on-primary`} aria-label="Open menu" onClick={() => setMenuOpen(true)}>
-          <Icon name="menu" size={22} />
-        </button>
         <button type="button" className={`${styles.round} ${styles.roundTop}`} aria-label="Back to top" onClick={toTop}>
           <span className={styles.fill} ref={(el) => void (fills.current[1] = el)} />
           <Icon name="chevron-up" size={22} className={styles.raised} />

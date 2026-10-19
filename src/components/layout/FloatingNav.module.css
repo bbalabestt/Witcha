@@ -40,10 +40,13 @@
 }
 
 .archMenu {
+  /* Pinned to the top-left corner once the header has scrolled away, at every width. */
+  top: max(16px, env(safe-area-inset-top));
+  bottom: auto;
   left: 16px;
   background: var(--action-primary);
   color: var(--text-on-dark);
-  transform: translateX(-24px);
+  transform: translateY(-24px);
 }
 
 .archTop {
@@ -54,7 +57,10 @@
   transform: translateX(24px);
 }
 
-.root[data-shown] .archMenu:hover,
+.root[data-shown] .archMenu:hover {
+  transform: translateY(3px);
+}
+
 .root[data-shown] .archTop:hover {
   transform: translateY(-4px);
 }
@@ -107,11 +113,6 @@
   overflow: hidden;
 }
 
-.roundMenu {
-  background: var(--action-primary);
-  color: var(--text-on-dark);
-}
-
 .roundTop {
   background: var(--action-secondary-fill);
   border: 1.5px solid var(--line-control);
@@ -122,9 +123,11 @@
 }
 
 @media (max-width: 767px) {
-  .archMenu,
   .archTop {
     display: none;
+  }
+  .archMenu {
+    left: 12px;
   }
   .pill {
     display: flex;
