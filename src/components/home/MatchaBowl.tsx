@@ -8,6 +8,9 @@ import styles from "./MatchaBowl.module.css";
 export const WHISK_EVENT = "wm:whisk";
 /** Fired as the cat's paw touches the foam. */
 export const PAW_EVENT = "wm:paw";
+/** Fired when the bowl moves to another step of the usucha recipe: 0 sift, 1 pour, 2 whisk, 3 made. */
+export const RITUAL_EVENT = "wm:ritual";
+export type RitualStep = 0 | 1 | 2 | 3;
 
 type Bubble = { x: number; y: number; vx: number; vy: number; s: number; life: number; max: number };
 type Grain = { x: number; y: number; vy: number };
@@ -91,6 +94,12 @@ export function MatchaBowl() {
     let pointer: { x: number; y: number; at: number } | null = null;
     let paw: { t: number; x: number; y: number; stamped: boolean } | null = null;
     let nextPaw = 8;
+    let step: RitualStep | -1 = -1;
+    const announce = (next: RitualStep) => {
+      if (next === step) return;
+      step = next;
+      window.dispatchEvent(new CustomEvent(RITUAL_EVENT, { detail: next }));
+    };
 
     function spawn(x: number, y: number, settled = false) {
       if (bubbles.length > 260 || x * x + y * y > 0.9) return;
@@ -179,6 +188,7 @@ export function MatchaBowl() {
       whisk.speed = Math.hypot(wvx, wvy);
 
       const whisking = whisk.on > 0.6 && fill > 0.95 && Math.hypot(whisk.x, whisk.y) < 0.9;
+      announce(t < 1.0 ? 0 : t < 1.6 ? 1 : t < 3.6 || (recent && whisking) ? 2 : 3);
       if (whisking) {
         foam = Math.min(1, foam + dt * (0.12 + whisk.speed * 0.08));
         const n = Math.min(6, whisk.speed * 1.4);
@@ -429,6 +439,7 @@ export function MatchaBowl() {
       born ??= now;
       const t = (now - born) / 1000;
       if (live) update(dt, t);
+      else announce(3);
       draw(ctx, t);
       dirty = false;
     });

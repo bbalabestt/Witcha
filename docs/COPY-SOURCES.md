@@ -24,6 +24,7 @@ Production (V4) sections, top to bottom, refilled with client words (11 Nov 2026
 | Hero | Eyebrow, "Matcha, / With / Taste." over V4's two lines, supporting line, both buttons | Copy §1 | p.23, p.34 |
 | Hero badge | Matcha, With Taste · Which Matcha Today | Checklist §1, §7 | p.21 |
 | Hero foam caption | 2 g matcha · 60 ml hot water at 80°C | Copy §4 (Usucha) | p.32 |
+| Hero recipe card (desktop) | Usucha (classic matcha): you'll need, three steps, best with | Copy §4 (Usucha), as written | p.32 |
 | Hero end screen | Japanese matcha & hojicha · Which Matcha Today? · first sentence of the hero line | Copy §1; Checklist §7 | p.21 |
 | Marquee 1 | Matcha, With Taste. · Which Matcha Today? · Whisked, frothed, shaken, iced | Checklist §1; Vendor (keeps marquee 1 minus "Bright to deep") | p.21 |
 | Marquee 2 | The four full tea names | Copy (product naming) | p.21 |

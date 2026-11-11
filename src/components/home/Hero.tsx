@@ -7,6 +7,7 @@ import { TEAS_HREF } from "@/lib/config/site";
 import { clamp01, easeInOut, hoverCapable, loopsAllowed, motionAllowed, onFrame, sectionProgress } from "@/components/motion/runtime";
 import { CatPeek } from "./CatPeek";
 import { MatchaBowl } from "./MatchaBowl";
+import { RitualCard } from "./RitualCard";
 import styles from "./Hero.module.css";
 
 /** Seeded foam bubbles (the same 54 as the prototype, so server and client markup match). */
@@ -85,7 +86,6 @@ export function Hero() {
     const inside = q("[data-inside]");
     const badge = q("[data-spin]");
     const badgeWrap = q("[data-badge]");
-    const bar = q("[data-bar]");
     const live = q("[data-live]");
     const fades = all("[data-fade]");
     const bubbles = all("[data-bub]");
@@ -121,7 +121,6 @@ export function Hero() {
       if (l1) l1.style.transform = `translateX(${-e * 60}vw) translate(${(-drift.x * 14).toFixed(1)}px, ${(-drift.y * 8).toFixed(1)}px)`;
       if (l2) l2.style.transform = `translateX(${e * 60}vw) translate(${(drift.x * 14).toFixed(1)}px, ${(drift.y * 8).toFixed(1)}px)`;
       if (badgeWrap) badgeWrap.style.transform = `translate(${(drift.x * 22).toFixed(1)}px, ${(drift.y * 16).toFixed(1)}px)`;
-      if (bar) bar.style.transform = `translateY(${e * 70}vh)`;
       if (badge && loopsAllowed()) badge.style.transform = `rotate(${((now * 0.012 + y * 0.2) % 360).toFixed(1)}deg)`;
 
       if (foam) {
@@ -181,7 +180,6 @@ export function Hero() {
     <>
       <section ref={section} className={styles.desktop} aria-label="Welcome">
         <div className={styles.stage} data-stage="">
-          <div className={styles.bar} data-bar="" aria-hidden="true" />
 
           <div className={styles.arch} data-arch="">
             <div className={styles.ring} data-ring="" data-reveal="arch-open" data-delay="200" aria-hidden="true">
@@ -214,11 +212,25 @@ export function Hero() {
             </svg>
           </div>
 
-          <div className={styles.l1} data-l1="">
-            <div className={styles.mask}>
-              <h1 className={styles.headline} data-reveal="mask">
-                Matcha, <span className="visually-hidden">With Taste.</span>
-              </h1>
+          {/* "Matcha," and the copy read as one block, centred against the bowl, so the left side has no dead band. */}
+          <div className={styles.left}>
+            <div className={styles.l1} data-l1="">
+              <div className={styles.mask}>
+                <h1 className={styles.headline} data-reveal="mask">
+                  Matcha, <span className="visually-hidden">With Taste.</span>
+                </h1>
+              </div>
+            </div>
+            <div className={styles.copy} data-fade="" data-hero-copy="">
+              <span className="label" data-reveal="left" data-delay="420">
+                {HERO.eyebrow}
+              </span>
+              <p data-reveal="left" data-delay="500">
+                {HERO.supporting}
+              </p>
+              <div data-reveal="left" data-delay="650">
+                <Buttons />
+              </div>
             </div>
           </div>
           <div className={styles.l2} data-l2="" aria-hidden="true">
@@ -233,19 +245,8 @@ export function Hero() {
               </span>
             </div>
           </div>
-          <div className={styles.copy} data-fade="" data-hero-copy="">
-            <span className="label" data-reveal="left" data-delay="420">
-              {HERO.eyebrow}
-            </span>
-            <p data-reveal="left" data-delay="500">
-              {HERO.supporting}
-            </p>
-            <div data-reveal="left" data-delay="650">
-              <Buttons />
-            </div>
-          </div>
-          <div className={styles.scrollHint} data-fade="" aria-hidden="true">
-            <span />
+          <div className={styles.ritual} data-fade="">
+            <RitualCard />
           </div>
 
           <div className={styles.foam} data-foam="" aria-hidden="true">
