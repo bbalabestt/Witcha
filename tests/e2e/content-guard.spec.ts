@@ -117,15 +117,16 @@ test("reduced motion keeps a still hero, with the badge and bowl in plain view",
   await expect(page.locator("[data-arch]")).toBeVisible();
 });
 
-test("the client's words light up with the scroll, and are readable before they do", async ({ page }) => {
-  await page.goto("/");
-  const word = page.locator("[data-w]").filter({ hasText: "memorable." });
-  const colour = () => word.evaluate((el) => getComputedStyle(el).color);
+test("the client's words type in with the scroll, unlit first, and are readable before they do", async ({ page }) => {
+  await page.goto("/", { waitUntil: "networkidle" });
+  const letter = page.locator("[data-w]").filter({ hasText: "memorable." }).locator("[data-c]").first();
+  const colour = () => letter.evaluate((el) => getComputedStyle(el).color);
   const body = page.locator("section[aria-labelledby='wm-why-title'] p");
   await body.evaluate((el) => el.closest("section")!.scrollIntoView({ block: "start", behavior: "instant" }));
   const unlit = await colour();
+  expect(unlit).not.toBe("rgb(56, 56, 50)");
   await page.evaluate(() => window.scrollBy({ top: 900, behavior: "instant" }));
-  await expect.poll(colour).not.toBe(unlit);
+  await expect.poll(colour, { timeout: 10_000 }).toBe("rgb(56, 56, 50)");
   await expect(body).toContainText("Our co-founder Wichita tasted more than 40 Japanese tea samples");
 });
 

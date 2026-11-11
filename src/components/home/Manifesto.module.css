@@ -83,6 +83,9 @@
 
 .word {
   position: relative;
+}
+
+.char {
   color: var(--text-unlit);
 }
 
@@ -107,7 +110,7 @@
     min-height: 80vh;
     padding-block: var(--space-7);
   }
-  .word {
+  .char {
     color: var(--text-primary);
   }
   .underline {

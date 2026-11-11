@@ -1,9 +1,6 @@
-"use client";
-
 import Link from "next/link";
-import { useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { RecipeDrawing, WhiskedBowl } from "@/components/motion/MatchaScenes";
-import { hoverCapable } from "@/components/motion/runtime";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { YOUR_CUP } from "@/lib/content/home";
 import styles from "./Methods.module.css";
@@ -19,12 +16,10 @@ const LOOK: Array<{ icon: IconName; scene: () => ReactNode }> = [
 ];
 
 /**
- * "Your cup. Your way." (copy v5.3 §1) with the four method notes (§4) on V4's cards, which flip in 3D on hover
- * or keyboard focus (0.9 s, slight overshoot). The back is an arch with a drawing of the drink. No flip on
- * touch; a cross-fade under reduced motion.
+ * "Your cup. Your way." (copy v5.3 §1) with the four method notes (§4). Each card shows what was V4's flip
+ * side, always: an arch with a drawing of the drink, the method and its note. No flip (project lead).
  */
 export function Methods({ notes }: { notes: Array<[string, string]> }) {
-  const [flip, setFlip] = useState<number | null>(null);
   return (
     <section className={styles.section} aria-labelledby="wm-methods-title">
       <div className={`container ${styles.inner}`}>
@@ -46,31 +41,18 @@ export function Methods({ notes }: { notes: Array<[string, string]> }) {
             const look = LOOK[i] ?? LOOK[0]!;
             return (
               <div key={name} className={styles.slot} data-reveal={i < 2 ? "left" : "right"} data-delay={String([0, 120, 120, 0][i] ?? 0)}>
-                <Link
-                  href={RECIPES_HREF}
-                  className={styles.card}
-                  data-flipped={flip === i || undefined}
-                  onMouseEnter={() => hoverCapable() && setFlip(i)}
-                  onMouseLeave={() => setFlip((f) => (f === i ? null : f))}
-                  onFocus={() => setFlip(i)}
-                  onBlur={() => setFlip((f) => (f === i ? null : f))}
-                >
-                  <span className={styles.front}>
-                    <span className={styles.n} aria-hidden="true">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <Icon name={look.icon} size={36} />
-                    <span className={styles.name}>{name}</span>
-                    <span className={`body-small ${styles.meas}`}>{note}</span>
+                <Link href={RECIPES_HREF} className={styles.card}>
+                  <span className={styles.photoArch} aria-hidden="true">
+                    <span className={styles.photo}>{look.scene()}</span>
+                    <span className={styles.n}>{String(i + 1).padStart(2, "0")}</span>
                   </span>
-                  <span className={styles.back} aria-hidden="true">
-                    <span className={styles.photoArch}>
-                      <span className={styles.photo}>{look.scene()}</span>
-                    </span>
-                    <span className={styles.backFoot}>
-                      <span>{name}</span>
-                      <span>{YOUR_CUP.cta} →</span>
-                    </span>
+                  <span className={styles.nameRow}>
+                    <Icon name={look.icon} size={28} />
+                    <span className={styles.name}>{name}</span>
+                  </span>
+                  <span className={`body-small ${styles.meas}`}>{note}</span>
+                  <span className={styles.backFoot} aria-hidden="true">
+                    {YOUR_CUP.cta} →
                   </span>
                 </Link>
               </div>

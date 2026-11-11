@@ -89,7 +89,8 @@ function ShelfArch({ item, index, on, onEnter, onLeave }: { item: ShelfItem; ind
 
 /**
  * The four teas in V4's arch windows, about a screen tall. Hover or focus lifts the tin away to show the drink
- * that tea is best for, and widens the arch (desktop pointer only). Phones scroll it sideways.
+ * that tea is best for (desktop pointer only). Arches keep their width, so the row never reflows. Phones scroll
+ * it sideways.
  * Words: copy v5.3 §3 (Teas collection title and intro); "The range" is the home mock's label.
  */
 export function ArchShelf({ items }: { items: ShelfItem[] }) {

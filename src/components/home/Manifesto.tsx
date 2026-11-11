@@ -7,19 +7,28 @@ import { TASTE_FIRST } from "@/lib/content/home";
 import { TEAS_HREF } from "@/lib/config/site";
 import styles from "./Manifesto.module.css";
 
-/** Resolves a colour token to RGB so the scroll can blend between two of them. */
+/**
+ * Resolves a colour token to 0–255 RGB so the scroll can blend between two of them. Painted through a canvas,
+ * because `color-mix()` tokens compute to `color(srgb 0–1 …)`, not `rgb()`.
+ */
 function readColour(token: string, fallback: [number, number, number]): [number, number, number] {
   const probe = document.createElement("span");
   probe.style.color = `var(${token})`;
   document.body.appendChild(probe);
-  const m = getComputedStyle(probe).color.match(/[\d.]+/g);
+  const css = getComputedStyle(probe).color;
   probe.remove();
-  return m && m.length >= 3 ? [Number(m[0]), Number(m[1]), Number(m[2])] : fallback;
+  const ctx = document.createElement("canvas").getContext("2d");
+  if (!ctx) return fallback;
+  ctx.fillStyle = css;
+  ctx.fillRect(0, 0, 1, 1);
+  const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+  return [r ?? fallback[0], g ?? fallback[1], b ?? fallback[2]];
 }
 
 /**
- * "Taste comes first." (copy v5.3 §1): words light up with scroll (unlit words stay readable, 3.6:1 at this
- * size), key words get a gold underline on cream, and the bowl fills with matcha.
+ * "Taste comes first." (copy v5.3 §1): the paragraph types itself in as you scroll, letter by letter, from the
+ * unlit colour (still readable, 3.6:1 at this size) to charcoal. Key words get a gold underline on cream that
+ * draws as they are typed, and the bowl fills with matcha.
  */
 export function Manifesto({ words }: { words: Array<{ w: string; key: boolean }> }) {
   const ref = useRef<HTMLElement>(null);
@@ -27,21 +36,32 @@ export function Manifesto({ words }: { words: Array<{ w: string; key: boolean }>
   useEffect(() => {
     const section = ref.current;
     if (!section) return;
-    const els = section.querySelectorAll<HTMLElement>("[data-w]");
+    const chars = Array.from(section.querySelectorAll<HTMLElement>("[data-c]"));
+    const keys = Array.from(section.querySelectorAll<HTMLElement>("[data-w]")).flatMap((w) => {
+      const line = w.querySelector<HTMLElement>("[data-u]");
+      const own = Array.from(w.querySelectorAll<HTMLElement>("[data-c]"));
+      return line && own.length ? [{ line, from: chars.indexOf(own[0]!), len: own.length }] : [];
+    });
     const fill = section.querySelector<HTMLElement>("[data-fill]");
     const foam = section.querySelector<HTMLElement>("[data-foam-ring]");
     const lit = readColour("--text-primary", [56, 56, 50]);
-    const unread = readColour("--text-unlit", [138, 136, 128]);
+    const unlit = readColour("--text-unlit", [138, 136, 128]);
+    const shown = new Array<number>(chars.length).fill(-1);
     return onFrame(({ now }) => {
       const motion = motionAllowed();
       const p = motion ? sectionProgress(section) : 1;
-      const count = p * els.length * 1.15;
-      els.forEach((w, i) => {
-        const t = clamp01(count - i);
-        const c = unread.map((u, k) => Math.round(u + (lit[k]! - u) * t));
-        w.style.color = `rgb(${c[0]},${c[1]},${c[2]})`;
-        const u = w.firstElementChild as HTMLElement | null;
-        if (u) u.style.transform = `rotate(-1.2deg) scaleX(${t.toFixed(3)})`;
+      // Finishes typing a little before the section ends, so the last line sits lit for a moment.
+      const count = p * chars.length * 1.2;
+      chars.forEach((c, i) => {
+        // Each letter flips over about two letters' worth of scroll: quick enough to read as typing.
+        const t = Math.round(clamp01((count - i) / 2) * 20) / 20;
+        if (shown[i] === t) return;
+        shown[i] = t;
+        const rgb = unlit.map((u, k) => Math.round(u + (lit[k]! - u) * t));
+        c.style.color = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
+      });
+      keys.forEach(({ line, from, len }) => {
+        line.style.transform = `rotate(-1.2deg) scaleX(${clamp01((count - from) / len).toFixed(3)})`;
       });
       if (fill) fill.style.height = `${(14 + 66 * p).toFixed(1)}%`;
       if (foam && loopsAllowed()) foam.style.transform = `rotate(${((now * 0.006) % 360).toFixed(1)}deg)`;
@@ -72,8 +92,12 @@ export function Manifesto({ words }: { words: Array<{ w: string; key: boolean }>
             {words.map((w, i) => (
               <Fragment key={i}>
                 <span data-w="" className={styles.word}>
-                  {w.key ? <span className={styles.underline} aria-hidden="true" /> : null}
-                  {w.w}
+                  {w.key ? <span data-u="" className={styles.underline} aria-hidden="true" /> : null}
+                  {Array.from(w.w).map((ch, j) => (
+                    <span key={j} data-c="" className={styles.char}>
+                      {ch}
+                    </span>
+                  ))}
                 </span>{" "}
               </Fragment>
             ))}

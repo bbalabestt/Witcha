@@ -36,17 +36,14 @@
   gap: var(--space-4);
 }
 
-.slot {
-  perspective: 1200px;
-}
-
 .card {
-  position: relative;
-  display: block;
-  width: 100%;
-  min-height: 320px;
-  transform-style: preserve-3d;
-  transition: transform 0.9s cubic-bezier(0.34, 1.45, 0.5, 1);
+  height: 100%;
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--surface-page);
+  border: 1px solid var(--line-on-mint);
   text-decoration: none;
 }
 
@@ -54,27 +51,46 @@
   color: var(--text-primary);
 }
 
-.front,
-.back {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+.photoArch {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: 1px solid var(--line-control);
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+  background: var(--surface-page);
 }
 
-.front {
-  padding: 28px;
+.photo {
+  position: absolute;
+  inset: 16% 22% 4%;
   display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  background: var(--surface-page);
-  border: 1px solid var(--line-on-mint);
+  align-items: flex-end;
+  justify-content: center;
+  transition: transform 0.6s var(--ease-out);
+}
+
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+  .card:hover .photo {
+    transform: scale(1.06);
+  }
 }
 
 .n {
+  position: absolute;
+  top: 18px;
+  left: 0;
+  right: 0;
+  text-align: center;
   font-family: var(--font-display);
-  font-size: 64px;
+  font-size: 20px;
   line-height: 1;
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
 }
 
 .name {
@@ -84,72 +100,13 @@
 }
 
 .meas {
-  margin-top: auto;
-}
-
-.back {
-  padding: var(--space-3);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  background: var(--surface-page);
-  border: 1px solid var(--line-on-mint);
-  transform: rotateY(180deg);
-}
-
-.photoArch {
-  position: relative;
   flex: 1;
-  overflow: hidden;
-  border: 1px solid var(--line-control);
-  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
-  background: var(--surface-page);
-}
-
-.photo {
-  position: absolute;
-  inset: 14% 18% 4%;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  transform: scale(1.4);
-  transition: transform 1.2s var(--ease-out);
 }
 
 .backFoot {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--space-2);
   font-size: 12px;
   line-height: 16px;
   font-weight: 500;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-}
-
-.card[data-flipped] {
-  transform: rotateY(180deg);
-}
-
-.card[data-flipped] .photo {
-  transform: scale(1);
-}
-
-/* Reduced motion: the back fades in over the front instead of flipping. */
-@media (prefers-reduced-motion: reduce) {
-  .card[data-flipped] {
-    transform: none;
-  }
-  .back {
-    transform: none;
-    opacity: 0;
-    transition: opacity 0.5s;
-  }
-  .card[data-flipped] .back {
-    opacity: 1;
-  }
-  .photo {
-    transform: none;
-  }
 }
