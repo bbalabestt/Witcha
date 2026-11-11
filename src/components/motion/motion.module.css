@@ -1,0 +1,313 @@
+/* Everything the tea does. Motion lives inside no-preference blocks, so the still drawing is the default. */
+
+.scene {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* Only what animates: a fill-box origin would also move the plain transform attributes that position a drawing. */
+.whisk,
+.swirling,
+.swirlingBack,
+.foamBed,
+.popping,
+.falling,
+.bobbing,
+.sloshing,
+.sifting {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.line {
+  fill: none;
+  stroke: var(--brand-charcoal);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cream {
+  fill: var(--brand-cream);
+  stroke: var(--brand-charcoal);
+  stroke-width: 1.5;
+}
+
+.matcha {
+  fill: var(--tea-matcha);
+}
+
+.hojicha {
+  fill: var(--tea-hojicha);
+}
+
+.foamBed {
+  fill: color-mix(in srgb, var(--tea-matcha) 72%, var(--brand-cream));
+}
+
+.bubble {
+  fill: color-mix(in srgb, var(--tea-matcha) 38%, var(--brand-cream));
+}
+
+.swirl {
+  fill: none;
+  stroke: color-mix(in srgb, var(--tea-matcha) 30%, var(--brand-cream));
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.milk {
+  fill: color-mix(in srgb, var(--tea-matcha) 22%, var(--brand-cream));
+}
+
+.layer {
+  fill: color-mix(in srgb, var(--tea-matcha) 80%, var(--brand-cream));
+}
+
+.layerHojicha {
+  fill: color-mix(in srgb, var(--tea-hojicha) 80%, var(--brand-cream));
+}
+
+.ice {
+  fill: color-mix(in srgb, var(--brand-cream) 72%, transparent);
+  stroke: var(--brand-charcoal);
+  stroke-width: 1;
+}
+
+.steam {
+  fill: none;
+  stroke: var(--brand-charcoal-soft);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  opacity: 0.45;
+}
+
+.whiskTines {
+  fill: var(--brand-cream);
+  stroke: var(--brand-charcoal);
+  stroke-width: 1.25;
+  stroke-linejoin: round;
+}
+
+/* ---------- Liquid edge ---------- */
+
+.edge {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: clamp(14px, 2.4vw, 30px);
+  overflow: hidden;
+  color: var(--surface-page);
+  pointer-events: none;
+}
+
+.edgeBottom {
+  bottom: -1px;
+}
+
+.edgeTop {
+  top: -1px;
+  transform: scaleY(-1);
+}
+
+.edge svg {
+  display: block;
+  width: max(200%, 1800px);
+  height: 100%;
+  fill: currentColor;
+}
+
+/* ---------- Brand line ---------- */
+
+.strip {
+  position: relative;
+  overflow: hidden;
+  padding-block: 12px;
+  border-bottom: 1px solid var(--line-hairline);
+  font-family: var(--font-serif);
+  font-style: italic;
+  white-space: nowrap;
+}
+
+.stripTrack {
+  display: flex;
+  width: max-content;
+}
+
+.stripGroup {
+  display: flex;
+  flex: none;
+}
+
+.stripGroup span {
+  padding-inline: var(--space-3);
+}
+
+/* ---------- Pause control ---------- */
+
+.toggle {
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.toggleText {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toggle {
+    display: none;
+  }
+  .stripTrack {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .stripPlain {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .stripTrack {
+    animation: drift 46s linear infinite;
+  }
+
+  .strip:hover .stripTrack {
+    animation-play-state: paused;
+  }
+
+  .edge svg {
+    animation: wave 14s linear infinite;
+  }
+
+  .edgeSlow svg {
+    animation-duration: 20s;
+  }
+
+  .whisk {
+    animation: whiskM 2.8s ease-in-out infinite;
+  }
+
+  .swirling {
+    animation: spin 16s linear infinite;
+  }
+
+  .swirlingBack {
+    animation: spin 11s linear infinite reverse;
+  }
+
+  .foamBed {
+    animation: breathe 2.8s ease-in-out infinite;
+  }
+
+  .popping {
+    animation: pop 2.4s var(--ease-out) infinite;
+    animation-delay: calc(var(--d, 0) * 1s);
+  }
+
+  .steam {
+    stroke-dasharray: 0.34 0.66;
+    animation: rise-steam 4.2s ease-in-out infinite;
+    animation-delay: calc(var(--d, 0) * 1s);
+  }
+
+  .falling {
+    animation: fall 2.6s ease-in infinite;
+    animation-delay: calc(var(--d, 0) * 1s);
+  }
+
+  .bobbing {
+    animation: bob 3.4s ease-in-out infinite;
+    animation-delay: calc(var(--d, 0) * 1s);
+  }
+
+  .sloshing {
+    animation: slosh 3.8s ease-in-out infinite;
+  }
+
+  .sliding {
+    animation: wave 5s linear infinite;
+  }
+
+  .sifting {
+    animation: sift 1.3s ease-in-out infinite;
+  }
+
+  .settling {
+    animation: settle 900ms var(--ease-out) both;
+  }
+}
+
+@keyframes drift {
+  to { transform: translateX(-50%); }
+}
+
+@keyframes wave {
+  to { transform: translateX(-50%); }
+}
+
+/* The copy's own "M" motion: the whisk draws it back and forth across the bowl. */
+@keyframes whiskM {
+  0%, 100% { transform: translate(-40px, 22px) rotate(-5deg); }
+  12.5% { transform: translate(-22px, -24px) rotate(3deg); }
+  25% { transform: translate(-4px, 16px) rotate(-4deg); }
+  37.5% { transform: translate(14px, -24px) rotate(4deg); }
+  50% { transform: translate(36px, 22px) rotate(6deg); }
+  62.5% { transform: translate(14px, -24px) rotate(4deg); }
+  75% { transform: translate(-4px, 16px) rotate(-4deg); }
+  87.5% { transform: translate(-22px, -24px) rotate(3deg); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes breathe {
+  50% { transform: scale(1.05); }
+}
+
+@keyframes pop {
+  0% { transform: scale(0); opacity: 0; }
+  30% { transform: scale(1); opacity: 1; }
+  70% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+@keyframes rise-steam {
+  0% { stroke-dashoffset: 1; opacity: 0; }
+  30% { opacity: 0.55; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
+
+@keyframes fall {
+  0% { transform: translateY(-6px); opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: translateY(var(--fall, 90px)); opacity: 0; }
+}
+
+@keyframes bob {
+  50% { transform: translateY(-5px) rotate(5deg); }
+}
+
+@keyframes slosh {
+  50% { transform: translateY(-2.5px); }
+}
+
+@keyframes sift {
+  50% { transform: translateX(5px); }
+}

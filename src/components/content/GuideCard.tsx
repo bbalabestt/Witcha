@@ -8,9 +8,9 @@ export const METHOD_LABEL: Record<Guide["method"], string> = { whisk: "Whisk", f
 /** 3:2 image, method · time label, serif title. */
 export function GuideCard({ guide, showTime = true }: { guide: Guide; showTime?: boolean }) {
   return (
-    <Link href={`/blogs/brewing-guides/${guide.handle}`} className={styles.guideCard} data-reveal="up">
+    <Link href={`/blogs/brewing-guides/${guide.handle}`} className={styles.guideCard}>
       <span className={styles.guideImage}>
-        <Image src={guide.image.url} alt="" fill sizes="(max-width: 699px) 92vw, 30vw" className={styles.cover} />
+        {guide.image ? <Image src={guide.image.url} alt="" fill sizes="(max-width: 699px) 92vw, 30vw" className={styles.cover} /> : null}
       </span>
       <span className="label">
         {METHOD_LABEL[guide.method]}

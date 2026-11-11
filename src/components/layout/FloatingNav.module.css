@@ -45,14 +45,14 @@
   bottom: auto;
   left: 16px;
   background: var(--action-primary);
-  color: var(--text-on-dark);
+  color: var(--action-primary-text);
   transform: translateY(-24px);
 }
 
 .archTop {
   right: 16px;
   overflow: hidden;
-  background: var(--action-secondary-fill);
+  background: transparent;
   border: 1.5px solid var(--line-control);
   transform: translateX(24px);
 }
@@ -114,7 +114,7 @@
 }
 
 .roundTop {
-  background: var(--action-secondary-fill);
+  background: transparent;
   border: 1.5px solid var(--line-control);
 }
 
@@ -126,8 +126,15 @@
   .archTop {
     display: none;
   }
+  /* Smaller and label-free on phones, so the arch covers as little of a heading as possible (vendor list P2). */
   .archMenu {
     left: 12px;
+    width: 46px;
+    height: 54px;
+    padding-bottom: 12px;
+  }
+  .archMenu .archLabel {
+    display: none;
   }
   .pill {
     display: flex;

@@ -17,18 +17,18 @@ export function productJsonLd(p: Product, siteUrl: string): string {
     v && !v.price.placeholder
       ? p.variants.map((x) => ({
           "@type": "Offer",
-          sku: x.id,
+          sku: x.sku,
           price: x.price.amount.toFixed(2),
           priceCurrency: x.price.currencyCode,
           availability: x.availableForSale ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-          url: `${siteUrl}/products/${p.handle}?variant=${encodeURIComponent(x.id)}`,
+          url: `${siteUrl}/products/${p.handle}`,
         }))
       : undefined;
   return json({
     "@context": "https://schema.org",
     "@type": "Product",
     name: p.title,
-    description: p.description,
+    description: p.seoDescription ?? p.description,
     brand: { "@type": "Brand", name: "WITCHA MATCHA" },
     image: p.tin ? [absolute(p.tin.url, siteUrl)] : undefined,
     offers,

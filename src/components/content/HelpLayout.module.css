@@ -57,5 +57,5 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  background: var(--surface-soft);
+  background: var(--surface-page);
 }

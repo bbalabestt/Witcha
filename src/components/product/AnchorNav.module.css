@@ -7,14 +7,18 @@
   border-bottom: 1px solid var(--line-hairline);
 }
 
+/* Clears the floating menu and cart arches in the corners. */
 .inner {
   display: flex;
   gap: 32px;
   overflow-x: auto;
+  padding-inline: max(var(--gutter), 84px);
 }
 
 .link {
-  padding: var(--space-3) 0;
+  min-height: var(--touch-target);
+  display: flex;
+  align-items: center;
   white-space: nowrap;
   font-size: 12px;
   line-height: 16px;
@@ -27,10 +31,4 @@
 .link:hover {
   text-decoration: underline;
   text-underline-offset: 4px;
-}
-
-@media (max-width: 1199px) {
-  .nav {
-    display: none;
-  }
 }

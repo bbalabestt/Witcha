@@ -1,5 +1,6 @@
 import "server-only";
 import { cacheLife, cacheTag } from "next/cache";
+import { LIVE } from "@/lib/config/launch";
 import { repository } from "./index";
 import type { CollectionQuery } from "./repository";
 
@@ -46,7 +47,8 @@ export async function search(query: string) {
   "use cache";
   cacheLife("minutes");
   cacheTag(TAGS.products, TAGS.content);
-  return repository().search(query);
+  const results = await repository().search(query);
+  return LIVE.guides ? results : { ...results, guides: [] };
 }
 
 export async function getGuides() {
@@ -75,13 +77,6 @@ export async function getFaq() {
   cacheLife("hours");
   cacheTag(TAGS.content);
   return repository().getFaq();
-}
-
-export async function getCharacters() {
-  "use cache";
-  cacheLife("hours");
-  cacheTag(TAGS.content);
-  return repository().getCharacters();
 }
 
 export async function getPolicies() {

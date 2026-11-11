@@ -42,7 +42,7 @@
 
 .dark {
   background: var(--action-primary);
-  color: var(--text-on-dark);
+  color: var(--action-primary-text);
   padding: var(--space-4);
 }
 

@@ -11,8 +11,8 @@ import { ToastProvider, useToast } from "@/components/ui/Toast";
 import styles from "./page.module.css";
 
 const SIZES: PillOption[] = [
-  { value: "30g", label: "30 g", sub: "$[48.00]", available: true },
-  { value: "100g", label: "100 g", sub: "+$[92.00]", available: false },
+  { value: "30g", label: "30 g", sub: "$48.00", available: true },
+  { value: "100g", label: "100 g", sub: "+$92.00", available: false },
 ];
 
 function Steppers() {
@@ -79,7 +79,7 @@ function AtcStates() {
       window.setTimeout(() => setStatus("idle"), 2000);
     }, 700);
   }
-  const label = status === "loading" ? "Adding…" : status === "success" ? "Added" : "Add to cart · $[48.00]";
+  const label = status === "loading" ? "Adding…" : status === "success" ? "Added" : "Add to cart · $48.00";
   return (
     <Button status={status} onClick={run} aria-live="polite">
       {label}

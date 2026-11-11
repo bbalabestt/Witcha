@@ -54,7 +54,7 @@
   height: var(--control-md);
   padding: 0 14px;
   font-size: 14px;
-  background: var(--action-secondary-fill);
+  background: transparent;
   border: 1px solid var(--line-control);
   border-radius: var(--radius-sm);
   position: relative;
@@ -67,7 +67,7 @@
 }
 
 .chip:hover {
-  background: var(--surface-hover);
+  background: transparent;
 }
 
 .seeAll {
@@ -98,7 +98,7 @@
 }
 
 .hit:hover {
-  background: var(--surface-hover);
+  background: transparent;
   color: var(--text-primary);
 }
 
@@ -112,7 +112,7 @@
   width: 56px;
   aspect-ratio: 4 / 5;
   flex: none;
-  background: var(--surface-soft);
+  background: var(--surface-page);
   border: 1px solid var(--line-hairline);
 }
 

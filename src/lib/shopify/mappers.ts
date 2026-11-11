@@ -1,12 +1,10 @@
 import { cartTotals } from "@/lib/data/cart-math";
 import { money } from "@/lib/data/money";
-import { badgeFor, eyebrow, normaliseCompareAt } from "@/lib/data/product";
+import { normaliseCompareAt, teaTypeFrom } from "@/lib/data/product";
 import { GIFT_NOTE_MAX } from "@/lib/data/repository";
 import type {
-  BestFor,
   Cart,
   CartLine,
-  Character,
   FaqCategory,
   FaqEntry,
   GalleryItem,
@@ -18,7 +16,6 @@ import type {
   Product,
   ProductKind,
   SiteSettings,
-  Taste,
   Variant,
 } from "@/lib/data/types";
 import type { SArticle, SCart, SImage, SMetafield, SMetaobject, SMoney, SProduct } from "./types";
@@ -51,22 +48,6 @@ export function list(m: SMetafield): string[] {
   }
 }
 
-function int(m: SMetafield): number | null {
-  const n = Number(text(m));
-  return Number.isFinite(n) && n > 0 ? Math.trunc(n) : null;
-}
-
-/** Taste word when `custom.taste_role` is not set: positions 1–2 bright, 3 balanced, 4–5 deep. */
-export function tasteWordFor(position: number): string {
-  return position <= 2 ? "Bright" : position === 3 ? "Balanced" : "Deep";
-}
-
-export function mapTaste(position: SMetafield, tier: SMetafield, word: SMetafield): Taste | null {
-  const p = int(position);
-  if (!p || p > 5) return null;
-  return { position: p as Taste["position"], tier: text(tier) ?? "", word: text(word) ?? tasteWordFor(p) };
-}
-
 function kindFor(productType: string, tags: string[]): ProductKind {
   const t = `${productType} ${tags.join(" ")}`.toLowerCase();
   if (/\bgift/.test(t)) return "gift";
@@ -78,79 +59,67 @@ function fields(obj: SMetaobject): Record<string, { value: string | null; image:
   return Object.fromEntries(obj.fields.map((f) => [f.key, { value: f.value, image: f.reference?.image ?? null }]));
 }
 
-export function mapCharacter(obj: SMetaobject | null | undefined): Character | null {
-  if (!obj) return null;
-  const f = fields(obj);
-  const name = f.name?.value?.trim() ?? "";
-  return {
-    handle: obj.handle,
-    name: name || "[Name pending]",
-    namePending: !name,
-    role: f.taste_role?.value ?? "",
-    story: f.story?.value ?? null,
-    accessory: f.accessory?.value ?? null,
-    art: mapImage(f.art?.image, name || "Character art"),
-    concept: f.concept?.value === "true",
-    productHandle: f.product_handle?.value ?? null,
-  };
-}
-
-export function mapVariant(v: SProduct["variants"]["nodes"][number], productServings: number | null, opts: MapOptions): Variant {
+export function mapVariant(v: SProduct["variants"]["nodes"][number], opts: MapOptions): Variant {
   const price = mapMoney(v.price, opts);
   return {
     id: v.id,
+    sku: v.sku ?? "",
     title: v.title === "Default Title" ? "" : v.title,
     price,
     compareAtPrice: normaliseCompareAt(price, v.compareAtPrice ? mapMoney(v.compareAtPrice, opts) : null),
     availableForSale: v.availableForSale,
     quantityAvailable: v.quantityAvailable,
-    servings: int(v.servings) ?? productServings,
   };
 }
 
-const GALLERY_LABELS = ["TIN PACK SHOT", "POWDER COLOUR (TRUE)", "HANDS WHISKING", "ICED LATTE", "TIN + ARCH ART", "SIZE / SCALE SHOT"];
-
+/** Product title is the full customer name, "Academy title — descriptor". Empty metafields hide their block. */
 export function mapProduct(p: SProduct, opts: MapOptions): Product {
-  const servings = int(p.servings);
-  const variants = p.variants.nodes.map((v) => mapVariant(v, servings, opts));
+  const variants = p.variants.nodes.map((v) => mapVariant(v, opts));
   const images = p.images.nodes.map((img) => mapImage(img, p.title)).filter((i): i is Image => i !== null);
-  const gallery: GalleryItem[] = images.map((image, i) => ({
-    kind: "image",
-    image,
-    // The pack shot sits on a soft panel; lifestyle images fill the frame.
-    fit: i === 0 ? "contain" : "cover",
-    label: GALLERY_LABELS[i] ?? "PRODUCT PHOTO",
-  }));
-  const origin = text(p.originRegion);
+  // The pack shot sits on a soft panel; lifestyle images fill the frame.
+  const gallery: GalleryItem[] = images.map((image, i) => ({ image, fit: i === 0 ? "contain" : "cover" }));
   const kind = kindFor(p.productType, p.tags);
+  const type = text(p.teaType);
+  const origin = text(p.originRegion);
+  const [academyTitle = p.title, titleDescriptor = ""] = p.title.split(" — ");
+  const compareHandle = p.compareProduct?.reference?.handle;
+  const compareLine = text(p.compareLine);
   return {
     id: p.id,
     handle: p.handle,
     kind,
     title: p.title,
+    academyTitle,
+    descriptor: text(p.descriptor) ?? titleDescriptor,
+    teaType: kind === "tea" ? teaTypeFrom(`${type ?? ""} ${p.productType} ${p.title}`) : null,
+    detailLine: text(p.detailLine),
     description: p.description,
+    seoDescription: p.seo?.description?.trim() || null,
     tags: p.tags,
-    badge: badgeFor(p.tags, variants),
-    tin: mapImage(p.featuredImage, p.title),
-    gallery: gallery.length ? gallery : [{ kind: "placeholder", label: "PRODUCT PHOTO" }],
+    // Vendor list: "The Professor — Yame Matcha, 30 g white tin". Hojicha is in the black tin.
+    tin: mapImage(p.featuredImage, `${p.title}, 30 g ${/hojicha/i.test(p.title) ? "black" : "white"} tin`),
+    gallery,
     variants,
-    taste: kind === "tea" ? mapTaste(p.tastePosition, p.tier, p.tasteWord) : null,
     tastingNotes: list(p.tastingNotes).slice(0, 3),
-    bestFor: list(p.bestFor).filter((b): b is BestFor => b === "Latte" || b === "Straight" || b === "Iced"),
-    facts: origin
-      ? {
-          origin,
-          cultivar: text(p.cultivar) ?? "",
-          harvest: text(p.harvest) ?? "",
-          grade: text(p.gradeDescription) ?? "",
-          netWeight: text(p.netWeight) ?? variants[0]?.title ?? "",
-          packDate: text(p.packDateNote) ?? "",
-          ingredients: text(p.ingredients) ?? "",
-        }
-      : null,
+    bestForShort: text(p.bestForShort),
+    bestFor: text(p.bestFor),
+    chooseItIf: text(p.chooseItIf),
+    compare: compareHandle && compareLine ? { handle: compareHandle, line: compareLine } : null,
+    facts:
+      type && origin
+        ? {
+            type,
+            origin,
+            cultivar: text(p.cultivar),
+            harvest: text(p.harvest),
+            ingredients: text(p.ingredients),
+            netWeight: text(p.netWeight) ?? variants[0]?.title ?? "",
+            packedIn: text(p.packedIn) ?? "",
+            caffeine: text(p.caffeine) ?? "",
+          }
+        : null,
     storageNote: text(p.storageNote),
-    character: mapCharacter(p.character?.reference),
-    pending: text(p.pending) === "true",
+    servingsNote: text(p.servingsNote),
   };
 }
 
@@ -215,27 +184,26 @@ export function mapFaq(obj: SMetaobject): FaqEntry | null {
 export function mapSiteSettings(obj: SMetaobject | null, fallback: SiteSettings, opts: MapOptions): SiteSettings {
   if (!obj) return fallback;
   const f = fields(obj);
-  const str = (k: string, d: string) => f[k]?.value?.trim() || d;
-  const num = (k: string, d: Money) => {
+  const str = (k: string) => f[k]?.value?.trim() || null;
+  const num = (k: string) => {
     const n = Number(f[k]?.value);
-    return Number.isFinite(n) && f[k]?.value ? money(n, opts.placeholderPrices) : d;
+    return Number.isFinite(n) && f[k]?.value ? money(n, opts.placeholderPrices) : null;
   };
   return {
-    freeShippingThreshold: num("free_shipping_threshold", fallback.freeShippingThreshold),
-    standardShipping: num("standard_shipping", fallback.standardShipping),
-    expressShipping: num("express_shipping", fallback.expressShipping),
-    dispatchDays: str("dispatch_days", fallback.dispatchDays),
-    dispatchCity: str("dispatch_city", fallback.dispatchCity),
-    deliveryDays: str("delivery_days", fallback.deliveryDays),
-    expressDays: str("express_days", fallback.expressDays),
-    returnsDays: str("returns_days", fallback.returnsDays),
-    refundDays: str("refund_days", fallback.refundDays),
-    lowStockThreshold: Number(f.low_stock_threshold?.value) || fallback.lowStockThreshold,
-    giftCutoff: str("gift_cutoff", fallback.giftCutoff),
-    openedShelfLife: str("opened_shelf_life", fallback.openedShelfLife),
-    supportEmail: str("support_email", fallback.supportEmail),
-    abn: str("abn", fallback.abn),
-    replyTime: str("reply_time", fallback.replyTime),
+    freeShippingThreshold: num("free_shipping_threshold"),
+    standardShipping: num("standard_shipping"),
+    expressShipping: num("express_shipping"),
+    dispatchDays: str("dispatch_days"),
+    dispatchCity: str("dispatch_city"),
+    deliveryDays: str("delivery_days"),
+    expressDays: str("express_days"),
+    returnsDays: str("returns_days"),
+    refundDays: str("refund_days"),
+    giftCutoff: str("gift_cutoff"),
+    supportEmail: str("support_email"),
+    replyTime: str("reply_time"),
+    legalEntity: str("legal_entity") ?? fallback.legalEntity,
+    abn: str("abn") ?? fallback.abn,
   };
 }
 
@@ -243,7 +211,6 @@ export function mapCart(c: SCart, opts: MapOptions): Cart {
   const lines: CartLine[] = c.lines.nodes.map((l) => {
     const m = l.merchandise;
     const kind = kindFor(m.product.productType, []);
-    const taste = mapTaste(m.product.tastePosition, m.product.tier, m.product.tasteWord);
     return {
       id: l.id,
       merchandiseId: m.id,
@@ -253,7 +220,7 @@ export function mapCart(c: SCart, opts: MapOptions): Cart {
         handle: m.product.handle,
         title: m.product.title,
         kind,
-        eyebrow: eyebrow({ kind, taste }),
+        teaType: kind === "tea" ? teaTypeFrom(`${m.product.productType} ${m.product.title}`) : null,
         tin: mapImage(m.product.featuredImage, m.product.title),
       },
       variant: {

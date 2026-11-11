@@ -1,0 +1,75 @@
+/* Sits on the mint hero: charcoal text only, a hairline rule in charcoal (gold is for cream). */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.needs {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--text-secondary);
+}
+
+.steps {
+  margin: 4px 0 0;
+  padding: 12px 0 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-top: 1px solid var(--line-on-mint);
+}
+
+.steps li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--text-secondary);
+  transition: color 400ms var(--ease-out);
+}
+
+.n {
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 20px;
+}
+
+/* The step the bowl is showing, and the ones already done, read in full charcoal. */
+.steps li[data-state="now"],
+.steps li[data-state="done"] {
+  color: var(--text-primary);
+}
+
+/* A hairline under the current step fills while the bowl plays it. */
+.steps li[data-state="now"]::after {
+  content: "";
+  position: absolute;
+  left: 36px;
+  right: 0;
+  bottom: -6px;
+  height: 1px;
+  background: var(--line-on-mint);
+  transform-origin: left;
+  animation: fill 1.4s var(--ease-out) both;
+}
+
+.best {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+@keyframes fill {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .steps li[data-state="now"]::after {
+    animation: none;
+  }
+}

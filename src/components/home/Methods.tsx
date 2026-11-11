@@ -1,73 +1,63 @@
-"use client";
-
 import Link from "next/link";
-import { useState } from "react";
-import { hoverCapable } from "@/components/motion/runtime";
+import type { ReactNode } from "react";
+import { RecipeDrawing, WhiskedBowl } from "@/components/motion/MatchaScenes";
 import { Icon, type IconName } from "@/components/ui/Icon";
-import type { MethodId } from "@/lib/data/types";
+import { YOUR_CUP } from "@/lib/content/home";
 import styles from "./Methods.module.css";
 
-export type MethodCard = { id: MethodId; name: string; summary: string; photo: string; href: string };
+const RECIPES_HREF = "/pages/recipes";
 
-const ICON: Record<MethodId, IconName> = { whisk: "whisk", frother: "frother", shaker: "shaker", iced: "iced" };
-const STARS: Array<[number, number, number]> = [[4, 10, 12], [30, 6, 8], [70, 8, 10], [94, 20, 12], [88, 88, 9], [8, 90, 8]];
+/** Icon and drawing for each method note, in copy v5.3 §4 order: whisk, frother, shaker, cold whisk. */
+const LOOK: Array<{ icon: IconName; scene: () => ReactNode }> = [
+  { icon: "whisk", scene: () => <WhiskedBowl /> },
+  { icon: "frother", scene: () => <RecipeDrawing id="iced-matcha-latte" /> },
+  { icon: "shaker", scene: () => <RecipeDrawing id="iced-matcha-americano" /> },
+  { icon: "iced", scene: () => <RecipeDrawing id="usucha" /> },
+];
 
 /**
- * "A little magic, made at home": four method cards that flip in 3D on hover or keyboard focus (0.9 s, slight
- * overshoot). The back is an arch-topped photo that zooms out. No flip on touch; a cross-fade under reduced motion.
+ * "Your cup. Your way." (copy v5.3 §1) with the four method notes (§4). Each card shows what was V4's flip
+ * side, always: an arch with a drawing of the drink, the method and its note. No flip (project lead).
  */
-export function Methods({ methods }: { methods: MethodCard[] }) {
-  const [flip, setFlip] = useState<MethodId | null>(null);
+export function Methods({ notes }: { notes: Array<[string, string]> }) {
   return (
-    <section className={styles.section} data-cat-line="Whisk, whisk, whisk!" aria-labelledby="wm-methods-title">
-      {STARS.map(([l, t, s], i) => (
-        <span key={i} data-twinkle="" aria-hidden="true" className="twinkle" style={{ left: `${l}%`, top: `${t}%`, width: s, height: s }} />
-      ))}
+    <section className={styles.section} aria-labelledby="wm-methods-title">
       <div className={`container ${styles.inner}`}>
         <div className={styles.head}>
-          <h2 id="wm-methods-title" className="display-section" data-reveal="wipe-l">
-            A little magic, <i className="serif-italic">made at home</i>
-          </h2>
-          <Link href="/blogs/brewing-guides" className="label-link" data-reveal="right">
-            All brewing guides
+          <div className={styles.titles}>
+            <h2 id="wm-methods-title" className="display-section" data-reveal="wipe-l">
+              {YOUR_CUP.heading} <i className="serif-italic">{YOUR_CUP.headingItalic}</i>
+            </h2>
+            <p className={styles.body} data-reveal="left" data-delay="120">
+              {YOUR_CUP.body}
+            </p>
+          </div>
+          <Link href={RECIPES_HREF} className="label-link" data-reveal="right">
+            {YOUR_CUP.cta}
           </Link>
         </div>
         <div className={styles.grid}>
-          {methods.map((m, i) => (
-            <div key={m.id} className={styles.slot} data-reveal={i < 2 ? "left" : "right"} data-delay={String([0, 120, 120, 0][i] ?? 0)}>
-              <Link
-                href={m.href}
-                className={styles.card}
-                data-flipped={flip === m.id || undefined}
-                onMouseEnter={() => hoverCapable() && setFlip(m.id)}
-                onMouseLeave={() => setFlip((f) => (f === m.id ? null : f))}
-                onFocus={() => setFlip(m.id)}
-                onBlur={() => setFlip((f) => (f === m.id ? null : f))}
-              >
-                <span className={styles.front}>
-                  <span className={styles.n} aria-hidden="true">
-                    {String(i + 1).padStart(2, "0")}
+          {notes.map(([name, note], i) => {
+            const look = LOOK[i] ?? LOOK[0]!;
+            return (
+              <div key={name} className={styles.slot} data-reveal={i < 2 ? "left" : "right"} data-delay={String([0, 120, 120, 0][i] ?? 0)}>
+                <Link href={RECIPES_HREF} className={styles.card}>
+                  <span className={styles.photoArch} aria-hidden="true">
+                    <span className={styles.photo}>{look.scene()}</span>
+                    <span className={styles.n}>{String(i + 1).padStart(2, "0")}</span>
                   </span>
-                  <Icon name={ICON[m.id]} size={36} />
-                  <span className={styles.name}>{m.name}</span>
-                  <span className={`body-small ${styles.meas}`}>{m.summary}</span>
-                  <span className="visually-hidden">: read the guide</span>
-                </span>
-                <span className={styles.back} aria-hidden="true">
-                  <span className={styles.photoArch}>
-                    <span className={styles.photo} style={{ backgroundImage: `url('${m.photo}')` }} />
-                    <span className={styles.pop}>
-                      <Icon name={ICON[m.id]} size={32} />
-                    </span>
+                  <span className={styles.nameRow}>
+                    <Icon name={look.icon} size={28} />
+                    <span className={styles.name}>{name}</span>
                   </span>
-                  <span className={styles.backFoot}>
-                    <span>{m.name}</span>
-                    <span>Read the guide →</span>
+                  <span className={`body-small ${styles.meas}`}>{note}</span>
+                  <span className={styles.backFoot} aria-hidden="true">
+                    {YOUR_CUP.cta} →
                   </span>
-                </span>
-              </Link>
-            </div>
-          ))}
+                </Link>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

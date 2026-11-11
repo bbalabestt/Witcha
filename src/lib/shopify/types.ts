@@ -8,12 +8,12 @@ export type SMetaobject = { handle: string; fields: SField[] };
 
 export type SVariant = {
   id: string;
+  sku: string | null;
   title: string;
   availableForSale: boolean;
   quantityAvailable: number | null;
   price: SMoney;
   compareAtPrice: SMoney | null;
-  servings: SMetafield;
 };
 
 export type SProduct = {
@@ -26,22 +26,25 @@ export type SProduct = {
   featuredImage: SImage | null;
   images: { nodes: SImage[] };
   variants: { nodes: SVariant[] };
-  servings: SMetafield;
-  tastePosition: SMetafield;
-  tier: SMetafield;
-  tasteWord: SMetafield;
+  descriptor: SMetafield;
+  detailLine: SMetafield;
   tastingNotes: SMetafield;
+  bestForShort: SMetafield;
   bestFor: SMetafield;
+  chooseItIf: SMetafield;
+  compareProduct: { value: string; reference: { handle: string } | null } | null;
+  compareLine: SMetafield;
+  teaType: SMetafield;
   originRegion: SMetafield;
   cultivar: SMetafield;
   harvest: SMetafield;
-  gradeDescription: SMetafield;
-  packDateNote: SMetafield;
-  netWeight: SMetafield;
   ingredients: SMetafield;
+  netWeight: SMetafield;
+  packedIn: SMetafield;
+  caffeine: SMetafield;
   storageNote: SMetafield;
-  pending: SMetafield;
-  character: ({ value: string; reference: SMetaobject | null }) | null;
+  servingsNote: SMetafield;
+  seo: { description: string | null } | null;
 };
 
 export type SArticle = {
@@ -72,9 +75,6 @@ export type SCartLine = {
       title: string;
       productType: string;
       featuredImage: SImage | null;
-      tier: SMetafield;
-      tasteWord: SMetafield;
-      tastePosition: SMetafield;
     };
   };
 };

@@ -75,7 +75,7 @@
 }
 
 .utility:hover {
-  background: var(--surface-hover);
+  background: var(--tint-hover);
 }
 
 .menuButton {
@@ -189,40 +189,14 @@
   line-height: 30px;
 }
 
-.megaTrack {
-  position: relative;
-  height: 28px;
-  border-bottom: 1px solid var(--line-control);
-}
-
-.megaMarker {
-  position: absolute;
-  bottom: 0;
-  width: 17px;
-  height: 24px;
-  background: var(--action-primary);
-  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
-}
-
-/* 44 px hit area around the small marker. */
-.megaMarker::after {
-  content: "";
-  position: absolute;
-  inset: -10px -14px 0;
-}
-
-.ends {
-  display: flex;
-  justify-content: space-between;
-}
-
 .megaArt {
   width: 100%;
   aspect-ratio: 3 / 4;
-  height: auto;
-  object-fit: contain;
-  object-position: center bottom;
-  background: var(--surface-soft);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: var(--space-4);
+  background: var(--surface-page);
   border: 1px solid var(--line-hairline);
   border-radius: var(--radius-arch) var(--radius-arch) 0 0;
 }

@@ -1,55 +1,39 @@
 import Link from "next/link";
-import { Icon } from "@/components/ui/Icon";
+import { LiquidEdge } from "@/components/motion/LiquidEdge";
+import { MotionToggle } from "@/components/motion/MotionToggle";
 import { Logo } from "@/components/ui/Logo";
+import { LIVE } from "@/lib/config/launch";
+import { SOCIAL, TEAS_HREF } from "@/lib/config/site";
 import type { SiteSettings } from "@/lib/data/types";
-import type { SocialReviews } from "@/lib/providers";
-import { FooterReviews } from "./FooterReviews";
 import styles from "./Footer.module.css";
 
-const PAYMENTS = ["Visa", "Mastercard", "Amex", "Apple Pay", "Google Pay", "Shop Pay", "PayPal", "Afterpay"];
+const PAYMENTS = ["Visa", "Mastercard", "Apple Pay", "Afterpay"];
 
 const COLUMNS = [
-  {
-    title: "Shop",
-    links: [
-      { href: "/collections/matcha", label: "Shop Matcha" },
-      { href: "/collections/gifts", label: "Gifts" },
-      { href: "/collections/accessories", label: "Accessories" },
-    ],
-  },
+  { title: "Shop", links: [{ href: TEAS_HREF, label: "Japanese matcha and hojicha" }] },
   {
     title: "Learn",
     links: [
-      { href: "/blogs/brewing-guides", label: "Brewing Guides" },
       { href: "/pages/academy", label: "Witcha Academy" },
-      { href: "/pages/our-story", label: "Our Story" },
+      { href: "/pages/faq", label: "FAQ" },
+      ...(LIVE.guides ? [{ href: "/blogs/brewing-guides", label: "Brewing Guides" }] : []),
+      ...(LIVE.ourStory ? [{ href: "/pages/our-story", label: "Our Story" }] : []),
+      ...(LIVE.shippingReturns ? [{ href: "/pages/shipping-returns", label: "Shipping & Returns" }] : []),
+      ...(LIVE.contact ? [{ href: "/pages/contact", label: "Contact" }] : []),
     ],
   },
 ];
 
-export function Footer({ settings, reviews, accountUrl }: { settings: SiteSettings; reviews: SocialReviews; accountUrl: string }) {
-  const showReviews = reviews.reviews.length > 0;
+export function Footer({ settings }: { settings: SiteSettings }) {
+  const social = SOCIAL.filter((s) => s.href);
   return (
-    <footer className={styles.footer} data-surface-dark="">
+    <footer className={styles.footer}>
+      <LiquidEdge side="top" />
       <div className={`container ${styles.inner}`}>
         <div className={styles.grid}>
           <div className={styles.brand}>
-            <Logo variant="large" tone="reversed" width={180} />
+            <Logo variant="large" width={180} />
             <p className="tagline">Matcha, With Taste.</p>
-            <div className={styles.social}>
-              <a href="https://instagram.com/" className={styles.socialLink} aria-label="Instagram">
-                <Icon name="instagram" />
-              </a>
-              {/* Official TikTok and Pinterest marks come from each platform's brand kit (pending). */}
-              <span className={styles.socialLink} title="TikTok · official mark pending">
-                <span className={styles.markPending} aria-hidden="true" />
-                <span className="visually-hidden">TikTok (link pending)</span>
-              </span>
-              <span className={styles.socialLink} title="Pinterest · official mark pending">
-                <span className={styles.markPending} aria-hidden="true" />
-                <span className="visually-hidden">Pinterest (link pending)</span>
-              </span>
-            </div>
           </div>
           {COLUMNS.map((c) => (
             <nav key={c.title} aria-label={c.title} className={styles.column}>
@@ -61,29 +45,37 @@ export function Footer({ settings, reviews, accountUrl }: { settings: SiteSettin
               ))}
             </nav>
           ))}
-          <nav aria-label="Help" className={styles.column}>
-            <span className="label">Help</span>
-            <Link href="/pages/faq">FAQ</Link>
-            <Link href="/pages/shipping-returns">Shipping &amp; Returns</Link>
-            <Link href="/pages/contact">Contact</Link>
+          {social.length ? (
+            <nav aria-label="Follow" className={styles.column}>
+              <span className="label">Follow</span>
+              {social.map((s) => (
+                <a key={s.label} href={s.href ?? undefined}>
+                  {s.label}
+                </a>
+              ))}
+            </nav>
+          ) : null}
+        </div>
+
+        <div className={styles.rule} />
+        <div className={styles.bottom}>
+          <span>
+            © 2026 {settings.legalEntity} · ABN {settings.abn}
+          </span>
+          <MotionToggle showText />
+          {LIVE.policies ? (
             <span className={styles.policies}>
               <Link href="/policies/privacy-policy">Privacy</Link> · <Link href="/policies/terms-of-service">Terms</Link> ·{" "}
               <Link href="/policies/refund-policy">Refunds</Link>
             </span>
-            <a href={accountUrl}>Sign in</a>
-          </nav>
-        </div>
-
-        {showReviews ? <FooterReviews reviews={reviews} /> : null}
-
-        <div className={styles.gold} />
-        <div className={styles.bottom}>
-          <span>© 2026 WITCHA MATCHA · ABN {settings.abn} · Prices in AUD incl. GST</span>
-          <ul className={styles.payments} aria-label="Payment methods">
-            {PAYMENTS.map((p) => (
-              <li key={p}>{p}</li>
-            ))}
-          </ul>
+          ) : null}
+          {LIVE.paymentBadges ? (
+            <ul className={styles.payments} aria-label="Payment methods">
+              {PAYMENTS.map((p) => (
+                <li key={p}>{p}</li>
+              ))}
+            </ul>
+          ) : null}
         </div>
       </div>
     </footer>

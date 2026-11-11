@@ -1,8 +1,8 @@
 .bandDark {
   overflow: hidden;
   padding: 26px 0;
-  background: var(--surface-inverse);
-  color: var(--text-on-dark);
+  background: var(--surface-brand);
+  color: var(--text-primary);
 }
 
 .bandItems {
@@ -25,19 +25,20 @@
   border-radius: var(--radius-arch) var(--radius-arch) 0 0;
 }
 
+/* On mint: charcoal only (gold is for cream). */
 .archLine {
-  border: 1.5px solid var(--brand-gold);
+  border: 1.5px solid var(--line-on-mint);
   border-bottom: 0;
 }
 
 .archSolid {
-  background: var(--brand-witcha-blue);
+  background: var(--action-primary);
 }
 
 .bandSoft {
   overflow: hidden;
   padding: 14px 0;
-  background: var(--surface-soft);
+  background: var(--surface-page);
   border-bottom: 1px solid var(--line-hairline);
 }
 

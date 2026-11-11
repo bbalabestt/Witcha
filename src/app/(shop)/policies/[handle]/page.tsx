@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { LIVE } from "@/lib/config/launch";
+import { brandTitle } from "@/lib/content/seo";
 import { getPolicies } from "@/lib/data/catalog";
 import { sanitizeHtml } from "@/lib/html";
 import styles from "./page.module.css";
@@ -12,15 +14,16 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/policies/[handle]">): Promise<Metadata> {
   const { handle } = await params;
   const p = (await getPolicies()).find((x) => x.handle === handle);
-  return p ? { title: p.title, alternates: { canonical: `/policies/${handle}` } } : {};
+  return p ? { title: brandTitle(p.title), alternates: { canonical: `/policies/${handle}` } } : {};
 }
 
 /** One template for Shopify shop policies: contents list on the left, a readable column on the right. */
 export default async function PolicyPage({ params }: PageProps<"/policies/[handle]">) {
+  if (!LIVE.policies) notFound();
   const { handle } = await params;
   const policies = await getPolicies();
   const policy = policies.find((p) => p.handle === handle);
-  if (!policy) notFound();
+  if (!policy?.body) notFound();
   return (
     <section className={`container ${styles.layout}`}>
       <nav aria-label="Policies" className={styles.toc}>

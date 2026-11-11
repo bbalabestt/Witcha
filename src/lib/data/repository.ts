@@ -1,6 +1,5 @@
 import type {
   Cart,
-  Character,
   CollectionPage,
   FaqEntry,
   Guide,
@@ -34,7 +33,6 @@ export interface CommerceRepository {
   getGuide(handle: string): Promise<Guide | null>;
   getPrepMethods(): Promise<PrepMethod[]>;
   getFaq(): Promise<FaqEntry[]>;
-  getCharacters(): Promise<Character[]>;
   getPolicies(): Promise<Policy[]>;
   getSiteSettings(): Promise<SiteSettings>;
 

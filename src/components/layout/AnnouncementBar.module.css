@@ -5,8 +5,8 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background: var(--surface-inverse);
-  color: var(--text-on-dark);
+  background: var(--surface-brand);
+  color: var(--text-primary);
   font-size: 14px;
   line-height: 22px;
   text-align: center;

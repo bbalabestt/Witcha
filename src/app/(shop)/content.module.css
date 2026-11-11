@@ -1,11 +1,12 @@
 /* Shared layout for content pages (guides, academy, story, help, policies, search). */
 
 .band {
+  position: relative;
   background: var(--surface-brand);
 }
 
 .bandSoft {
-  background: var(--surface-soft);
+  background: var(--surface-page);
 }
 
 .bandInner {
@@ -67,17 +68,12 @@
   position: relative;
   aspect-ratio: 3 / 2;
   overflow: hidden;
-  background: var(--surface-soft);
+  background: var(--surface-page);
   border: 1px solid var(--line-hairline);
 }
 
 .cover {
   object-fit: cover;
-  transition: filter 0.3s;
-}
-
-.guideCard:hover .cover {
-  filter: saturate(1.2) brightness(1.04);
 }
 
 .title3 {

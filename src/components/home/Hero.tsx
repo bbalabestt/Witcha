@@ -2,14 +2,13 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { Icon } from "@/components/ui/Icon";
-import { clamp01, easeInOut, motionAllowed, onFrame, sectionProgress } from "@/components/motion/runtime";
+import { BRAND_LINE, DRINK_WAYS, HERO, SELECTION_ID } from "@/lib/content/home";
+import { TEAS_HREF } from "@/lib/config/site";
+import { clamp01, easeInOut, hoverCapable, loopsAllowed, motionAllowed, onFrame, sectionProgress } from "@/components/motion/runtime";
+import { CatPeek } from "./CatPeek";
+import { MatchaBowl } from "./MatchaBowl";
+import { RitualCard } from "./RitualCard";
 import styles from "./Hero.module.css";
-
-const MOTES: Array<[number, number, number, "gold" | "ivory"]> = [
-  [12, 70, 4, "gold"], [22, 80, 3, "ivory"], [34, 66, 5, "gold"], [46, 84, 3, "ivory"], [55, 72, 4, "gold"],
-  [63, 88, 3, "ivory"], [72, 68, 5, "gold"], [81, 78, 3, "ivory"], [90, 62, 4, "gold"], [6, 90, 3, "ivory"],
-];
 
 /** Seeded foam bubbles (the same 54 as the prototype, so server and client markup match). */
 const BUBBLES = (() => {
@@ -28,26 +27,45 @@ const BUBBLES = (() => {
   return out;
 })();
 
-const COPY = "Japanese matcha, chosen for taste and brought to life by the cats of Witcha Academy.";
-
-function Buttons({ stacked = false }: { stacked?: boolean }) {
+/** The chasen from above, as drawn in the live bowl: a ring of tines around the handle. */
+function ChasenTop() {
   return (
-    <div className={stacked ? styles.buttonsStacked : styles.buttons}>
-      <Link href="/collections/matcha" className={`${styles.primary} on-primary`}>
-        Shop the matcha
+    <svg viewBox="-50 -50 100 100" aria-hidden="true">
+      <g stroke="currentColor" strokeWidth="1.6" fill="none">
+        {Array.from({ length: 24 }, (_, i) => {
+          const a = (i / 24) * Math.PI * 2;
+          // Rounded, so server and browser render identical attributes.
+          const at = (r: number, f: (x: number) => number) => Number((f(a) * r).toFixed(2));
+          return <line key={i} x1={at(16, Math.cos)} y1={at(16, Math.sin)} x2={at(46, Math.cos)} y2={at(46, Math.sin)} />;
+        })}
+        <circle r="46" />
+        <circle r="16" fill="var(--brand-cream)" strokeWidth="2.4" />
+      </g>
+    </svg>
+  );
+}
+
+function Buttons({ pair = false }: { pair?: boolean }) {
+  return (
+    <div className={pair ? styles.buttonsPair : styles.buttons}>
+      <Link href={TEAS_HREF} className={`${styles.primary} on-primary`}>
+        {HERO.primary}
       </Link>
-      <Link href="/pages/academy" className={styles.secondary}>
-        Meet the Academy
-      </Link>
+      <a href={`#${SELECTION_ID}`} className={styles.secondary}>
+        {HERO.secondary}
+      </a>
     </div>
   );
 }
 
 /**
- * Desktop: the arch grows to fill the screen as you scroll, then a matcha bowl is whisked to foam and gives
- * way to "Which matcha today?" on cream. Phones get a static stack (V2.1 2.1). Reduced motion: no scrub.
+ * The arch holds a live bowl of matcha that is made on arrival and whisks under the pointer or finger, with
+ * the Academy cat peeking over the top (a line-drawn gesture, not character art). Desktop: the arch grows to
+ * fill the screen as you scroll, dives into the foam and gives way to the next heading on cream; the headline
+ * halves and badge drift with the pointer. Phones: a short stack with both actions in the first screen.
+ * Reduced motion: no scrub, a still finished bowl. Words: copy v5.3 §1.
  */
-export function Hero({ backdrop, backdropOpacity }: { backdrop: string | null; backdropOpacity: number }) {
+export function Hero() {
   const section = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -67,12 +85,22 @@ export function Hero({ backdrop, backdropOpacity }: { backdrop: string | null; b
     const wash = q("[data-wash]");
     const inside = q("[data-inside]");
     const badge = q("[data-spin]");
-    const bar = q("[data-bar]");
+    const badgeWrap = q("[data-badge]");
+    const live = q("[data-live]");
     const fades = all("[data-fade]");
     const bubbles = all("[data-bub]");
     const swirls = all("[data-swirl]");
 
-    return onFrame(({ now, y }) => {
+    // Depth on desktop: the headline halves and the badge drift a little against the pointer.
+    const aim = { x: 0, y: 0 };
+    const drift = { x: 0, y: 0 };
+    const onPointer = (ev: PointerEvent) => {
+      aim.x = (ev.clientX / window.innerWidth) * 2 - 1;
+      aim.y = (ev.clientY / window.innerHeight) * 2 - 1;
+    };
+    if (hoverCapable()) window.addEventListener("pointermove", onPointer, { passive: true });
+
+    const stop = onFrame(({ now, y }) => {
       if (getComputedStyle(hero).display === "none") return;
       const H = window.innerHeight;
       const W = window.innerWidth;
@@ -87,18 +115,34 @@ export function Hero({ backdrop, backdropOpacity }: { backdrop: string | null; b
       }
       if (ring) ring.style.opacity = String(Math.max(0, 1 - p * 3));
       fades.forEach((el) => (el.style.opacity = String(Math.max(0, 1 - p * 3.2))));
-      if (l1) l1.style.transform = `translateX(${-e * 60}vw)`;
-      if (l2) l2.style.transform = `translateX(${e * 60}vw)`;
-      if (bar) bar.style.transform = `translateY(${e * 70}vh)`;
-      if (badge && motion) badge.style.transform = `rotate(${((now * 0.012 + y * 0.2) % 360).toFixed(1)}deg)`;
+      const still = !motion || !loopsAllowed();
+      drift.x += ((still ? 0 : aim.x) - drift.x) * 0.06;
+      drift.y += ((still ? 0 : aim.y) - drift.y) * 0.06;
+      if (l1) l1.style.transform = `translateX(${-e * 60}vw) translate(${(-drift.x * 14).toFixed(1)}px, ${(-drift.y * 8).toFixed(1)}px)`;
+      if (l2) l2.style.transform = `translateX(${e * 60}vw) translate(${(drift.x * 14).toFixed(1)}px, ${(drift.y * 8).toFixed(1)}px)`;
+      if (badgeWrap) badgeWrap.style.transform = `translate(${(drift.x * 22).toFixed(1)}px, ${(drift.y * 16).toFixed(1)}px)`;
+      if (badge && loopsAllowed()) badge.style.transform = `rotate(${((now * 0.012 + y * 0.2) % 360).toFixed(1)}deg)`;
 
       if (foam) {
-        foam.style.opacity = String(clamp01((p - 0.3) / 0.1));
-        const g = clamp01((p - 0.32) / 0.28);
+        // A quick cut from the live bowl to the full-screen foam, where the two bowls are about the same size.
+        foam.style.opacity = String(clamp01((p - 0.4) / 0.05));
+        const g = clamp01((p - 0.42) / 0.24);
         const c = easeInOut(clamp01((p - 0.6) / 0.16));
-        if (bowl) {
+        if (bowl && stage) {
+          // Start exactly over the live bowl (same size and centre), then glide to the middle as it is whisked.
+          let base = 1;
+          let dx = 0;
+          let dy = 0;
+          if (live && live.offsetWidth) {
+            const r = live.getBoundingClientRect();
+            const sr = stage.getBoundingClientRect();
+            base = Math.min(1, (2 * Math.min(r.width * 0.42, r.height * 0.32)) / Math.max(1, bowl.offsetWidth));
+            const k = 1 - easeInOut(g);
+            dx = (r.left + r.width / 2 - (sr.left + sr.width / 2)) * k;
+            dy = (r.top + r.height * 0.6 - (sr.top + sr.height / 2)) * k;
+          }
           const cs = (Math.hypot(W, H) / Math.max(1, bowl.offsetWidth)) * 1.08;
-          bowl.style.transform = `scale(${((0.7 + 0.3 * easeInOut(g)) * (1 + c * (cs - 1))).toFixed(3)}) rotate(${(p * 40).toFixed(1)}deg)`;
+          bowl.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px) scale(${(base * (1 + c * (cs - 1))).toFixed(3)}) rotate(${(p * 40).toFixed(1)}deg)`;
         }
         const n = bubbles.length || 1;
         bubbles.forEach((b, k) => {
@@ -126,35 +170,35 @@ export function Hero({ backdrop, backdropOpacity }: { backdrop: string | null; b
         inside.style.pointerEvents = o > 0.5 ? "auto" : "none";
       }
     });
+    return () => {
+      stop();
+      window.removeEventListener("pointermove", onPointer);
+    };
   }, []);
-
-  const backdropStyle = backdrop ? { backgroundImage: `url('${backdrop}')`, opacity: backdropOpacity } : undefined;
 
   return (
     <>
       <section ref={section} className={styles.desktop} aria-label="Welcome">
         <div className={styles.stage} data-stage="">
-          {backdrop ? <div className={styles.backdrop} style={backdropStyle} aria-hidden="true" /> : null}
-          <div className={styles.bar} data-bar="" aria-hidden="true" />
-          <div className={styles.motes} aria-hidden="true">
-            {MOTES.map(([l, t, s, c], i) => (
-              <span key={i} data-float="" className="mote" style={{ left: `${l}%`, top: `${t}%`, width: s, height: s, background: c === "gold" ? "var(--brand-gold)" : "var(--brand-ivory)" }} />
-            ))}
-          </div>
 
           <div className={styles.arch} data-arch="">
             <div className={styles.ring} data-ring="" data-reveal="arch-open" data-delay="200" aria-hidden="true">
               <svg viewBox="0 0 100 133" preserveAspectRatio="none">
-                <path d="M0 133 V50 A50 50 0 0 1 100 50 V133" fill="none" stroke="var(--brand-gold)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+                <path d="M0 133 V50 A50 50 0 0 1 100 50 V133" fill="none" stroke="var(--line-on-mint)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
               </svg>
             </div>
-            <div className={styles.window} data-reveal="arch-open" role="img" aria-label="Five painted cats gather around matcha and hojicha in a blue garden conservatory.">
-              {/* eslint-disable-next-line @next/next/no-img-element -- scaled by the scroll scrub; next/image adds nothing here */}
-              <img data-fade="" src="/art/01-professor-tin-mockup.webp" alt="The Professor tin, Witcha Matcha packaging concept." width={720} height={720} className={styles.tin} fetchPriority="high" />
+            <span className={styles.catWrap} data-fade="">
+              <CatPeek />
+            </span>
+            <div className={styles.window} data-reveal="arch-open" aria-hidden="true">
+              {/* Stays solid through the zoom, so the scroll dives straight into the foam. */}
+              <div className={styles.live} data-live="">
+                <MatchaBowl />
+              </div>
             </div>
           </div>
 
-          <div className={styles.badge} data-fade="" aria-hidden="true">
+          <div className={styles.badge} data-fade="" data-badge="" aria-hidden="true">
             <svg viewBox="0 0 130 130" data-spin="">
               <defs>
                 <path id="wm-badge-circle" d="M65 65 m-52 0 a52 52 0 1 1 104 0 a52 52 0 1 1 -104 0" />
@@ -168,90 +212,102 @@ export function Hero({ backdrop, backdropOpacity }: { backdrop: string | null; b
             </svg>
           </div>
 
-          <div className={styles.l1} data-l1="">
-            <div className={styles.mask}>
-              <h1 className={styles.headline} data-reveal="mask">
-                A Little Magic <span className="visually-hidden">in every Matcha Moment.</span>
-              </h1>
+          {/* "Matcha," and the copy read as one block, centred against the bowl, so the left side has no dead band. */}
+          <div className={styles.left}>
+            <div className={styles.l1} data-l1="">
+              <div className={styles.mask}>
+                <h1 className={styles.headline} data-reveal="mask">
+                  Matcha, <span className="visually-hidden">With Taste.</span>
+                </h1>
+              </div>
+            </div>
+            <div className={styles.copy} data-fade="" data-hero-copy="">
+              <span className="label" data-reveal="left" data-delay="420">
+                {HERO.eyebrow}
+              </span>
+              <p data-reveal="left" data-delay="500">
+                {HERO.supporting}
+              </p>
+              <div data-reveal="left" data-delay="650">
+                <Buttons />
+              </div>
             </div>
           </div>
           <div className={styles.l2} data-l2="" aria-hidden="true">
             <div className={styles.mask}>
               <span className={styles.inEvery} data-reveal="mask" data-delay="160">
-                in every
+                With
               </span>
             </div>
             <div className={styles.mask}>
               <span className={styles.headline} data-reveal="mask" data-delay="300">
-                Matcha Moment.
+                Taste.
               </span>
             </div>
           </div>
-          <div className={styles.copy} data-fade="" data-hero-copy="">
-            <p data-reveal="left" data-delay="500">
-              {COPY}
-            </p>
-            <div data-reveal="left" data-delay="650">
-              <Buttons />
-            </div>
-          </div>
-          <div className={styles.scrollHint} data-fade="" aria-hidden="true">
-            <span />
-            Scroll to step inside
+          <div className={styles.ritual} data-fade="">
+            <RitualCard />
           </div>
 
           <div className={styles.foam} data-foam="" aria-hidden="true">
             <div className={styles.bowl} data-bowl="">
-              <div className={styles.swirl} data-swirl="" style={{ inset: "10%", borderColor: "var(--foam-swirl-1)" }} />
-              <div className={styles.swirl} data-swirl="" style={{ inset: "24%", borderColor: "var(--foam-swirl-2)" }} />
-              <div className={styles.swirl} data-swirl="" style={{ inset: "38%", borderColor: "var(--foam-swirl-3)" }} />
+              <div className={styles.swirl} data-swirl="" style={{ inset: "10%", borderColor: "var(--matcha-swirl-1)" }} />
+              <div className={styles.swirl} data-swirl="" style={{ inset: "24%", borderColor: "var(--matcha-swirl-2)" }} />
+              <div className={styles.swirl} data-swirl="" style={{ inset: "38%", borderColor: "var(--matcha-swirl-3)" }} />
               {BUBBLES.map((b, i) => (
                 <span key={i} data-bub="" className={styles.bubble} style={{ left: b.l, top: b.t, width: b.size, height: b.size, margin: `${-b.size / 2}px 0 0 ${-b.size / 2}px` }} />
               ))}
               <span data-whisk="" className={styles.whisk}>
-                <Icon name="whisk" size={96} />
+                <ChasenTop />
               </span>
             </div>
             <span className={styles.caption} data-cap="">
-              Whisk in a W, not a circle · 2 g · 70 ml · 80°C
+              {DRINK_WAYS.straight.needs}
             </span>
             <div className={styles.wash} data-wash="" />
           </div>
 
           <div className={styles.inside} data-inside="">
-            <span className="label">Welcome to Witcha Academy</span>
-            <span className={styles.insideTitle}>Which matcha today?</span>
-            <span>Teas on one scale, from bright to deep. Pick by taste, not jargon.</span>
+            <span className="label">{HERO.eyebrow}</span>
+            <span className={styles.insideTitle}>{BRAND_LINE}</span>
+            <span>{HERO.supporting.split(". ")[0]}.</span>
           </div>
         </div>
       </section>
 
       <section className={styles.mobile} aria-label="Welcome">
-        {backdrop ? <div className={styles.backdropMobile} style={backdropStyle} aria-hidden="true" /> : null}
         <div className={styles.mask}>
           <h1 className={styles.mHeadline} data-reveal="mask">
-            A Little Magic <span className="visually-hidden">in every Matcha Moment.</span>
+            Matcha, <span className="visually-hidden">With Taste.</span>
           </h1>
         </div>
         <div className={styles.mArch}>
           <div className={styles.mRing} data-reveal="arch-open" data-delay="200" aria-hidden="true" />
-          <div className={styles.mWindow} data-reveal="arch-open" role="img" aria-label="Five painted cats gather around matcha and hojicha in a blue garden conservatory.">
-            {/* eslint-disable-next-line @next/next/no-img-element -- fixed-size hero art */}
-            <img src="/art/01-professor-tin-mockup.webp" alt="The Professor tin, Witcha Matcha packaging concept." width={720} height={720} className={styles.tin} />
+          <span className={styles.catWrap}>
+            <CatPeek />
+          </span>
+          <div className={styles.mWindow} data-reveal="arch-open" aria-hidden="true">
+            <div className={styles.live}>
+              <MatchaBowl />
+            </div>
           </div>
         </div>
         <div className={styles.mLine2} aria-hidden="true">
           <span className={styles.mInEvery} data-reveal="right">
-            in every
+            With
           </span>
           <span className={styles.mHeadline} data-reveal="right" data-delay="120">
-            Matcha Moment.
+            Taste.
           </span>
         </div>
-        <p data-reveal="up">{COPY}</p>
+        {/* Shop first: on a phone the two actions sit right under the headline, inside the first screen. */}
         <div data-reveal="up">
-          <Buttons stacked />
+          <Buttons pair />
         </div>
+        <span className="label" data-reveal="up">
+          {HERO.eyebrow}
+        </span>
+        <p data-reveal="up">{HERO.supporting}</p>
       </section>
     </>
   );

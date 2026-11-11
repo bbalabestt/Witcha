@@ -7,7 +7,7 @@
 .image {
   position: relative;
   aspect-ratio: 4 / 5;
-  background: var(--surface-soft);
+  background: var(--surface-page);
   border: 1px solid var(--line-hairline);
 }
 
@@ -45,7 +45,7 @@
 .add {
   height: var(--control-md);
   min-width: min(var(--control-min-w-md), 100%);
-  background: var(--action-secondary-fill);
+  background: transparent;
   border: 1px solid var(--line-control);
   font-size: 12px;
   line-height: 16px;
@@ -57,7 +57,7 @@
 }
 
 .add:hover:not(:disabled) {
-  background: var(--surface-hover);
+  background: transparent;
 }
 
 .add[data-state="added"] {

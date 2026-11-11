@@ -6,15 +6,15 @@ import { useEffect, useId, useRef, useState } from "react";
 import { useCart } from "@/components/commerce/CartProvider";
 import { Icon } from "@/components/ui/Icon";
 import { Logo } from "@/components/ui/Logo";
-import { NAV } from "@/lib/config/site";
-import { markerLeft } from "@/lib/data/product";
+import { WhiskedBowl } from "@/components/motion/MatchaScenes";
+import { NAV, TEAS_HREF } from "@/lib/config/site";
 import { useShopUI } from "./ShopUI";
 import styles from "./Header.module.css";
 
-export type MegaTea = { handle: string; title: string; position: number; word: string };
+export type MegaTea = { handle: string; title: string };
 
 function isActive(pathname: string, href: string): boolean {
-  if (href === "/collections/matcha") return pathname.startsWith("/collections/matcha") || pathname.startsWith("/products/");
+  if (href === TEAS_HREF) return pathname.startsWith(TEAS_HREF) || pathname.startsWith("/products/");
   return pathname.startsWith(href);
 }
 
@@ -51,8 +51,8 @@ export function Header({ teas }: { teas: MegaTea[] }) {
     };
   }, [megaOpen]);
 
-  const left = NAV.slice(0, 3);
-  const right = NAV.slice(3);
+  const left = NAV.slice(0, 1);
+  const right = NAV.slice(1);
 
   const navItem = (item: (typeof NAV)[number]) => {
     const active = isActive(pathname, item.href) || ("mega" in item && megaOpen);
@@ -121,42 +121,23 @@ export function Header({ teas }: { teas: MegaTea[] }) {
 
       <div id={megaId} className={styles.mega} hidden={!megaOpen}>
         <div className={styles.megaLinks}>
-          <span className="label">Shop Matcha</span>
-          <Link href="/collections/matcha">All matcha</Link>
-          <Link href="/collections/matcha#which-matcha-today">Which Matcha Today?</Link>
-          <Link href="/collections/gifts">Gifts &amp; sets</Link>
-          <Link href="/collections/accessories">Accessories</Link>
+          <span className="label">Shop the teas</span>
+          {teas.map((t) => (
+            <Link key={t.handle} href={`/products/${t.handle}`}>
+              {t.title}
+            </Link>
+          ))}
         </div>
         <div className={styles.megaTaste}>
-          <span className={styles.megaTasteTitle}>Bright or deep? Pick by taste.</span>
-          <div className={styles.megaTrack}>
-            {teas.map((t) => (
-              <Link
-                key={t.handle}
-                href={`/products/${t.handle}`}
-                className={styles.megaMarker}
-                style={{ left: markerLeft(t.position, 17) }}
-                aria-label={`${t.title}, ${t.word} ${t.position} of 5`}
-              />
-            ))}
-          </div>
-          <div className={styles.ends}>
-            <span className="label">Bright</span>
-            <span className="label">Deep</span>
-          </div>
-          <Link href="/collections/matcha" className="label-link">
-            Compare the teas
+          <span className={styles.megaTasteTitle}>Which Matcha Today?</span>
+          <p className="body-small">Each tea has a clear character. Choose by flavour, or by how you like to drink it.</p>
+          <Link href={TEAS_HREF} className="label-link">
+            Japanese matcha and hojicha
           </Link>
         </div>
-        {/* eslint-disable-next-line @next/next/no-img-element -- decorative arch art, sized by CSS */}
-        <img
-          className={styles.megaArt}
-          src="/art/01-professor-key-visual.webp"
-          alt="The Professor, a silver-grey cat with a gold scholar brooch, beside a matcha bowl at an arched library window."
-          width={820}
-          height={820}
-          loading="lazy"
-        />
+        <div className={styles.megaArt} aria-hidden="true">
+          <WhiskedBowl />
+        </div>
       </div>
     </header>
   );

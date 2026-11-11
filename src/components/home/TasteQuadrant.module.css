@@ -48,11 +48,20 @@
   overflow: hidden;
   border: 1px solid var(--line-control);
   border-radius: var(--radius-arch) var(--radius-arch) 0 0;
-  background: var(--surface-soft);
+  background: var(--surface-page);
 }
 
+.body {
+  max-width: 40ch;
+}
+
+/* Recipe drawings cross-fade with the switch, sitting above the recipe bar. */
 .photo {
-  object-fit: cover;
+  position: absolute;
+  inset: 8% 14% 96px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
   opacity: 0;
   transform: scale(1.12);
   transition:
@@ -72,39 +81,10 @@
   bottom: 0;
   padding: var(--space-3);
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--space-2);
+  flex-direction: column;
+  gap: var(--space-1);
   background: var(--surface-page);
   border-top: 1px solid var(--line-control);
-  text-align: right;
-}
-
-.quadWrap {
-  position: relative;
-  padding: 36px 0;
-}
-
-.axisTop,
-.axisBottom {
-  position: absolute;
-  left: 0;
-  right: 0;
-  text-align: center;
-}
-
-.axisTop {
-  top: 0;
-}
-
-.axisBottom {
-  bottom: 0;
-}
-
-.axisX {
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 10px;
 }
 
 .grid {
@@ -122,15 +102,16 @@
   flex-direction: column;
   gap: var(--space-2);
   text-align: left;
-  background: var(--surface-muted);
+  background: var(--surface-page);
   transition:
     background-color 0.3s,
     transform 0.4s cubic-bezier(0.34, 1.45, 0.5, 1),
     box-shadow 0.4s;
 }
 
+/* Opaque tints: the grid's charcoal background draws the dividers and must not show through. */
 .cell:hover {
-  background: var(--surface-hover);
+  background: color-mix(in srgb, var(--brand-charcoal) 6%, var(--surface-page));
 }
 
 /* Only cards that suit the current view (or are selected) are outlined (V4 last round). */
@@ -142,7 +123,7 @@
 
 .cell[data-state="selected"] {
   z-index: 2;
-  background: var(--surface-hover);
+  background: color-mix(in srgb, var(--brand-charcoal) 6%, var(--surface-page));
   outline: 3px solid var(--line-control);
   outline-offset: -3px;
   box-shadow: 6px 6px 0 var(--line-control);
@@ -160,7 +141,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 10px;
+  padding: 6px 8px;
   background: var(--action-primary);
   color: var(--action-primary-text);
   font-size: 12px;
@@ -175,19 +156,16 @@
   align-self: center;
   width: min(100%, 150px);
   aspect-ratio: 3 / 4;
-  border: 1px solid transparent;
+  border: 1px solid var(--line-hairline);
   border-radius: var(--radius-arch) var(--radius-arch) 0 0;
   overflow: hidden;
-  background: var(--surface-soft);
+  /* Pack-shot backdrop: cream, as the final photos will be. */
+  background: var(--surface-page);
   transition: transform 0.5s cubic-bezier(0.34, 1.45, 0.5, 1);
 }
 
-.cell[data-row="latte"] .art {
-  background: var(--surface-brand);
-}
-
 .cell[data-state="suits"] .art {
-  border-color: color-mix(in srgb, var(--wm-primary) 45%, transparent);
+  border-color: color-mix(in srgb, var(--text-primary) 45%, transparent);
 }
 
 .cell[data-state="selected"] .art {
@@ -195,29 +173,18 @@
   transform: scale(1.06);
 }
 
-.contain {
-  object-fit: contain;
-  object-position: center bottom;
-}
-
-/* Not-applicable keepers stay in full colour with a tag, never greyed out (V4). */
-.naTag {
+.tin {
   position: absolute;
-  left: 50%;
-  bottom: 10px;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  padding: 3px var(--space-2);
-  background: var(--surface-page);
-  border: 1px solid var(--line-control);
-  font-size: 12px;
-  line-height: 16px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  left: 18%;
+  bottom: 4%;
+  width: 64%;
 }
 
-.keeper {
+.best {
+  color: var(--text-secondary);
+}
+
+.teaName {
   font-family: var(--font-serif);
   font-size: 22px;
   line-height: 30px;
@@ -229,7 +196,7 @@
   grid-template-columns: 96px 1fr;
   gap: 20px;
   align-items: center;
-  background: var(--surface-soft);
+  background: var(--surface-page);
 }
 
 .detailTin {

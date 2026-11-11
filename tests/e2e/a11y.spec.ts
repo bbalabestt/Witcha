@@ -1,25 +1,8 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
-import { prepare } from "./helpers";
+import { LIVE_ROUTES, prepare } from "./helpers";
 
-const ROUTES = [
-  "/",
-  "/collections/matcha",
-  "/collections/gifts",
-  "/collections/accessories",
-  "/products/yame-no-mukashi",
-  "/cart",
-  "/search?q=whisk",
-  "/blogs/brewing-guides",
-  "/blogs/brewing-guides/how-to-whisk-matcha",
-  "/pages/academy",
-  "/pages/our-story",
-  "/pages/faq",
-  "/pages/shipping-returns",
-  "/pages/contact",
-  "/policies/privacy-policy",
-  "/this-page-does-not-exist",
-];
+const ROUTES = [...LIVE_ROUTES, "/this-page-does-not-exist"];
 
 test.beforeEach(async ({ page }) => prepare(page));
 

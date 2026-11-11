@@ -10,18 +10,11 @@
   justify-content: center;
   padding: var(--space-3);
   border: 1px solid var(--line-hairline);
-  text-align: center;
-  font-size: 12px;
-  line-height: 16px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
 }
 
-.soft { background: var(--surface-soft); }
+.soft { background: var(--surface-page); }
 .brand { background: var(--surface-brand); }
 .page { background: var(--surface-page); }
-.dashed { background: transparent; border: 1px dashed var(--line-control); }
 
 .arch {
   border-radius: var(--radius-arch) var(--radius-arch) 0 0;
@@ -57,15 +50,9 @@
   overflow: hidden;
 }
 
-.badgeSlot {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-}
-
 .skeleton {
   display: block;
-  background: var(--surface-soft);
+  background: var(--surface-page);
   animation: pulse 1.4s ease-in-out infinite;
 }
 

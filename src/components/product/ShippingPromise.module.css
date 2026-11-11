@@ -1,5 +1,5 @@
 .promise {
-  background: var(--surface-soft);
+  background: var(--surface-page);
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -22,7 +22,7 @@
 }
 
 .summary {
-  background: var(--surface-soft);
+  background: var(--surface-page);
 }
 
 .summaryGrid {

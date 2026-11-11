@@ -1,0 +1,95 @@
+.section {
+  position: relative;
+  overflow: hidden;
+}
+
+.inner {
+  position: relative;
+  padding-block: var(--space-7);
+}
+
+.kicker {
+  display: block;
+  margin-bottom: var(--space-4);
+}
+
+/* The copy wraps around the arch window (shape-outside). */
+.arch {
+  position: relative;
+  float: left;
+  width: min(42vw, 360px);
+  aspect-ratio: 3 / 4;
+  margin: var(--space-3) 56px var(--space-4) var(--space-3);
+  background: var(--surface-page);
+  border: 1px solid var(--line-hairline);
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+  outline: 1.5px solid var(--line-ornament);
+  outline-offset: 12px;
+  shape-outside: inset(0 round 180px 180px 0 0);
+  shape-margin: 36px;
+}
+
+/* The four tins, one per Academy title, standing on the arch floor. */
+.tins {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 7%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4%;
+  align-items: end;
+}
+
+.heading {
+  margin-bottom: var(--space-4);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.28em;
+}
+
+.heading span {
+  display: inline-block;
+  will-change: transform;
+}
+
+.copy {
+  font-family: var(--font-serif);
+  font-size: clamp(20px, 1.8vw, 26px);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.cta {
+  margin-top: 28px;
+  height: var(--control-lg);
+  min-width: min(var(--control-min-w-lg), 100%);
+  padding: 0 var(--control-pad-x);
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  border: 1px solid var(--line-control);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  justify-content: center;
+}
+
+.cta:hover {
+  background: var(--tint-hover);
+}
+
+.clear {
+  clear: both;
+}
+
+@media (max-width: 599px) {
+  .arch {
+    float: none;
+    width: min(80vw, 320px);
+    margin: var(--space-3) auto var(--space-5);
+  }
+}

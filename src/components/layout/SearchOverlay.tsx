@@ -8,15 +8,16 @@ import { Dialog } from "@/components/ui/Dialog";
 import { Icon } from "@/components/ui/Icon";
 import { IconButton } from "@/components/ui/Button";
 import { Button } from "@/components/ui/Button";
+import { TEAS_HREF } from "@/lib/config/site";
 import { useShopUI } from "./ShopUI";
 import styles from "./SearchOverlay.module.css";
 
 export type PredictiveResult = {
-  products: Array<{ handle: string; title: string; eyebrow: string; price: string; tin: { url: string; alt: string } | null }>;
-  guides: Array<{ handle: string; title: string; image: { url: string; alt: string } }>;
+  products: Array<{ handle: string; title: string; type: string; price: string | null; tin: { url: string; alt: string } | null }>;
+  guides: Array<{ handle: string; title: string; image: { url: string; alt: string } | null }>;
 };
 
-const POPULAR = ["Iced latte", "Yame", "Whisk", "Gift"];
+const POPULAR = ["Yame", "Hojicha", "Latte", "Usucha"];
 
 /** Popular searches, predictive results with thumbnails, and a kind no-results state. */
 export function SearchOverlay() {
@@ -73,8 +74,8 @@ export function SearchOverlay() {
             type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search teas and guides"
-            aria-label="Search teas and guides"
+            placeholder="Search"
+            aria-label="Search"
           />
         </label>
         <IconButton label="Close search" onClick={close}>
@@ -95,8 +96,8 @@ export function SearchOverlay() {
             </div>
             <p>
               Not sure where to start?{" "}
-              <Link href="/collections/matcha" className="text-link" onClick={close}>
-                Which Matcha Today?
+              <Link href={TEAS_HREF} className="text-link" onClick={close}>
+                Find your next cup
               </Link>
             </p>
           </div>
@@ -116,36 +117,35 @@ export function SearchOverlay() {
                       {p.tin ? <Image src={p.tin.url} alt="" fill sizes="56px" className={styles.contain} /> : null}
                     </span>
                     <span className={styles.hitText}>
-                      <span className="label">{p.eyebrow}</span>
+                      <span className="label">{p.type}</span>
                       <span className="body">{p.title}</span>
-                      <span className="body-small">{p.price}</span>
+                      {p.price ? <span className="body-small">{p.price}</span> : null}
                     </span>
                   </Link>
                 ))}
               </div>
-              <div className={styles.column}>
-                <span className="label">Guides</span>
-                {shown.guides.map((g) => (
-                  <Link key={g.handle} href={`/blogs/brewing-guides/${g.handle}`} className={styles.hit} onClick={close}>
-                    <span className={`${styles.thumb} ${styles.thumbWide}`}>
-                      <Image src={g.image.url} alt="" fill sizes="84px" className={styles.cover} />
-                    </span>
-                    <span className="body">{g.title}</span>
-                  </Link>
-                ))}
-              </div>
+              {shown.guides.length ? (
+                <div className={styles.column}>
+                  <span className="label">Guides</span>
+                  {shown.guides.map((g) => (
+                    <Link key={g.handle} href={`/blogs/brewing-guides/${g.handle}`} className={styles.hit} onClick={close}>
+                      <span className={`${styles.thumb} ${styles.thumbWide}`}>
+                        {g.image ? <Image src={g.image.url} alt="" fill sizes="84px" className={styles.cover} /> : null}
+                      </span>
+                      <span className="body">{g.title}</span>
+                    </Link>
+                  ))}
+                </div>
+              ) : null}
             </div>
           </>
         ) : shown ? (
           <div className={styles.none} aria-live="polite">
             <p className="heading-3">Nothing for “{query}” yet.</p>
-            <p>Try a taste instead: compare our teas from bright to deep, or ask us and we’ll point you to the right tin.</p>
+            <p>Compare tasting notes and find your next cup.</p>
             <div className={styles.actions}>
-              <Button href="/collections/matcha" size="md">
-                Which Matcha Today?
-              </Button>
-              <Button href="/pages/contact" variant="secondary" size="md">
-                Contact us
+              <Button href={TEAS_HREF} size="md">
+                Shop the teas
               </Button>
             </div>
           </div>

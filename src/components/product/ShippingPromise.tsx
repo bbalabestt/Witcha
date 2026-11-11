@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
-import { formatMoney } from "@/lib/data/money";
+import { priceLabel } from "@/lib/data/money";
 import type { SiteSettings } from "@/lib/data/types";
 import styles from "./ShippingPromise.module.css";
 
 /** One source of truth for dispatch, delivery, free shipping and returns, next to the button (brief §9). */
 export function ShippingPromise({ settings }: { settings: SiteSettings }) {
   return (
-    <div className={styles.promise} data-reveal="up">
+    <div className={styles.promise}>
       <p>
         <Icon name="truck" size={20} />
         <span>
@@ -21,7 +21,7 @@ export function ShippingPromise({ settings }: { settings: SiteSettings }) {
       <p>
         <Icon name="gift" size={20} />
         <span>
-          Free shipping over {formatMoney(settings.freeShippingThreshold)}. Otherwise {formatMoney(settings.standardShipping)}.
+          Free shipping over {priceLabel(settings.freeShippingThreshold)}. Otherwise {priceLabel(settings.standardShipping)}.
         </span>
       </p>
       <p>
@@ -34,30 +34,5 @@ export function ShippingPromise({ settings }: { settings: SiteSettings }) {
         </span>
       </p>
     </div>
-  );
-}
-
-/** The three-column summary under the FAQ, from the same settings. */
-export function ShippingSummary({ settings }: { settings: SiteSettings }) {
-  return (
-    <section className={styles.summary}>
-      <div className={`container ${styles.summaryGrid}`}>
-        <div data-reveal="up">
-          <Icon name="truck" />
-          <b className="label">Dispatch</b>
-          Within {settings.dispatchDays} business days from {settings.dispatchCity}.
-        </div>
-        <div data-reveal="up" data-delay="80">
-          <Icon name="clock" />
-          <b className="label">Delivery</b>
-          About {settings.deliveryDays} business days, metro Australia. Free over {formatMoney(settings.freeShippingThreshold)}.
-        </div>
-        <div data-reveal="up" data-delay="160">
-          <Icon name="return" />
-          <b className="label">Returns</b>
-          Unopened tins within {settings.returnsDays} days.
-        </div>
-      </div>
-    </section>
   );
 }

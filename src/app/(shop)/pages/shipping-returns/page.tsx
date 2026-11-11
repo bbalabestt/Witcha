@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { HelpLayout } from "@/components/content/HelpLayout";
 import { getSiteSettings } from "@/lib/data/catalog";
-import { formatMoney } from "@/lib/data/money";
+import { LIVE } from "@/lib/config/launch";
+import { priceLabel } from "@/lib/data/money";
 import styles from "@/components/content/HelpLayout.module.css";
 
-export const metadata: Metadata = { title: "Shipping & Returns", alternates: { canonical: "/pages/shipping-returns" } };
+export const metadata: Metadata = { title: "Shipping & Returns | WITCHA MATCHA", alternates: { canonical: "/pages/shipping-returns" } };
 
 /** The single source for the shipping promise shown on product pages and in the cart. */
 export default async function ShippingPage() {
+  if (!LIVE.shippingReturns) notFound();
   const s = await getSiteSettings();
   return (
     <HelpLayout title="Shipping & Returns" current="/pages/shipping-returns">
@@ -28,13 +31,13 @@ export default async function ShippingPage() {
           <tr>
             <td>Standard, metro</td>
             <td>
-              {formatMoney(s.standardShipping)} · free over {formatMoney(s.freeShippingThreshold)}
+              {priceLabel(s.standardShipping)} · free over {priceLabel(s.freeShippingThreshold)}
             </td>
             <td>{s.deliveryDays} business days</td>
           </tr>
           <tr>
             <td>Express</td>
-            <td>{formatMoney(s.expressShipping)}</td>
+            <td>{priceLabel(s.expressShipping)}</td>
             <td>{s.expressDays} business days</td>
           </tr>
         </tbody>

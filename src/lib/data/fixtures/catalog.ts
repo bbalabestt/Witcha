@@ -1,359 +1,214 @@
+import { CONFIRMED } from "@/lib/config/launch";
 import { money } from "../money";
-import { badgeFor, normaliseCompareAt } from "../product";
-import type { Character, FaqEntry, GalleryItem, Guide, Image, Policy, PrepMethod, Product, Variant } from "../types";
-import { ART } from "./art";
+import { normaliseCompareAt } from "../product";
+import type { FaqEntry, Guide, Policy, PrepMethod, Product, Variant } from "../types";
 
 /**
- * Prototype V4 fixture content (design/prototype-v4.dc.html `data`). Prices, names and facts in brackets are
- * deliberate placeholders; there are no reviews. `pnpm dev` runs on this with no Shopify credentials.
+ * Launch range from copy v5.3 (`docs/client/WEBSITE-COPY-DRAFT.md`), used as written. Every fixture price is a
+ * placeholder and is never rendered. `pnpm dev` runs on this with no Shopify credentials.
  */
 
 const P = true; // every fixture price is a placeholder
 
-function variant(id: string, title: string, price: number, qty: number, servings: number | null, compareAt?: number): Variant {
+function variant(id: string, sku: string, title: string, price: number, qty: number): Variant {
   const p = money(price, P);
+  return { id, sku, title, price: p, compareAtPrice: normaliseCompareAt(p, null), availableForSale: qty > 0, quantityAvailable: qty };
+}
+
+const STORAGE_NOTE =
+  "Store somewhere cool and dark. Once opened, keep the lid tightly closed and enjoy within 1–2 months for the best flavour. Use by the best-before date on your tin.";
+
+const storageNote = CONFIRMED.storage ? STORAGE_NOTE : null;
+
+function cups(line: string): string | null {
+  return CONFIRMED.cupsPerTin ? line : null;
+}
+
+const MATCHA_FACTS = { type: "Matcha", ingredients: "100% Japanese matcha", netWeight: "30 g", packedIn: "Japan", caffeine: "Contains caffeine" };
+
+function held(handle: string, title: string, kind: "gift" | "tool", description: string, id: string, sku: string, size: string, price: number): Product {
   return {
-    id,
+    id: `fx-${handle}`,
+    handle,
+    kind,
     title,
-    price: p,
-    compareAtPrice: normaliseCompareAt(p, compareAt === undefined ? null : money(compareAt, P)),
-    availableForSale: qty > 0,
-    quantityAvailable: qty,
-    servings,
+    academyTitle: "",
+    descriptor: "",
+    teaType: null,
+    detailLine: null,
+    description,
+    seoDescription: null,
+    tags: [kind],
+    tin: null,
+    gallery: [],
+    variants: [variant(id, sku, size, price, 10)],
+    tastingNotes: [],
+    bestForShort: null,
+    bestFor: null,
+    chooseItIf: null,
+    compare: null,
+    facts: null,
+    storageNote: null,
+    servingsNote: null,
   };
 }
 
-const PLACEHOLDER_SLOTS = {
-  powder: { kind: "placeholder", label: "POWDER COLOUR (TRUE)" },
-  scale: { kind: "placeholder", label: "SIZE / SCALE SHOT" },
-} as const satisfies Record<string, GalleryItem>;
+const PROFESSOR: Product = {
+  id: "fx-the-professor",
+  handle: "the-professor-yame-matcha",
+  kind: "tea",
+  title: "The Professor — Yame Matcha",
+  academyTitle: "The Professor",
+  descriptor: "Yame Matcha",
+  teaType: "matcha",
+  detailLine: "Okumidori · First harvest · 30 g",
+  description:
+    "Our Yame matcha is creamy and rounded, with pronounced umami and notes of macadamia and sweet cream. Bitterness and astringency are low, so its natural sweetness comes through, followed by a lingering nutty finish. It's at its best as usucha, whisked with water, where you can taste every layer, and it's the one we'd choose for thick-style koicha. It makes a smooth latte too, though milk softens some of the detail.",
+  seoDescription: "Creamy, umami-rich Yame matcha from Fukuoka. Okumidori, first harvest, with a soft macadamia note and low bitterness. Best as usucha. 30 g tin.",
+  tags: [],
+  tin: null,
+  gallery: [],
+  variants: [variant("wm-pro-30", "WM-PRO-30", "30 g", 48, 12)],
+  tastingNotes: ["Creamy", "Umami", "Macadamia"],
+  bestForShort: "Drinking straight (usucha)",
+  bestFor: "Straight (usucha). Also makes a smooth latte.",
+  chooseItIf: "you want the richest umami and creamiest texture in the range.",
+  compare: { handle: "the-scholar-japanese-matcha-blend", line: "Mostly drink lattes? The Scholar — Japanese Matcha Blend suits them best." },
+  facts: { ...MATCHA_FACTS, origin: "Yame, Fukuoka, Japan", cultivar: "Okumidori", harvest: "First harvest" },
+  storageNote,
+  servingsNote: cups("Usucha, 2 g: about 15 cups."),
+};
 
-function teaGallery(tin: Image, key: Image, hojicha = false): GalleryItem[] {
-  return [
-    { kind: "image", image: tin, fit: "contain", label: "TIN PACK SHOT" },
-    PLACEHOLDER_SLOTS.powder,
-    { kind: "image", image: hojicha ? ART.hojichaLatte : ART.whisking, fit: "cover", label: "HANDS WHISKING" },
-    { kind: "image", image: hojicha ? ART.everyday : ART.iced, fit: "cover", label: "ICED LATTE" },
-    { kind: "image", image: key, fit: "contain", label: "TIN + ARCH ART" },
-    PLACEHOLDER_SLOTS.scale,
-  ];
-}
+const SCHOLAR: Product = {
+  id: "fx-the-scholar",
+  handle: "the-scholar-japanese-matcha-blend",
+  kind: "tea",
+  title: "The Scholar — Japanese Matcha Blend",
+  academyTitle: "The Scholar",
+  descriptor: "Japanese Matcha Blend",
+  teaType: "matcha",
+  detailLine: "Shizuoka, Kagoshima and Uji · 30 g",
+  description:
+    "Our everyday matcha for café-style lattes: a blend of matcha from Shizuoka, Kagoshima and Uji. A light toasted aroma, like toasted rice and nuts, comes with a gentle bitterness that keeps the matcha flavour clear through milk and sweetener. It's straightforward and easy to get right, which makes it a good first matcha and a reliable daily one. Enjoy it hot or iced, with your favourite milk.",
+  seoDescription: "A toasty, balanced Japanese matcha blend from Shizuoka, Kagoshima and Uji. Our everyday choice for café-style lattes, hot or iced. 30 g tin.",
+  tags: [],
+  tin: null,
+  gallery: [],
+  variants: [variant("wm-sch-30", "WM-SCH-30", "30 g", 32, 3)],
+  tastingNotes: ["Toasty", "Balanced", "Nutty"],
+  bestForShort: "Everyday lattes, hot or iced",
+  bestFor: "Everyday lattes, hot or iced.",
+  chooseItIf: "you want an easy, balanced matcha that's simple to get right every day.",
+  compare: { handle: "the-rebel-kagoshima-matcha", line: "Want more nutty depth in your latte? Try The Rebel — Kagoshima Matcha." },
+  facts: { ...MATCHA_FACTS, origin: "Shizuoka, Kagoshima and Uji, Japan", cultivar: "Saemidori, Yabukita and Yutakamidori", harvest: "Blend of first and second harvest" },
+  storageNote,
+  servingsNote: cups("Matcha latte, 3–4 g: about 7–10 cups."),
+};
 
-export const CHARACTERS: Character[] = [
-  {
-    handle: "the-professor",
-    name: "The Professor",
-    namePending: false,
-    role: "Keeper of the reserve tea",
-    story: null,
-    accessory: null,
-    art: ART.professorKey,
-    concept: false,
-    productHandle: "yame-no-mukashi",
+const REBEL: Product = {
+  id: "fx-the-rebel",
+  handle: "the-rebel-kagoshima-matcha",
+  kind: "tea",
+  title: "The Rebel — Kagoshima Matcha",
+  academyTitle: "The Rebel",
+  descriptor: "Kagoshima Matcha",
+  teaType: "matcha",
+  detailLine: CONFIRMED.rebelDetails ? "Okumidori blend · First harvest · 30 g" : null,
+  description:
+    "Our Kagoshima matcha leads with toasted almond and chestnut rather than fresh green notes. It's fuller-bodied than The Professor, with sweetness and umami under its nutty character and a lingering nutty finish. Our favourite way to drink it is an oat milk latte, where the milk brings out the nuttiness and the matcha still comes through; it's good as usucha too. If you've found matcha too grassy before, start here.",
+  seoDescription: "Bold, nutty Kagoshima matcha with toasted almond and chestnut notes. Best in an oat milk latte and good straight. 30 g tin.",
+  tags: [],
+  tin: null,
+  gallery: [],
+  variants: [variant("wm-reb-30", "WM-REB-30", "30 g", 52, 9)],
+  tastingNotes: CONFIRMED.rebelTastingWords ? ["Bold", "Rich", "Chestnut"] : [],
+  bestForShort: "Oat milk lattes",
+  bestFor: "Lattes, especially with oat milk. Also good straight.",
+  chooseItIf: "you want a fuller, more pronounced nutty flavour than The Scholar.",
+  compare: { handle: "the-professor-yame-matcha", line: "Prefer matcha smooth and straight? Try The Professor — Yame Matcha." },
+  facts: {
+    ...MATCHA_FACTS,
+    origin: "Kagoshima, Japan",
+    cultivar: CONFIRMED.rebelDetails ? "Okumidori blend" : null,
+    harvest: CONFIRMED.rebelDetails ? "First harvest" : null,
   },
-  {
-    handle: "the-charmer",
-    name: "The Charmer",
-    namePending: false,
-    role: "Keeper of the deep tea",
-    story: null,
-    accessory: null,
-    art: ART.charmerKey,
-    concept: false,
-    productHandle: "the-charmer",
-  },
-  {
-    handle: "kosen-keeper",
-    name: "[Name pending]",
-    namePending: true,
-    role: "Keeper of the daily tea",
-    story: null,
-    accessory: null,
-    art: ART.kosenKey,
-    concept: false,
-    productHandle: "kosen-daily-matcha",
-  },
-  {
-    handle: "tea-room-keeper",
-    name: "[Name pending]",
-    namePending: true,
-    role: "Keeper of the tea room",
-    story: null,
-    accessory: null,
-    art: ART.hojichaKey,
-    concept: false,
-    productHandle: "organic-hojicha",
-  },
-  {
-    handle: "the-dreamer",
-    name: "The Dreamer",
-    namePending: false,
-    role: "A new student",
-    story: null,
-    accessory: null,
-    art: ART.dreamerKey,
-    concept: true,
-    productHandle: null,
-  },
-];
+  storageNote,
+  servingsNote: cups("Matcha latte, 3–4 g: about 7–10 cups."),
+};
 
-function character(handle: string): Character | null {
-  return CHARACTERS.find((c) => c.handle === handle) ?? null;
-}
-
-const FACT_DEFAULTS = { grade: "[Grade description]", packDate: "[Pack date note]", ingredients: "100% green tea (matcha)" };
-
-function tea(input: Omit<Product, "id" | "kind" | "badge" | "pending" | "storageNote">): Product {
-  return { ...input, id: `fx-${input.handle}`, kind: "tea", badge: badgeFor(input.tags, input.variants), pending: false, storageNote: null };
-}
+const LIBRARIAN: Product = {
+  id: "fx-the-librarian",
+  handle: "the-librarian-uji-hojicha",
+  kind: "tea",
+  title: "The Librarian — Uji Hojicha",
+  academyTitle: "The Librarian",
+  descriptor: "Uji Hojicha",
+  teaType: "hojicha",
+  detailLine: "Hojicha · Roasted Japanese green tea · 30 g",
+  description:
+    "Our Uji hojicha is Japanese green tea roasted to a deep mahogany, with notes of roasted nuts, warm wood and dark caramel in place of fresh green flavours. It's smoky without tasting burnt. Bitterness and astringency are low, with a toasty sweetness and a long, roasted finish. Milk softens the roast into a rounded latte; for the boldest flavour, whisk it straight with water.",
+  seoDescription: "Smoky Uji hojicha, a roasted Japanese green tea with notes of roasted nuts and dark caramel. Lovely as a latte or straight. 30 g tin.",
+  tags: [],
+  tin: null,
+  gallery: [],
+  variants: [variant("wm-lib-30", "WM-LIB-30", "30 g", 30, 20)],
+  tastingNotes: ["Smoky", "Roasted", "Caramel"],
+  bestForShort: "Hojicha lattes",
+  bestFor: "Hojicha lattes. Also good straight.",
+  chooseItIf: "you'd like something roasted and warming instead of fresh green tea flavours.",
+  compare: { handle: "the-scholar-japanese-matcha-blend", line: "Want matcha with a toasty edge instead? Try The Scholar — Japanese Matcha Blend." },
+  facts: {
+    type: "Hojicha (roasted Japanese green tea)",
+    origin: "Uji, Kyoto, Japan",
+    cultivar: "Yabukita blend",
+    harvest: "Blend",
+    ingredients: CONFIRMED.hojichaIngredients ? "100% roasted Japanese green tea (hojicha)" : null,
+    netWeight: "30 g",
+    packedIn: "Japan",
+    caffeine: "Contains caffeine",
+  },
+  storageNote,
+  servingsNote: cups("Hojicha latte, 4–5 g: about 6–7 cups."),
+};
 
 export const PRODUCTS: Product[] = [
-  tea({
-    handle: "yame-no-mukashi",
-    title: "Yame no Mukashi",
-    description:
-      "The Professor keeps the deep tea at the Academy. Expect nutty, umami and mellow notes. From Yame in Fukuoka, 100% Okumidori, first harvest. Lovely whisked or as a latte.",
-    tags: ["new"],
-    tin: ART.professorTin,
-    gallery: teaGallery(ART.professorTin, ART.professorKey),
-    variants: [variant("y30", "30 g", 48, 12, 15), variant("y100", "100 g", 140, 0, 50)],
-    taste: { position: 4, word: "Deep", tier: "Reserve" },
-    tastingNotes: ["Nutty", "Umami", "Mellow"],
-    bestFor: ["Latte", "Straight", "Iced"],
-    facts: { origin: "Yame, Fukuoka", cultivar: "100% Okumidori", harvest: "First harvest", netWeight: "30 g", ...FACT_DEFAULTS },
-    character: character("the-professor"),
-  }),
-  tea({
-    handle: "kosen-daily-matcha",
-    title: "Kosen Daily Matcha",
-    description:
-      "The Kosen keeper looks after the everyday tea at the Academy. Expect toasted, nutty and easy-going notes. From Shizuoka, Kagoshima and Uji, a first and second harvest blend. Lovely as a latte or over ice.",
-    tags: [],
-    tin: ART.kosenTin,
-    gallery: teaGallery(ART.kosenTin, ART.kosenKey),
-    variants: [variant("d30", "30 g", 32, 3, 15)],
-    taste: { position: 2, word: "Bright", tier: "Daily" },
-    tastingNotes: ["Toasted", "Nutty", "Easy-going"],
-    bestFor: ["Latte", "Iced"],
-    facts: {
-      origin: "Shizuoka · Kagoshima · Uji",
-      cultivar: "Saemidori · Yabukita · Yutakamidori",
-      harvest: "First and second harvest blend",
-      netWeight: "30 g",
-      ...FACT_DEFAULTS,
-    },
-    character: character("kosen-keeper"),
-  }),
-  tea({
-    handle: "the-charmer",
-    title: "The Charmer",
-    description:
-      "The Charmer keeps the deepest tea at the Academy. Expect intense nuttiness, deep-roasted notes and a gentle sweetness. From Kagoshima, an Okumidori blend, first harvest. Lovely whisked or as a latte.",
-    tags: [],
-    tin: ART.charmerTin,
-    gallery: teaGallery(ART.charmerTin, ART.charmerKey),
-    variants: [variant("c30", "30 g", 52, 9, 15)],
-    taste: { position: 5, word: "Deep", tier: "Reserve" },
-    tastingNotes: ["Nutty", "Roasted", "Gently sweet"],
-    bestFor: ["Latte", "Straight"],
-    facts: { origin: "Kagoshima", cultivar: "Okumidori blend", harvest: "First harvest", netWeight: "30 g", ...FACT_DEFAULTS },
-    character: character("the-charmer"),
-  }),
-  tea({
-    handle: "organic-hojicha",
-    title: "Organic Hojicha",
-    description:
-      "The tea-room keeper looks after the roasted tea at the Academy. Expect smoky, chocolatey notes and a warm, caramel-like finish. From Uji, a Yabukita blend. Lovely as a latte.",
-    tags: [],
-    tin: ART.hojichaTin,
-    gallery: teaGallery(ART.hojichaTin, ART.hojichaKey, true),
-    variants: [variant("h40", "40 g", 30, 20, 13)],
-    taste: { position: 5, word: "Deep", tier: "Roasted" },
-    tastingNotes: ["Smoky", "Chocolatey", "Caramel"],
-    bestFor: ["Latte"],
-    facts: {
-      origin: "Uji, Kyoto",
-      cultivar: "Yabukita blend",
-      harvest: "Blended harvest",
-      netWeight: "40 g",
-      ...FACT_DEFAULTS,
-      ingredients: "100% roasted green tea (hojicha)",
-    },
-    character: character("tea-room-keeper"),
-  }),
-  {
-    id: "fx-discovery-set",
-    handle: "discovery-set",
-    kind: "gift",
-    title: "[Two-tin discovery set]",
-    description: "Bright and deep, side by side. Gift note included.",
-    tags: ["gift"],
-    badge: null,
-    tin: ART.kosenTin,
-    gallery: [
-      { kind: "image", image: ART.kosenTin, fit: "contain", label: "GIFT SET" },
-      { kind: "image", image: ART.professorTin, fit: "contain", label: "GIFT SET" },
-    ],
-    variants: [variant("g-set", "Set of 2", 76, 10, null)],
-    taste: null,
-    tastingNotes: [],
-    bestFor: [],
-    facts: null,
-    storageNote: null,
-    character: null,
-    pending: true,
-  },
-  {
-    id: "fx-tin-and-whisk",
-    handle: "tin-and-whisk",
-    kind: "gift",
-    title: "[Tin + bamboo whisk]",
-    description: "Everything needed to start whisking.",
-    tags: ["gift"],
-    badge: null,
-    tin: ART.professorTin,
-    gallery: [{ kind: "image", image: ART.professorTin, fit: "contain", label: "GIFT SET" }],
-    variants: [variant("g-tool", "Set", 70, 10, null)],
-    taste: null,
-    tastingNotes: [],
-    bestFor: [],
-    facts: null,
-    storageNote: null,
-    character: null,
-    pending: true,
-  },
-  {
-    id: "fx-bamboo-whisk",
-    handle: "bamboo-whisk",
-    kind: "tool",
-    title: "Bamboo whisk (chasen)",
-    description: "A hundred-prong bamboo whisk for straight cups.",
-    tags: ["accessory"],
-    badge: null,
-    tin: null,
-    gallery: [{ kind: "placeholder", label: "TOOL PHOTO" }],
-    variants: [variant("t-whisk", "1 piece", 28, 10, null)],
-    taste: null,
-    tastingNotes: [],
-    bestFor: [],
-    facts: null,
-    storageNote: null,
-    character: null,
-    pending: false,
-  },
-  {
-    id: "fx-handheld-frother",
-    handle: "handheld-frother",
-    kind: "tool",
-    title: "Handheld frother",
-    description: "For lattes in under a minute.",
-    tags: ["accessory"],
-    badge: null,
-    tin: null,
-    gallery: [{ kind: "placeholder", label: "TOOL PHOTO" }],
-    variants: [variant("t-froth", "1 piece", 22, 10, null)],
-    taste: null,
-    tastingNotes: [],
-    bestFor: [],
-    facts: null,
-    storageNote: null,
-    character: null,
-    pending: false,
-  },
+  PROFESSOR,
+  SCHOLAR,
+  REBEL,
+  LIBRARIAN,
+  // Held: scope pending, behind LIVE.gifts and LIVE.accessories.
+  held("discovery-set", "Two-tin discovery set", "gift", "", "g-set", "WM-GFT-SET", "Set of 2", 76),
+  held("tin-and-whisk", "Tin + bamboo whisk", "gift", "", "g-tool", "WM-GFT-WSK", "Set", 70),
+  held("bamboo-whisk", "Bamboo whisk (chasen)", "tool", "A hundred-prong bamboo whisk for straight cups.", "t-whisk", "WM-TL-WSK", "1 piece", 28),
+  held("handheld-frother", "Handheld frother", "tool", "For lattes in under a minute.", "t-froth", "WM-TL-FRO", "1 piece", 22),
 ];
 
 export const COLLECTIONS: Record<string, { title: string; description: string; handles: string[] }> = {
-  matcha: {
-    title: "Which Matcha Today?",
-    description:
-      "Choose by taste. Bright teas are fresh and lively; deep teas are rounder and richer, and hold up beautifully in milk.",
-    handles: ["yame-no-mukashi", "kosen-daily-matcha", "the-charmer", "organic-hojicha"],
+  teas: {
+    title: "Japanese matcha and hojicha",
+    description: "Three matcha and one hojicha, each with a clear character. Compare tasting notes and how each one likes to be made, then pick your next cup.",
+    handles: [PROFESSOR.handle, SCHOLAR.handle, REBEL.handle, LIBRARIAN.handle],
   },
   gifts: {
-    title: "Gifts with a little magic",
-    description: "Tick “This is a gift” in your cart and write a note of up to 150 characters. Prices stay off the packing slip.",
-    handles: ["discovery-set", "tin-and-whisk", "yame-no-mukashi", "kosen-daily-matcha", "the-charmer", "organic-hojicha"],
+    title: "Gifts",
+    description: "",
+    handles: ["discovery-set", "tin-and-whisk", PROFESSOR.handle, SCHOLAR.handle, REBEL.handle, LIBRARIAN.handle],
   },
   accessories: {
     title: "Accessories",
-    description: "The few tools that make good matcha easy: a whisk for straight cups, a frother for lattes.",
+    description: "",
     handles: ["bamboo-whisk", "handheld-frother"],
   },
 };
 
-export const PREP_METHODS: PrepMethod[] = [
-  {
-    id: "whisk",
-    name: "Whisk",
-    grams: "2 g",
-    water: "70 ml · 80°C",
-    milk: "—",
-    time: "2 min",
-    steps: [
-      "Sift 2 g (one heaped scoop) into a warm bowl.",
-      "Add a splash of 80°C water and paste it smooth.",
-      "Top up to 70 ml. Whisk in a quick M shape for 15 seconds.",
-      "Drink while the foam is fine.",
-    ],
-    videoUrl: null,
-    poster: ART.whisking,
-    summary: "2 g · 70 ml at 80°C · 2 min",
-  },
-  {
-    id: "frother",
-    name: "Frother",
-    grams: "2 g",
-    water: "30 ml · 80°C",
-    milk: "180 ml",
-    time: "3 min",
-    steps: [
-      "Add 2 g to a mug with 30 ml of 80°C water.",
-      "Froth for 10 seconds until no lumps remain.",
-      "Froth 180 ml of warm milk separately.",
-      "Pour the milk over the matcha.",
-    ],
-    videoUrl: null,
-    poster: ART.everyday,
-    summary: "2 g · 30 ml · 180 ml milk",
-  },
-  {
-    id: "shaker",
-    name: "Shaker",
-    grams: "2 g",
-    water: "60 ml · cold",
-    milk: "150 ml",
-    time: "2 min",
-    steps: ["Add 2 g and 60 ml cold water to a shaker.", "Close tight. Shake hard for 20 seconds.", "Pour over ice and milk."],
-    videoUrl: null,
-    poster: ART.iced,
-    summary: "2 g · 60 ml cold · 20 s",
-  },
-  {
-    id: "iced",
-    name: "Iced latte",
-    grams: "2 g",
-    water: "40 ml · 80°C",
-    milk: "180 ml",
-    time: "3 min",
-    steps: [
-      "Whisk or froth 2 g with 40 ml of 80°C water.",
-      "Fill a glass with ice and 180 ml cold milk.",
-      "Pour the matcha over slowly for the layers.",
-    ],
-    videoUrl: null,
-    poster: ART.iced,
-    summary: "2 g · 40 ml · over ice",
-  },
-];
-
-function guideImage(method: string): Image {
-  return method === "shaker" || method === "iced" ? ART.iced : method === "frother" ? ART.everyday : ART.whisking;
-}
+/** Tested methods go here once founders confirm them per tea; recipes for launch live in `content/recipes.ts`. */
+export const PREP_METHODS: PrepMethod[] = [];
 
 function guide(handle: string, title: string, method: Guide["method"], time: string, serves: string, troubleshooting = false): Guide {
-  return { handle, title, method, time, serves, image: guideImage(method), contentHtml: null, troubleshooting };
+  return { handle, title, method, time, serves, image: null, contentHtml: null, troubleshooting };
 }
 
+/** Titles only: the articles are not written yet, so the blog stays behind LIVE.guides. */
 export const GUIDES: Guide[] = [
   guide("how-to-whisk-matcha", "How to whisk matcha", "whisk", "3 min", "1"),
   guide("a-frothed-matcha-latte", "A frothed matcha latte", "frother", "4 min", "1"),
@@ -363,47 +218,61 @@ export const GUIDES: Guide[] = [
   guide("oat-almond-or-dairy", "Oat, almond or dairy?", "frother", "4 min read", "—"),
 ];
 
+const ON_PRODUCT = new Set(["which-tea", "hojicha-vs-matcha", "caffeine", "bamboo-whisk", "cold-water", "storage", "cups"]);
+
+function faq(id: string, question: string, answer: string, category: FaqEntry["category"] = "tea"): FaqEntry {
+  return { id, question, answer, category, onProduct: ON_PRODUCT.has(id) };
+}
+
 export const FAQ: FaqEntry[] = [
-  {
-    id: "lattes",
-    question: "Is it good for lattes?",
-    answer: "Yes. The deep tea holds its flavour through milk; the bright tea is lighter and lovely over ice.",
-    category: "tea",
-    onProduct: true,
-  },
-  {
-    id: "store",
-    question: "How do I store it?",
-    answer: "Keep the tin closed tight, somewhere cool and dry, away from sunlight. Once opened, enjoy it within [opened shelf-life].",
-    category: "tea",
-    onProduct: true,
-  },
-  {
-    id: "per-serve",
-    question: "How much is it per serve?",
-    answer: "A 30 g tin makes about 15 serves at 2 g each, so roughly $[3.20] a cup.",
-    category: "making",
-    onProduct: true,
-  },
-  {
-    id: "arrive",
-    question: "When will it arrive?",
-    answer: "We dispatch from [city] within [x] business days. Metro Australia usually arrives [x–y] business days after that.",
-    category: "orders",
-    onProduct: true,
-  },
-  {
-    id: "gift",
-    question: "Can I send it as a gift?",
-    answer: "Yes. Tick “This is a gift” in your cart, add a note of up to 150 characters, and we leave prices off the packing slip.",
-    category: "gifts",
-    onProduct: true,
-  },
+  faq(
+    "hojicha-vs-matcha",
+    "Is hojicha the same as matcha?",
+    "No. Matcha and hojicha are different Japanese teas. Hojicha is roasted, giving it a warm, toasty flavour. The Librarian — Uji Hojicha is our hojicha; our other three teas are matcha.",
+  ),
+  faq(
+    "academy-titles",
+    "Why do your teas have Academy titles?",
+    "Each title sums up a tea's flavour character, so it's easy to remember the one you liked. The name next to it tells you exactly what it is: The Professor is our Yame matcha, The Scholar our Japanese matcha blend, The Rebel our Kagoshima matcha and The Librarian our Uji hojicha.",
+  ),
+  faq(
+    "which-tea",
+    "Which tea should I choose?",
+    "For matcha on its own, start with The Professor — Yame Matcha. For everyday lattes, choose The Scholar — Japanese Matcha Blend. If you like nutty flavours, especially in an oat milk latte, try The Rebel — Kagoshima Matcha. For a roasted tea instead of green matcha, choose The Librarian — Uji Hojicha.",
+  ),
+  faq("caffeine", "Do your teas contain caffeine?", "Yes. Our matcha and hojicha all contain caffeine."),
+  faq(
+    "how-chosen",
+    "How do you choose your teas?",
+    "Our co-founder Wichita tasted more than 40 Japanese tea samples to choose the range, so you don't have to. Each matcha was tasted on its own first; the best were then tried iced and with different milks. We chose the teas we'd want to drink again.",
+  ),
+  faq(
+    "grow-or-blend",
+    "Do you grow or blend your own tea?",
+    "No. We choose it. Our teas are grown and packed in Japan, and our co-founder Wichita tasted more than 40 samples to pick the range. What we add is the choosing, honest tasting notes and simple ways to make each one.",
+  ),
+  faq(
+    "bamboo-whisk",
+    "Do I need a bamboo whisk?",
+    "A bamboo whisk is one way to prepare matcha. You can also use a handheld frother, or a shaker with cold water. See the recipes for how to make each one.",
+    "making",
+  ),
+  faq(
+    "cold-water",
+    "Can I make matcha with cold water?",
+    "Yes. Whisk it with cold or room-temperature water, or use a shaker with a secure lid. It tends to taste sweeter and less bitter. Never use hot water in a shaker.",
+    "making",
+  ),
+  ...(CONFIRMED.storage ? [faq("storage", "How should I store my tea?", STORAGE_NOTE)] : []),
+  ...(CONFIRMED.cupsPerTin
+    ? [faq("cups", "How many cups are in a tin?", "A 30 g tin makes about 15 cups of usucha at 2 g each. A matcha latte at 3–4 g gives about 7–10 cups, and a hojicha latte at 4–5 g about 6–7.", "making")]
+    : []),
 ];
 
+/** Legal text comes from Shopify admin. Empty bodies stay behind LIVE.policies. */
 export const POLICIES: Policy[] = [
-  { handle: "privacy-policy", title: "Privacy Policy", body: "[Privacy policy text from Shopify admin → Settings → Policies.]" },
-  { handle: "terms-of-service", title: "Terms of Service", body: "[Terms of service text from Shopify admin → Settings → Policies.]" },
-  { handle: "refund-policy", title: "Refund Policy", body: "[Refund policy text from Shopify admin → Settings → Policies.]" },
-  { handle: "shipping-policy", title: "Shipping Policy", body: "[Shipping policy text from Shopify admin → Settings → Policies.]" },
+  { handle: "privacy-policy", title: "Privacy Policy", body: "" },
+  { handle: "terms-of-service", title: "Terms of Service", body: "" },
+  { handle: "refund-policy", title: "Refund Policy", body: "" },
+  { handle: "shipping-policy", title: "Shipping Policy", body: "" },
 ];

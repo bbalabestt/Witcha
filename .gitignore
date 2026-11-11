@@ -46,3 +46,11 @@ witcha-matcha-brand-ci/fonts/*.ttf
 /test-results/
 /playwright-report/
 /blob-report/
+
+# Client handoff and plans: confidential while the repo is public
+docs/client/
+docs/superpowers/
+tests/.internal-terms.txt
+
+# Impeccable context, from confidential client strategy
+PRODUCT.md

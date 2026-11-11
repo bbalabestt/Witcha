@@ -12,12 +12,9 @@ export function repository(): CommerceRepository {
   if (instance) return instance;
   const e = env();
   if (e.commerceSource === "shopify" && e.shopify) {
-    instance = new ShopifyRepository(createStorefrontClient(e.shopify), {
-      freeShippingThreshold: e.freeShippingThreshold,
-      placeholderPrices: e.pricesArePlaceholders,
-    });
+    instance = new ShopifyRepository(createStorefrontClient(e.shopify), { placeholderPrices: e.pricesArePlaceholders });
   } else {
-    instance = new FixtureRepository({ freeShippingThreshold: e.freeShippingThreshold });
+    instance = new FixtureRepository();
   }
   return instance;
 }

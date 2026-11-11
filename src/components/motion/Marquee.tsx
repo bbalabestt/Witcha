@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
-import { motionAllowed, onFrame } from "./runtime";
+import { loopsAllowed, onFrame } from "./runtime";
 
 /**
  * Running text that speeds up (and leans slightly) with scroll velocity. The content is rendered twice for a
@@ -34,7 +34,7 @@ export function Marquee({
     if (!el) return;
     let offset = 0;
     return onFrame(({ velocity }) => {
-      if (!motionAllowed() || held.current) return;
+      if (!loopsAllowed() || held.current) return;
       const half = el.scrollWidth / 2 || 1;
       offset = (((offset + (speed + Math.min(14, Math.abs(velocity) * 0.35)) * direction) % half) + half) % half;
       const lean = skew ? Math.max(-10, Math.min(10, velocity * 0.4)) * -direction : 0;

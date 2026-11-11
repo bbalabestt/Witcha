@@ -1,0 +1,27 @@
+/* Faded so the mock-up reads as a placeholder, not a pack shot. Sizes are defaults each slot may override. */
+.tin {
+  opacity: 0.42;
+}
+
+:where(.tin) {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tin {
+    transition:
+      transform 400ms var(--ease-out),
+      opacity 400ms var(--ease-out);
+  }
+
+  @media (hover: hover) {
+    a:hover .tin,
+    button:hover .tin {
+      transform: translateY(-5px) rotate(-2deg);
+      opacity: 0.55;
+    }
+  }
+}

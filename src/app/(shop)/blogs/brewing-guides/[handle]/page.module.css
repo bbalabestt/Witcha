@@ -34,7 +34,7 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-  background-color: var(--surface-soft);
+  background-color: var(--surface-page);
   background-size: cover;
   background-position: center;
   border: 1px solid var(--line-hairline);
@@ -76,7 +76,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  background: var(--surface-soft);
+  background: var(--surface-page);
 }
 
 .needs li {

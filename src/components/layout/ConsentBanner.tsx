@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useSyncExternalStore } from "react";
+import { LIVE } from "@/lib/config/launch";
 import styles from "./ConsentBanner.module.css";
 
 const KEY = "wm-consent";
@@ -42,9 +43,11 @@ export function ConsentBanner() {
       <section className={styles.banner} aria-label="Cookie preferences">
         <p className={styles.text}>
           We use essential cookies to run the shop and keep your cart. With your OK, we also measure which pages help.{" "}
-          <Link href="/policies/privacy-policy" className="text-link">
-            Privacy Policy
-          </Link>
+          {LIVE.policies ? (
+            <Link href="/policies/privacy-policy" className="text-link">
+              Privacy Policy
+            </Link>
+          ) : null}
         </p>
         <div className={styles.actions}>
           <button type="button" className={styles.secondary} onClick={() => choose("essential")}>
