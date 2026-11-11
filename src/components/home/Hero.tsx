@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { WhiskedBowl } from "@/components/motion/MatchaScenes";
-import { Icon } from "@/components/ui/Icon";
 import { BRAND_LINE, DRINK_WAYS, HERO, SELECTION_ID } from "@/lib/content/home";
 import { TEAS_HREF } from "@/lib/config/site";
-import { clamp01, easeInOut, loopsAllowed, motionAllowed, onFrame, sectionProgress } from "@/components/motion/runtime";
+import { clamp01, easeInOut, hoverCapable, loopsAllowed, motionAllowed, onFrame, sectionProgress } from "@/components/motion/runtime";
+import { CatPeek } from "./CatPeek";
+import { MatchaBowl } from "./MatchaBowl";
 import styles from "./Hero.module.css";
 
 /** Seeded foam bubbles (the same 54 as the prototype, so server and client markup match). */
@@ -26,9 +26,27 @@ const BUBBLES = (() => {
   return out;
 })();
 
-function Buttons({ stacked = false }: { stacked?: boolean }) {
+/** The chasen from above, as drawn in the live bowl: a ring of tines around the handle. */
+function ChasenTop() {
   return (
-    <div className={stacked ? styles.buttonsStacked : styles.buttons}>
+    <svg viewBox="-50 -50 100 100" aria-hidden="true">
+      <g stroke="currentColor" strokeWidth="1.6" fill="none">
+        {Array.from({ length: 24 }, (_, i) => {
+          const a = (i / 24) * Math.PI * 2;
+          // Rounded, so server and browser render identical attributes.
+          const at = (r: number, f: (x: number) => number) => Number((f(a) * r).toFixed(2));
+          return <line key={i} x1={at(16, Math.cos)} y1={at(16, Math.sin)} x2={at(46, Math.cos)} y2={at(46, Math.sin)} />;
+        })}
+        <circle r="46" />
+        <circle r="16" fill="var(--brand-cream)" strokeWidth="2.4" />
+      </g>
+    </svg>
+  );
+}
+
+function Buttons({ pair = false }: { pair?: boolean }) {
+  return (
+    <div className={pair ? styles.buttonsPair : styles.buttons}>
       <Link href={TEAS_HREF} className={`${styles.primary} on-primary`}>
         {HERO.primary}
       </Link>
@@ -40,9 +58,11 @@ function Buttons({ stacked = false }: { stacked?: boolean }) {
 }
 
 /**
- * Desktop: the arch grows to fill the screen as you scroll, then a matcha bowl is whisked to foam and gives
- * way to the tea selection heading on cream. Phones get a static stack (V2.1 2.1). Reduced motion: no scrub.
- * Words: copy v5.3 §1. The arch shows a whisked bowl, not cat art (vendor list: the site works without a cat).
+ * The arch holds a live bowl of matcha that is made on arrival and whisks under the pointer or finger, with
+ * the Academy cat peeking over the top (a line-drawn gesture, not character art). Desktop: the arch grows to
+ * fill the screen as you scroll, dives into the foam and gives way to the next heading on cream; the headline
+ * halves and badge drift with the pointer. Phones: a short stack with both actions in the first screen.
+ * Reduced motion: no scrub, a still finished bowl. Words: copy v5.3 §1.
  */
 export function Hero() {
   const section = useRef<HTMLElement>(null);
@@ -64,12 +84,23 @@ export function Hero() {
     const wash = q("[data-wash]");
     const inside = q("[data-inside]");
     const badge = q("[data-spin]");
+    const badgeWrap = q("[data-badge]");
     const bar = q("[data-bar]");
+    const live = q("[data-live]");
     const fades = all("[data-fade]");
     const bubbles = all("[data-bub]");
     const swirls = all("[data-swirl]");
 
-    return onFrame(({ now, y }) => {
+    // Depth on desktop: the headline halves and the badge drift a little against the pointer.
+    const aim = { x: 0, y: 0 };
+    const drift = { x: 0, y: 0 };
+    const onPointer = (ev: PointerEvent) => {
+      aim.x = (ev.clientX / window.innerWidth) * 2 - 1;
+      aim.y = (ev.clientY / window.innerHeight) * 2 - 1;
+    };
+    if (hoverCapable()) window.addEventListener("pointermove", onPointer, { passive: true });
+
+    const stop = onFrame(({ now, y }) => {
       if (getComputedStyle(hero).display === "none") return;
       const H = window.innerHeight;
       const W = window.innerWidth;
@@ -84,18 +115,35 @@ export function Hero() {
       }
       if (ring) ring.style.opacity = String(Math.max(0, 1 - p * 3));
       fades.forEach((el) => (el.style.opacity = String(Math.max(0, 1 - p * 3.2))));
-      if (l1) l1.style.transform = `translateX(${-e * 60}vw)`;
-      if (l2) l2.style.transform = `translateX(${e * 60}vw)`;
+      const still = !motion || !loopsAllowed();
+      drift.x += ((still ? 0 : aim.x) - drift.x) * 0.06;
+      drift.y += ((still ? 0 : aim.y) - drift.y) * 0.06;
+      if (l1) l1.style.transform = `translateX(${-e * 60}vw) translate(${(-drift.x * 14).toFixed(1)}px, ${(-drift.y * 8).toFixed(1)}px)`;
+      if (l2) l2.style.transform = `translateX(${e * 60}vw) translate(${(drift.x * 14).toFixed(1)}px, ${(drift.y * 8).toFixed(1)}px)`;
+      if (badgeWrap) badgeWrap.style.transform = `translate(${(drift.x * 22).toFixed(1)}px, ${(drift.y * 16).toFixed(1)}px)`;
       if (bar) bar.style.transform = `translateY(${e * 70}vh)`;
       if (badge && loopsAllowed()) badge.style.transform = `rotate(${((now * 0.012 + y * 0.2) % 360).toFixed(1)}deg)`;
 
       if (foam) {
-        foam.style.opacity = String(clamp01((p - 0.3) / 0.1));
-        const g = clamp01((p - 0.32) / 0.28);
+        // A quick cut from the live bowl to the full-screen foam, where the two bowls are about the same size.
+        foam.style.opacity = String(clamp01((p - 0.4) / 0.05));
+        const g = clamp01((p - 0.42) / 0.24);
         const c = easeInOut(clamp01((p - 0.6) / 0.16));
-        if (bowl) {
+        if (bowl && stage) {
+          // Start exactly over the live bowl (same size and centre), then glide to the middle as it is whisked.
+          let base = 1;
+          let dx = 0;
+          let dy = 0;
+          if (live && live.offsetWidth) {
+            const r = live.getBoundingClientRect();
+            const sr = stage.getBoundingClientRect();
+            base = Math.min(1, (2 * Math.min(r.width * 0.42, r.height * 0.32)) / Math.max(1, bowl.offsetWidth));
+            const k = 1 - easeInOut(g);
+            dx = (r.left + r.width / 2 - (sr.left + sr.width / 2)) * k;
+            dy = (r.top + r.height * 0.6 - (sr.top + sr.height / 2)) * k;
+          }
           const cs = (Math.hypot(W, H) / Math.max(1, bowl.offsetWidth)) * 1.08;
-          bowl.style.transform = `scale(${((0.7 + 0.3 * easeInOut(g)) * (1 + c * (cs - 1))).toFixed(3)}) rotate(${(p * 40).toFixed(1)}deg)`;
+          bowl.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px) scale(${(base * (1 + c * (cs - 1))).toFixed(3)}) rotate(${(p * 40).toFixed(1)}deg)`;
         }
         const n = bubbles.length || 1;
         bubbles.forEach((b, k) => {
@@ -123,6 +171,10 @@ export function Hero() {
         inside.style.pointerEvents = o > 0.5 ? "auto" : "none";
       }
     });
+    return () => {
+      stop();
+      window.removeEventListener("pointermove", onPointer);
+    };
   }, []);
 
   return (
@@ -137,14 +189,18 @@ export function Hero() {
                 <path d="M0 133 V50 A50 50 0 0 1 100 50 V133" fill="none" stroke="var(--line-on-mint)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
               </svg>
             </div>
+            <span className={styles.catWrap} data-fade="">
+              <CatPeek />
+            </span>
             <div className={styles.window} data-reveal="arch-open" aria-hidden="true">
-              <div data-fade="" className={styles.tin}>
-                <WhiskedBowl />
+              {/* Stays solid through the zoom, so the scroll dives straight into the foam. */}
+              <div className={styles.live} data-live="">
+                <MatchaBowl />
               </div>
             </div>
           </div>
 
-          <div className={styles.badge} data-fade="" aria-hidden="true">
+          <div className={styles.badge} data-fade="" data-badge="" aria-hidden="true">
             <svg viewBox="0 0 130 130" data-spin="">
               <defs>
                 <path id="wm-badge-circle" d="M65 65 m-52 0 a52 52 0 1 1 104 0 a52 52 0 1 1 -104 0" />
@@ -201,7 +257,7 @@ export function Hero() {
                 <span key={i} data-bub="" className={styles.bubble} style={{ left: b.l, top: b.t, width: b.size, height: b.size, margin: `${-b.size / 2}px 0 0 ${-b.size / 2}px` }} />
               ))}
               <span data-whisk="" className={styles.whisk}>
-                <Icon name="whisk" size={96} />
+                <ChasenTop />
               </span>
             </div>
             <span className={styles.caption} data-cap="">
@@ -226,9 +282,12 @@ export function Hero() {
         </div>
         <div className={styles.mArch}>
           <div className={styles.mRing} data-reveal="arch-open" data-delay="200" aria-hidden="true" />
+          <span className={styles.catWrap}>
+            <CatPeek />
+          </span>
           <div className={styles.mWindow} data-reveal="arch-open" aria-hidden="true">
-            <div className={styles.tin}>
-              <WhiskedBowl />
+            <div className={styles.live}>
+              <MatchaBowl />
             </div>
           </div>
         </div>
@@ -240,13 +299,14 @@ export function Hero() {
             Taste.
           </span>
         </div>
+        {/* Shop first: on a phone the two actions sit right under the headline, inside the first screen. */}
+        <div data-reveal="up">
+          <Buttons pair />
+        </div>
         <span className="label" data-reveal="up">
           {HERO.eyebrow}
         </span>
         <p data-reveal="up">{HERO.supporting}</p>
-        <div data-reveal="up">
-          <Buttons stacked />
-        </div>
       </section>
     </>
   );

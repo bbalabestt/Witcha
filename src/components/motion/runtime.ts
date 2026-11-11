@@ -15,6 +15,30 @@ export function loopsAllowed(): boolean {
   return motionAllowed() && !document.documentElement.hasAttribute("data-motion-paused");
 }
 
+export type RGB = [number, number, number];
+
+/**
+ * Resolves a colour token to 0–255 RGB for canvas drawing and scroll blends. Painted through a 1 px canvas,
+ * because `color-mix()` tokens compute to `color(srgb 0–1 …)`, not `rgb()`.
+ */
+export function tokenRGB(token: string, fallback: RGB): RGB {
+  const probe = document.createElement("span");
+  probe.style.color = `var(${token})`;
+  document.body.appendChild(probe);
+  const css = getComputedStyle(probe).color;
+  probe.remove();
+  const ctx = document.createElement("canvas").getContext("2d", { willReadFrequently: true });
+  if (!ctx) return fallback;
+  // A value no token resolves to: if it survives, the browser could not parse the token's colour.
+  ctx.fillStyle = "rgb(1, 2, 3)";
+  const unparsed = ctx.fillStyle;
+  ctx.fillStyle = css;
+  if (ctx.fillStyle === unparsed) return fallback;
+  ctx.fillRect(0, 0, 1, 1);
+  const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+  return [r ?? fallback[0], g ?? fallback[1], b ?? fallback[2]];
+}
+
 export function hoverCapable(): boolean {
   return typeof window !== "undefined" && window.matchMedia("(hover: hover)").matches;
 }

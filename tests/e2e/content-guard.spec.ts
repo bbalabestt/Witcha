@@ -72,6 +72,26 @@ test("the drawings are alive, the pause control stops every loop, and the choice
   await expect.poll(running).toBeGreaterThan(5);
 });
 
+test("the hero bowl is made on arrival, the cat peeks, and the pointer whisks it", async ({ page }) => {
+  await page.goto("/", { waitUntil: "networkidle" });
+  const canvas = page.locator("[data-arch] canvas");
+  await expect(canvas).toBeVisible();
+  // Matcha green in the middle of the bowl once the powder, water and whisking have played (about 3.5 s).
+  const green = () =>
+    canvas.evaluate((el: HTMLCanvasElement) => {
+      const ctx = el.getContext("2d")!;
+      const [r, g, b] = ctx.getImageData(el.width / 2, el.height * 0.6, 1, 1).data;
+      return g! > r! && g! > b! && g! - b! > 30;
+    });
+  await expect.poll(green, { timeout: 8_000 }).toBe(true);
+  await expect(page.locator("[data-arch] svg[class*='cat']")).toBeVisible();
+
+  const box = (await canvas.boundingBox())!;
+  const before = await canvas.evaluate((el: HTMLCanvasElement) => el.toDataURL());
+  for (let i = 0; i < 12; i++) await page.mouse.move(box.x + box.width / 2 + Math.sin(i) * 60, box.y + box.height * 0.6);
+  await expect.poll(() => canvas.evaluate((el: HTMLCanvasElement) => el.toDataURL())).not.toBe(before);
+});
+
 test("reduced motion stops every loop and hides the pause control", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
@@ -101,8 +121,9 @@ test("scrolling grows the arch over the screen, whisks the bowl and fades the he
   await expect(page.getByRole("link", { name: "Shop the teas" }).first()).toBeVisible();
 
   const hero = await page.locator("section").first().evaluate((el) => el.getBoundingClientRect().height - window.innerHeight);
-  await page.evaluate((y) => window.scrollTo({ top: y * 0.5, behavior: "instant" }), hero);
+  await page.evaluate((y) => window.scrollTo({ top: y * 0.6, behavior: "instant" }), hero);
   await expect.poll(async () => (await state()).width).toBeGreaterThan(start.width * 1.5);
+  // The live bowl hands over to the full-screen foam at about 45% of the scene.
   await expect.poll(async () => (await state()).foam).toBe(1);
   const end = await state();
   expect(end).toMatchObject({ copy: 0, overflow: false });

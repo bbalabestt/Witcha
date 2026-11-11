@@ -2,28 +2,10 @@
 
 import Link from "next/link";
 import { Fragment, useEffect, useRef } from "react";
-import { clamp01, loopsAllowed, motionAllowed, onFrame, sectionProgress } from "@/components/motion/runtime";
+import { clamp01, loopsAllowed, motionAllowed, onFrame, sectionProgress, tokenRGB } from "@/components/motion/runtime";
 import { TASTE_FIRST } from "@/lib/content/home";
 import { TEAS_HREF } from "@/lib/config/site";
 import styles from "./Manifesto.module.css";
-
-/**
- * Resolves a colour token to 0–255 RGB so the scroll can blend between two of them. Painted through a canvas,
- * because `color-mix()` tokens compute to `color(srgb 0–1 …)`, not `rgb()`.
- */
-function readColour(token: string, fallback: [number, number, number]): [number, number, number] {
-  const probe = document.createElement("span");
-  probe.style.color = `var(${token})`;
-  document.body.appendChild(probe);
-  const css = getComputedStyle(probe).color;
-  probe.remove();
-  const ctx = document.createElement("canvas").getContext("2d");
-  if (!ctx) return fallback;
-  ctx.fillStyle = css;
-  ctx.fillRect(0, 0, 1, 1);
-  const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
-  return [r ?? fallback[0], g ?? fallback[1], b ?? fallback[2]];
-}
 
 /**
  * "Taste comes first." (copy v5.3 §1): the paragraph types itself in as you scroll, letter by letter, from the
@@ -44,8 +26,8 @@ export function Manifesto({ words }: { words: Array<{ w: string; key: boolean }>
     });
     const fill = section.querySelector<HTMLElement>("[data-fill]");
     const foam = section.querySelector<HTMLElement>("[data-foam-ring]");
-    const lit = readColour("--text-primary", [56, 56, 50]);
-    const unlit = readColour("--text-unlit", [138, 136, 128]);
+    const lit = tokenRGB("--text-primary", [56, 56, 50]);
+    const unlit = tokenRGB("--text-unlit", [138, 136, 128]);
     const shown = new Array<number>(chars.length).fill(-1);
     return onFrame(({ now }) => {
       const motion = motionAllowed();

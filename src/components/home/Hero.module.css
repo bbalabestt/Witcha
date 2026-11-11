@@ -61,13 +61,21 @@
   padding-bottom: 4%;
   border-radius: var(--radius-arch) var(--radius-arch) 0 0;
   background: var(--surface-page);
+  z-index: 1;
 }
 
-.tin {
-  position: relative;
-  z-index: 1;
-  width: 78%;
-  height: auto;
+/* The live bowl fills the arch window. */
+.live {
+  position: absolute;
+  inset: 0;
+}
+
+/* The peeking cat sits behind the window, so the arch's top edge hides its chin. */
+.catWrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
 }
 
 .badge {
@@ -144,10 +152,18 @@
   flex-wrap: wrap;
 }
 
-.buttonsStacked {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* Phones: the two actions share one row so both sit in the first screen. */
+.buttonsPair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.buttonsPair .primary,
+.buttonsPair .secondary {
+  min-width: 0;
+  padding: 0 var(--space-2);
+  letter-spacing: 0.12em;
 }
 
 .primary,
@@ -354,9 +370,10 @@
 .mArch {
   position: relative;
   align-self: center;
-  width: min(74vw, 300px);
+  width: min(64vw, 260px);
   aspect-ratio: 3 / 4;
-  margin: 12px 0 var(--space-1);
+  /* Room above for the cat's ears. */
+  margin: 30px 0 0;
 }
 
 .mRing {
