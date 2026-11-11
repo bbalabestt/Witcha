@@ -94,9 +94,9 @@
 }
 
 .tin {
-  left: 26%;
-  right: 26%;
-  bottom: 6%;
+  left: 18%;
+  right: 18%;
+  bottom: 4%;
   display: flex;
   align-items: flex-end;
 }

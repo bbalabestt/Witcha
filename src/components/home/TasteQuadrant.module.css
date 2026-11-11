@@ -156,15 +156,12 @@
   align-self: center;
   width: min(100%, 150px);
   aspect-ratio: 3 / 4;
-  border: 1px solid transparent;
+  border: 1px solid var(--line-hairline);
   border-radius: var(--radius-arch) var(--radius-arch) 0 0;
   overflow: hidden;
+  /* Pack-shot backdrop: cream, as the final photos will be. */
   background: var(--surface-page);
   transition: transform 0.5s cubic-bezier(0.34, 1.45, 0.5, 1);
-}
-
-.cell[data-way="milk"] .art {
-  background: var(--surface-brand);
 }
 
 .cell[data-state="suits"] .art {
@@ -178,10 +175,9 @@
 
 .tin {
   position: absolute;
-  left: 50%;
-  bottom: 6%;
-  width: 62%;
-  transform: translateX(-50%);
+  left: 18%;
+  bottom: 4%;
+  width: 64%;
 }
 
 .best {

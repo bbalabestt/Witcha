@@ -29,7 +29,7 @@ Layout and motion: the live Prototype V4 storefront (`origin/main`, 19 Oct 2026)
 - We choose tea; we never imply growing, roasting or blending it. The co-founder's public name is Wichita.
 - Product names are Academy title + descriptor wherever a customer chooses or checks. Supplier names are never public: not on the site, in URLs, SKUs, SEO, tests or commits.
 - Hold, don't fake: unconfirmed content stays off through `src/lib/config/launch.ts`. Never publish a bracket or placeholder claim. No fabricated reviews, ratings, customer counts or press.
-- No placeholder AI art and no stock cat imagery. Missing images are captionless neutral line drawings (`TinPlaceholder`, `ImagePlaceholder`).
+- No placeholder AI art and no stock cat imagery. Missing pack shots are a faded, cat-free tin mock-up on cream (`TinPlaceholder`, PNGs from `scripts/build-tin-mockups.mjs`); other missing images are captionless line drawings.
 - Motion sells the tea, not the cat: whisking, foam, steam, powder, pouring. Reveals may slide and fade, but never blur. Loops that run on their own check `loopsAllowed()`. No sparkles, stars or floating dots. Looping parts carry `data-loop` so the pause control reaches them.
 - Secrets only in server env vars. Never expose the private Storefront token or webhook secret to the client.
 - Accessibility: WCAG 2.1 AA, visible focus, 44px touch targets, labelled controls, focus trap in drawers/modals, `prefers-reduced-motion` respected.

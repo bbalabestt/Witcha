@@ -20,7 +20,8 @@
   width: min(42vw, 360px);
   aspect-ratio: 3 / 4;
   margin: var(--space-3) 56px var(--space-4) var(--space-3);
-  background: var(--surface-brand);
+  background: var(--surface-page);
+  border: 1px solid var(--line-hairline);
   border-radius: var(--radius-arch) var(--radius-arch) 0 0;
   outline: 1.5px solid var(--line-ornament);
   outline-offset: 12px;

@@ -15,7 +15,8 @@
   border: 1px solid var(--line-hairline);
 }
 
-.main > svg {
+.main > svg,
+.main > img {
   width: auto;
   max-width: 100%;
   height: 100%;
@@ -36,7 +37,8 @@
   border: 1px solid var(--line-hairline);
 }
 
-.thumb > svg {
+.thumb > svg,
+.thumb > img {
   width: auto;
   max-width: 100%;
   height: 100%;
