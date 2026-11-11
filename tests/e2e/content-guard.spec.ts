@@ -84,7 +84,7 @@ test("the hero bowl is made on arrival, the cat peeks, and the pointer whisks it
       return g! > r! && g! > b! && g! - b! > 30;
     });
   await expect.poll(green, { timeout: 8_000 }).toBe(true);
-  await expect(page.locator("[data-arch] svg[class*='cat']")).toBeVisible();
+  await expect(page.locator("[data-arch] img[src*='cat-peek']")).toBeVisible();
 
   const box = (await canvas.boundingBox())!;
   const before = await canvas.evaluate((el: HTMLCanvasElement) => el.toDataURL());

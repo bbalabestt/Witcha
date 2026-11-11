@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { loopsAllowed, motionAllowed, onFrame, tokenRGB, type RGB } from "@/components/motion/runtime";
 import styles from "./MatchaBowl.module.css";
 
-/** Fired with the whisk's page position, so the peeking cat can watch it on touch screens. */
+/** Fired each frame with where the cat should look: the whisk while it works, otherwise the bowl. */
 export const WHISK_EVENT = "wm:whisk";
 /** Fired as the cat's paw touches the foam. */
 export const PAW_EVENT = "wm:paw";
@@ -244,11 +244,12 @@ export function MatchaBowl() {
         if (prints[i]!.age > 5) prints.splice(i, 1);
       }
 
-      if (whisk.on > 0.5) {
-        const r = canvas.getBoundingClientRect();
-        const lr = R * 0.86;
-        window.dispatchEvent(new CustomEvent(WHISK_EVENT, { detail: { x: r.left + cx + whisk.x * lr, y: r.top + cy + whisk.y * lr } }));
-      }
+      // The cat follows the whisk while it works, and otherwise keeps its eyes on the bowl.
+      const r = canvas.getBoundingClientRect();
+      const lr = R * 0.86;
+      const busy = whisk.on > 0.5 && fill > 0.9;
+      const detail = busy ? { x: r.left + cx + whisk.x * lr, y: r.top + cy + whisk.y * lr } : { x: r.left + cx, y: r.top + cy };
+      window.dispatchEvent(new CustomEvent(WHISK_EVENT, { detail }));
     }
 
     function drawPrint(c: CanvasRenderingContext2D, x: number, y: number, s: number, colour: string) {

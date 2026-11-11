@@ -372,8 +372,8 @@
   align-self: center;
   width: min(64vw, 260px);
   aspect-ratio: 3 / 4;
-  /* Room above for the cat's ears. */
-  margin: 30px 0 0;
+  /* Room above for the cat's head, which peeks over the arch. */
+  margin: 72px 0 0;
 }
 
 .mRing {
