@@ -6,7 +6,6 @@ import "server-only";
  */
 
 export type CommerceSource = "fixtures" | "shopify";
-export type ReviewsSource = "none" | "sample";
 
 export type Env = {
   commerceSource: CommerceSource;
@@ -17,12 +16,8 @@ export type Env = {
     apiVersion: string;
     revalidationSecret: string;
   } | null;
-  freeShippingThreshold: number;
   siteUrl: string;
   siteMode: "live" | "waitlist";
-  reviewsSource: ReviewsSource;
-  promoPopup: boolean;
-  pixelCat: boolean;
   shopPay: boolean;
   pricesArePlaceholders: boolean;
   isProduction: boolean;
@@ -50,22 +45,12 @@ export function parseEnv(source: Record<string, string | undefined>): Env {
   const isProduction = source.NODE_ENV === "production";
   const commerceSource = oneOf("COMMERCE_SOURCE", source.COMMERCE_SOURCE, ["fixtures", "shopify"] as const, "fixtures");
 
-  const thresholdRaw = source.FREE_SHIPPING_THRESHOLD_AUD ?? "80";
-  const freeShippingThreshold = Number(thresholdRaw);
-  if (!Number.isFinite(freeShippingThreshold) || freeShippingThreshold < 0) {
-    throw new Error(`FREE_SHIPPING_THRESHOLD_AUD must be a positive number (got "${thresholdRaw}").`);
-  }
-
-  const siteUrl = source.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const vercelUrl = source.VERCEL_PROJECT_PRODUCTION_URL;
+  const siteUrl = source.NEXT_PUBLIC_SITE_URL || (vercelUrl ? `https://${vercelUrl}` : "http://localhost:3000");
   try {
     new URL(siteUrl);
   } catch {
     throw new Error(`NEXT_PUBLIC_SITE_URL must be an absolute URL (got "${siteUrl}").`);
-  }
-
-  const reviewsSource = oneOf("REVIEWS_SOURCE", source.REVIEWS_SOURCE, ["none", "sample"] as const, "none");
-  if (reviewsSource === "sample" && isProduction && commerceSource === "shopify") {
-    throw new Error("REVIEWS_SOURCE=sample shows invented reviews and is not allowed with live Shopify data.");
   }
 
   return {
@@ -80,12 +65,8 @@ export function parseEnv(source: Record<string, string | undefined>): Env {
             revalidationSecret: source.SHOPIFY_REVALIDATION_SECRET ?? "",
           }
         : null,
-    freeShippingThreshold,
     siteUrl: siteUrl.replace(/\/$/, ""),
     siteMode: oneOf("NEXT_PUBLIC_SITE_MODE", source.NEXT_PUBLIC_SITE_MODE, ["live", "waitlist"] as const, "live"),
-    reviewsSource,
-    promoPopup: flag("PROMO_POPUP", source.PROMO_POPUP, false),
-    pixelCat: flag("PIXEL_CAT", source.PIXEL_CAT, true),
     shopPay: flag("SHOP_PAY", source.SHOP_PAY, false),
     // Fixtures always carry bracketed prices; live prices are real unless explicitly flagged.
     pricesArePlaceholders: commerceSource === "fixtures" || flag("PRICE_PLACEHOLDERS", source.PRICE_PLACEHOLDERS, false),

@@ -4,7 +4,7 @@ import { CommerceError, GIFT_NOTE_MAX, type CollectionQuery, type CommerceReposi
 import { PAGE_SIZE } from "@/lib/data/sort";
 import type { Cart, Guide, Policy, Product, SortKey } from "@/lib/data/types";
 import type { Storefront } from "./client";
-import { mapCart, mapCharacter, mapFaq, mapGuide, mapPrepMethod, mapProduct, mapSiteSettings, type MapOptions } from "./mappers";
+import { mapCart, mapFaq, mapGuide, mapPrepMethod, mapProduct, mapSiteSettings, type MapOptions } from "./mappers";
 import {
   CART_ATTRIBUTES_UPDATE,
   CART_CREATE,
@@ -37,7 +37,7 @@ export class ShopifyRepository implements CommerceRepository {
 
   constructor(
     private readonly storefront: Storefront,
-    private readonly options: { freeShippingThreshold: number; placeholderPrices: boolean },
+    options: { placeholderPrices: boolean },
   ) {
     this.opts = { placeholderPrices: options.placeholderPrices };
   }
@@ -125,17 +125,13 @@ export class ShopifyRepository implements CommerceRepository {
     return (await this.metaobjects("faq_entry")).map(mapFaq).filter((f) => f !== null);
   }
 
-  async getCharacters() {
-    return (await this.metaobjects("character")).map(mapCharacter).filter((c) => c !== null);
-  }
-
   async getPolicies() {
     const data = await this.storefront<{ shop: Record<string, SPolicy> }>(POLICIES_QUERY);
     return Object.values(data.shop).filter((p): p is NonNullable<SPolicy> => p !== null) satisfies Policy[];
   }
 
   async getSiteSettings() {
-    const fallback = defaultSiteSettings(this.options.freeShippingThreshold, this.options.placeholderPrices);
+    const fallback = defaultSiteSettings();
     const data = await this.storefront<{ metaobject: SMetaobject | null }>(SITE_SETTINGS_QUERY);
     return mapSiteSettings(data.metaobject, fallback, this.opts);
   }

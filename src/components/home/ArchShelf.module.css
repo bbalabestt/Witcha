@@ -4,14 +4,6 @@
   background: var(--surface-brand);
 }
 
-.backdrop {
-  position: absolute;
-  inset: 0;
-  background: url("/art/heroes-01-academy-garden-desktop.jpg") 50% 40% / cover no-repeat;
-  opacity: 0.2;
-  pointer-events: none;
-}
-
 .content {
   position: relative;
   padding-block: clamp(56px, 7vw, 96px);
@@ -90,7 +82,7 @@
 }
 
 .arch[data-tint="soft"] {
-  background: var(--surface-soft);
+  background: var(--surface-card);
 }
 
 .tin,
@@ -102,17 +94,19 @@
 }
 
 .tin {
-  left: 6%;
-  right: 6%;
-  bottom: 2%;
-  height: 86%;
+  left: 26%;
+  right: 26%;
+  bottom: 6%;
+  display: flex;
+  align-items: flex-end;
 }
 
 .key {
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 92%;
+  left: 16%;
+  right: 16%;
+  bottom: 6%;
+  display: flex;
+  align-items: flex-end;
   opacity: 0;
   transform: translateY(8%) scale(1.06);
 }
@@ -125,11 +119,6 @@
 .item[data-on] .key {
   opacity: 1;
   transform: none;
-}
-
-.contain {
-  object-fit: contain;
-  object-position: center bottom;
 }
 
 .number {

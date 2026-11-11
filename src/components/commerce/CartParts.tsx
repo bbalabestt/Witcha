@@ -4,20 +4,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { useId, useState } from "react";
 import { Icon } from "@/components/ui/Icon";
+import { TinPlaceholder } from "@/components/ui/TinPlaceholder";
 import { cartBlocked, freeShippingMeter } from "@/lib/data/cart-math";
-import { formatMoney } from "@/lib/data/money";
+import { priceLabel } from "@/lib/data/money";
 import { GIFT_NOTE_MAX } from "@/lib/data/repository";
 import type { Cart, CartLine as Line, Money } from "@/lib/data/types";
 import { useCart, type LinePreview } from "./CartProvider";
 import styles from "./CartParts.module.css";
 
-export function FreeShippingMeter({ subtotal, threshold }: { subtotal: Money; threshold: Money }) {
+/** Hidden until a threshold is confirmed and prices are real. */
+export function FreeShippingMeter({ subtotal, threshold }: { subtotal: Money; threshold: Money | null }) {
+  if (!threshold || !priceLabel(subtotal)) return null;
   const m = freeShippingMeter(subtotal, threshold);
   return (
     <div className={styles.meter}>
       <p className={styles.meterText}>
         {m.kind === "reached" ? <Icon name="check" size={18} /> : null}
-        {m.kind === "reached" ? "Free shipping unlocked." : `You’re ${formatMoney(m.remaining)} away from free shipping.`}
+        {m.kind === "reached" ? "Free shipping unlocked." : `You’re ${priceLabel(m.remaining)} away from free shipping.`}
       </p>
       <div
         className={styles.track}
@@ -42,17 +45,16 @@ export function CartLineItem({ line }: { line: Line }) {
   return (
     <li className={styles.line} data-muted={soldOut || undefined} aria-busy={pending || undefined}>
       <span className={styles.thumb}>
-        {line.product.tin ? <Image src={line.product.tin.url} alt="" fill sizes="80px" className={styles.contain} /> : null}
+        {line.product.tin ? <Image src={line.product.tin.url} alt="" fill sizes="80px" className={styles.contain} /> : <TinPlaceholder teaType={line.product.teaType} className={styles.drawing} />}
       </span>
       <div className={styles.lineBody}>
         <div className={styles.lineTop}>
-          <span className="label">{line.product.eyebrow}</span>
-          <span className={styles.linePrice}>{formatMoney(line.cost)}</span>
+          <Link href={`/products/${line.product.handle}`} className={styles.lineName} onClick={() => setOpen(false)}>
+            {line.product.title}
+            {line.variant.title ? ` · ${line.variant.title}` : ""}
+          </Link>
+          {priceLabel(line.cost) ? <span className={styles.linePrice}>{priceLabel(line.cost)}</span> : null}
         </div>
-        <Link href={`/products/${line.product.handle}`} className={styles.lineName} onClick={() => setOpen(false)}>
-          {line.product.title}
-        </Link>
-        {line.variant.title ? <span className="body-small">{line.variant.title}</span> : null}
         <div className={styles.lineActions}>
           <div className={styles.stepper} role="group" aria-label={`Quantity, ${line.product.title}`}>
             <button type="button" aria-label="Decrease quantity" disabled={pending || line.quantity <= 1} onClick={() => setQuantity(line.id, line.quantity - 1)}>
@@ -67,7 +69,7 @@ export function CartLineItem({ line }: { line: Line }) {
             Remove
           </button>
         </div>
-        {capped && !soldOut ? <p className="body-small">Only {max} available</p> : null}
+        {capped && !soldOut ? <p className="body-small">Maximum {max}</p> : null}
         {soldOut ? (
           <p className={styles.lineError}>
             <Icon name="alert" size={18} />
@@ -109,7 +111,7 @@ export function UpsellRail({
           <span className={styles.upsellText}>
             {pdp ? <span className="label">Tool</span> : null}
             <span className={compact ? "body-small" : undefined}>{i.title}</span>
-            <span className="body-small">{formatMoney(i.price)}</span>
+            {priceLabel(i.price) ? <span className="body-small">{priceLabel(i.price)}</span> : null}
           </span>
           <button type="button" className={styles.upsellAdd} onClick={() => void add(i, 1, { openDrawer: true })} aria-label={`Add ${i.title}`}>
             Add
@@ -192,13 +194,7 @@ export function CheckoutButton({ cart }: { cart: Cart }) {
 }
 
 export function ShopPaySlot({ enabled }: { enabled: boolean }) {
-  if (!enabled) {
-    return (
-      <div role="note" className={styles.shopPay}>
-        Shop Pay slot · rendered by Shopify
-      </div>
-    );
-  }
+  if (!enabled) return null;
   // Wired when the Shopify component is configured (SHOP_PAY=on); never a drawn wallet button.
   return <div role="note" className={styles.shopPay} data-shop-pay="" />;
 }

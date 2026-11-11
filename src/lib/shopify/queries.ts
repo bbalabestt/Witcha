@@ -8,11 +8,6 @@ const IMAGE = /* GraphQL */ `url altText width height`;
 const METAFIELD = (alias: string, key: string, extra = "") =>
   `${alias}: metafield(namespace: "custom", key: "${key}") { value ${extra} }`;
 
-const CHARACTER_FIELDS = /* GraphQL */ `
-  handle
-  fields { key value reference { ... on MediaImage { image { ${IMAGE} } } } }
-`;
-
 export const PRODUCT_FRAGMENT = /* GraphQL */ `
   fragment ProductFields on Product {
     id
@@ -26,30 +21,33 @@ export const PRODUCT_FRAGMENT = /* GraphQL */ `
     variants(first: 20) {
       nodes {
         id
+        sku
         title
         availableForSale
         quantityAvailable
         price { amount currencyCode }
         compareAtPrice { amount currencyCode }
-        ${METAFIELD("servings", "servings")}
       }
     }
-    ${METAFIELD("servings", "servings")}
-    ${METAFIELD("tastePosition", "taste_position")}
-    ${METAFIELD("tier", "tier")}
-    ${METAFIELD("tasteWord", "taste_role")}
+    ${METAFIELD("descriptor", "descriptor")}
+    ${METAFIELD("detailLine", "detail_line")}
     ${METAFIELD("tastingNotes", "tasting_notes")}
+    ${METAFIELD("bestForShort", "best_for_short")}
     ${METAFIELD("bestFor", "best_for")}
+    ${METAFIELD("chooseItIf", "choose_it_if")}
+    ${METAFIELD("compareProduct", "compare_product", "reference { ... on Product { handle } }")}
+    ${METAFIELD("compareLine", "compare_line")}
+    ${METAFIELD("teaType", "type")}
     ${METAFIELD("originRegion", "origin_region")}
     ${METAFIELD("cultivar", "cultivar")}
     ${METAFIELD("harvest", "harvest")}
-    ${METAFIELD("gradeDescription", "grade_description")}
-    ${METAFIELD("packDateNote", "pack_date_note")}
-    ${METAFIELD("netWeight", "net_weight")}
     ${METAFIELD("ingredients", "ingredients")}
+    ${METAFIELD("netWeight", "net_weight")}
+    ${METAFIELD("packedIn", "packed_in")}
+    ${METAFIELD("caffeine", "caffeine")}
     ${METAFIELD("storageNote", "storage_note")}
-    ${METAFIELD("pending", "pending")}
-    ${METAFIELD("character", "character", `reference { ... on Metaobject { ${CHARACTER_FIELDS} } }`)}
+    ${METAFIELD("servingsNote", "servings_note")}
+    seo { description }
   }
 `;
 
@@ -178,9 +176,6 @@ const CART_FRAGMENT = /* GraphQL */ `
               title
               productType
               featuredImage { ${IMAGE} }
-              ${METAFIELD("tier", "tier")}
-              ${METAFIELD("tasteWord", "taste_role")}
-              ${METAFIELD("tastePosition", "taste_position")}
             }
           }
         }

@@ -10,50 +10,32 @@ export function ratioToCss(ratio: Ratio): string {
 }
 
 type ImagePlaceholderProps = {
-  /** What belongs here, e.g. "TIN PACK SHOT". Rendered in capitals. */
-  label: string;
   ratio?: Ratio;
   shape?: "rect" | "arch";
-  tone?: "soft" | "brand" | "page" | "dashed";
-  /** Append " · 4:5" to the label. */
-  showRatio?: boolean;
-  /** Optional corner slot, e.g. a PENDING or NEW badge. */
-  badge?: ReactNode;
+  tone?: "soft" | "brand" | "page";
+  /** Optional line drawing, centred. */
+  children?: ReactNode;
   className?: string;
   style?: CSSProperties;
 };
 
-/** Labelled, ratio-correct stand-in for imagery that does not exist yet. Never a fake photo. */
-export function ImagePlaceholder({
-  label,
-  ratio = "4:5",
-  shape = "rect",
-  tone = "soft",
-  showRatio = true,
-  badge,
-  className,
-  style,
-}: ImagePlaceholderProps) {
+/** Neutral, ratio-correct frame for imagery that does not exist yet. No caption, never a fake photo. */
+export function ImagePlaceholder({ ratio = "4:5", shape = "rect", tone = "soft", children, className, style }: ImagePlaceholderProps) {
   const effectiveRatio: Ratio = shape === "arch" ? "3:4" : ratio;
-  const text = showRatio ? `${label} · ${effectiveRatio}` : label;
   return (
     <div
-      role="img"
-      aria-label={`Image placeholder: ${text}`}
-      className={[styles.frame, styles.placeholder, styles[tone], shape === "arch" ? styles.arch : undefined, className]
-        .filter(Boolean)
-        .join(" ")}
+      aria-hidden="true"
+      className={[styles.frame, styles.placeholder, styles[tone], shape === "arch" ? styles.arch : undefined, className].filter(Boolean).join(" ")}
       style={{ aspectRatio: ratioToCss(effectiveRatio), ...style }}
     >
-      <span aria-hidden="true">{text}</span>
-      {badge ? <span className={styles.badgeSlot}>{badge}</span> : null}
+      {children}
     </div>
   );
 }
 
 type ArchFrameProps = {
   children: ReactNode;
-  /** Gold hairline arch drawn just outside the frame. */
+  /** Gold hairline arch drawn just outside the frame: on cream only. */
   outlined?: boolean;
   className?: string;
 };

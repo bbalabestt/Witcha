@@ -3,9 +3,8 @@
 import { createContext, startTransition, Suspense, use, useCallback, useContext, useEffect, useMemo, useOptimistic, useRef, useState, type ReactNode } from "react";
 import { addToCart, refreshCart, removeLine, updateGift, updateLineQuantity, type CartResult } from "@/lib/cart/actions";
 import { cartTotals, lineCost } from "@/lib/data/cart-math";
-import type { Cart, CartLine, Image, Money, ProductKind } from "@/lib/data/types";
+import type { Cart, CartLine, Image, Money, ProductKind, TeaType } from "@/lib/data/types";
 import { useToast } from "@/components/ui/Toast";
-import { emitFamiliar } from "@/components/motion/familiar-events";
 
 /** What the drawer needs to draw a line before the server confirms it. */
 export type LinePreview = {
@@ -13,7 +12,7 @@ export type LinePreview = {
   handle: string;
   title: string;
   kind: ProductKind;
-  eyebrow: string;
+  teaType: TeaType | null;
   tin: Image | null;
   variantTitle: string;
   price: Money;
@@ -52,7 +51,7 @@ export function applyCartOp(cart: Cart | null, op: CartOp): Cart {
           merchandiseId: p.merchandiseId,
           quantity: op.quantity,
           cost: lineCost({ variant, quantity: op.quantity }),
-          product: { handle: p.handle, title: p.title, kind: p.kind, eyebrow: p.eyebrow, tin: p.tin },
+          product: { handle: p.handle, title: p.title, kind: p.kind, teaType: p.teaType, tin: p.tin },
           variant,
         },
       ];
@@ -125,10 +124,7 @@ export function CartProvider({ cartPromise, children }: { cartPromise: Promise<C
   const add = useCallback<CartContextValue["add"]>(
     async (preview, quantity, options) => {
       const ok = await run({ type: "add", preview, quantity }, () => addToCart(preview.merchandiseId, quantity));
-      if (ok) {
-        emitFamiliar({ type: "added" });
-        if (options?.openDrawer !== false) setOpen(true);
-      }
+      if (ok && options?.openDrawer !== false) setOpen(true);
       return ok;
     },
     [run],

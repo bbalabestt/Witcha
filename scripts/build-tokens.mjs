@@ -26,14 +26,16 @@ for (const t of tokens.spacing.tokens) {
 for (const t of tokens.radius.tokens) {
   lines.push(`  --${t.name}: ${t.value};`);
 }
-// Values used by the prototype that tokens.json lacks. Logged in docs/DEVIATIONS.md (D-03).
+// Values tokens.json lacks. Colours are colour set v2 only.
 const extensions = {
-  "action-primary-hover": "#1f4560",
-  "action-primary-active": "#183850",
-  "feedback-error": "#9c3b2e",
-  "surface-overlay": "rgba(42, 86, 116, 0.4)",
-  "line-muted": "rgba(42, 86, 116, 0.55)",
-  "line-on-dark": "rgba(250, 246, 238, 0.5)",
+  "action-primary-hover": "#555450",
+  "action-primary-active": "#383832",
+  "feedback-error": "#8e3328",
+  "surface-overlay": "color-mix(in srgb, #383832 40%, transparent)",
+  "line-muted": "#555450",
+  "line-on-mint": "#383832",
+  "tea-matcha": "#648612",
+  "tea-hojicha": "#93723c",
   "opacity-disabled": "0.35",
   "ease-out": "cubic-bezier(0.2, 0.7, 0.2, 1)",
   "duration-drawer": "220ms",
@@ -47,63 +49,13 @@ const extensions = {
   "control-min-w-lg": "200px",
   "control-min-w-md": "136px",
   "control-pad-x": "24px",
+  "header-height": "76px",
 };
 for (const [name, value] of Object.entries(extensions)) lines.push(`  --${name}: ${value};`);
 // next/font/local exposes hashed families via these variables (see src/app/fonts.ts).
 lines.push(`  --font-display: var(--wm-font-display), ${tokens.type.families.display};`);
 lines.push(`  --font-serif: var(--wm-font-serif), ${tokens.type.families.serif};`);
 lines.push(`  --font-sans: var(--wm-font-sans), ${tokens.type.families.sans};`);
-lines.push("}", "");
-
-// Prototype V4 theme layer (docs/DEVIATIONS.md D-13): the V4 defaults are a Midnight primary and the Cream
-// surface, with Witcha blue moved to the secondary fill. Every semantic colour derives from --wm-primary so
-// a different primary from the V4 board is one variable. `data-surface="teal"` restores the brand-CI surfaces.
-const theme = {
-  root: {
-    "wm-primary": "#23395b",
-    "text-primary": "var(--wm-primary)",
-    "action-primary": "var(--wm-primary)",
-    "line-control": "var(--wm-primary)",
-    "action-primary-hover": "color-mix(in srgb, var(--wm-primary) 76%, #000)",
-    "action-primary-active": "color-mix(in srgb, var(--wm-primary) 64%, #000)",
-    "line-hairline": "color-mix(in srgb, var(--wm-primary) 25%, transparent)",
-    "line-muted": "color-mix(in srgb, var(--wm-primary) 55%, transparent)",
-    "surface-overlay": "color-mix(in srgb, var(--wm-primary) 40%, transparent)",
-    "surface-overlay-strong": "color-mix(in srgb, var(--wm-primary) 62%, transparent)",
-    "surface-inverse": "var(--wm-primary)",
-    "surface-page": "#fffdf8",
-    "surface-brand": "#f6f0e4",
-    "surface-soft": "#fbf7ef",
-    "surface-card": "#ffffff",
-    "surface-muted": "#f6f0e4",
-    "surface-blush": "#f2d6cf",
-    "surface-hover": "var(--brand-witcha-blue)",
-    "action-secondary-fill": "var(--brand-witcha-blue)",
-    "text-unread": "#658399",
-    // Whisked matcha, sampled from the client's reference photo (2026-10-19): lit crema, body, shaded rim.
-    "foam-dark": "#95b84b",
-    "foam-mid": "#b6d862",
-    "foam-light": "#c8e077",
-    "foam-bubble": "#d6e996",
-    "foam-bubble-line": "#a6c650",
-    "foam-swirl-1": "#e2efb2",
-    "foam-swirl-2": "#a0c24a",
-    "foam-swirl-3": "#d4e78f",
-  },
-  teal: {
-    "surface-page": "var(--brand-ivory)",
-    "surface-brand": "var(--brand-witcha-blue)",
-    "surface-soft": "var(--brand-aqua-light)",
-    "surface-muted": "#f3f0e8",
-    "surface-blush": "var(--brand-blush)",
-    "action-secondary-fill": "transparent",
-  },
-};
-lines.push(":root {");
-for (const [name, value] of Object.entries(theme.root)) lines.push(`  --${name}: ${value};`);
-lines.push("}", "");
-lines.push(':root[data-surface="teal"] {');
-for (const [name, value] of Object.entries(theme.teal)) lines.push(`  --${name}: ${value};`);
 lines.push("}", "");
 
 const mobileOverrides = {

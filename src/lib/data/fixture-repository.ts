@@ -1,6 +1,5 @@
 import { capQuantity, cartTotals, lineCost } from "./cart-math";
-import { CHARACTERS, COLLECTIONS, FAQ, GUIDES, POLICIES, PREP_METHODS, PRODUCTS } from "./fixtures/catalog";
-import { eyebrow } from "./product";
+import { COLLECTIONS, FAQ, GUIDES, POLICIES, PREP_METHODS, PRODUCTS } from "./fixtures/catalog";
 import { CommerceError, GIFT_NOTE_MAX, matchesQuery, type CollectionQuery, type CommerceRepository, type LineInput, type LineUpdate } from "./repository";
 import { PAGE_SIZE, sortProducts } from "./sort";
 import { defaultSiteSettings } from "@/lib/config/site";
@@ -24,8 +23,6 @@ function newId(prefix: string): string {
 }
 
 export class FixtureRepository implements CommerceRepository {
-  constructor(private readonly options: { freeShippingThreshold: number }) {}
-
   async getProducts() {
     return PRODUCTS;
   }
@@ -61,7 +58,7 @@ export class FixtureRepository implements CommerceRepository {
 
   async search(query: string) {
     const products = PRODUCTS.filter(
-      (p) => p.kind === "tea" && matchesQuery(`${p.title} matcha ${eyebrow(p)} ${p.tastingNotes.join(" ")}`, query),
+      (p) => p.kind === "tea" && matchesQuery(`${p.title} ${p.teaType ?? ""} ${p.tastingNotes.join(" ")} ${p.bestFor ?? ""} ${p.description}`, query),
     );
     const guides = GUIDES.filter((g) => matchesQuery(`${g.title} ${g.method}`, query));
     return { products, guides };
@@ -83,16 +80,12 @@ export class FixtureRepository implements CommerceRepository {
     return FAQ;
   }
 
-  async getCharacters() {
-    return CHARACTERS;
-  }
-
   async getPolicies() {
     return POLICIES;
   }
 
   async getSiteSettings(): Promise<SiteSettings> {
-    return defaultSiteSettings(this.options.freeShippingThreshold, true);
+    return defaultSiteSettings();
   }
 
   /* ---------- Cart ---------- */
@@ -107,7 +100,7 @@ export class FixtureRepository implements CommerceRepository {
         merchandiseId: l.merchandiseId,
         quantity: l.quantity,
         cost: lineCost({ variant: { ...variant }, quantity: l.quantity }),
-        product: { handle: product.handle, title: product.title, kind: product.kind, eyebrow: eyebrow(product), tin: product.tin },
+        product: { handle: product.handle, title: product.title, kind: product.kind, teaType: product.teaType, tin: product.tin },
         variant: {
           title: variant.title,
           price: variant.price,
@@ -149,7 +142,7 @@ export class FixtureRepository implements CommerceRepository {
     for (const input of lines) {
       const found = findVariant(input.merchandiseId);
       if (!found) throw new CommerceError("That item is no longer available.", "user");
-      if (!found.variant.availableForSale) throw new CommerceError("That size is sold out.", "user");
+      if (!found.variant.availableForSale) throw new CommerceError("That tea is sold out.", "user");
       const existing = stored.lines.find((l) => l.merchandiseId === input.merchandiseId);
       const wanted = (existing?.quantity ?? 0) + input.quantity;
       const quantity = capQuantity(wanted, found.variant.quantityAvailable);

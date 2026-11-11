@@ -1,43 +1,46 @@
-import { money } from "@/lib/data/money";
 import type { SiteSettings } from "@/lib/data/types";
+import { LIVE } from "./launch";
 
 /**
- * Fallbacks for the `site_settings` metaobject. Bracketed values are deliberate placeholders that the
- * founders have not decided yet (brief §10). One source for the shipping promise on PDP, cart and
- * the Shipping & Returns page, so they can never contradict.
+ * Fallbacks for the `site_settings` metaobject. Shipping and support values stay null until the founders
+ * supply them, and every block that needs one hides. One source for the PDP, cart and Shipping & Returns.
  */
-export function defaultSiteSettings(freeShippingThreshold: number, placeholder: boolean): SiteSettings {
+export function defaultSiteSettings(): SiteSettings {
   return {
-    freeShippingThreshold: money(freeShippingThreshold, placeholder),
-    standardShipping: money(9.95, placeholder),
-    expressShipping: money(14.95, placeholder),
-    dispatchDays: "[x]",
-    dispatchCity: "[city]",
-    deliveryDays: "[x–y]",
-    expressDays: "[x]",
-    returnsDays: "[30]",
-    refundDays: "[x]",
-    lowStockThreshold: 5,
-    giftCutoff: "Order by [date] for [occasion]",
-    openedShelfLife: "[opened shelf-life, to be confirmed]",
-    supportEmail: "[support email pending]",
-    abn: "[pending]",
-    replyTime: "[1] business day",
+    freeShippingThreshold: null,
+    standardShipping: null,
+    expressShipping: null,
+    dispatchDays: null,
+    dispatchCity: null,
+    deliveryDays: null,
+    expressDays: null,
+    returnsDays: null,
+    refundDays: null,
+    giftCutoff: null,
+    supportEmail: null,
+    replyTime: null,
+    legalEntity: "MINIWITCH PTY LTD",
+    abn: "41 702 554 265",
   };
 }
 
+export const TEAS_HREF = "/collections/teas";
+
 export const NAV = [
-  { href: "/collections/matcha", label: "Shop Matcha", mega: true },
-  { href: "/collections/gifts", label: "Gifts" },
-  { href: "/blogs/brewing-guides", label: "Brewing Guides" },
+  { href: TEAS_HREF, label: "Shop the teas", mega: true },
   { href: "/pages/academy", label: "Witcha Academy" },
-  { href: "/pages/our-story", label: "Our Story" },
+  { href: "/pages/faq", label: "FAQ" },
 ] as const;
 
 export const HELP_LINKS = [
   { href: "/pages/faq", label: "FAQ" },
-  { href: "/pages/shipping-returns", label: "Shipping & Returns" },
-  { href: "/pages/contact", label: "Contact" },
-] as const;
+  ...(LIVE.shippingReturns ? [{ href: "/pages/shipping-returns", label: "Shipping & Returns" }] : []),
+  ...(LIVE.contact ? [{ href: "/pages/contact", label: "Contact" }] : []),
+];
 
-export const SHOPIFY_ACCOUNT_URL = "/account";
+/** Exact profile URLs, pending. A null link is not shown. */
+export const SOCIAL: Array<{ label: string; href: string | null }> = [
+  { label: "Instagram", href: null },
+  { label: "Facebook", href: null },
+  { label: "TikTok", href: null },
+];

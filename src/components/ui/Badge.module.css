@@ -10,8 +10,8 @@
   white-space: nowrap;
 }
 
-.solid { background: var(--action-primary); color: var(--text-on-dark); }
-.sale { background: var(--brand-blush); color: var(--text-primary); }
+.solid { background: var(--action-primary); color: var(--action-primary-text); }
+.sale { background: var(--surface-brand); color: var(--text-primary); }
 .pending {
   padding: 2px 6px;
   border: 1px dashed var(--line-control);
@@ -30,7 +30,7 @@
 .note {
   padding: 2px 10px;
   border-radius: var(--radius-sm);
-  background: var(--surface-soft);
+  background: var(--surface-page);
 }
 
 .noteOnSoft {
@@ -54,7 +54,7 @@
   transition: background-color 0.2s var(--ease-out);
 }
 
-.filter:hover { background: var(--surface-soft); }
+.filter:hover { background: var(--surface-page); }
 
 .filter[aria-pressed="true"] {
   background: var(--action-primary);

@@ -14,7 +14,7 @@
 
 .track {
   height: 4px;
-  background: var(--surface-soft);
+  background: var(--surface-page);
 }
 
 .fill {
@@ -46,7 +46,7 @@
   width: 80px;
   aspect-ratio: 4 / 5;
   flex: none;
-  background: var(--surface-soft);
+  background: var(--surface-page);
   border: 1px solid var(--line-hairline);
 }
 
@@ -162,7 +162,7 @@
   width: 48px;
   aspect-ratio: 4 / 5;
   flex: none;
-  background: var(--surface-soft);
+  background: var(--surface-page);
   border: 1px solid var(--line-hairline);
 }
 
@@ -178,7 +178,7 @@
   height: var(--control-md);
   min-width: min(var(--control-min-w-md), 100%);
   padding: 0 var(--control-pad-x);
-  background: var(--action-secondary-fill);
+  background: transparent;
   border: 1px solid var(--line-control);
   font-size: 12px;
   line-height: 16px;
@@ -189,7 +189,7 @@
 }
 
 .upsellAdd:hover {
-  background: var(--surface-hover);
+  background: transparent;
 }
 
 .upsellPdp {
@@ -356,4 +356,11 @@
     opacity: 0;
     transform: translateY(-12px);
   }
+}
+
+.drawing {
+  position: absolute;
+  inset: 12%;
+  width: 76%;
+  height: 76%;
 }

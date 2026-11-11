@@ -6,37 +6,33 @@
 export type Money = {
   amount: number;
   currencyCode: "AUD";
-  /** True until real Shopify prices exist: renders as `$[48.00]` so nobody mistakes it for a final price. */
+  /** True until real Shopify prices exist: never rendered (see `priceLabel`). */
   placeholder?: boolean;
 };
 
 export type Image = { url: string; alt: string; width: number; height: number };
 
-export type GalleryItem =
-  | { kind: "image"; image: Image; fit: "contain" | "cover"; label: string }
-  | { kind: "placeholder"; label: string };
+export type GalleryItem = { image: Image; fit: "contain" | "cover" };
 
 export type ProductKind = "tea" | "gift" | "tool";
 
-export type BadgeKind = "NEW" | "BEST SELLER" | "LIMITED" | "SALE" | "SOLD OUT";
+export type TeaType = "matcha" | "hojicha";
 
-export type BestFor = "Latte" | "Straight" | "Iced";
-
-/** `custom.taste_position` (1–5) + `custom.tier`; `word` is the taste role shown in the eyebrow. */
-export type Taste = { position: 1 | 2 | 3 | 4 | 5; word: string; tier: string };
-
+/** Copy v5.3 facts table. A null value hides its row. */
 export type Facts = {
+  type: string;
   origin: string;
-  cultivar: string;
-  harvest: string;
-  grade: string;
+  cultivar: string | null;
+  harvest: string | null;
+  ingredients: string | null;
   netWeight: string;
-  packDate: string;
-  ingredients: string;
+  packedIn: string;
+  caffeine: string;
 };
 
 export type Variant = {
   id: string;
+  sku: string;
   /** Size option value, e.g. "30 g". */
   title: string;
   price: Money;
@@ -45,45 +41,35 @@ export type Variant = {
   availableForSale: boolean;
   /** Null when inventory is not tracked or the scope is missing. */
   quantityAvailable: number | null;
-  /** Serves per variant at 2 g (`custom.servings`); null hides the per-cup line. */
-  servings: number | null;
-};
-
-/** Metaobject `character`. */
-export type Character = {
-  handle: string;
-  name: string;
-  namePending: boolean;
-  /** "Keeper of the deep tea". */
-  role: string;
-  story: string | null;
-  accessory: string | null;
-  art: Image | null;
-  /** Concept characters (the Dreamer) have no tea yet. */
-  concept: boolean;
-  productHandle: string | null;
 };
 
 export type Product = {
   id: string;
   handle: string;
   kind: ProductKind;
+  /** Customer-facing name: Academy title + descriptor, e.g. "The Professor — Yame Matcha". */
   title: string;
+  academyTitle: string;
+  descriptor: string;
+  teaType: TeaType | null;
+  detailLine: string | null;
   description: string;
+  seoDescription: string | null;
   tags: string[];
-  badge: BadgeKind | null;
-  /** Featured tin or pack shot, drawn with `contain` on a soft panel. */
+  /** Featured pack shot. Null until photography exists; a line drawing stands in. */
   tin: Image | null;
   gallery: GalleryItem[];
   variants: Variant[];
-  taste: Taste | null;
   tastingNotes: string[];
-  bestFor: BestFor[];
+  /** Card wording, e.g. "Drinking straight (usucha)". */
+  bestForShort: string | null;
+  /** Product page wording, e.g. "Straight (usucha). Also makes a smooth latte." */
+  bestFor: string | null;
+  chooseItIf: string | null;
+  compare: { handle: string; line: string } | null;
   facts: Facts | null;
   storageNote: string | null;
-  character: Character | null;
-  /** Shown with a PENDING tag until the founders confirm the product. */
-  pending: boolean;
+  servingsNote: string | null;
 };
 
 export type MethodId = "whisk" | "frother" | "shaker" | "iced";
@@ -110,7 +96,7 @@ export type Guide = {
   method: MethodId;
   time: string;
   serves: string;
-  image: Image;
+  image: Image | null;
   contentHtml: string | null;
   /** Troubleshooting article that the PDP "gentle fix" link points to. */
   troubleshooting: boolean;
@@ -142,7 +128,7 @@ export type CartLine = {
   merchandiseId: string;
   quantity: number;
   cost: Money;
-  product: { handle: string; title: string; kind: ProductKind; eyebrow: string; tin: Image | null };
+  product: { handle: string; title: string; kind: ProductKind; teaType: TeaType | null; tin: Image | null };
   variant: { title: string; price: Money; availableForSale: boolean; quantityAvailable: number | null };
 };
 
@@ -157,21 +143,20 @@ export type Cart = {
   giftNote: string;
 };
 
-/** Metaobject `site_settings`, with fallbacks in `src/lib/config/site.ts`. */
+/** Metaobject `site_settings`. Null until supplied: a null value hides every block that needs it. */
 export type SiteSettings = {
-  freeShippingThreshold: Money;
-  standardShipping: Money;
-  expressShipping: Money;
-  dispatchDays: string;
-  dispatchCity: string;
-  deliveryDays: string;
-  expressDays: string;
-  returnsDays: string;
-  refundDays: string;
-  lowStockThreshold: number;
-  giftCutoff: string;
-  openedShelfLife: string;
-  supportEmail: string;
+  freeShippingThreshold: Money | null;
+  standardShipping: Money | null;
+  expressShipping: Money | null;
+  dispatchDays: string | null;
+  dispatchCity: string | null;
+  deliveryDays: string | null;
+  expressDays: string | null;
+  returnsDays: string | null;
+  refundDays: string | null;
+  giftCutoff: string | null;
+  supportEmail: string | null;
+  replyTime: string | null;
+  legalEntity: string;
   abn: string;
-  replyTime: string;
 };

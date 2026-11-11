@@ -1,22 +1,26 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
-import { toCardData, toUpsellItems } from "@/components/commerce/card-data";
-import { UpsellRail } from "@/components/commerce/CartParts";
+import { toCardData } from "@/components/commerce/card-data";
 import { ProductCard } from "@/components/commerce/ProductCard";
+import { FaqAnswer } from "@/components/content/FaqAnswer";
+import { RecipeCard } from "@/components/content/RecipeCard";
+import { HojichaCup, SiftedPowder, UsuchaCup } from "@/components/motion/MatchaScenes";
 import { AnchorNav } from "@/components/product/AnchorNav";
-import { BuyBox, BuyBoxFromUrl, SelectedNetWeight } from "@/components/product/BuyBox";
+import { BuyBox } from "@/components/product/BuyBox";
+import { DrawingGallery } from "@/components/product/DrawingGallery";
 import { Gallery } from "@/components/product/Gallery";
-import { PrepMethodTabs } from "@/components/product/PrepMethodTabs";
-import { ShippingPromise, ShippingSummary } from "@/components/product/ShippingPromise";
-import { Button } from "@/components/ui/Button";
-import { Accordion } from "@/components/ui/Disclosure";
-import { Icon } from "@/components/ui/Icon";
+import { ShippingPromise } from "@/components/product/ShippingPromise";
+import { Accordion, Tabs } from "@/components/ui/Disclosure";
+import { TinPlaceholder } from "@/components/ui/TinPlaceholder";
 import { Breadcrumb } from "@/components/ui/Navigation";
 import { env } from "@/lib/config/env";
-import { getFaq, getGuides, getPrepMethods, getProduct, getProducts, getSiteSettings } from "@/lib/data/catalog";
+import { LIVE } from "@/lib/config/launch";
+import { TEAS_HREF } from "@/lib/config/site";
+import { METHOD_NOTES, recipesFor } from "@/lib/content/recipes";
+import { brandTitle } from "@/lib/content/seo";
+import { getFaq, getProduct, getProducts, getSiteSettings } from "@/lib/data/catalog";
+import type { Facts } from "@/lib/data/types";
 import { breadcrumbJsonLd, productJsonLd } from "@/lib/seo";
 import styles from "./page.module.css";
 
@@ -28,49 +32,53 @@ export async function generateMetadata({ params }: PageProps<"/products/[handle]
   const { handle } = await params;
   const p = await getProduct(handle);
   if (!p) return {};
+  const title = brandTitle(p.title);
+  const description = p.seoDescription ?? p.description.slice(0, 155);
   return {
-    title: p.title,
-    description: p.description.slice(0, 160),
+    title,
+    description,
     alternates: { canonical: `/products/${handle}` },
-    openGraph: { title: p.title, description: p.description.slice(0, 160), images: p.tin ? [{ url: p.tin.url, alt: p.tin.alt }] : [] },
+    openGraph: { title, description, images: p.tin ? [{ url: p.tin.url, alt: p.tin.alt }] : [] },
   };
 }
 
+const FACT_ROWS: Array<[keyof Facts, string]> = [
+  ["type", "Type"],
+  ["origin", "Origin"],
+  ["cultivar", "Cultivar"],
+  ["harvest", "Harvest"],
+  ["ingredients", "Ingredients"],
+  ["netWeight", "Net weight"],
+  ["packedIn", "Packed in"],
+  ["caffeine", "Caffeine"],
+];
+
+/**
+ * Order from the client: the first screen on a phone answers "what will it taste like?" and "why this one?", then
+ * description, compare line, facts, how to make it, storage. Every section hides when its content is not confirmed.
+ */
 export default async function ProductPage({ params }: PageProps<"/products/[handle]">) {
   const { handle } = await params;
-  const [product, products, settings, methods, faq, guides] = await Promise.all([
-    getProduct(handle),
-    getProducts(),
-    getSiteSettings(),
-    getPrepMethods(),
-    getFaq(),
-    getGuides(),
-  ]);
+  const [product, products, settings, allFaq] = await Promise.all([getProduct(handle), getProducts(), getSiteSettings(), getFaq()]);
   if (!product || product.kind !== "tea") notFound();
 
   const e = env();
+  const recipes = recipesFor(product);
+  const facts = product.facts;
+  const hojicha = product.teaType === "hojicha";
+  // The making answers talk about matcha, so they stay off the hojicha page.
+  const faq = allFaq.filter((f) => f.onProduct && !(hojicha && f.category === "making"));
   const others = products.filter((p) => p.kind === "tea" && p.handle !== product.handle);
-  const otherPositions = [...new Set(others.flatMap((p) => (p.taste ? [p.taste.position] : [])))];
-  const troubleshoot = guides.find((g) => g.troubleshooting);
-  // V4 opens the second question ("How do I store it?") by default.
-  const pdpFaq = faq.filter((f) => f.onProduct);
-  const keeper = product.character;
-  const word = product.taste?.word ?? "Tea";
-  const buyBoxProps = {
-    product,
-    lowStockThreshold: settings.lowStockThreshold,
-    otherPositions,
-    shippingPromise: <ShippingPromise settings={settings} />,
-    shopPay: e.shopPay,
-  };
+  const hasStorage = Boolean(product.storageNote || product.servingsNote);
+
+  const tin = <TinPlaceholder key="tin" teaType={product.teaType} />;
+  const slides = hojicha ? [tin, <HojichaCup key="cup" />] : [tin, <SiftedPowder key="powder" />, <UsuchaCup key="usucha" />];
 
   const anchors = [
-    { id: "pdp-tea", label: "The tea" },
-    { id: "pdp-make", label: "Make it" },
-    { id: "pdp-store", label: "Storage" },
-    ...(keeper ? [{ id: "pdp-char", label: `Meet ${keeper.name}` }] : []),
-    { id: "pdp-reviews", label: "Reviews" },
-    { id: "pdp-faq", label: "FAQ" },
+    { id: "pdp-tea", label: "Description" },
+    ...(recipes.length ? [{ id: "pdp-make", label: "How to make it" }] : []),
+    ...(hasStorage ? [{ id: "pdp-store", label: "Storage" }] : []),
+    ...(faq.length ? [{ id: "pdp-faq", label: "FAQ" }] : []),
   ];
 
   return (
@@ -82,7 +90,7 @@ export default async function ProductPage({ params }: PageProps<"/products/[hand
           __html: breadcrumbJsonLd(
             [
               { name: "Home", path: "/" },
-              { name: "Shop Matcha", path: "/collections/matcha" },
+              { name: "Teas", path: TEAS_HREF },
               { name: product.title, path: `/products/${product.handle}` },
             ],
             e.siteUrl,
@@ -90,169 +98,85 @@ export default async function ProductPage({ params }: PageProps<"/products/[hand
         }}
       />
       <div className={`container ${styles.crumbs}`}>
-        <Breadcrumb items={[{ label: "Home", href: "/" }, { label: "Shop Matcha", href: "/collections/matcha" }, { label: product.title }]} />
+        <Breadcrumb items={[{ label: "Home", href: "/" }, { label: "Teas", href: TEAS_HREF }, { label: product.title }]} />
       </div>
 
       <section className={`container ${styles.top}`}>
-        <Gallery items={product.gallery} title={product.title} />
         <div className={styles.buyColumn}>
-          <Suspense fallback={<BuyBox {...buyBoxProps} />}>
-            <BuyBoxFromUrl {...buyBoxProps} />
-          </Suspense>
+          <BuyBox product={product} shopPay={e.shopPay} />
+          {LIVE.shippingReturns ? <ShippingPromise settings={settings} /> : null}
         </div>
+        <div className={styles.galleryColumn}>{product.gallery.length ? <Gallery items={product.gallery} title={product.title} /> : <DrawingGallery slides={slides} />}</div>
       </section>
 
       <AnchorNav items={anchors} />
 
       <section id="pdp-tea" className={`container ${styles.tea}`}>
-        <div className={styles.teaCopy}>
-          <span className="label" data-reveal="up">
-            The tea
-          </span>
-          <h2 className="heading-2" data-reveal="up">
-            {word}, and honest about it
-          </h2>
-          <p data-reveal="up">{product.description}</p>
+        <div className={styles.copy}>
+          <h2 className="heading-2">{product.descriptor}</h2>
+          <p>{product.description}</p>
+          {product.compare ? (
+            <p>
+              <Link href={`/products/${product.compare.handle}`} className="text-link">
+                {product.compare.line}
+              </Link>
+            </p>
+          ) : null}
         </div>
-        {product.facts ? (
-          <dl className={styles.facts} data-reveal="up">
-            <dt>Origin</dt>
-            <dd>{product.facts.origin}</dd>
-            <dt>Cultivar</dt>
-            <dd>{product.facts.cultivar}</dd>
-            <dt>Harvest</dt>
-            <dd>{product.facts.harvest}</dd>
-            <dt>Grade</dt>
-            <dd>{product.facts.grade}</dd>
-            <dt>Net weight</dt>
-            <dd>
-              <Suspense fallback={product.facts.netWeight}>
-                <SelectedNetWeight variants={product.variants} fallback={product.facts.netWeight} />
-              </Suspense>
-            </dd>
-            <dt>Pack date</dt>
-            <dd>{product.facts.packDate}</dd>
-            <dt>Ingredients</dt>
-            <dd>{product.facts.ingredients}</dd>
+        {facts ? (
+          <dl className={styles.facts}>
+            {FACT_ROWS.flatMap(([key, label]) =>
+              facts[key]
+                ? [
+                    <div key={key} className={styles.fact}>
+                      <dt>{label}</dt>
+                      <dd>{facts[key]}</dd>
+                    </div>,
+                  ]
+                : [],
+            )}
           </dl>
         ) : null}
-        <div className={styles.factShot} role="img" aria-label="Image placeholder: powder colour fact shot, 4:5" data-reveal="up">
-          Powder colour · fact shot · 4:5
-        </div>
       </section>
 
-      <section id="pdp-make" className={styles.make}>
-        <div className={`container ${styles.makeInner}`}>
-          <div className={styles.stack} data-reveal="up">
-            <span className="label">Make it</span>
-            <h2 className="heading-2">Four ways, all measured</h2>
-          </div>
-          <PrepMethodTabs methods={methods} troubleshootHref={troubleshoot ? `/blogs/brewing-guides/${troubleshoot.handle}` : null} />
-        </div>
-      </section>
-
-      <section id="pdp-store" className={`container ${styles.store}`}>
-        <h2 className="heading-2" data-reveal="up">
-          Storage and freshness
-        </h2>
-        <div className={styles.storeGrid}>
-          <p data-reveal="up">
-            <Icon name="cool" size={28} />
-            <span>
-              <b>Cool.</b> Away from the stove and sunlight.
-            </span>
-          </p>
-          <p data-reveal="up" data-delay="80">
-            <Icon name="dry" size={28} />
-            <span>
-              <b>Dry.</b> Use a dry scoop, every time.
-            </span>
-          </p>
-          <p data-reveal="up" data-delay="160">
-            <Icon name="sealed" size={28} />
-            <span>
-              <b>Closed tight.</b> Best within {settings.openedShelfLife}.
-            </span>
-          </p>
-        </div>
-        {product.storageNote ? (
-          <p className="body-small" data-reveal="up">
-            {product.storageNote}
-          </p>
-        ) : null}
-      </section>
-
-      {keeper ? (
-        <section id="pdp-char" className={styles.character}>
-          <div className={`container ${styles.characterInner}`}>
-            <div className={styles.characterArt} data-reveal="rise">
-              {keeper.art ? <Image src={keeper.art.url} alt={keeper.art.alt} fill sizes="300px" className={styles.contain} /> : null}
-            </div>
-            <div className={styles.stack}>
-              <span className="label" data-reveal="up">
-                Keeper of the {product.taste ? `${product.taste.tier} · ${product.taste.word}` : ""} tea
-              </span>
-              <h2 className="heading-2" data-reveal="up">
-                Meet {keeper.name}
-              </h2>
-              <p data-reveal="up">
-                {keeper.story ?? "[Two-sentence character story, from the character metaobject.]"}{" "}
-                {keeper.accessory ? `Always with ${keeper.accessory}.` : "[Accessory: one object.]"}
-              </p>
-              <Link href="/pages/academy" className="label-link" data-reveal="up">
-                Visit the Academy
-              </Link>
-            </div>
+      {recipes.length ? (
+        <section id="pdp-make" className={styles.make}>
+          <div className={`container ${styles.makeInner}`}>
+            <h2 className="heading-2">How to make it</h2>
+            <Tabs label="Recipes" items={recipes.map((r) => ({ id: r.id, label: r.name, panel: <RecipeCard recipe={r} /> }))} />
+            <dl className={styles.notes}>
+              {METHOD_NOTES.map(([method, note]) => (
+                <div key={method}>
+                  <dt>{method}</dt>
+                  <dd>{note}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </section>
       ) : null}
 
-      <section id="pdp-reviews" className={`container ${styles.reviews}`}>
-        <h2 className="heading-2" data-reveal="up">
-          Reviews
-        </h2>
-        {/* Zero state until a reviews provider is chosen: no stars, no counts (V2.1 4.7). */}
-        <div className={styles.zero} data-reveal="up">
-          <div>
-            <p className="heading-3">No reviews yet.</p>
-            <p>Be the first to share how you made it.</p>
-          </div>
-          <Button href="/pages/contact" variant="secondary" size="md">
-            Write a review
-          </Button>
-        </div>
-      </section>
+      {hasStorage ? (
+        <section id="pdp-store" className={`container ${styles.block}`}>
+          <h2 className="heading-2">Storage and cups per tin</h2>
+          {product.storageNote ? <p>{product.storageNote}</p> : null}
+          {product.servingsNote ? <p>{product.servingsNote}</p> : null}
+        </section>
+      ) : null}
 
-      <section id="pdp-faq" className={`container ${styles.faq}`}>
-        <h2 className="heading-2" data-reveal="up">
-          Questions
-        </h2>
-        <Accordion
-          defaultOpen={pdpFaq[1] ? [pdpFaq[1].id] : []}
-          items={pdpFaq.map((f) => ({ id: f.id, title: f.question, content: <p>{f.answer}</p> }))}
-        />
-      </section>
+      {faq.length ? (
+        <section id="pdp-faq" className={`container ${styles.block}`}>
+          <h2 className="heading-2">FAQ</h2>
+          <Accordion items={faq.map((f) => ({ id: f.id, title: f.question, content: <FaqAnswer text={f.answer} /> }))} />
+        </section>
+      ) : null}
 
-      <ShippingSummary settings={settings} />
-
-      <section className={`container ${styles.related}`}>
-        <div className={styles.stack}>
-          <h2 className="heading-2" data-reveal="up">
-            You might also like
-          </h2>
-          <div className={styles.relatedGrid}>
-            {others.slice(0, 3).map((p) => (
-              <div key={p.handle} data-reveal="up">
-                <ProductCard card={toCardData(p)} />
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className={styles.stack}>
-          <h2 className="heading-2" data-reveal="up">
-            Pair with
-          </h2>
-          <UpsellRail items={toUpsellItems(products)} showLabel={false} variant="pdp" />
+      <section className={`container ${styles.block}`}>
+        <h2 className="heading-2">Find your next cup</h2>
+        <div className={styles.related}>
+          {others.map((p, i) => (
+            <ProductCard key={p.handle} card={toCardData(p)} index={i} />
+          ))}
         </div>
       </section>
     </>

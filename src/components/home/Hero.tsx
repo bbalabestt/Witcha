@@ -2,14 +2,12 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { WhiskedBowl } from "@/components/motion/MatchaScenes";
 import { Icon } from "@/components/ui/Icon";
-import { clamp01, easeInOut, motionAllowed, onFrame, sectionProgress } from "@/components/motion/runtime";
+import { BRAND_LINE, DRINK_WAYS, HERO, SELECTION_ID } from "@/lib/content/home";
+import { TEAS_HREF } from "@/lib/config/site";
+import { clamp01, easeInOut, loopsAllowed, motionAllowed, onFrame, sectionProgress } from "@/components/motion/runtime";
 import styles from "./Hero.module.css";
-
-const MOTES: Array<[number, number, number, "gold" | "ivory"]> = [
-  [12, 70, 4, "gold"], [22, 80, 3, "ivory"], [34, 66, 5, "gold"], [46, 84, 3, "ivory"], [55, 72, 4, "gold"],
-  [63, 88, 3, "ivory"], [72, 68, 5, "gold"], [81, 78, 3, "ivory"], [90, 62, 4, "gold"], [6, 90, 3, "ivory"],
-];
 
 /** Seeded foam bubbles (the same 54 as the prototype, so server and client markup match). */
 const BUBBLES = (() => {
@@ -28,26 +26,25 @@ const BUBBLES = (() => {
   return out;
 })();
 
-const COPY = "Japanese matcha, chosen for taste and brought to life by the cats of Witcha Academy.";
-
 function Buttons({ stacked = false }: { stacked?: boolean }) {
   return (
     <div className={stacked ? styles.buttonsStacked : styles.buttons}>
-      <Link href="/collections/matcha" className={`${styles.primary} on-primary`}>
-        Shop the matcha
+      <Link href={TEAS_HREF} className={`${styles.primary} on-primary`}>
+        {HERO.primary}
       </Link>
-      <Link href="/pages/academy" className={styles.secondary}>
-        Meet the Academy
-      </Link>
+      <a href={`#${SELECTION_ID}`} className={styles.secondary}>
+        {HERO.secondary}
+      </a>
     </div>
   );
 }
 
 /**
  * Desktop: the arch grows to fill the screen as you scroll, then a matcha bowl is whisked to foam and gives
- * way to "Which matcha today?" on cream. Phones get a static stack (V2.1 2.1). Reduced motion: no scrub.
+ * way to the tea selection heading on cream. Phones get a static stack (V2.1 2.1). Reduced motion: no scrub.
+ * Words: copy v5.3 §1. The arch shows a whisked bowl, not cat art (vendor list: the site works without a cat).
  */
-export function Hero({ backdrop, backdropOpacity }: { backdrop: string | null; backdropOpacity: number }) {
+export function Hero() {
   const section = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -90,7 +87,7 @@ export function Hero({ backdrop, backdropOpacity }: { backdrop: string | null; b
       if (l1) l1.style.transform = `translateX(${-e * 60}vw)`;
       if (l2) l2.style.transform = `translateX(${e * 60}vw)`;
       if (bar) bar.style.transform = `translateY(${e * 70}vh)`;
-      if (badge && motion) badge.style.transform = `rotate(${((now * 0.012 + y * 0.2) % 360).toFixed(1)}deg)`;
+      if (badge && loopsAllowed()) badge.style.transform = `rotate(${((now * 0.012 + y * 0.2) % 360).toFixed(1)}deg)`;
 
       if (foam) {
         foam.style.opacity = String(clamp01((p - 0.3) / 0.1));
@@ -128,29 +125,22 @@ export function Hero({ backdrop, backdropOpacity }: { backdrop: string | null; b
     });
   }, []);
 
-  const backdropStyle = backdrop ? { backgroundImage: `url('${backdrop}')`, opacity: backdropOpacity } : undefined;
-
   return (
     <>
       <section ref={section} className={styles.desktop} aria-label="Welcome">
         <div className={styles.stage} data-stage="">
-          {backdrop ? <div className={styles.backdrop} style={backdropStyle} aria-hidden="true" /> : null}
           <div className={styles.bar} data-bar="" aria-hidden="true" />
-          <div className={styles.motes} aria-hidden="true">
-            {MOTES.map(([l, t, s, c], i) => (
-              <span key={i} data-float="" className="mote" style={{ left: `${l}%`, top: `${t}%`, width: s, height: s, background: c === "gold" ? "var(--brand-gold)" : "var(--brand-ivory)" }} />
-            ))}
-          </div>
 
           <div className={styles.arch} data-arch="">
             <div className={styles.ring} data-ring="" data-reveal="arch-open" data-delay="200" aria-hidden="true">
               <svg viewBox="0 0 100 133" preserveAspectRatio="none">
-                <path d="M0 133 V50 A50 50 0 0 1 100 50 V133" fill="none" stroke="var(--brand-gold)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+                <path d="M0 133 V50 A50 50 0 0 1 100 50 V133" fill="none" stroke="var(--line-on-mint)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
               </svg>
             </div>
-            <div className={styles.window} data-reveal="arch-open" role="img" aria-label="Five painted cats gather around matcha and hojicha in a blue garden conservatory.">
-              {/* eslint-disable-next-line @next/next/no-img-element -- scaled by the scroll scrub; next/image adds nothing here */}
-              <img data-fade="" src="/art/01-professor-tin-mockup.webp" alt="The Professor tin, Witcha Matcha packaging concept." width={720} height={720} className={styles.tin} fetchPriority="high" />
+            <div className={styles.window} data-reveal="arch-open" aria-hidden="true">
+              <div data-fade="" className={styles.tin}>
+                <WhiskedBowl />
+              </div>
             </div>
           </div>
 
@@ -171,25 +161,28 @@ export function Hero({ backdrop, backdropOpacity }: { backdrop: string | null; b
           <div className={styles.l1} data-l1="">
             <div className={styles.mask}>
               <h1 className={styles.headline} data-reveal="mask">
-                A Little Magic <span className="visually-hidden">in every Matcha Moment.</span>
+                Matcha, <span className="visually-hidden">With Taste.</span>
               </h1>
             </div>
           </div>
           <div className={styles.l2} data-l2="" aria-hidden="true">
             <div className={styles.mask}>
               <span className={styles.inEvery} data-reveal="mask" data-delay="160">
-                in every
+                With
               </span>
             </div>
             <div className={styles.mask}>
               <span className={styles.headline} data-reveal="mask" data-delay="300">
-                Matcha Moment.
+                Taste.
               </span>
             </div>
           </div>
           <div className={styles.copy} data-fade="" data-hero-copy="">
+            <span className="label" data-reveal="left" data-delay="420">
+              {HERO.eyebrow}
+            </span>
             <p data-reveal="left" data-delay="500">
-              {COPY}
+              {HERO.supporting}
             </p>
             <div data-reveal="left" data-delay="650">
               <Buttons />
@@ -197,14 +190,13 @@ export function Hero({ backdrop, backdropOpacity }: { backdrop: string | null; b
           </div>
           <div className={styles.scrollHint} data-fade="" aria-hidden="true">
             <span />
-            Scroll to step inside
           </div>
 
           <div className={styles.foam} data-foam="" aria-hidden="true">
             <div className={styles.bowl} data-bowl="">
-              <div className={styles.swirl} data-swirl="" style={{ inset: "10%", borderColor: "var(--foam-swirl-1)" }} />
-              <div className={styles.swirl} data-swirl="" style={{ inset: "24%", borderColor: "var(--foam-swirl-2)" }} />
-              <div className={styles.swirl} data-swirl="" style={{ inset: "38%", borderColor: "var(--foam-swirl-3)" }} />
+              <div className={styles.swirl} data-swirl="" style={{ inset: "10%", borderColor: "var(--matcha-swirl-1)" }} />
+              <div className={styles.swirl} data-swirl="" style={{ inset: "24%", borderColor: "var(--matcha-swirl-2)" }} />
+              <div className={styles.swirl} data-swirl="" style={{ inset: "38%", borderColor: "var(--matcha-swirl-3)" }} />
               {BUBBLES.map((b, i) => (
                 <span key={i} data-bub="" className={styles.bubble} style={{ left: b.l, top: b.t, width: b.size, height: b.size, margin: `${-b.size / 2}px 0 0 ${-b.size / 2}px` }} />
               ))}
@@ -213,42 +205,45 @@ export function Hero({ backdrop, backdropOpacity }: { backdrop: string | null; b
               </span>
             </div>
             <span className={styles.caption} data-cap="">
-              Whisk in a W, not a circle · 2 g · 70 ml · 80°C
+              {DRINK_WAYS.straight.needs}
             </span>
             <div className={styles.wash} data-wash="" />
           </div>
 
           <div className={styles.inside} data-inside="">
-            <span className="label">Welcome to Witcha Academy</span>
-            <span className={styles.insideTitle}>Which matcha today?</span>
-            <span>Teas on one scale, from bright to deep. Pick by taste, not jargon.</span>
+            <span className="label">{HERO.eyebrow}</span>
+            <span className={styles.insideTitle}>{BRAND_LINE}</span>
+            <span>{HERO.supporting.split(". ")[0]}.</span>
           </div>
         </div>
       </section>
 
       <section className={styles.mobile} aria-label="Welcome">
-        {backdrop ? <div className={styles.backdropMobile} style={backdropStyle} aria-hidden="true" /> : null}
         <div className={styles.mask}>
           <h1 className={styles.mHeadline} data-reveal="mask">
-            A Little Magic <span className="visually-hidden">in every Matcha Moment.</span>
+            Matcha, <span className="visually-hidden">With Taste.</span>
           </h1>
         </div>
         <div className={styles.mArch}>
           <div className={styles.mRing} data-reveal="arch-open" data-delay="200" aria-hidden="true" />
-          <div className={styles.mWindow} data-reveal="arch-open" role="img" aria-label="Five painted cats gather around matcha and hojicha in a blue garden conservatory.">
-            {/* eslint-disable-next-line @next/next/no-img-element -- fixed-size hero art */}
-            <img src="/art/01-professor-tin-mockup.webp" alt="The Professor tin, Witcha Matcha packaging concept." width={720} height={720} className={styles.tin} />
+          <div className={styles.mWindow} data-reveal="arch-open" aria-hidden="true">
+            <div className={styles.tin}>
+              <WhiskedBowl />
+            </div>
           </div>
         </div>
         <div className={styles.mLine2} aria-hidden="true">
           <span className={styles.mInEvery} data-reveal="right">
-            in every
+            With
           </span>
           <span className={styles.mHeadline} data-reveal="right" data-delay="120">
-            Matcha Moment.
+            Taste.
           </span>
         </div>
-        <p data-reveal="up">{COPY}</p>
+        <span className="label" data-reveal="up">
+          {HERO.eyebrow}
+        </span>
+        <p data-reveal="up">{HERO.supporting}</p>
         <div data-reveal="up">
           <Buttons stacked />
         </div>

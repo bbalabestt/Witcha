@@ -18,7 +18,7 @@ export function ContactForm() {
     const data = Object.fromEntries(new FormData(e.currentTarget)) as Record<string, string>;
     const next: Errors = {};
     if (!data.name?.trim()) next.name = "Tell us your name.";
-    if (!isEmail(data.email ?? "")) next.email = "Check the email address, e.g. name@example.com.";
+    if (!isEmail(data.email ?? "")) next.email = "Enter an email address.";
     if (!data.message?.trim()) next.message = "Write a short message.";
     setErrors(next);
     if (Object.keys(next).length) return;

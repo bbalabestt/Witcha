@@ -6,8 +6,28 @@
   box-sizing: border-box;
 }
 
+/*
+ * Colours the V4 components need that tokens.json does not name, all mixed from colour set v2 (vendor list
+ * "P1. Colour", Bible §9.1). The whisked foam is drawn from the confirmed matcha powder colour.
+ */
+:root {
+  --tint-hover: color-mix(in srgb, var(--brand-charcoal) 8%, transparent);
+  /* Unlit words in "Taste comes first.": 3.6:1 on cream, enough for text this large. */
+  --text-unlit: color-mix(in srgb, var(--brand-charcoal-soft) 72%, var(--brand-cream));
+  --matcha-dark: color-mix(in srgb, var(--tea-matcha) 88%, var(--brand-cream));
+  --matcha-mid: color-mix(in srgb, var(--tea-matcha) 68%, var(--brand-cream));
+  --matcha-light: color-mix(in srgb, var(--tea-matcha) 50%, var(--brand-cream));
+  --matcha-bubble: color-mix(in srgb, var(--tea-matcha) 28%, var(--brand-cream));
+  --matcha-bubble-line: color-mix(in srgb, var(--tea-matcha) 70%, var(--brand-cream));
+  --matcha-swirl-1: color-mix(in srgb, var(--tea-matcha) 22%, var(--brand-cream));
+  --matcha-swirl-2: color-mix(in srgb, var(--tea-matcha) 90%, var(--brand-charcoal));
+  --matcha-swirl-3: color-mix(in srgb, var(--tea-matcha) 36%, var(--brand-cream));
+}
+
 html {
   -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--space-6);
 }
 
 html,
@@ -100,6 +120,12 @@ svg {
   }
 }
 
+/* The pause control (WCAG 2.2.2) stops every CSS loop. */
+:root[data-motion-paused] [data-loop],
+:root[data-motion-paused] [data-loop] * {
+  animation-play-state: paused !important;
+}
+
 /* ---------- Layout utilities (Prototype V4) ---------- */
 
 .container {
@@ -141,48 +167,6 @@ svg {
   display: inline-block;
 }
 
-/* Visible tag for content that is still a placeholder (brief §11). */
-.pending-tag {
-  display: inline-block;
-  font-family: var(--font-sans);
-  font-size: 12px;
-  line-height: 16px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  border: 1px dashed var(--line-control);
-  padding: 1px 5px;
-  white-space: nowrap;
-  vertical-align: middle;
-  text-transform: uppercase;
-}
-
-.sample-tag {
-  display: inline-block;
-  font-family: var(--font-sans);
-  font-size: 12px;
-  line-height: 16px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  background: var(--surface-blush);
-  color: var(--text-primary);
-  padding: 3px 8px;
-  white-space: nowrap;
-}
-
-/* Gold four-point star (decorative). */
-.twinkle {
-  position: absolute;
-  background: var(--brand-gold);
-  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
-  pointer-events: none;
-}
-
-.mote {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-}
-
 .skip-link {
   position: absolute;
   left: var(--space-3);
@@ -197,15 +181,8 @@ svg {
   color: var(--action-primary-text);
 }
 
-/* Primary-filled controls: ivory ring plus a primary halo so it shows on ivory pages too (V4 1.5). */
+/* Primary-filled controls keep the same 2 px charcoal ring, offset so it shows against the fill. */
 .on-primary:focus-visible {
-  outline: 2px solid var(--brand-ivory);
+  outline: 2px solid var(--line-control);
   outline-offset: 2px;
-  box-shadow: 0 0 0 6px var(--action-primary);
-}
-
-/* Deep-blue surfaces (announcement bar, footer): ivory focus ring (D-09). */
-[data-surface-dark] :focus-visible,
-[data-surface-dark]:focus-visible {
-  outline-color: var(--brand-ivory);
 }

@@ -1,19 +1,16 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 import { toCardData, toGiftSet } from "@/components/commerce/card-data";
 import { GiftSetCard } from "@/components/commerce/GiftSetCard";
-import { ComingSoonCard, ProductCard } from "@/components/commerce/ProductCard";
-import { SortSelect } from "@/components/commerce/SortSelect";
-import { TasteLineup } from "@/components/commerce/TasteScale";
-import { Button } from "@/components/ui/Button";
+import { ProductCard } from "@/components/commerce/ProductCard";
 import { Icon } from "@/components/ui/Icon";
 import { Breadcrumb } from "@/components/ui/Navigation";
-import { Skeleton } from "@/components/ui/Frame";
-import { getCharacters, getCollection, getCollectionHandles, getSiteSettings } from "@/lib/data/catalog";
-import { FILTER_MIN_PRODUCTS, PAGE_SIZE, parseSort } from "@/lib/data/sort";
+import { LIVE } from "@/lib/config/launch";
+import { brandTitle, SEO } from "@/lib/content/seo";
+import { getCollection, getCollectionHandles, getSiteSettings } from "@/lib/data/catalog";
 import styles from "@/components/commerce/Collection.module.css";
+
+const HELD: Record<string, boolean> = { gifts: !LIVE.gifts, accessories: !LIVE.accessories };
 
 export async function generateStaticParams() {
   return (await getCollectionHandles()).map((handle) => ({ handle }));
@@ -21,162 +18,62 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps<"/collections/[handle]">): Promise<Metadata> {
   const { handle } = await params;
+  if (HELD[handle]) return {};
   const c = await getCollection(handle, { first: 1 });
   if (!c) return {};
-  return { title: c.title, description: c.description, alternates: { canonical: `/collections/${handle}` } };
+  const canonical = { canonical: `/collections/${handle}` };
+  return handle === "teas" ? { ...SEO.teas, alternates: canonical } : { title: brandTitle(c.title), description: c.description, alternates: canonical };
 }
 
-const CRUMB: Record<string, string> = { matcha: "Shop Matcha", gifts: "Gifts", accessories: "Accessories" };
-
-export default async function CollectionPage({ params, searchParams }: PageProps<"/collections/[handle]">) {
+export default async function CollectionPage({ params }: PageProps<"/collections/[handle]">) {
   const { handle } = await params;
+  if (HELD[handle]) notFound();
   const collection = await getCollection(handle, { first: 250 });
   if (!collection) notFound();
 
   if (handle === "gifts") return <GiftsTemplate />;
-
-  const teas = collection.products
-    .filter((p) => p.taste)
-    .map((p) => ({ handle: p.handle, title: p.title, position: p.taste!.position, word: p.taste!.word }));
-  const isMatcha = handle === "matcha";
-  // The ghost card stays while a concept keeper (the Dreamer) is still being tasted.
-  const ghost = isMatcha && (await getCharacters()).some((c) => c.concept);
 
   return (
     <>
       <section className={styles.header}>
         <div className={`container ${styles.headerInner}`}>
           <div className={styles.headerCopy}>
-            <Breadcrumb items={[{ label: "Home", href: "/" }, { label: CRUMB[handle] ?? collection.title }]} />
-            <h1 className="heading-1" id="which-matcha-today" data-reveal="up">
-              {collection.title}
-            </h1>
-            <p className={styles.intro} data-reveal="up">
-              {collection.description}
-            </p>
+            <Breadcrumb items={[{ label: "Home", href: "/" }, { label: "Teas" }]} />
+            <h1 className="heading-1">{collection.title}</h1>
+            <p className={styles.intro}>{collection.description}</p>
           </div>
-          {isMatcha && teas.length ? (
-            <div data-reveal="up">
-              <TasteLineup teas={teas} />
-            </div>
-          ) : null}
         </div>
       </section>
       <div className={`container ${styles.body}`}>
-        <Suspense fallback={<GridSkeleton />}>
-          <Results handle={handle} searchParams={searchParams} ghost={ghost} />
-        </Suspense>
-      </div>
-    </>
-  );
-}
-
-async function Results({
-  handle,
-  searchParams,
-  ghost,
-}: {
-  handle: string;
-  searchParams: PageProps<"/collections/[handle]">["searchParams"];
-  ghost: boolean;
-}) {
-  const sp = await searchParams;
-  const sort = parseSort(sp.sort);
-  const available = sp.available === "1";
-  const shown = Math.max(PAGE_SIZE, Math.min(240, Number(sp.shown) || PAGE_SIZE));
-  const page = await getCollection(handle, { sort, available, first: shown });
-  if (!page) notFound();
-  const noun = handle === "accessories" ? "tools" : "teas";
-  const showFilters = page.total >= FILTER_MIN_PRODUCTS || available;
-
-  const link = (next: Record<string, string | null>) => {
-    const q = new URLSearchParams();
-    if (sort !== "featured") q.set("sort", sort);
-    if (available) q.set("available", "1");
-    for (const [k, v] of Object.entries(next)) {
-      if (v === null) q.delete(k);
-      else q.set(k, v);
-    }
-    const s = q.toString();
-    return `/collections/${handle}${s ? `?${s}` : ""}`;
-  };
-
-  return (
-    <>
-      <div className={styles.toolbar}>
-        <div className={styles.toolbarLeft}>
-          <span aria-live="polite">
-            {page.total} {noun}
-          </span>
-          {showFilters ? (
-            <Link
-              href={link({ available: available ? null : "1", shown: null })}
-              scroll={false}
-              className={styles.filter}
-              data-on={available || undefined}
-              aria-label={`In stock only, ${available ? "on" : "off"}`}
-            >
-              {available ? <Icon name="check" size={16} strokeWidth={2} /> : null}
-              In stock only
-            </Link>
-          ) : null}
-        </div>
-        <SortSelect value={sort} />
-      </div>
-
-      {page.products.length === 0 ? (
-        <div className={styles.empty}>
-          <p className="heading-3">No teas match.</p>
-          <Button href={`/collections/${handle}`} variant="secondary" size="md">
-            Clear filters
-          </Button>
-        </div>
-      ) : (
         <div className={styles.grid}>
-          {page.products.map((p, i) => (
-            <div key={p.handle} data-reveal="up">
-              <ProductCard card={toCardData(p)} priority={i < 2} />
-            </div>
+          {collection.products.map((p, i) => (
+            <ProductCard key={p.handle} card={toCardData(p)} priority={i < 2} index={i} />
           ))}
-          {ghost && !page.hasNextPage ? (
-            <div data-reveal="up">
-              <ComingSoonCard />
-            </div>
-          ) : null}
         </div>
-      )}
-
-      <div className={styles.more}>
-        <span>
-          Showing {page.products.length} of {page.total}
-        </span>
-        {page.hasNextPage ? (
-          <Button href={link({ shown: String(shown + PAGE_SIZE) })} variant="secondary" size="xl">
-            Load more
-          </Button>
-        ) : (
-          // V4 keeps the button, disabled, once every product is shown.
-          <Button variant="secondary" size="xl" disabled>
-            Load more
-          </Button>
-        )}
       </div>
+      {handle === "teas" ? <HowWeChose /> : null}
     </>
   );
 }
 
-function GridSkeleton() {
+/** Copy v5.3 §3, as written. No hojicha line until the founders confirm it was part of the same selection. */
+function HowWeChose() {
   return (
-    <div className={styles.grid} aria-busy="true" aria-label="Loading teas">
-      {Array.from({ length: 4 }, (_, i) => (
-        <div key={i} className={styles.skeletonCard}>
-          <Skeleton ratio="4:5" />
-          <Skeleton width="40%" height={16} />
-          <Skeleton width="70%" height={30} />
-          <Skeleton height={44} />
+    <section id="how-we-chose-them" className={styles.chose}>
+      <div className={`container ${styles.choseInner}`}>
+        <h2 className="heading-2">How we chose them</h2>
+        <div className={styles.choseCopy}>
+          <p>Our co-founder Wichita tasted more than 40 tea samples from tea-producing regions across Japan, looking for teas worth drinking again.</p>
+          <p>
+            Every matcha was tasted first as usucha, whisked with water and served without milk or sweetener. If it didn&apos;t stand out there, it went no further. The ones that did were tried with cold water and in lattes with different milks, to see how each one held up and where it shone.
+          </p>
+          <p>
+            We looked at aroma, colour, texture, sweetness, umami, bitterness, astringency and finish. Every sample was high quality, but fewer than half were memorable. We wanted character: a tea you&apos;d recognise and remember in the next cup.
+          </p>
+          <p>The final question was simple: would we want to drink it again tomorrow?</p>
         </div>
-      ))}
-    </div>
+      </div>
+    </section>
   );
 }
 
@@ -191,38 +88,28 @@ async function GiftsTemplate() {
         <div className={`container ${styles.giftsInner}`}>
           <div className={styles.headerCopy}>
             <Breadcrumb items={[{ label: "Home", href: "/" }, { label: "Gifts" }]} />
-            <h1 className="heading-1" data-reveal="up">
-              {collection.title}
-            </h1>
-            <p className={styles.intro} data-reveal="up">
-              {collection.description}
-            </p>
+            <h1 className="heading-1">{collection.title}</h1>
+            {collection.description ? <p className={styles.intro}>{collection.description}</p> : null}
           </div>
         </div>
       </section>
-      <div className={styles.cutoff} data-surface-dark="" data-reveal="fade">
-        <Icon name="gift" size={20} />
-        {settings.giftCutoff} delivery in metro Australia.
-      </div>
+      {settings.giftCutoff ? (
+        <div className={styles.cutoff}>
+          <Icon name="gift" size={20} />
+          {settings.giftCutoff}
+        </div>
+      ) : null}
       <div className={`container ${styles.body} ${styles.giftsBody}`}>
-        <h2 className="heading-2" data-reveal="up">
-          Sets
-        </h2>
+        <h2 className="heading-2">Sets</h2>
         <div className={styles.sets}>
           {sets.map((p) => (
-            <div key={p.handle} data-reveal="up">
-              <GiftSetCard set={toGiftSet(p)} />
-            </div>
+            <GiftSetCard key={p.handle} set={toGiftSet(p)} />
           ))}
         </div>
-        <h2 className={`heading-2 ${styles.sectionTitle}`} data-reveal="up">
-          Single tins
-        </h2>
-        <div className={`${styles.grid} ${styles.gridStart}`}>
+        <h2 className={`heading-2 ${styles.sectionTitle}`}>Single tins</h2>
+        <div className={styles.grid}>
           {singles.map((p) => (
-            <div key={p.handle} data-reveal="up">
-              <ProductCard card={toCardData(p)} />
-            </div>
+            <ProductCard key={p.handle} card={toCardData(p)} />
           ))}
         </div>
       </div>

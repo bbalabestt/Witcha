@@ -1,23 +1,20 @@
 import type { Metadata, Viewport } from "next";
 import "@/styles/globals.css";
 import { env } from "@/lib/config/env";
+import { SEO } from "@/lib/content/seo";
 import { fontVariables } from "./fonts";
 
 export function generateMetadata(): Metadata {
   return {
     metadataBase: new URL(env().siteUrl),
-    title: { default: "WITCHA MATCHA · Matcha, With Taste.", template: "%s · WITCHA MATCHA" },
-    description: "Japanese matcha, chosen for taste. Which Matcha Today?",
-    openGraph: {
-      siteName: "WITCHA MATCHA",
-      locale: "en_AU",
-      type: "website",
-      images: [{ url: "/art/heroes-01-academy-garden-desktop.jpg", width: 1800, height: 900 }],
-    },
+    // Titles are written in full per page (copy v5.3 §9), so no template adds to them.
+    title: SEO.home.title,
+    description: SEO.home.description,
+    openGraph: { siteName: "WITCHA MATCHA", locale: "en_AU", type: "website" },
   };
 }
 
-export const viewport: Viewport = { themeColor: "#fffdf8" };
+export const viewport: Viewport = { themeColor: "#faf6ee" };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (

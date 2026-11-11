@@ -22,7 +22,7 @@
   align-items: flex-start;
   padding: 14px var(--space-3);
   background: var(--action-primary);
-  color: var(--text-on-dark);
+  color: var(--action-primary-text);
   font-size: 14px;
   line-height: 22px;
   animation: in var(--duration-drawer) var(--ease-out);
@@ -48,7 +48,7 @@
   justify-content: center;
 }
 
-.dismiss:focus-visible { outline-color: var(--brand-ivory); }
+.dismiss:focus-visible { outline-color: var(--brand-cream); }
 .error .dismiss:focus-visible { outline-color: var(--line-control); }
 
 @keyframes in {

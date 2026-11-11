@@ -1,20 +1,20 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
+import { TEAS_HREF } from "@/lib/config/site";
 import styles from "@/components/content/NotFoundContent.module.css";
 
-/** Plain words and a next step (brief: every error tells the shopper what to do next). */
+/** Plain by default (copy v5.3 §8), with a next step. */
 export default function ErrorPage({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
     <section className={`container ${styles.page}`}>
-      <h1 className="heading-1">Something spilled.</h1>
-      <p>This page didn’t load. Try again, or head back to the teas.</p>
-      <div className={styles.actions}>
+      <h1 className="heading-1">Something went wrong.</h1>
+            <div className={styles.actions}>
         <Button size="xl" onClick={reset}>
           Try again
         </Button>
-        <Button href="/collections/matcha" variant="secondary" size="xl">
-          Shop matcha
+        <Button href={TEAS_HREF} variant="secondary" size="xl">
+          Shop the teas
         </Button>
       </div>
     </section>

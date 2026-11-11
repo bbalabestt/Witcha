@@ -67,9 +67,9 @@ describe("Logo", () => {
   });
   it("renders the supplied SVG, never retyped text", () => {
     vi.spyOn(console, "warn").mockImplementation(() => {});
-    render(<Logo variant="small" tone="reversed" width={50} />);
+    render(<Logo variant="small" width={50} />);
     const img = screen.getByRole("img", { name: "WITCHA MATCHA" });
-    expect(img.getAttribute("src")).toBe("/logos/witcha-matcha_small_reversed-ivory-gold.svg");
+    expect(img.getAttribute("src")).toBe("/logos/witcha-matcha_small_charcoal.svg");
     expect(img.getAttribute("width")).toBe("100");
   });
 });
@@ -109,8 +109,8 @@ describe("QuantityStepper", () => {
 
 describe("OptionPillGroup", () => {
   const options: PillOption[] = [
-    { value: "a", label: "30 g", sub: "$[48.00]", available: true },
-    { value: "b", label: "100 g", sub: "+$[92.00]", available: false },
+    { value: "a", label: "30 g", sub: "$48.00", available: true },
+    { value: "b", label: "100 g", sub: "+$92.00", available: false },
   ];
   function Harness() {
     const [v, setV] = useState("a");

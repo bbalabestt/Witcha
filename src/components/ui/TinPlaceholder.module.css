@@ -1,0 +1,63 @@
+.tin {
+  overflow: visible;
+}
+
+.lid,
+.puff {
+  transform-box: fill-box;
+}
+
+.lid {
+  transform-origin: 0% 100%;
+}
+
+.puff {
+  transform-origin: center;
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tin {
+    transition: transform 400ms var(--ease-out);
+  }
+
+  .lid {
+    transition: transform 400ms var(--ease-out);
+  }
+
+  @media (hover: hover) {
+    a:hover .tin {
+      transform: translateY(-5px) rotate(-2deg);
+    }
+
+    a:hover .lid {
+      transform: translateY(-7px) rotate(-9deg);
+    }
+
+    a:hover .puff {
+      animation: puff 1100ms var(--ease-out) both;
+    }
+  }
+
+  /* Phones have no hover: the lid lifts as the tin crosses the middle of the screen. */
+  @media (hover: none) {
+    @supports (animation-timeline: view()) {
+      .lid {
+        animation: lid-peek linear both;
+        animation-timeline: view();
+        animation-range: cover 30% cover 70%;
+      }
+    }
+  }
+}
+
+@keyframes puff {
+  0% { transform: translateY(8px) scale(0.3); opacity: 0; }
+  30% { opacity: 0.9; }
+  100% { transform: translateY(-22px) scale(1.5); opacity: 0; }
+}
+
+@keyframes lid-peek {
+  0%, 100% { transform: none; }
+  50% { transform: translateY(-7px) rotate(-9deg); }
+}

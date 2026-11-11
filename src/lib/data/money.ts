@@ -2,10 +2,10 @@ import type { Money } from "./types";
 
 const formatter = new Intl.NumberFormat("en-AU", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-/** `$48.00`, or `$[48.00]` while prices are placeholders. Survives `$[1,280.00]`. */
-export function formatMoney(m: Money): string {
-  const n = formatter.format(m.amount);
-  return m.placeholder ? `$[${n}]` : `$${n}`;
+/** `$48.00`, or null while the price is a placeholder or missing: an unconfirmed price is never rendered. */
+export function priceLabel(m: Money | null | undefined): string | null {
+  if (!m || m.placeholder) return null;
+  return `$${formatter.format(m.amount)}`;
 }
 
 export function money(amount: number, placeholder = false): Money {

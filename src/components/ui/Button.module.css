@@ -16,8 +16,7 @@
   white-space: nowrap;
   transition:
     background-color 0.2s var(--ease-out),
-    color 0.2s var(--ease-out),
-    letter-spacing 0.3s var(--ease-out);
+    color 0.2s var(--ease-out);
 }
 
 .button:disabled,
@@ -47,20 +46,37 @@
   background: var(--action-primary);
   color: var(--action-primary-text);
 }
-.primary:focus-visible {
-  outline-color: var(--brand-ivory);
-  box-shadow: 0 0 0 6px var(--action-primary);
-}
 .primary:hover:not(:disabled) { background: var(--action-primary-hover); color: var(--action-primary-text); }
 .primary:active:not(:disabled) { background: var(--action-primary-active); }
 
 .secondary {
-  background: var(--action-secondary-fill);
+  background: transparent;
   border-color: var(--line-control);
   color: var(--text-primary);
 }
-.secondary:hover:not(:disabled) { background: var(--surface-hover); color: var(--text-primary); }
-.secondary:active:not(:disabled) { background: var(--surface-brand); }
+.secondary:hover:not(:disabled) { background: transparent; color: var(--action-primary-text); }
+
+/* Hover pours the fill up through the button, like milk into a glass. */
+.secondary {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.secondary::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  background: var(--action-primary);
+  transform: translateY(101%);
+  transition: transform 320ms var(--ease-out);
+}
+.secondary:hover:not(:disabled)::before { transform: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .button { transition-property: background-color, color, transform; }
+  .button:active:not(:disabled) { transform: scale(0.98); }
+}
 
 /* Labelled slot for things rendered by Shopify (wallet buttons); never a fake button. */
 .placeholder {
@@ -106,6 +122,6 @@
   color: inherit;
   transition: background-color 0.2s var(--ease-out);
 }
-.iconButton:hover { background: var(--surface-hover); }
+.iconButton:hover { background: transparent; }
 .onDark:hover { background: transparent; opacity: 0.8; }
-.onDark:focus-visible { outline-color: var(--brand-ivory); }
+.onDark:focus-visible { outline-color: var(--brand-cream); }

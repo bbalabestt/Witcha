@@ -1,63 +1,47 @@
 {
   "id": "gid://shopify/Product/9001",
-  "handle": "yame-no-mukashi",
-  "title": "Yame no Mukashi",
-  "description": "The Professor keeps the deep tea at the Academy.",
+  "handle": "the-professor-yame-matcha",
+  "title": "The Professor — Yame Matcha",
+  "description": "Our Yame matcha is creamy and rounded.",
   "productType": "Matcha",
-  "tags": ["new", "sale"],
-  "featuredImage": { "url": "https://cdn.shopify.com/s/files/tin.webp", "altText": "", "width": 720, "height": 720 },
+  "tags": [],
+  "featuredImage": { "url": "https://cdn.shopify.com/s/files/tin.webp", "altText": "", "width": 1440, "height": 1440 },
   "images": {
     "nodes": [
-      { "url": "https://cdn.shopify.com/s/files/tin.webp", "altText": "", "width": 720, "height": 720 },
-      { "url": "https://cdn.shopify.com/s/files/whisk.jpg", "altText": "Hands whisking matcha", "width": 960, "height": 640 }
+      { "url": "https://cdn.shopify.com/s/files/tin.webp", "altText": "", "width": 1440, "height": 1440 },
+      { "url": "https://cdn.shopify.com/s/files/whisk.jpg", "altText": "Hands whisking matcha", "width": 1600, "height": 2000 }
     ]
   },
   "variants": {
     "nodes": [
       {
         "id": "gid://shopify/ProductVariant/1",
+        "sku": "WM-PRO-30",
         "title": "30 g",
         "availableForSale": true,
         "quantityAvailable": 3,
         "price": { "amount": "48.0", "currencyCode": "AUD" },
-        "compareAtPrice": { "amount": "48.0", "currencyCode": "AUD" },
-        "servings": null
-      },
-      {
-        "id": "gid://shopify/ProductVariant/2",
-        "title": "100 g",
-        "availableForSale": false,
-        "quantityAvailable": 0,
-        "price": { "amount": "140.0", "currencyCode": "AUD" },
-        "compareAtPrice": { "amount": "165.0", "currencyCode": "AUD" },
-        "servings": { "value": "50" }
+        "compareAtPrice": { "amount": "48.0", "currencyCode": "AUD" }
       }
     ]
   },
-  "servings": { "value": "15" },
-  "tastePosition": { "value": "4" },
-  "tier": { "value": "Reserve" },
-  "tasteWord": null,
-  "tastingNotes": { "value": "[\"Nutty\",\"Umami\",\"Mellow\",\"Extra\"]" },
-  "bestFor": { "value": "[\"Latte\",\"Straight\",\"Smoothie\"]" },
-  "originRegion": { "value": "Yame, Fukuoka" },
-  "cultivar": { "value": "100% Okumidori" },
+  "descriptor": { "value": "Yame Matcha" },
+  "detailLine": { "value": "Okumidori · First harvest · 30 g" },
+  "tastingNotes": { "value": "[\"Creamy\",\"Umami\",\"Macadamia\",\"Extra\"]" },
+  "bestForShort": { "value": "Drinking straight (usucha)" },
+  "bestFor": { "value": "Straight (usucha). Also makes a smooth latte." },
+  "chooseItIf": { "value": "you want the richest umami and creamiest texture in the range." },
+  "compareProduct": { "value": "gid://shopify/Product/9002", "reference": { "handle": "the-scholar-japanese-matcha-blend" } },
+  "compareLine": { "value": "Mostly drink lattes? The Scholar — Japanese Matcha Blend suits them best." },
+  "teaType": { "value": "Matcha" },
+  "originRegion": { "value": "Yame, Fukuoka, Japan" },
+  "cultivar": { "value": "Okumidori" },
   "harvest": { "value": "First harvest" },
-  "gradeDescription": null,
-  "packDateNote": null,
-  "netWeight": null,
-  "ingredients": { "value": "100% green tea (matcha)" },
+  "ingredients": { "value": "100% Japanese matcha" },
+  "netWeight": { "value": "30 g" },
+  "packedIn": { "value": "Japan" },
+  "caffeine": { "value": "Contains caffeine" },
   "storageNote": null,
-  "pending": null,
-  "character": {
-    "value": "gid://shopify/Metaobject/77",
-    "reference": {
-      "handle": "the-professor",
-      "fields": [
-        { "key": "name", "value": "The Professor", "reference": null },
-        { "key": "taste_role", "value": "Keeper of the reserve tea", "reference": null },
-        { "key": "art", "value": "gid://shopify/MediaImage/5", "reference": { "image": { "url": "https://cdn.shopify.com/s/files/prof.webp", "altText": "The Professor", "width": 820, "height": 820 } } }
-      ]
-    }
-  }
+  "servingsNote": null,
+  "seo": { "description": "Creamy, umami-rich Yame matcha from Fukuoka." }
 }

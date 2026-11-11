@@ -10,6 +10,11 @@ export function motionAllowed(): boolean {
   return typeof window !== "undefined" && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
+/** Loops that run on their own (marquees, the badge, ambient effects) also stop under the pause control (WCAG 2.2.2). */
+export function loopsAllowed(): boolean {
+  return motionAllowed() && !document.documentElement.hasAttribute("data-motion-paused");
+}
+
 export function hoverCapable(): boolean {
   return typeof window !== "undefined" && window.matchMedia("(hover: hover)").matches;
 }
@@ -63,9 +68,10 @@ export function onFrame(fn: Frame): () => void {
 }
 
 const REVEALS: Record<string, Keyframe[]> = {
-  up: [{ opacity: 0, transform: "translateY(36px)", filter: "blur(6px)" }, { opacity: 1, transform: "none", filter: "blur(0)" }],
-  left: [{ opacity: 0, transform: "translateX(-90px)", filter: "blur(4px)" }, { opacity: 1, transform: "none", filter: "blur(0)" }],
-  right: [{ opacity: 0, transform: "translateX(90px)", filter: "blur(4px)" }, { opacity: 1, transform: "none", filter: "blur(0)" }],
+  // No blur, and a short travel: text is sharp and readable as it arrives (vendor list P2).
+  up: [{ opacity: 0, transform: "translateY(20px)" }, { opacity: 1, transform: "none" }],
+  left: [{ opacity: 0, transform: "translateX(-40px)" }, { opacity: 1, transform: "none" }],
+  right: [{ opacity: 0, transform: "translateX(40px)" }, { opacity: 1, transform: "none" }],
   mask: [{ transform: "translateY(110%)" }, { transform: "none" }],
   "wipe-l": [{ clipPath: "inset(0 100% 0 0)", transform: "translateX(-60px)" }, { clipPath: "inset(0 0 0 0)", transform: "none" }],
   "arch-open": [{ clipPath: "inset(100% 0 0 0)" }, { clipPath: "inset(0 0 0 0)" }],
@@ -123,39 +129,33 @@ export function playReveal(el: HTMLElement) {
   el.animate(frames, { duration: duration(kind), delay, easing: EASE, fill: "backwards" });
 }
 
-/** Infinite ambient effects: floating motes, twinkling stars, the breathing arch outline, liquid waves. */
+const loops = new Set<Animation>();
+let pauseWatch: MutationObserver | null = null;
+
+function track(a: Animation) {
+  loops.add(a);
+  if (!loopsAllowed()) a.pause();
+  if (pauseWatch) return;
+  pauseWatch = new MutationObserver(() => loops.forEach((l) => (loopsAllowed() ? l.play() : l.pause())));
+  pauseWatch.observe(document.documentElement, { attributes: true, attributeFilter: ["data-motion-paused"] });
+}
+
+/** Infinite ambient effects: the breathing arch outline and liquid waves. Floating dots and stars are retired. */
 export function startAmbient(root: ParentNode) {
-  root.querySelectorAll<HTMLElement>("[data-float]").forEach((el) => {
-    if (!markSeen(el)) return;
-    const dx = (Math.random() - 0.5) * 80;
-    const dy = 120 + Math.random() * 200;
-    el.animate(
-      [{ transform: "translate(0,0)", opacity: 0 }, { opacity: 0.9, offset: 0.25 }, { opacity: 0.7, offset: 0.75 }, { transform: `translate(${dx}px,-${dy}px)`, opacity: 0 }],
-      { duration: 5000 + Math.random() * 5000, delay: Math.random() * 4000, iterations: Infinity, easing: "ease-in-out" },
-    );
-  });
-  root.querySelectorAll<HTMLElement>("[data-twinkle]").forEach((el) => {
-    if (!markSeen(el)) return;
-    el.animate([{ opacity: 0.15, transform: "scale(.55) rotate(0deg)" }, { opacity: 1, transform: "scale(1) rotate(45deg)" }], {
-      duration: 1400 + Math.random() * 1600,
-      delay: Math.random() * 2000,
-      direction: "alternate",
-      iterations: Infinity,
-      easing: "ease-in-out",
-    });
-  });
   root.querySelectorAll<HTMLElement>("[data-breathe]").forEach((el) => {
     if (!markSeen(el)) return;
-    el.animate(
-      [
-        { outlineOffset: "10px", outlineColor: "color-mix(in srgb, var(--brand-gold) 35%, transparent)" },
-        { outlineOffset: "18px", outlineColor: "var(--brand-gold)" },
-      ],
-      { duration: 2250, direction: "alternate", iterations: Infinity, easing: "ease-in-out" },
+    track(
+      el.animate(
+        [
+          { outlineOffset: "10px", outlineColor: "color-mix(in srgb, var(--line-ornament) 35%, transparent)" },
+          { outlineOffset: "18px", outlineColor: "var(--line-ornament)" },
+        ],
+        { duration: 2250, direction: "alternate", iterations: Infinity, easing: "ease-in-out" },
+      ),
     );
   });
   root.querySelectorAll<HTMLElement>("[data-wave]").forEach((el) => {
     if (!markSeen(el)) return;
-    el.animate([{ transform: "translateX(0)" }, { transform: "translateX(-25%)" }], { duration: 3600, iterations: Infinity, easing: "linear" });
+    track(el.animate([{ transform: "translateX(0)" }, { transform: "translateX(-25%)" }], { duration: 3600, iterations: Infinity, easing: "linear" }));
   });
 }

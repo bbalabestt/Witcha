@@ -1,24 +1,16 @@
-import Image from "next/image";
 import { Button } from "@/components/ui/Button";
+import { TEAS_HREF } from "@/lib/config/site";
 import styles from "./NotFoundContent.module.css";
 
-/** One calm line, the Dreamer in an arch, and the way back. */
+/** Copy v5.3 §8. */
 export function NotFoundContent() {
   return (
     <section className={`container ${styles.page}`}>
-      <div className={styles.arch} data-reveal="rise">
-        <Image src="/art/05-fifth-sku-concept-key-visual.webp" alt="The Dreamer, a cream-and-blush cat, looking out of a garden window." fill sizes="200px" className={styles.contain} />
-      </div>
-      <h1 className="heading-1" data-reveal="up">
-        This page wandered off.
-      </h1>
-      <p data-reveal="up">It may still be in preparation, or the link has changed.</p>
-      <div className={styles.actions} data-reveal="up">
-        <Button href="/collections/matcha" size="xl">
-          Shop matcha
-        </Button>
-        <Button href="/" variant="secondary" size="xl">
-          Home
+      <h1 className="heading-1">This page has wandered off.</h1>
+      <p>Let&apos;s get you back to the teas.</p>
+      <div className={styles.actions}>
+        <Button href={TEAS_HREF} size="xl">
+          Shop the teas
         </Button>
       </div>
     </section>

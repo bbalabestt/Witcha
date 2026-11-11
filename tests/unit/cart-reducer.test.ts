@@ -6,11 +6,11 @@ import { applyCartOp, type LinePreview } from "@/components/commerce/CartProvide
 import { money } from "@/lib/data/money";
 
 const preview: LinePreview = {
-  merchandiseId: "d30",
-  handle: "kosen-daily-matcha",
-  title: "Kosen Daily Matcha",
+  merchandiseId: "wm-sch-30",
+  handle: "the-scholar-japanese-matcha-blend",
+  title: "The Scholar — Japanese Matcha Blend",
   kind: "tea",
-  eyebrow: "DAILY · BRIGHT",
+  teaType: "matcha",
   tin: null,
   variantTitle: "30 g",
   price: money(32, true),
@@ -22,7 +22,7 @@ describe("optimistic cart reducer", () => {
     const cart = applyCartOp(null, { type: "add", preview, quantity: 2 });
     expect(cart.totalQuantity).toBe(2);
     expect(cart.subtotal).toMatchObject({ amount: 64, placeholder: true });
-    expect(cart.lines[0]?.id).toBe("optimistic-d30");
+    expect(cart.lines[0]?.id).toBe("optimistic-wm-sch-30");
   });
 
   it("merges repeat adds and caps them by stock", () => {
@@ -34,7 +34,7 @@ describe("optimistic cart reducer", () => {
 
   it("removes a line when its quantity reaches zero", () => {
     const cart = applyCartOp(null, { type: "add", preview, quantity: 1 });
-    const next = applyCartOp(cart, { type: "quantity", lineId: "optimistic-d30", quantity: 0 });
+    const next = applyCartOp(cart, { type: "quantity", lineId: "optimistic-wm-sch-30", quantity: 0 });
     expect(next.lines).toHaveLength(0);
     expect(next.subtotal.amount).toBe(0);
   });

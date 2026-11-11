@@ -2,14 +2,16 @@
 
 import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Frame";
-import { formatMoney } from "@/lib/data/money";
+import { LIVE } from "@/lib/config/launch";
+import { TEAS_HREF } from "@/lib/config/site";
+import { priceLabel } from "@/lib/data/money";
 import type { Money } from "@/lib/data/types";
 import { useCart } from "./CartProvider";
 import { CartLineItem, CheckoutButton, FreeShippingMeter, GiftNote, ShopPaySlot, UpsellRail, type UpsellItem } from "./CartParts";
 import styles from "./CartPage.module.css";
 
-/** Same pieces as the drawer, in two columns; the gift note sits in the summary column (V2.1 5.2). */
-export function CartPageView({ threshold, upsell, shopPay }: { threshold: Money; upsell: UpsellItem[]; shopPay: boolean }) {
+/** Same pieces as the drawer, in two columns. */
+export function CartPageView({ threshold, upsell, shopPay }: { threshold: Money | null; upsell: UpsellItem[]; shopPay: boolean }) {
   const { cart, ready, error, retry } = useCart();
   const count = cart?.totalQuantity ?? 0;
 
@@ -46,9 +48,9 @@ export function CartPageView({ threshold, upsell, shopPay }: { threshold: Money;
       ) : null}
       {!cart || cart.lines.length === 0 ? (
         <div className={styles.empty}>
-          <p className="heading-3">Your cart is empty. Which matcha today?</p>
-          <Button href="/collections/matcha" size="xl">
-            Shop matcha
+          <p className="heading-3">Nothing brewing yet.</p>
+          <Button href={TEAS_HREF} size="xl">
+            Shop the teas
           </Button>
         </div>
       ) : (
@@ -64,14 +66,17 @@ export function CartPageView({ threshold, upsell, shopPay }: { threshold: Money;
           </div>
           <aside className={styles.summary} aria-label="Summary">
             <span className="label">Summary</span>
-            <div className={styles.subtotal}>
-              <span>Subtotal</span>
-              <span className={styles.amount}>{formatMoney(cart.subtotal)}</span>
-            </div>
-            <p className="body-small">AUD, incl. GST. Shipping and discount codes are calculated at checkout.</p>
-            <div className={styles.divided}>
-              <GiftNote cart={cart} idSuffix="-page" />
-            </div>
+            {priceLabel(cart.subtotal) ? (
+              <div className={styles.subtotal}>
+                <span>Subtotal</span>
+                <span className={styles.amount}>{priceLabel(cart.subtotal)}</span>
+              </div>
+            ) : null}
+            {LIVE.gifts ? (
+              <div className={styles.divided}>
+                <GiftNote cart={cart} idSuffix="-page" />
+              </div>
+            ) : null}
             <CheckoutButton cart={cart} />
             <ShopPaySlot enabled={shopPay} />
           </aside>

@@ -14,26 +14,16 @@ import styles from "./page.module.css";
 
 export const metadata: Metadata = { title: "Component sheet", robots: { index: false, follow: false } };
 
-const SWATCHES = [
-  "brand-witcha-blue",
-  "brand-aqua-light",
-  "brand-deep-blue",
-  "brand-ivory",
-  "brand-gold",
-  "brand-blush",
-  "brand-sage",
-  "action-primary-hover",
-  "feedback-error",
-] as const;
+const SWATCHES = ["brand-mint", "brand-cream", "brand-gold", "brand-charcoal", "brand-charcoal-soft", "line-hairline", "feedback-error", "tea-matcha", "tea-hojicha"] as const;
 
 const TYPE_STYLES: Array<[string, string]> = [
-  ["display-xl", "Which Matcha Today?"],
-  ["heading-1", "Yame no Mukashi"],
-  ["heading-2", "From the hills of Yame"],
+  ["display-xl", "Matcha, With Taste."],
+  ["heading-1", "The Professor — Yame Matcha"],
+  ["heading-2", "Taste comes first."],
   ["heading-3", "How to make it at home"],
   ["body", "Two grams, a splash of hot water, a quick froth."],
-  ["body-small", "Free shipping over $[80.00]."],
-  ["label", "Reserve · Deep"],
+  ["body-small", "Okumidori · First harvest · 30 g"],
+  ["label", "Matcha"],
   ["tagline", "Matcha, With Taste."],
 ];
 
@@ -46,7 +36,7 @@ export default function ComponentSheet() {
       <header className={styles.stack}>
         <p className="label">Dev only · not built in production</p>
         <h1 className="heading-1">Component sheet</h1>
-        <p className="body">Every primitive and state, for side-by-side comparison with Prototype V2.</p>
+        <p className="body">Every primitive and state, for checking states.</p>
       </header>
 
       <section className={styles.section}>
@@ -79,11 +69,6 @@ export default function ComponentSheet() {
           <Logo variant="small" width={112} />
           <Logo variant="small-no-rules" />
         </div>
-        <div className={[styles.row, styles.dark].join(" ")}>
-          <Logo variant="large" tone="reversed" width={180} />
-          <Logo variant="small" tone="reversed" />
-          <Logo variant="small-no-rules" tone="reversed" />
-        </div>
       </section>
 
       <section className={styles.section}>
@@ -104,19 +89,18 @@ export default function ComponentSheet() {
       <section className={styles.section}>
         <h2 className="heading-2">Buttons</h2>
         <div className={styles.row}>
-          <Button>Shop the matcha</Button>
+          <Button>Shop the teas</Button>
           <Button size="lg">Add to cart</Button>
-          <Button size="md">Which Matcha Today?</Button>
+          <Button size="md">Sign me up</Button>
           <Button size="sm">Add</Button>
           <Button disabled>Disabled</Button>
           <Button status="loading">Adding…</Button>
           <Button status="success">Added</Button>
         </div>
         <div className={styles.row}>
-          <Button variant="secondary">Meet the Academy</Button>
-          <Button variant="secondary" size="md">Write a review</Button>
-          <Button variant="placeholder" size="xl">Shop Pay · rendered by Shopify</Button>
-          <Button variant="link">All brewing guides</Button>
+          <Button variant="secondary">Find your tea</Button>
+          <Button variant="secondary" size="md">See the recipes</Button>
+                    <Button variant="link">How we chose them</Button>
           <Button href="/dev/components" variant="secondary" size="md">
             Link button
           </Button>
@@ -168,7 +152,7 @@ export default function ComponentSheet() {
         <div className={styles.row}>
           <Chip>Nutty</Chip>
           <Chip>Umami</Chip>
-          <Chip tone="outline">Origin · Yame, Fukuoka</Chip>
+          <Chip tone="outline">Yame, Fukuoka</Chip>
         </div>
         <div className={[styles.row, styles.brandBlock].join(" ")}>
           <Chip tone="noteOnSoft">Mellow</Chip>
@@ -179,14 +163,12 @@ export default function ComponentSheet() {
       <section className={styles.section}>
         <h2 className="heading-2">Imagery</h2>
         <div className={styles.grid}>
-          <ImagePlaceholder label="Tin pack shot" ratio="4:5" badge={<Badge>New</Badge>} />
-          <ImagePlaceholder label="Character art · pending artist" shape="arch" showRatio={false} />
-          <ImagePlaceholder label="Guide photo" ratio="3:2" />
-          <ImagePlaceholder label="60-second video" ratio="16:9" />
-          <ImagePlaceholder label="Lifestyle tile" ratio="1:1" tone="brand" />
-          <ImagePlaceholder label="Tea in preparation" ratio="4:5" tone="dashed" showRatio={false} />
+          <ImagePlaceholder ratio="4:5" />
+          <ImagePlaceholder shape="arch" />
+          <ImagePlaceholder ratio="3:2" />
+          <ImagePlaceholder ratio="1:1" tone="brand" />
           <ArchFrame outlined>
-            <ImagePlaceholder label="Tin + character · pending artist" tone="page" showRatio={false} style={{ height: "100%" }} />
+            <ImagePlaceholder tone="page" style={{ height: "100%" }} />
           </ArchFrame>
         </div>
         <div className={styles.grid}>
@@ -201,17 +183,15 @@ export default function ComponentSheet() {
 
       <section className={styles.section}>
         <h2 className="heading-2">Navigation</h2>
-        <Breadcrumb items={[{ label: "Home", href: "/" }, { label: "Shop Matcha", href: "/collections/matcha" }, { label: "Yame no Mukashi" }]} />
+        <Breadcrumb items={[{ label: "Home", href: "/" }, { label: "Teas", href: "/collections/teas" }, { label: "The Professor — Yame Matcha" }]} />
       </section>
 
       <section className={styles.section}>
         <h2 className="heading-2">Accordion</h2>
         <Accordion
-          defaultOpen={["lattes"]}
           items={[
-            { id: "lattes", title: "Is it good for lattes?", content: "Yes. The deep tea holds its flavour through milk; the bright tea is lighter and lovely over ice." },
-            { id: "store", title: "How do I store it?", content: "Keep the tin closed tight, somewhere cool and dry, away from sunlight." },
-            { id: "gift", title: "Can I send it as a gift?", content: "Yes. Tick “This is a gift” in your cart and add a note of up to 150 characters." },
+            { id: "one", title: "Is hojicha the same as matcha?", content: "No. Matcha and hojicha are different Japanese teas." },
+            { id: "two", title: "Do your teas contain caffeine?", content: "Yes. Our matcha and hojicha all contain caffeine." },
           ]}
         />
       </section>
@@ -221,10 +201,8 @@ export default function ComponentSheet() {
         <Tabs
           label="Preparation method"
           items={[
-            { id: "whisk", label: "Whisk", panel: <p>Sift 2 g into a warm bowl, paste with 80°C water, whisk in an M shape.</p> },
-            { id: "frother", label: "Frother", panel: <p>Froth 2 g with 30 ml of 80°C water, then pour over 180 ml warm milk.</p> },
-            { id: "shaker", label: "Shaker", panel: <p>Shake 2 g with 60 ml cold water for 20 seconds; pour over ice and milk.</p> },
-            { id: "iced", label: "Iced latte", panel: <p>Pour the matcha slowly over ice and cold milk for the layers.</p> },
+            { id: "whisk", label: "Whisk", panel: <p>Whisk briskly in an &quot;M&quot; motion, not circles.</p> },
+            { id: "frother", label: "Frother", panel: <p>Same flavour, a foamier texture.</p> },
           ]}
         />
       </section>

@@ -1,7 +1,17 @@
 .section {
   position: relative;
   overflow: hidden;
-  background: var(--surface-soft);
+  background: var(--surface-brand);
+}
+
+.titles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.body {
+  max-width: 46ch;
 }
 
 .inner {
@@ -58,6 +68,7 @@
   flex-direction: column;
   gap: var(--space-3);
   background: var(--surface-page);
+  border: 1px solid var(--line-on-mint);
 }
 
 .n {
@@ -81,7 +92,8 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  background: var(--surface-brand);
+  background: var(--surface-page);
+  border: 1px solid var(--line-on-mint);
   transform: rotateY(180deg);
 }
 
@@ -91,32 +103,17 @@
   overflow: hidden;
   border: 1px solid var(--line-control);
   border-radius: var(--radius-arch) var(--radius-arch) 0 0;
-  background: var(--surface-soft);
+  background: var(--surface-page);
 }
 
 .photo {
   position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
+  inset: 14% 18% 4%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
   transform: scale(1.4);
   transition: transform 1.2s var(--ease-out);
-}
-
-.pop {
-  position: absolute;
-  left: 50%;
-  top: 42%;
-  width: 64px;
-  height: 64px;
-  margin: -32px 0 0 -32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: var(--surface-page);
-  transform: scale(0);
-  transition: transform 0.5s cubic-bezier(0.34, 1.6, 0.5, 1) 0.45s;
 }
 
 .backFoot {
@@ -135,8 +132,7 @@
   transform: rotateY(180deg);
 }
 
-.card[data-flipped] .photo,
-.card[data-flipped] .pop {
+.card[data-flipped] .photo {
   transform: scale(1);
 }
 
@@ -153,8 +149,7 @@
   .card[data-flipped] .back {
     opacity: 1;
   }
-  .photo,
-  .pop {
+  .photo {
     transform: none;
   }
 }
