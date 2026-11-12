@@ -24,7 +24,7 @@ Upload at the **recommended** size. Shopify's CDN serves smaller versions automa
 | PDP gallery lifestyle photo | 4:5 | 1600 × 2000 | reuses article art | PDP gallery (hands whisking, iced latte, powder colour, scale shot) |
 | Method photo (whisk / frother / shaker / iced) | 4:5 | 1600 × 2000 | reuses article/hero art | Home "made at home" cards, PDP prep tabs poster |
 | Method video (optional) | 16:9 | 1920 × 1080 MP4, ≤ 60 s, no sound needed | none | PDP prep tabs |
-| Gift set photo | 4:5 | 1600 × 2000 | Kosen tin stand-in | Home gifts panel, gift cards |
+| Gift set photo | 4:5 | 1600 × 2000 | Scholar tin stand-in | Home gifts panel, gift cards |
 | Arch character art (Academy, 404) | 3:4 | 1200 × 1600 | key visuals cropped | Academy page, not-found page |
 
 **Art licence:** all 15 files in `public/art` are concepts supplied with Prototype V4. Before launch the client must confirm they are commissioned and licensed (DEVIATIONS D-14). "The Dreamer" (file 05) is a concept for a fifth tea and is labelled as one.
@@ -55,7 +55,7 @@ One record feeds the announcement bar, PDP delivery promise, cart free-shipping 
 ## 3. Products (Shopify → Products)
 
 **Current catalogue:**
-- 4 teas: Yame no Mukashi, Kosen Daily Matcha, The Charmer, Organic Hojicha.
+- 4 teas: Yame Matcha, Japanese Matcha Blend, The Charmer, Uji Hojicha.
 - 2 gift sets: `[Two-tin discovery set]` and `[Tin + bamboo whisk]`, both marked PENDING.
 - 2 tools: Bamboo whisk, Handheld frother.
 - **All prices are placeholders.**
@@ -95,10 +95,10 @@ Gift sets need their own photos (contents laid out, 4:5). Tools need a pack shot
 
 | Keeper | Tea | Name | Story | Art |
 | --- | --- | --- | --- | --- |
-| The Professor | Yame no Mukashi | ✓ | **missing** | concept ✓ |
+| The Professor | Yame Matcha | ✓ | **missing** | concept ✓ |
 | The Charmer | The Charmer | ✓ | **missing** | concept ✓ |
-| Kosen keeper | Kosen Daily Matcha | **`[Name pending]`** | **missing** | concept ✓ |
-| Tea-room keeper | Organic Hojicha | **`[Name pending]`** | **missing** | concept ✓ |
+| Scholar keeper | Japanese Matcha Blend | **`[Name pending]`** | **missing** | concept ✓ |
+| Tea-room keeper | Uji Hojicha | **`[Name pending]`** | **missing** | concept ✓ |
 | The Dreamer | fifth tea (concept) | ✓ | **missing** | concept, labelled |
 
 Per keeper:
@@ -215,5 +215,5 @@ From `docs/HANDOVER.md`:
 3. Promotion pop-up on or off.
 4. Reviews app.
 5. Newsletter, back-in-stock and contact providers.
-6. Names: Kosen keeper and tea-room keeper.
+6. Names: Scholar keeper and tea-room keeper.
 7. Final prices and gift-set contents.

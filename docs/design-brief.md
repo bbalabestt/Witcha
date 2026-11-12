@@ -332,7 +332,7 @@ Observed on withmiles.com.au, rockysmatcha.com, matchasociety.com.au, hello-matc
 
 ### 10. Placeholder content (clearly marked, replace later)
 
-- **Product 1 (working):** *Yame no Mukashi*, tier **Reserve · Deep**, 30 g, Yame (Fukuoka), 100% Okumidori, first harvest. Tasting notes `[Nutty] [Umami] [Mellow]` pending Pop's tasting. Price `$[00.00]`.
+- **Product 1 (working):** *Yame Matcha*, tier **Reserve · Deep**, 30 g, Yame (Fukuoka), 100% Okumidori, first harvest. Tasting notes `[Nutty] [Umami] [Mellow]` pending Pop's tasting. Price `$[00.00]`.
 - **Product 2 (pending founder decision):** `[Daily tea name]`, tier **Daily · Bright**. Treat as a placeholder card with the same fields.
 - **Characters:** `[Character name]`, taste role from the scale, accessory `[one object]`, art pending (empty arch).
 - **Numbers:** write prices as `$[48.00]`-style bracketed placeholders; layout must survive `$[1,280.00]`. Free-shipping threshold `$[amount]`. Dispatch `[x]` business days from `[city]`.
