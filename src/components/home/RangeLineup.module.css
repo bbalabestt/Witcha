@@ -1,0 +1,168 @@
+.section {
+  background: var(--surface-page);
+}
+
+.inner {
+  padding-block: clamp(56px, 7vw, 96px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(32px, 4vw, 56px);
+}
+
+/* Heading left, standfirst and the collection link right, bottoms aligned. */
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+  gap: var(--space-5);
+  align-items: end;
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(30px, 3.4vw, 52px);
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  color: var(--text-secondary);
+}
+
+/* The shelf: one gold line the four tins stand on, across the whole row. */
+.lineup {
+  --stand: clamp(180px, 22vw, 260px);
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0 clamp(16px, 2.4vw, 40px);
+}
+
+.lineup::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--stand);
+  height: 1px;
+  background: var(--line-ornament);
+}
+
+.tea {
+  display: flex;
+  flex-direction: column;
+}
+
+.stand {
+  height: var(--stand);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.tin {
+  width: auto;
+  height: 82%;
+}
+
+.info {
+  padding-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.type {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.name {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  line-height: 28px;
+  text-decoration: none;
+  text-wrap: balance;
+}
+
+.name:hover {
+  text-decoration: underline;
+}
+
+.notes {
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.best {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--text-secondary);
+}
+
+.buy {
+  margin-top: auto;
+  padding-top: var(--space-3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.price {
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.add {
+  height: var(--control-md);
+  padding: 0 var(--control-pad-x);
+  background: var(--action-primary);
+  color: var(--action-primary-text);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: background-color 0.2s var(--ease-out);
+}
+
+.add:hover {
+  background: var(--action-primary-hover);
+}
+
+@media (max-width: 899px) {
+  .head {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+  /* Phones and tablets: the shelf scrolls sideways, about one and a half tins at a time. */
+  .lineup {
+    --stand: 200px;
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: min(64vw, 260px);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: var(--space-2);
+  }
+  .lineup::before {
+    right: auto;
+    width: calc(4 * min(64vw, 260px) + 3 * clamp(16px, 2.4vw, 40px));
+  }
+  .tea {
+    scroll-snap-align: start;
+  }
+}

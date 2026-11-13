@@ -14,11 +14,6 @@ export const HERO = {
 /** Anchor that "Find your tea" scrolls to. */
 export const SELECTION_ID = "find-your-tea";
 
-/**
- * Where matcha and hojicha appear together, "Find your next cup" replaces "Which Matcha Today?" (client
- * change log K2, Bible p.21). Every home placement shows all four teas, so the old line is not used here.
- */
-export const SELECTION_LINE = "Find your next cup";
 export const TAGLINE = "Matcha, With Taste.";
 
 export const SELECTION = {
@@ -26,19 +21,28 @@ export const SELECTION = {
   body: "Each tea has a clear character. Choose by flavour, or by how you like to drink it.",
 } as const;
 
-/** "Straight or with milk" is copy v5.3 §1 ("Your cup. Your way."). Recipes are §4. */
-export const DRINK_WAYS = {
-  straight: { label: "Straight", recipe: "Usucha (classic matcha)", needs: "2 g matcha · 60 ml hot water at 80°C" },
-  milk: { label: "With milk", recipe: "Iced matcha latte", needs: "3–4 g matcha · 30–40 ml hot water at 80°C · ice · 90–120 ml milk" },
-} as const;
-
-export type DrinkWay = keyof typeof DRINK_WAYS;
-
 /** Copy v5.3 §3, the Teas collection title and intro. */
 export const RANGE = {
   title: "Japanese matcha and hojicha",
   intro: "Three matcha and one hojicha, each with a clear character. Compare tasting notes and how each one likes to be made, then pick your next cup.",
+  /** The intro's two sentences, set as heading and standfirst so the hero's eyebrow is not repeated. */
+  heading: "Three matcha and one hojicha, each with a clear character.",
+  standfirst: "Compare tasting notes and how each one likes to be made, then pick your next cup.",
 } as const;
+
+/** Where the teas come from (copy v5.3 §2 facts), for the second banner. */
+export const ORIGINS = ["Yame, Fukuoka", "Shizuoka", "Kagoshima", "Uji, Kyoto"] as const;
+
+/**
+ * "Find your next cup" chooser: copy v5.3 §6, the answer to "Which tea should I choose?", split into its four
+ * cases. Each case leads to the tea the answer names.
+ */
+export const CHOOSER = [
+  { handle: "the-professor-yame-matcha", option: "For matcha on its own" },
+  { handle: "the-scholar-japanese-matcha-blend", option: "For everyday lattes" },
+  { handle: "the-rebel-kagoshima-matcha", option: "If you like nutty flavours, especially in an oat milk latte" },
+  { handle: "the-librarian-uji-hojicha", option: "For a roasted tea instead of green matcha" },
+] as const;
 
 export const TASTE_FIRST = {
   heading: "Taste comes first.",
@@ -67,11 +71,12 @@ export const ACADEMY = {
 /**
  * "Why it tastes good" (the client's design prompt §3; Bible "Fantasy earns attention, reality earns trust"):
  * real photos, facts and the selection story. Photos are stand-ins until the founders supply them.
- * The heading is copy v5.3 §6 (FAQ answer); fact labels are the §2 facts tables.
+ * Fact labels are the §2 facts tables.
  */
 export const PROOF = {
   label: "Why it tastes good",
-  heading: "Our co-founder Wichita tasted more than 40 Japanese tea samples to choose the range.",
+  /** Copy v5.3 §3 (How we chose them). The Wichita line lives in "Taste comes first." only. */
+  heading: "We looked at aroma, colour, texture, sweetness, umami, bitterness, astringency and finish.",
   facts: { origin: "Origin", cultivar: "Cultivar", harvest: "Harvest" },
 } as const;
 
@@ -81,7 +86,10 @@ export const PROOF = {
  * founders' sign-off. Promises nothing unconfirmed: no gift note, delivery cut-off, bundle or price.
  */
 export const GIFTS = {
-  label: "Gifts",
   heading: "For a matcha-loving friend",
-  body: "Each tea comes in its own 30 g tin, white for matcha and black for hojicha, so a gift looks chosen with care. Choose by how they like to drink it, straight or with milk.",
+  body: "Each tea comes in its own 30 g tin, white for matcha and black for hojicha, so a gift looks chosen with care.",
+  /** Mock, from Bible p.14 (gifting as a purchase occasion). */
+  occasions: "Birthdays · Christmas · Valentine's Day · Mother's Day",
+  /** Mock label. */
+  cta: "Choose a tin",
 } as const;

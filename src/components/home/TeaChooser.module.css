@@ -1,0 +1,187 @@
+/* On mint: the question on the left, the answer on a cream panel on the right. */
+.section {
+  background: var(--surface-brand);
+}
+
+.inner {
+  padding-block: clamp(56px, 7vw, 104px);
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: clamp(32px, 5vw, 80px);
+  align-items: stretch;
+}
+
+.ask {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(34px, 4vw, 60px);
+  line-height: 1.05;
+}
+
+.body {
+  max-width: 40ch;
+}
+
+.options {
+  margin-top: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line-on-mint);
+}
+
+/* Large tap rows; the chosen one gets a filled mark and full-weight text. */
+.option {
+  min-height: var(--control-lg);
+  padding: 14px 0;
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 14px;
+  align-items: center;
+  text-align: left;
+  font-family: var(--font-serif);
+  font-size: clamp(17px, 1.5vw, 21px);
+  line-height: 1.35;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--line-on-mint);
+  transition: color 0.2s var(--ease-out);
+}
+
+.option:hover,
+.option[aria-checked="true"] {
+  color: var(--text-primary);
+}
+
+.mark {
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid var(--line-on-mint);
+  border-radius: 50%;
+  transition: background-color 0.2s var(--ease-out);
+}
+
+.option[aria-checked="true"] .mark {
+  background: var(--action-primary);
+}
+
+.answer {
+  padding: clamp(28px, 4vw, 56px);
+  background: var(--surface-page);
+  display: flex;
+  align-items: center;
+}
+
+.reveal {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    animation: arrive 420ms var(--ease-out);
+  }
+}
+
+@keyframes arrive {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.type {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Tea accents: small dots only. */
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tea-matcha);
+}
+
+.dot[data-tea="hojicha"] {
+  background: var(--tea-hojicha);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 5vw, 76px);
+  line-height: 1;
+}
+
+.descriptor {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(20px, 2vw, 28px);
+  line-height: 1.2;
+}
+
+.notes {
+  margin: var(--space-2) 0 0;
+  padding: var(--space-2) 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  border-top: 1px solid var(--line-ornament);
+  border-bottom: 1px solid var(--line-hairline);
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.because span {
+  font-weight: 500;
+}
+
+.actions {
+  margin-top: var(--space-2);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.price {
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.add {
+  height: var(--control-lg);
+  min-width: min(var(--control-min-w-lg), 100%);
+  padding: 0 var(--control-pad-x);
+  background: var(--action-primary);
+  color: var(--action-primary-text);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: background-color 0.2s var(--ease-out);
+}
+
+.add:hover {
+  background: var(--action-primary-hover);
+}
+
+@media (max-width: 899px) {
+  .inner {
+    grid-template-columns: 1fr;
+  }
+}

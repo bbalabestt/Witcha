@@ -5,7 +5,8 @@ hero's peeking cat: background transparent, inside of the head cream, lines bran
 pupils lifted out so CatPeek can redraw them looking at the bowl.
 
 Run: python3 scripts/build-cat-peek.py   (needs Pillow)
-Writes src/assets/cat/cat-peek.png and prints the pupil centres and radii that CatPeek.tsx uses.
+Writes src/assets/cat/cat-peek.png (pupils lifted out, for the hero) and src/assets/cat/cat-portrait.png (the
+drawing as is, for the Academy section), and prints the pupil centres and radii that CatPeek.tsx uses.
 """
 from collections import deque
 from pathlib import Path
@@ -15,6 +16,7 @@ from PIL import Image, ImageFilter
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "design/cat/client-cat-drawing.png"
 OUT = ROOT / "src/assets/cat/cat-peek.png"
+PORTRAIT = ROOT / "src/assets/cat/cat-portrait.png"
 
 CREAM = (250, 246, 238)
 CHARCOAL = (56, 56, 50)
@@ -60,20 +62,24 @@ def in_pupil(x, y):
     return False
 
 
-out = Image.new("RGBA", (W, H))
-op = out.load()
-for y in range(H):
-    for x in range(W):
-        ink = 1 - lum[x, y] / 255  # 0 = paper, 1 = full line
-        if (x, y) in outside:
-            op[x, y] = (*CHARCOAL, round(ink * 255)) if ink > 0.06 else (0, 0, 0, 0)
-        elif in_pupil(x, y):
-            op[x, y] = (*CREAM, 255)
-        else:
-            op[x, y] = tuple(round(c + (k - c) * ink) for c, k in zip(CREAM, CHARCOAL)) + (255,)
+def render(lift_pupils):
+    out = Image.new("RGBA", (W, H))
+    op = out.load()
+    for y in range(H):
+        for x in range(W):
+            ink = 1 - lum[x, y] / 255  # 0 = paper, 1 = full line
+            if (x, y) in outside:
+                op[x, y] = (*CHARCOAL, round(ink * 255)) if ink > 0.06 else (0, 0, 0, 0)
+            elif lift_pupils and in_pupil(x, y):
+                op[x, y] = (*CREAM, 255)
+            else:
+                op[x, y] = tuple(round(c + (k - c) * ink) for c, k in zip(CREAM, CHARCOAL)) + (255,)
+    return out
+
 
 OUT.parent.mkdir(parents=True, exist_ok=True)
-out.save(OUT, optimize=True)
-print(f"{OUT.relative_to(ROOT)} {W}x{H}")
+for path, lift in ((OUT, True), (PORTRAIT, False)):
+    render(lift).save(path, optimize=True)
+    print(f"{path.relative_to(ROOT)} {W}x{H}")
 for name, (cx, cy, r) in pupils.items():
     print(f"{name} pupil: cx={cx} cy={cy} r={r}")

@@ -17,21 +17,12 @@
   line-height: 1.1;
 }
 
-.archLine,
-.archSolid {
-  width: 20px;
-  height: 28px;
+/* Small charcoal dots between phrases (the arch is kept for the hero). */
+.sep {
+  width: 8px;
+  height: 8px;
   flex: none;
-  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
-}
-
-/* On mint: charcoal only (gold is for cream). */
-.archLine {
-  border: 1.5px solid var(--line-on-mint);
-  border-bottom: 0;
-}
-
-.archSolid {
+  border-radius: 50%;
   background: var(--action-primary);
 }
 
