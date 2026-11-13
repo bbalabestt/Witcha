@@ -14,7 +14,11 @@ export const HERO = {
 /** Anchor that "Find your tea" scrolls to. */
 export const SELECTION_ID = "find-your-tea";
 
-export const BRAND_LINE = "Which Matcha Today?";
+/**
+ * Where matcha and hojicha appear together, "Find your next cup" replaces "Which Matcha Today?" (client
+ * change log K2, Bible p.21). Every home placement shows all four teas, so the old line is not used here.
+ */
+export const SELECTION_LINE = "Find your next cup";
 export const TAGLINE = "Matcha, With Taste.";
 
 export const SELECTION = {
@@ -58,4 +62,26 @@ export const ACADEMY = {
   headingRight: "Academy.",
   body: "The Academy is where we explore tea by taste. Each of our teas carries an Academy title that sums up its character, and one curious cat keeps them all company.",
   cta: "Step inside",
+} as const;
+
+/**
+ * "Why it tastes good" (the client's design prompt §3; Bible "Fantasy earns attention, reality earns trust"):
+ * real photos, facts and the selection story. Photos are stand-ins until the founders supply them.
+ * The heading is copy v5.3 §6 (FAQ answer); fact labels are the §2 facts tables.
+ */
+export const PROOF = {
+  label: "Why it tastes good",
+  heading: "Our co-founder Wichita tasted more than 40 Japanese tea samples to choose the range.",
+  facts: { origin: "Origin", cultivar: "Cultivar", harvest: "Harvest" },
+} as const;
+
+/**
+ * Gifts. Drafted from Brand Bible v3.0 (p.14 "a gift for my matcha-loving friend that looks chosen with care";
+ * p.31 "the tin signals care") and the vendor list's tins (white for matcha, black for hojicha). Needs the
+ * founders' sign-off. Promises nothing unconfirmed: no gift note, delivery cut-off, bundle or price.
+ */
+export const GIFTS = {
+  label: "Gifts",
+  heading: "For a matcha-loving friend",
+  body: "Each tea comes in its own 30 g tin, white for matcha and black for hojicha, so a gift looks chosen with care. Choose by how they like to drink it, straight or with milk.",
 } as const;

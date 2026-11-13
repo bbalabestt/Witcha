@@ -8,7 +8,7 @@ test("home states the category, the range and the action", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1, name: "Matcha, With Taste." })).toBeVisible();
   await expect(page.locator("[data-hero-copy]").getByText("Japanese matcha & hojicha")).toBeVisible();
   await expect(page.getByRole("link", { name: "Shop the teas" }).first()).toHaveAttribute("href", "/collections/teas");
-  await page.getByRole("link", { name: "Find your tea" }).click();
+  await page.locator("[data-hero-copy]").getByRole("link", { name: "Find your tea" }).click();
   // The hero is a tall scroll scene, so the smooth scroll to the tea selection takes a moment.
   await expect(page.locator("#find-your-tea")).toBeInViewport({ timeout: 10_000 });
 });

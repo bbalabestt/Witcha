@@ -1,8 +1,11 @@
 /* ---------- Desktop scroll hero (≥ 768 px) ---------- */
 
 .desktop {
-  /* 240vh without the foam step; 320vh with it (V4 default). */
-  height: 320vh;
+  /*
+   * Shop first (Bible p.47): the hero holds one screen and the dive into the foam is a quick zoom over about
+   * a third of a screen of scrolling, so the range is right below. V4 used 320vh.
+   */
+  height: 130vh;
   position: relative;
   background: var(--surface-brand);
 }

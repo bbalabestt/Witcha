@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import { AcademyPreview } from "@/components/home/AcademyPreview";
 import { ArchShelf, type ShelfItem } from "@/components/home/ArchShelf";
+import { GiftsPanel } from "@/components/home/GiftsPanel";
 import { Hero } from "@/components/home/Hero";
 import { Manifesto } from "@/components/home/Manifesto";
 import { Methods } from "@/components/home/Methods";
+import { ProofStrip, type ProofTea } from "@/components/home/ProofStrip";
 import { TasteQuadrant, type QuadCell } from "@/components/home/TasteQuadrant";
 import { Marquee } from "@/components/motion/Marquee";
 import type { LinePreview } from "@/components/commerce/CartProvider";
-import { BRAND_LINE, TAGLINE, TASTE_FIRST, TASTE_FIRST_KEYS } from "@/lib/content/home";
+import { SELECTION_LINE, TAGLINE, TASTE_FIRST, TASTE_FIRST_KEYS } from "@/lib/content/home";
 import { METHOD_NOTES } from "@/lib/content/recipes";
 import { SEO } from "@/lib/content/seo";
 import { getProducts } from "@/lib/data/catalog";
@@ -54,18 +56,24 @@ export default async function Home() {
     preview: quickAdd(p),
   }));
 
+  const proof: ProofTea[] = teas.flatMap((p) =>
+    p.facts ? [{ handle: p.handle, name: p.title, origin: p.facts.origin, cultivar: p.facts.cultivar, harvest: p.facts.harvest }] : [],
+  );
+
   const words = TASTE_FIRST.body.split(" ").map((w) => ({ w, key: TASTE_FIRST_KEYS.includes(w.replace(/[^a-z0-9]/gi, "").toLowerCase()) }));
 
   return (
     <>
+      {/* Bible p.47 order, shop first: hero → products → taste proof → selection → make it at home → Academy → gifts. */}
       <Hero />
+      <ArchShelf items={shelf} />
 
       <div className={styles.bandDark} aria-hidden="true">
         <Marquee direction={1}>
           <span className={styles.bandItems}>
             {TAGLINE}
             <span className={styles.archLine} />
-            {BRAND_LINE}
+            {SELECTION_LINE}
             <span className={styles.archSolid} />
             Whisked, frothed, shaken, iced
             <span className={styles.archLine} />
@@ -78,11 +86,12 @@ export default async function Home() {
         </Marquee>
       </div>
 
-      <TasteQuadrant cells={cells} />
-      <ArchShelf items={shelf} />
+      <ProofStrip teas={proof} />
       <Manifesto words={words} />
+      <TasteQuadrant cells={cells} />
       <Methods notes={METHOD_NOTES} />
       <AcademyPreview />
+      <GiftsPanel />
     </>
   );
 }
