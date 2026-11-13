@@ -120,8 +120,9 @@ test("scrolling grows the arch over the screen, whisks the bowl and fades the he
   expect(start.copy).toBe(1);
   await expect(page.getByRole("link", { name: "Shop the teas" }).first()).toBeVisible();
 
-  const hero = await page.locator("section").first().evaluate((el) => el.getBoundingClientRect().height - window.innerHeight);
-  await page.evaluate((y) => window.scrollTo({ top: y * 0.6, behavior: "instant" }), hero);
+  // The dive runs over the hero's extra height, starting once the hero's top meets the top of the window.
+  const hero = await page.locator("section").first().evaluate((el) => ({ top: el.getBoundingClientRect().top + window.scrollY, span: el.getBoundingClientRect().height - window.innerHeight }));
+  await page.evaluate((h) => window.scrollTo({ top: h.top + h.span * 0.7, behavior: "instant" }), hero);
   await expect.poll(async () => (await state()).width).toBeGreaterThan(start.width * 1.5);
   // The live bowl hands over to the full-screen foam at about 45% of the scene.
   await expect.poll(async () => (await state()).foam).toBe(1);

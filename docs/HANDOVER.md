@@ -42,3 +42,13 @@ Cat art, taste scale, organic or award claims, 100 g, refills, quiz, subscriptio
 - Lighthouse budgets were not measured. Run them against a deployed preview.
 - Visual baselines are not committed. Record them with `pnpm e2e --project=visual --update-snapshots` on the CI image.
 - Playwright's own browser may need `pnpm exec playwright install` on a fresh machine.
+
+## Photos needed for "Why it tastes good" (13 Nov 2026)
+
+The home strip under the range has three 4:5 frames (1600 × 2000, shot on cream `#FAF6EE`, natural daylight, matcha colour shown truthfully, Bible §11). Until these arrive each frame shows a line drawing; no generated images.
+
+1. **Powder:** matcha powder close up, true colour.
+2. **Hands:** whisking a bowl of usucha with a chasen.
+3. **Cup:** the finished usucha, top down.
+
+To swap one in, replace its `scene` in `src/components/home/ProofStrip.tsx` with a `next/image` of the photo and alt text in the brand voice.

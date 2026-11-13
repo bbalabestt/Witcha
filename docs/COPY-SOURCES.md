@@ -22,18 +22,20 @@ Production (V4) sections, top to bottom, refilled with client words (11 Nov 2026
 | UI | Text | Client source | Bible |
 | --- | --- | --- | --- |
 | Hero | Eyebrow, "Matcha, / With / Taste." over V4's two lines, supporting line, both buttons | Copy §1 | p.23, p.34 |
-| Hero badge | Matcha, With Taste · Which Matcha Today | Checklist §1, §7 | p.21 |
+| Hero badge | Matcha, With Taste · Find your next cup | Checklist §1; Change log K2 | p.21 |
 | Hero foam caption | 2 g matcha · 60 ml hot water at 80°C | Copy §4 (Usucha) | p.32 |
 | Hero recipe card (desktop) | Usucha (classic matcha): you'll need, three steps, best with | Copy §4 (Usucha), as written | p.32 |
-| Hero end screen | Japanese matcha & hojicha · Which Matcha Today? · first sentence of the hero line | Copy §1; Checklist §7 | p.21 |
-| Marquee 1 | Matcha, With Taste. · Which Matcha Today? · Whisked, frothed, shaken, iced | Checklist §1; Vendor (keeps marquee 1 minus "Bright to deep") | p.21 |
+| Hero end screen | Japanese matcha & hojicha · Find your next cup · first sentence of the hero line | Copy §1; Change log K2 | p.21 |
+| Marquee 1 | Matcha, With Taste. · Find your next cup · Whisked, frothed, shaken, iced | Checklist §1; Change log K2; Vendor (keeps marquee 1 minus "Bright to deep") | p.21 |
 | Marquee 2 | The four full tea names | Copy (product naming) | p.21 |
 | Find your next cup (V4 quadrant) | Label "Find your tea", heading, body, Straight / With milk, recipe name and measurements, tea cards | Copy §1, §4 | p.21, p.32, p.33 |
 | The range (V4 arch shelf) | "The range" label, title, intro, link, cards: name, tasting words, best for | Mock; Copy §3, §1 | Names p.21; words p.51, p.54, p.55 |
 | Taste comes first (V4 manifesto) | Heading, body, link | Copy §1 | p.34 (shorter draft), p.17 |
 | Your cup. Your way. (V4 method cards) | Heading, body, button, four method notes | Copy §1, §4 | p.20, p.22, p.32 |
 | Meet Witcha Academy | Label, heading, body, button | Copy §1 | p.23 |
-| Header mega menu | Four tea names · Which Matcha Today? · tea selection body · collection title | Copy §1, §3; Checklist §7 | p.21, p.33 |
+| Header mega menu | Four tea names · Find your next cup · tea selection body · collection title | Copy §1, §3; Change log K2 | p.21, p.33 |
+| Why it tastes good (proof strip) | Label; "Our co-founder Wichita tasted more than 40 Japanese tea samples to choose the range."; How we chose them; Origin, Cultivar, Harvest per tea | Design prompt §3 (label); Copy §6 (heading), §2 (facts) | p.17, p.30 |
+| Gifts | Label, "For a matcha-loving friend", body, both buttons | **Drafted from the Bible, needs approval:** p.14 (gift buyer), p.31 (the tin signals care); tins from the vendor list | p.14, p.31 |
 
 ## Teas
 

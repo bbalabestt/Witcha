@@ -129,7 +129,7 @@ export function Header({ teas }: { teas: MegaTea[] }) {
           ))}
         </div>
         <div className={styles.megaTaste}>
-          <span className={styles.megaTasteTitle}>Which Matcha Today?</span>
+          <span className={styles.megaTasteTitle}>Find your next cup</span>
           <p className="body-small">Each tea has a clear character. Choose by flavour, or by how you like to drink it.</p>
           <Link href={TEAS_HREF} className="label-link">
             Japanese matcha and hojicha

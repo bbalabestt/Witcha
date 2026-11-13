@@ -1,0 +1,73 @@
+.section {
+  padding-block: var(--space-7);
+}
+
+/* V4's double frame, in gold hairlines on cream (gold is only ever a thin line). */
+.frame {
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+  padding: clamp(32px, 5vw, 72px);
+  border: 1px solid var(--line-ornament);
+  outline: 1px solid var(--line-ornament);
+  outline-offset: 8px;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.body {
+  max-width: 46ch;
+}
+
+.actions {
+  margin-top: var(--space-2);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* The tins in an arch on the pack-shot cream: matcha white either side, the black hojicha tin in front. */
+.arch {
+  position: relative;
+  justify-self: center;
+  width: min(100%, 380px);
+  aspect-ratio: 4 / 5;
+  background: var(--surface-card);
+  border: 1px solid var(--line-hairline);
+  border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+}
+
+.tins {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 8%;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  align-items: end;
+  gap: 2%;
+}
+
+.back {
+  transform: translateY(-6%);
+}
+
+.front {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 899px) {
+  .frame {
+    grid-template-columns: 1fr;
+  }
+  .arch {
+    width: min(100%, 300px);
+  }
+}

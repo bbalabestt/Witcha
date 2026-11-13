@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { BRAND_LINE, DRINK_WAYS, HERO, SELECTION_ID } from "@/lib/content/home";
+import { DRINK_WAYS, HERO, SELECTION_ID, SELECTION_LINE } from "@/lib/content/home";
 import { TEAS_HREF } from "@/lib/config/site";
 import { clamp01, easeInOut, hoverCapable, loopsAllowed, motionAllowed, onFrame, sectionProgress } from "@/components/motion/runtime";
 import { CatPeek } from "./CatPeek";
@@ -206,7 +206,7 @@ export function Hero() {
               <circle cx="65" cy="65" r="64" fill="var(--action-primary)" />
               <text className={styles.badgeText}>
                 <textPath href="#wm-badge-circle" textLength="326" lengthAdjust="spacing">
-                  MATCHA, WITH TASTE · WHICH MATCHA TODAY ·{" "}
+                  MATCHA, WITH TASTE · FIND YOUR NEXT CUP ·{" "}
                 </textPath>
               </text>
             </svg>
@@ -269,7 +269,7 @@ export function Hero() {
 
           <div className={styles.inside} data-inside="">
             <span className="label">{HERO.eyebrow}</span>
-            <span className={styles.insideTitle}>{BRAND_LINE}</span>
+            <span className={styles.insideTitle}>{SELECTION_LINE}</span>
             <span>{HERO.supporting.split(". ")[0]}.</span>
           </div>
         </div>
