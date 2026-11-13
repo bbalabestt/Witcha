@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { DRINK_WAYS, HERO, SELECTION_ID, SELECTION_LINE } from "@/lib/content/home";
+import { HERO, SELECTION_ID } from "@/lib/content/home";
 import { TEAS_HREF } from "@/lib/config/site";
 import { clamp01, easeInOut, hoverCapable, loopsAllowed, motionAllowed, onFrame, sectionProgress } from "@/components/motion/runtime";
 import { CatPeek } from "./CatPeek";
@@ -81,9 +81,7 @@ export function Hero() {
     const foam = q("[data-foam]");
     const bowl = q("[data-bowl]");
     const whisk = q("[data-whisk]");
-    const cap = q("[data-cap]");
     const wash = q("[data-wash]");
-    const inside = q("[data-inside]");
     const badge = q("[data-spin]");
     const badgeWrap = q("[data-badge]");
     const live = q("[data-live]");
@@ -159,15 +157,8 @@ export function Hero() {
           whisk.style.transform = `translate(-50%,-50%) translate(${zx.toFixed(1)}%,${zy.toFixed(1)}%) rotate(${(Math.cos(p * 62) * 16).toFixed(1)}deg)`;
           whisk.style.opacity = String(clamp01(g * 3) * clamp01(1 - c * 2));
         }
-        if (cap) cap.style.opacity = String(clamp01(g * 3) * clamp01(1 - c * 2));
-        // Cream wash over the dark foam so the heading reads on cream (V4 last round).
+        // Cream wash over the foam, handing over to the range on cream.
         if (wash) wash.style.opacity = String(clamp01((p - 0.68) / 0.12));
-      }
-      if (inside) {
-        const o = clamp01((p - 0.74) / 0.16);
-        inside.style.opacity = String(o);
-        inside.style.transform = `translateY(${(1 - o) * 40}px) scale(${0.96 + o * 0.04})`;
-        inside.style.pointerEvents = o > 0.5 ? "auto" : "none";
       }
     });
     return () => {
@@ -261,17 +252,9 @@ export function Hero() {
                 <ChasenTop />
               </span>
             </div>
-            <span className={styles.caption} data-cap="">
-              {DRINK_WAYS.straight.needs}
-            </span>
             <div className={styles.wash} data-wash="" />
           </div>
 
-          <div className={styles.inside} data-inside="">
-            <span className="label">{HERO.eyebrow}</span>
-            <span className={styles.insideTitle}>{SELECTION_LINE}</span>
-            <span>{HERO.supporting.split(". ")[0]}.</span>
-          </div>
         </div>
       </section>
 

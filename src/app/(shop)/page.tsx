@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import { AcademyPreview } from "@/components/home/AcademyPreview";
-import { ArchShelf, type ShelfItem } from "@/components/home/ArchShelf";
 import { GiftsPanel } from "@/components/home/GiftsPanel";
 import { Hero } from "@/components/home/Hero";
 import { Manifesto } from "@/components/home/Manifesto";
 import { Methods } from "@/components/home/Methods";
 import { ProofStrip, type ProofTea } from "@/components/home/ProofStrip";
-import { TasteQuadrant, type QuadCell } from "@/components/home/TasteQuadrant";
+import { RangeLineup, type RangeItem } from "@/components/home/RangeLineup";
+import { TeaChooser, type ChooserPick } from "@/components/home/TeaChooser";
 import { Marquee } from "@/components/motion/Marquee";
 import type { LinePreview } from "@/components/commerce/CartProvider";
-import { SELECTION_LINE, TAGLINE, TASTE_FIRST, TASTE_FIRST_KEYS } from "@/lib/content/home";
+import { CHOOSER, ORIGINS, TAGLINE, TASTE_FIRST, TASTE_FIRST_KEYS } from "@/lib/content/home";
 import { METHOD_NOTES } from "@/lib/content/recipes";
 import { SEO } from "@/lib/content/seo";
 import { getProducts } from "@/lib/data/catalog";
@@ -28,37 +28,43 @@ function quickAdd(p: Product): LinePreview | null {
 
 export default async function Home() {
   const teas = (await getProducts()).filter((p) => p.kind === "tea");
+  const byHandle = new Map(teas.map((p) => [p.handle, p]));
 
-  const cells: QuadCell[] = teas.map((p) => ({
+  const range: RangeItem[] = teas.map((p) => ({
     handle: p.handle,
     name: p.title,
-    academyTitle: p.academyTitle,
-    descriptor: p.descriptor,
     type: teaTypeLabel(p.teaType),
     teaType: p.teaType,
     notes: p.tastingNotes.join(" · "),
     bestFor: p.bestForShort,
-    // Copy v5.3: only The Professor is best straight; the other three are best with milk.
-    way: p.bestForShort && /straight/i.test(p.bestForShort) ? "straight" : "milk",
     price: cardPrice(p),
-    preview: quickAdd(p),
-  }));
-
-  const shelf: ShelfItem[] = teas.map((p) => ({
-    id: p.handle,
-    handle: p.handle,
-    name: p.title,
-    eyebrow: teaTypeLabel(p.teaType),
-    notes: p.tastingNotes.join(" · "),
-    bestFor: p.bestForShort,
-    price: cardPrice(p),
-    teaType: p.teaType,
     preview: quickAdd(p),
   }));
 
   const proof: ProofTea[] = teas.flatMap((p) =>
-    p.facts ? [{ handle: p.handle, name: p.title, origin: p.facts.origin, cultivar: p.facts.cultivar, harvest: p.facts.harvest }] : [],
+    // The descriptor names each row: the full names are in the range just above.
+    p.facts ? [{ handle: p.handle, name: p.descriptor, origin: p.facts.origin, cultivar: p.facts.cultivar, harvest: p.facts.harvest }] : [],
   );
+
+  const picks: ChooserPick[] = CHOOSER.flatMap((c) => {
+    const p = byHandle.get(c.handle);
+    return p
+      ? [
+          {
+            handle: p.handle,
+            option: c.option,
+            academyTitle: p.academyTitle,
+            descriptor: p.descriptor,
+            type: teaTypeLabel(p.teaType),
+            teaType: p.teaType,
+            notes: p.tastingNotes,
+            chooseItIf: p.chooseItIf,
+            price: cardPrice(p),
+            preview: quickAdd(p),
+          },
+        ]
+      : [];
+  });
 
   const words = TASTE_FIRST.body.split(" ").map((w) => ({ w, key: TASTE_FIRST_KEYS.includes(w.replace(/[^a-z0-9]/gi, "").toLowerCase()) }));
 
@@ -66,29 +72,27 @@ export default async function Home() {
     <>
       {/* Bible p.47 order, shop first: hero → products → taste proof → selection → make it at home → Academy → gifts. */}
       <Hero />
-      <ArchShelf items={shelf} />
+      <RangeLineup items={range} />
 
       <div className={styles.bandDark} aria-hidden="true">
         <Marquee direction={1}>
           <span className={styles.bandItems}>
             {TAGLINE}
-            <span className={styles.archLine} />
-            {SELECTION_LINE}
-            <span className={styles.archSolid} />
+            <span className={styles.sep} />
             Whisked, frothed, shaken, iced
-            <span className={styles.archLine} />
+            <span className={styles.sep} />
           </span>
         </Marquee>
       </div>
       <div className={styles.bandSoft} aria-hidden="true">
         <Marquee direction={-1}>
-          <span className={styles.bandFacts}>{teas.map((p) => `${p.title} · `).join("").toUpperCase()}</span>
+          <span className={styles.bandFacts}>{ORIGINS.map((o) => `${o} · `).join("").toUpperCase()}</span>
         </Marquee>
       </div>
 
       <ProofStrip teas={proof} />
       <Manifesto words={words} />
-      <TasteQuadrant cells={cells} />
+      <TeaChooser picks={picks} />
       <Methods notes={METHOD_NOTES} />
       <AcademyPreview />
       <GiftsPanel />
